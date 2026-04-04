@@ -371,26 +371,21 @@ async function discoverLocationId(court, apiKey) {
 }
 
 async function scrapeCourt(court, apiKey, targetDate) {
-    const dateStr = fmtDateLong(targetDate);
     const now = new Date();
     const isToday = targetDate.toDateString() === now.toDateString();
-    const currentTime = isToday ? fmtTime(now) : '7:00 AM';
     const dayNum = targetDate.getDate();
-    const targetMonth = targetDate.getMonth(); // 0-indexed
+    const targetMonth = targetDate.getMonth();
     const targetYear = targetDate.getFullYear();
 
     try {
-        // Get locationId from cache (already discovered in batch phase)
         const locationId = getCachedLocationId(court.slug);
-
-        // Scrape calendar page
         const calendarUrl = locationId
             ? 'https://www.rec.us/' + court.slug + '?locationId=' + locationId + '&tab=calendar'
             : 'https://www.rec.us/' + court.slug;
 
         const body = {
             url: calendarUrl,
-            formats: ['screenshot'],
+            formats: ['markdown'],
             waitFor: 5000,
             actions: [
                 { type: 'wait', milliseconds: 5000 },
@@ -412,12 +407,10 @@ async function scrapeCourt(court, apiKey, targetDate) {
                     ` },
                     { type: 'wait', milliseconds: 4000 },
                 ]),
-                // Navigate to correct month if needed (click next month arrow)
+                // Navigate to correct month if needed
                 { type: 'executeJavascript', script: `
                     (function() {
                         var targetMonth = ${targetMonth};
-                        var targetYear = ${targetYear};
-                        // Check current month shown in datepicker
                         var header = document.querySelector('.react-datepicker__current-month');
                         if (!header) return 'no datepicker header';
                         var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -426,14 +419,13 @@ async function scrapeCourt(court, apiKey, targetDate) {
                         for (var m = 0; m < 12; m++) {
                             if (shown.indexOf(months[m]) !== -1) { shownMonth = m; break; }
                         }
-                        if (shownMonth === targetMonth) return 'already on correct month';
-                        // Click next month button
+                        if (shownMonth === targetMonth) return 'correct month';
                         var nextBtn = document.querySelector('.react-datepicker__navigation--next');
                         if (nextBtn && shownMonth < targetMonth) {
                             for (var c = 0; c < (targetMonth - shownMonth); c++) nextBtn.click();
-                            return 'navigated to month ' + targetMonth;
+                            return 'navigated forward';
                         }
-                        return 'month nav not needed or failed';
+                        return 'month ok';
                     })()
                 ` },
                 { type: 'wait', milliseconds: 1000 },
@@ -443,16 +435,8 @@ async function scrapeCourt(court, apiKey, targetDate) {
                         var dayNum = ${dayNum};
                         var days = document.querySelectorAll('.react-datepicker__day');
                         for (var i = 0; i < days.length; i++) {
-                            var el = days[i];
-                            if (el.textContent.trim() === String(dayNum) && !el.classList.contains('react-datepicker__day--outside-month')) {
-                                el.click();
-                                return 'clicked day ' + dayNum;
-                            }
-                        }
-                        var btns = document.querySelectorAll('[data-day], [aria-label*="day"], td[role="gridcell"]');
-                        for (var j = 0; j < btns.length; j++) {
-                            if (btns[j].textContent.trim() === String(dayNum)) {
-                                btns[j].click(); return 'clicked gridcell ' + dayNum;
+                            if (days[i].textContent.trim() === String(dayNum) && !days[i].classList.contains('react-datepicker__day--outside-month')) {
+                                days[i].click(); return 'clicked day ' + dayNum;
                             }
                         }
                         return 'no datepicker found';
@@ -461,103 +445,8 @@ async function scrapeCourt(court, apiKey, targetDate) {
                 { type: 'wait', milliseconds: 4000 },
                 { type: 'scroll', direction: 'down' },
                 { type: 'wait', milliseconds: 2000 },
-                // THE KEY: scrape the DOM directly for slot data — no LLM needed
-                { type: 'executeJavascript', script: `
-                    (function() {
-                        var slots = [];
-                        var seen = {};
-
-                        // Strategy 1: Find all text nodes with time patterns, walk up to find container
-                        var timeRe = /(\\d{1,2}:\\d{2})\\s*(AM|PM|am|pm)/;
-                        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-                        var timeEls = [];
-                        while (walker.nextNode()) {
-                            var txt = walker.currentNode.textContent.trim();
-                            if (timeRe.test(txt) && txt.length < 30) {
-                                timeEls.push({ node: walker.currentNode, text: txt });
-                            }
-                        }
-
-                        for (var i = 0; i < timeEls.length; i++) {
-                            var el = timeEls[i].node.parentElement;
-                            // Walk up to find the slot container (look for one that mentions sport + booking status)
-                            var container = el;
-                            for (var up = 0; up < 8 && container && container !== document.body; up++) {
-                                var ct = container.textContent || '';
-                                // Good container: has time + (sport or book/booked)
-                                if ((ct.toLowerCase().indexOf('tennis') !== -1 || ct.toLowerCase().indexOf('pickleball') !== -1 || ct.toLowerCase().indexOf('book') !== -1) && ct.length < 1000) {
-                                    break;
-                                }
-                                container = container.parentElement;
-                            }
-                            if (!container || container === document.body) continue;
-
-                            var fullText = container.textContent || '';
-                            // Skip operating hours
-                            if (fullText.indexOf('Hours') !== -1 && fullText.indexOf('to') !== -1 && fullText.length < 80) continue;
-
-                            // Extract time
-                            var tm = timeEls[i].text.match(timeRe);
-                            if (!tm) continue;
-                            var timeStr = tm[1] + ' ' + tm[2].toUpperCase();
-
-                            // Determine sport
-                            var lower = fullText.toLowerCase();
-                            var sport = 'unknown';
-                            if (lower.indexOf('pickleball') !== -1) sport = 'pickleball';
-                            else if (lower.indexOf('tennis') !== -1) sport = 'tennis';
-
-                            // Determine availability
-                            var isBooked = lower.indexOf('booked') !== -1 || lower.indexOf('full') !== -1 || lower.indexOf('reserved') !== -1 || lower.indexOf('unavailable') !== -1;
-                            var hasBook = lower.indexOf('book') !== -1 && !isBooked;
-                            // Check for disabled/grayed-out buttons
-                            var btns = container.querySelectorAll('button');
-                            var btnDisabled = false;
-                            for (var b = 0; b < btns.length; b++) {
-                                if (btns[b].disabled || btns[b].classList.contains('disabled') || btns[b].getAttribute('aria-disabled') === 'true') {
-                                    btnDisabled = true;
-                                }
-                            }
-
-                            var available = hasBook && !isBooked && !btnDisabled;
-
-                            var key = timeStr + '|' + sport;
-                            if (seen[key]) continue;
-                            seen[key] = true;
-
-                            slots.push({
-                                time: timeStr,
-                                sport: sport,
-                                available: available,
-                                snippet: fullText.substring(0, 150).replace(/\\s+/g, ' ').trim()
-                            });
-                        }
-
-                        // Strategy 2: If no slots found, try looking for card-like elements
-                        if (slots.length === 0) {
-                            var cards = document.querySelectorAll('[class*="card"], [class*="slot"], [class*="event"], [class*="booking"], [class*="schedule"], [class*="item"]');
-                            for (var c = 0; c < cards.length; c++) {
-                                var cardText = cards[c].textContent || '';
-                                var tm2 = cardText.match(timeRe);
-                                if (!tm2) continue;
-                                var timeStr2 = tm2[1] + ' ' + tm2[2].toUpperCase();
-                                var lower2 = cardText.toLowerCase();
-                                var sport2 = 'unknown';
-                                if (lower2.indexOf('pickleball') !== -1) sport2 = 'pickleball';
-                                else if (lower2.indexOf('tennis') !== -1) sport2 = 'tennis';
-                                var booked2 = lower2.indexOf('booked') !== -1 || lower2.indexOf('full') !== -1;
-                                var book2 = lower2.indexOf('book') !== -1 && !booked2;
-                                var key2 = timeStr2 + '|' + sport2;
-                                if (seen[key2]) continue;
-                                seen[key2] = true;
-                                slots.push({ time: timeStr2, sport: sport2, available: book2 && !booked2, snippet: cardText.substring(0, 150).replace(/\\s+/g, ' ').trim() });
-                            }
-                        }
-
-                        return JSON.stringify({ slots: slots, found: slots.length, url: window.location.href, title: document.title });
-                    })()
-                ` },
-                { type: 'screenshot', fullPage: true },
+                // Simple: just grab the page text
+                { type: 'executeJavascript', script: 'document.body.innerText.substring(0, 10000)' },
             ]
         };
 
@@ -574,58 +463,144 @@ async function scrapeCourt(court, apiKey, targetDate) {
         }
 
         const data = await resp.json();
-        const screenshot = data.data && data.data.screenshot;
-
-        // Read the DOM scrape result from the last executeJavascript action
-        var domData = null;
+        // Get page text from markdown format or from executeJavascript innerText
+        var pageText = '';
+        if (data.data && data.data.markdown) {
+            pageText = data.data.markdown;
+        }
+        // Also try the innerText from the last executeJavascript
+        var innerText = '';
         if (data.data && data.data.actions && data.data.actions.results) {
-            var actionResults = data.data.actions.results;
-            // The DOM scraper is the last executeJavascript (last-but-one action, before screenshot)
-            for (var r = actionResults.length - 1; r >= 0; r--) {
-                if (typeof actionResults[r] === 'string' && actionResults[r].indexOf('"slots"') !== -1) {
-                    try { domData = JSON.parse(actionResults[r]); } catch(e) {}
+            var results = data.data.actions.results;
+            for (var r = results.length - 1; r >= 0; r--) {
+                if (typeof results[r] === 'string' && results[r].length > 100) {
+                    innerText = results[r];
                     break;
                 }
             }
         }
+        // Use whichever has more content
+        var text = pageText.length > innerText.length ? pageText : innerText;
+        console.log('=== ' + court.name + ' === pageText length:', pageText.length, 'innerText length:', innerText.length);
+        console.log(court.name + ' TEXT:', text.substring(0, 2000));
 
-        console.log('=== ' + court.name + ' ===', { domData, calendarUrl });
-        if (screenshot) console.log('Screenshot:', screenshot);
+        // Parse the text for time slots
+        // Look for patterns like: "7:00 AM" or "4:30 PM" near "Tennis"/"Pickleball" and "Book"/"Booked"
+        var slots = parseSlots(text, court.name);
+        console.log(court.name + ' parsed slots:', slots);
 
-        if (!domData || domData.slots.length === 0) {
+        if (slots.length === 0 && text.length < 200) {
             updateProgress(court.name + ' (no schedule)');
-            return { court: { ...court, locationId }, slots: null, error: false, debug: domData ? 'DOM scrape: 0 slots at ' + domData.url : 'No DOM data' };
+            return { court: { ...court, locationId }, slots: null, error: false, debug: 'Page text too short (' + text.length + ' chars)' };
         }
 
-        const currentHour = isToday ? now.getHours() : -1;
-        const currentMin = isToday ? now.getMinutes() : 0;
-        // Filter: only tennis, only available
-        console.log(court.name + ' raw DOM slots:', domData.slots);
-        const slots = domData.slots
-            .filter(s => {
-                if (!s.available) return false;
-                if (s.sport !== 'tennis') return false;
-                return true;
-            })
-            .map(s => {
-                const m = s.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/);
+        // Filter: tennis only, available only, future only
+        var currentHour = isToday ? now.getHours() : -1;
+        var currentMin = isToday ? now.getMinutes() : 0;
+        var tennisSlots = slots
+            .filter(function(s) { return s.sport === 'tennis' && s.available; })
+            .map(function(s) {
+                var m = s.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
                 if (!m) return null;
-                let hour = parseInt(m[1]);
-                const min = parseInt(m[2]);
-                const ampm = m[3];
+                var hour = parseInt(m[1]);
+                var min = parseInt(m[2]);
+                var ampm = m[3].toUpperCase();
                 if (ampm === 'PM' && hour !== 12) hour += 12;
                 if (ampm === 'AM' && hour === 12) hour = 0;
                 if (isToday && (hour < currentHour || (hour === currentHour && min <= currentMin))) return null;
-                return { hour, min, label: s.time, status: 'available' };
-            }).filter(Boolean).sort((a, b) => a.hour - b.hour || a.min - b.min);
+                return { hour: hour, min: min, label: s.time, status: 'available' };
+            }).filter(Boolean).sort(function(a, b) { return a.hour - b.hour || a.min - b.min; });
 
-        updateProgress(court.name + (slots.length > 0 ? ' (' + slots.length + ')' : ' (booked)'));
-        return { court: { ...court, locationId }, slots, error: false, debug: domData.slots.map(s => s.time + ' ' + s.sport + (s.available ? ' OPEN' : ' booked')).join(', ') };
+        var allSlotsDebug = slots.map(function(s) { return s.time + ' ' + s.sport + (s.available ? ' OPEN' : ' booked'); }).join(', ');
+        updateProgress(court.name + (tennisSlots.length > 0 ? ' (' + tennisSlots.length + ')' : slots.length > 0 ? ' (booked)' : ' (no slots)'));
+        return {
+            court: { ...court, locationId },
+            slots: tennisSlots.length > 0 ? tennisSlots : (slots.length > 0 ? [] : null),
+            error: false,
+            debug: allSlotsDebug || 'No slots found in text'
+        };
     } catch (e) {
         console.warn('Error for ' + court.name + ':', e);
         updateProgress(court.name + ' (failed)');
         return { court, slots: null, error: true };
     }
+}
+
+// Parse page text to find time slots with sport type and availability
+function parseSlots(text, courtName) {
+    var slots = [];
+    var seen = {};
+
+    // Split text into lines for context-aware parsing
+    var lines = text.split(/\n/);
+
+    // Track current sport context as we scan lines
+    var currentSport = null;
+
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i].trim();
+        if (!line) continue;
+        var lower = line.toLowerCase();
+
+        // Detect sport context from headers/labels
+        if (lower.indexOf('tennis') !== -1 && lower.indexOf('pickleball') === -1 && line.length < 80) {
+            currentSport = 'tennis';
+        } else if (lower.indexOf('pickleball') !== -1 && line.length < 80) {
+            currentSport = 'pickleball';
+        }
+
+        // Find time patterns in this line
+        var timeRe = /(\d{1,2}:\d{2}\s*(?:AM|PM|am|pm))/g;
+        var match;
+        while ((match = timeRe.exec(line)) !== null) {
+            var timeStr = match[1].replace(/\s+/g, ' ').trim();
+            // Normalize to uppercase AM/PM
+            timeStr = timeStr.replace(/am/i, 'AM').replace(/pm/i, 'PM');
+
+            // Skip operating hours patterns like "7:00am to 9:00pm" or "Hours: ..."
+            if (lower.indexOf('hours') !== -1 || (lower.indexOf(' to ') !== -1 && lower.indexOf('book') === -1)) continue;
+            // Skip if this line is just a time range header like "7:00 AM - 9:00 PM"
+            if (/^\d{1,2}:\d{2}\s*(?:AM|PM)\s*[-–—]\s*\d{1,2}:\d{2}\s*(?:AM|PM)$/i.test(line)) continue;
+
+            // Determine sport — check this line and nearby lines
+            var sport = currentSport || 'unknown';
+            var context = (lines[i-2]||'') + ' ' + (lines[i-1]||'') + ' ' + line + ' ' + (lines[i+1]||'') + ' ' + (lines[i+2]||'');
+            var ctxLower = context.toLowerCase();
+            if (ctxLower.indexOf('pickleball') !== -1 && ctxLower.indexOf('tennis') === -1) sport = 'pickleball';
+            else if (ctxLower.indexOf('tennis') !== -1 && ctxLower.indexOf('pickleball') === -1) sport = 'tennis';
+            else if (ctxLower.indexOf('pickleball') !== -1 && ctxLower.indexOf('tennis') !== -1) {
+                // Both mentioned — check which is closer to the time
+                var pDist = Math.abs(ctxLower.indexOf('pickleball') - ctxLower.indexOf(timeStr.toLowerCase()));
+                var tDist = Math.abs(ctxLower.indexOf('tennis') - ctxLower.indexOf(timeStr.toLowerCase()));
+                sport = pDist < tDist ? 'pickleball' : 'tennis';
+            }
+
+            // Determine availability — check line and nearby lines for booking status
+            var available = false;
+            var bookContext = (line + ' ' + (lines[i+1]||'') + ' ' + (lines[i+2]||'')).toLowerCase();
+            if (bookContext.indexOf('book now') !== -1 || bookContext.indexOf('reserve') !== -1 ||
+                (bookContext.indexOf('book') !== -1 && bookContext.indexOf('booked') === -1)) {
+                available = true;
+            }
+            // If we see "booked", "full", "unavailable" nearby, it's NOT available
+            if (bookContext.indexOf('booked') !== -1 || bookContext.indexOf('full') !== -1 ||
+                bookContext.indexOf('unavailable') !== -1 || bookContext.indexOf('sold out') !== -1) {
+                available = false;
+            }
+            // Also check: if the line/context has a link with "book" in it
+            if (bookContext.indexOf('book') !== -1 && bookContext.indexOf('booked') === -1 &&
+                bookContext.indexOf('full') === -1) {
+                available = true;
+            }
+
+            var key = timeStr + '|' + sport;
+            if (seen[key]) continue;
+            seen[key] = true;
+            slots.push({ time: timeStr, sport: sport, available: available, line: line.substring(0, 100) });
+        }
+    }
+
+    return slots;
 }
 
 // === MAIN FLOW ===
