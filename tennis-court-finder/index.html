@@ -192,18 +192,18 @@ const COURTS = [
     { name: "Upper Noe", addr: "295 Day St", hood: "Noe Valley", lat: 37.7510, lng: -122.4345, n: 1, walkUp: false, slug: "uppernoe" },
 ];
 
+// === UTILITIES ===
 function haversine(lat1, lng1, lat2, lng2) {
     const R = 3958.8, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
     const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 function fmtDateShort(d) { return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
-function fmtDateLong(d) { return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }); }
 function fmtTime(d) { return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
 function recUrl(slug, locationId) {
-    var url = 'https://www.rec.us/' + slug;
-    if (locationId) url += '?locationId=' + locationId + '&tab=calendar';
-    return url;
+    var u = 'https://www.rec.us/' + slug;
+    if (locationId) u += '?locationId=' + locationId + '&tab=calendar';
+    return u;
 }
 function mapsUrl(c) {
     return 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent('2072 Mission St, San Francisco, CA') + '&destination=' + encodeURIComponent(c.name + ' Tennis, ' + c.addr + ', San Francisco, CA') + '&travelmode=bicycling';
@@ -215,7 +215,7 @@ let selectedDate = new Date();
 let scannedCount = 0;
 let totalCourts = COURTS.length;
 
-// === API KEY (persisted in localStorage, never ask again) ===
+// === API KEY (persisted in localStorage) ===
 function getApiKey() { return localStorage.getItem('sbt_firecrawl_key') || 'fc-37a2515908d54465ba85a45d74aae8a7'; }
 function setApiKey(k) { localStorage.setItem('sbt_firecrawl_key', k); }
 
@@ -224,13 +224,10 @@ function getLocationIdCache() {
     try { return JSON.parse(localStorage.getItem('sbt_location_ids') || '{}'); } catch(e) { return {}; }
 }
 function cacheLocationId(slug, id) {
-    var cache = getLocationIdCache();
-    cache[slug] = id;
-    localStorage.setItem('sbt_location_ids', JSON.stringify(cache));
+    var c = getLocationIdCache(); c[slug] = id;
+    localStorage.setItem('sbt_location_ids', JSON.stringify(c));
 }
-function getCachedLocationId(slug) {
-    return getLocationIdCache()[slug] || null;
-}
+function getCachedLocationId(slug) { return getLocationIdCache()[slug] || null; }
 
 function toggleApiVis() {
     const inp = document.getElementById('api-key');
@@ -245,8 +242,7 @@ function buildDatePills() {
     const now = new Date();
     let html = '';
     for (let i = 0; i < 6; i++) {
-        const d = new Date(now);
-        d.setDate(d.getDate() + i);
+        const d = new Date(now); d.setDate(d.getDate() + i);
         const label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString('en-US', { weekday: 'short' });
         const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
         const iso = d.toISOString().split('T')[0];
