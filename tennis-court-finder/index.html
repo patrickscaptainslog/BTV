@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Struggle Bus Tennis - SF Court Finder</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --tennis-yellow: #ccff00;
+            --tennis-green: #2d5016;
+            --court-clay: #cc6633;
+            --bus-orange: #ff6b35;
+            --dark-bg: #1a1a2e;
+            --card-bg: #16213e;
+            --card-border: #0f3460;
+            --text-primary: #eee;
+            --text-secondary: #aab;
+            --glow: rgba(204, 255, 0, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated tennis ball background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(204, 255, 0, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(204, 102, 51, 0.03) 0%, transparent 50%);
+            animation: bgPulse 8s ease-in-out infinite alternate;
+            z-index: -1;
+        }
+
+        @keyframes bgPulse {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(-2%, -2%) rotate(3deg); }
+        }
+
+        .header {
+            text-align: center;
+            padding: 2rem 1rem 1rem;
+            position: relative;
+        }
+
+        .logo {
+            font-family: 'Bangers', cursive;
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            color: var(--tennis-yellow);
+            text-shadow:
+                3px 3px 0 var(--tennis-green),
+                6px 6px 0 rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+            animation: logoWobble 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes logoWobble {
+            0%, 100% { transform: rotate(-1deg); }
+            50% { transform: rotate(1deg); }
+        }
+
+        .bus-icon {
+            font-size: 2.5rem;
+            display: inline-block;
+            animation: busRoll 2s ease-in-out infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes busRoll {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            25% { transform: translateX(3px) rotate(2deg); }
+            75% { transform: translateX(-3px) rotate(-2deg); }
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            font-style: italic;
+        }
+
+        .tagline .highlight {
+            color: var(--bus-orange);
+            font-weight: 700;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            padding: 1rem;
+            margin: 1rem auto;
+            max-width: 700px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--card-border);
+        }
+
+        .info-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .info-chip .icon { font-size: 1.1rem; }
+        .info-chip .value { color: var(--tennis-yellow); font-weight: 700; }
+
+        .origin-section {
+            text-align: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .origin-section a {
+            color: var(--bus-orange);
+            text-decoration: none;
+        }
+
+        .search-section {
+            max-width: 500px;
+            margin: 0.75rem auto;
+            padding: 0 1rem;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.5rem;
+            border-radius: 10px;
+            border: 2px solid var(--card-border);
+            background: var(--card-bg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus {
+            border-color: var(--tennis-yellow);
+        }
+
+        .search-wrapper {
+            position: relative;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.1rem;
+        }
+
+        .courts-container {
+            max-width: 800px;
+            margin: 1rem auto;
+            padding: 0 1rem 3rem;
+        }
+
+        .section-label {
+            font-family: 'Bangers', cursive;
+            font-size: 1.3rem;
+            color: var(--tennis-yellow);
+            margin-bottom: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        .court-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .court-card:hover {
+            border-color: var(--tennis-yellow);
+            box-shadow: 0 0 20px var(--glow);
+            transform: translateY(-2px);
+        }
+
+        .court-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--tennis-yellow);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .court-rank {
+            font-family: 'Bangers', cursive;
+            font-size: 1.8rem;
+            color: var(--bus-orange);
+            min-width: 2.5rem;
+            text-align: center;
+        }
+
+        .court-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .court-name {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+
+        .court-address {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .court-meta {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .court-tag {
+            font-size: 0.72rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 20px;
+            background: rgba(204, 255, 0, 0.1);
+            color: var(--tennis-yellow);
+            border: 1px solid rgba(204, 255, 0, 0.2);
+        }
+
+        .court-tag.fee {
+            background: rgba(255, 107, 53, 0.1);
+            color: var(--bus-orange);
+            border-color: rgba(255, 107, 53, 0.2);
+        }
+
+        .court-tag.walk-up {
+            background: rgba(100, 200, 100, 0.1);
+            color: #7ddf7d;
+            border-color: rgba(100, 200, 100, 0.2);
+        }
+
+        .court-distance {
+            text-align: right;
+            min-width: 4.5rem;
+        }
+
+        .distance-value {
+            font-family: 'Bangers', cursive;
+            font-size: 1.5rem;
+            color: var(--tennis-yellow);
+        }
+
+        .distance-unit {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            display: block;
+        }
+
+        .book-btn {
+            display: inline-block;
+            padding: 0.5rem 1.2rem;
+            background: var(--tennis-yellow);
+            color: var(--dark-bg);
+            font-weight: 700;
+            font-size: 0.8rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .book-btn:hover {
+            background: #e0ff44;
+            transform: scale(1.05);
+        }
+
+        .court-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .loading .ball {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--tennis-yellow);
+            border-radius: 50%;
+            animation: bounce 0.6s ease-in-out infinite alternate;
+        }
+
+        .loading .ball:nth-child(2) { animation-delay: 0.15s; }
+        .loading .ball:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes bounce {
+            from { transform: translateY(0); }
+            to { transform: translateY(-20px); }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--card-border);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer a {
+            color: var(--bus-orange);
+            text-decoration: none;
+        }
+
+        .struggle-quote {
+            text-align: center;
+            padding: 0.75rem 1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .fee-notice {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 1rem;
+            padding: 0.6rem 1rem;
+            background: rgba(255, 107, 53, 0.08);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 10px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 600px) {
+            .court-card { flex-wrap: wrap; }
+            .court-right {
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                justify-content: space-between;
+                padding-top: 0.5rem;
+                border-top: 1px solid var(--card-border);
+                margin-top: 0.25rem;
+            }
+            .court-distance { text-align: left; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <span class="bus-icon">🚌</span> Struggle Bus Tennis
+        </div>
+        <div class="tagline">Finding courts so you don't have to <span class="highlight">double fault</span> on planning</div>
+    </div>
+
+    <div class="info-bar">
+        <div class="info-chip">
+            <span class="icon">📅</span>
+            <span id="current-date" class="value"></span>
+        </div>
+        <div class="info-chip">
+            <span class="icon">🕐</span>
+            <span>After</span>
+            <span id="current-time" class="value"></span>
+        </div>
+        <div class="info-chip">
+            <span class="icon">📍</span>
+            <span id="court-count" class="value"></span>
+            <span>courts</span>
+        </div>
+    </div>
+
+    <div class="origin-section">
+        Sorted by distance from <strong>2072 Mission St, SF</strong> &middot;
+        <a href="https://sfrecpark.org/1446/Reservable-Tennis-Courts" target="_blank" rel="noopener">SF Rec Park Info</a>
+    </div>
+
+    <div class="struggle-quote" id="struggle-quote"></div>
+
+    <div class="search-section">
+        <div class="search-wrapper">
+            <span class="search-icon">🎾</span>
+            <input type="text" class="search-input" id="search" placeholder="Filter courts by name or neighborhood...">
+        </div>
+    </div>
+
+    <div class="fee-notice">
+        💰 $5/hr reservation fee at select courts &middot; Reservations open 7 days ahead at 8am &middot;
+        <a href="https://www.rec.us/organizations/san-francisco-rec-park" target="_blank" rel="noopener" style="color: var(--bus-orange);">Book on Rec</a>
+    </div>
+
+    <div class="courts-container" id="courts-container">
+        <div class="loading">
+            <span class="ball"></span>
+            <span class="ball"></span>
+            <span class="ball"></span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Data sourced from <a href="https://sfrecpark.org/1446/Reservable-Tennis-Courts" target="_blank" rel="noopener">SF Rec & Park</a> &middot; Book at <a href="https://www.rec.us/organizations/san-francisco-rec-park" target="_blank" rel="noopener">rec.us/sfrecpark</a></p>
+        <p style="margin-top: 0.5rem;">The struggle is real, but the courts are open. 🎾🚌</p>
+    </div>
+
+    <script>
+    // ==========================================
+    // STRUGGLE BUS TENNIS - SF Court Finder
+    // ==========================================
+
+    // Origin: 2072 Mission St, San Francisco
+    const ORIGIN = { lat: 37.76375, lng: -122.41930 };
+
+    const STRUGGLE_QUOTES = [
+        "Every champion was once a beginner who refused to give up... on finding an open court.",
+        "Your backhand may be ugly, but at least you showed up.",
+        "Tennis is just angry ping pong with extra steps.",
+        "The only bad workout is the one that got rained out at an uncovered court.",
+        "Life's a struggle bus, but at least the courts are reservable now.",
+        "Double faults build character. Probably.",
+        "You miss 100% of the serves you don't toss.",
+        "The net doesn't judge your footwork.",
+        "Cardio? I thought you said court-io.",
+        "First rule of Struggle Bus Tennis: we all ride the struggle bus.",
+    ];
+
+    // All SF Rec Park reservable tennis courts
+    // Coordinates are approximate center of each facility
+    const COURTS = [
+        { name: "Alice Marble Tennis Courts", address: "1525 Hyde St", neighborhood: "Russian Hill", lat: 37.7983, lng: -122.4178, courts: 4, fee: true, walkUp: false },
+        { name: "Balboa Park Tennis Courts", address: "San Jose Ave & Ocean Ave", neighborhood: "Balboa Park", lat: 37.7233, lng: -122.4413, courts: 3, fee: true, walkUp: false },
+        { name: "Buena Vista Park Tennis Courts", address: "Buena Vista Ave East", neighborhood: "Haight-Ashbury", lat: 37.7688, lng: -122.4387, courts: 3, fee: true, walkUp: true },
+        { name: "Crocker Amazon Tennis Courts", address: "799 Moscow St", neighborhood: "Crocker-Amazon", lat: 37.7108, lng: -122.4341, courts: 4, fee: true, walkUp: false },
+        { name: "Dolores Park Tennis Courts", address: "18th & Dolores St", neighborhood: "Mission Dolores", lat: 37.7617, lng: -122.4268, courts: 6, fee: true, walkUp: true },
+        { name: "DuPont Tennis Courts", address: "Junipero Serra Blvd & Stonecrest Dr", neighborhood: "Lakeside", lat: 37.7145, lng: -122.4715, courts: 4, fee: true, walkUp: false },
+        { name: "Fulton Playground Tennis Courts", address: "25th Ave & Fulton St", neighborhood: "Outer Richmond", lat: 37.7735, lng: -122.4837, courts: 2, fee: true, walkUp: false },
+        { name: "Glen Canyon Park Tennis Courts", address: "Elk St & Chenery St", neighborhood: "Glen Park", lat: 37.7390, lng: -122.4435, courts: 2, fee: true, walkUp: true },
+        { name: "Goldman Tennis Center", address: "Golden Gate Park, Nancy Pelosi Dr", neighborhood: "Golden Gate Park", lat: 37.7681, lng: -122.4599, courts: 16, fee: true, walkUp: true },
+        { name: "Hamilton Rec Center Tennis Courts", address: "1900 Geary Blvd", neighborhood: "Western Addition", lat: 37.7847, lng: -122.4340, courts: 3, fee: true, walkUp: false },
+        { name: "Helen Wills Tennis Courts", address: "Broadway & Larkin St", neighborhood: "Russian Hill", lat: 37.7959, lng: -122.4174, courts: 4, fee: true, walkUp: false },
+        { name: "Jackson Playground Tennis Courts", address: "17th & Arkansas St", neighborhood: "Potrero Hill", lat: 37.7647, lng: -122.3963, courts: 2, fee: true, walkUp: false },
+        { name: "Joe DiMaggio Tennis Courts", address: "651 Lombard St", neighborhood: "North Beach", lat: 37.8018, lng: -122.4099, courts: 3, fee: true, walkUp: true },
+        { name: "J.P. Murphy Tennis Courts", address: "1960 9th Ave", neighborhood: "Inner Sunset", lat: 37.7558, lng: -122.4660, courts: 3, fee: true, walkUp: false },
+        { name: "Lafayette Park Tennis Courts", address: "Sacramento St & Laguna St", neighborhood: "Pacific Heights", lat: 37.7912, lng: -122.4279, courts: 4, fee: true, walkUp: false },
+        { name: "McLaren Park Tennis Courts", address: "100 John F Shelley Dr", neighborhood: "McLaren Park", lat: 37.7190, lng: -122.4195, courts: 3, fee: true, walkUp: false },
+        { name: "Minnie & Lovie Ward Tennis Courts", address: "650 Capitol Ave", neighborhood: "Oceanview", lat: 37.7194, lng: -122.4589, courts: 2, fee: true, walkUp: false },
+        { name: "Miraloma Playground Tennis Courts", address: "Omar Way & Sequoia Way", neighborhood: "Miraloma Park", lat: 37.7360, lng: -122.4462, courts: 2, fee: true, walkUp: false },
+        { name: "Moscone Rec Center Tennis Courts", address: "1800 Chestnut St", neighborhood: "Marina", lat: 37.8010, lng: -122.4285, courts: 4, fee: true, walkUp: false },
+        { name: "Mountain Lake Park Tennis Courts", address: "12th Ave & Lake St", neighborhood: "Inner Richmond", lat: 37.7876, lng: -122.4727, courts: 2, fee: true, walkUp: false },
+        { name: "Parkside Square Tennis Courts", address: "24th Ave & Vicente St", neighborhood: "Parkside", lat: 37.7383, lng: -122.4815, courts: 2, fee: true, walkUp: false },
+        { name: "Potrero Hill Rec Center Tennis Courts", address: "801 Arkansas St", neighborhood: "Potrero Hill", lat: 37.7613, lng: -122.3970, courts: 2, fee: true, walkUp: false },
+        { name: "Presidio Wall Tennis Courts", address: "3545 Pacific Ave", neighborhood: "Presidio Heights", lat: 37.7907, lng: -122.4519, courts: 3, fee: true, walkUp: false },
+        { name: "Richmond Rec Center Tennis Courts", address: "251 18th Ave", neighborhood: "Inner Richmond", lat: 37.7828, lng: -122.4758, courts: 2, fee: true, walkUp: false },
+        { name: "Rossi Park Tennis Courts", address: "Arguello Blvd & Anza St", neighborhood: "Inner Richmond", lat: 37.7800, lng: -122.4583, courts: 4, fee: true, walkUp: true },
+        { name: "St. Mary's Rec Center Tennis Courts", address: "Justin Dr & Murray St", neighborhood: "Bernal Heights", lat: 37.7365, lng: -122.4300, courts: 3, fee: true, walkUp: false },
+        { name: "Stern Grove Tennis Courts", address: "19th Ave & Wawona St", neighborhood: "Parkside", lat: 37.7366, lng: -122.4745, courts: 2, fee: true, walkUp: false },
+        { name: "Sunset Rec Center Tennis Courts", address: "2201 Lawton St", neighborhood: "Inner Sunset", lat: 37.7559, lng: -122.4916, courts: 2, fee: true, walkUp: false },
+        { name: "Upper Noe Rec Center Tennis Court", address: "295 Day St", neighborhood: "Noe Valley", lat: 37.7510, lng: -122.4345, courts: 1, fee: true, walkUp: false },
+    ];
+
+    // Haversine distance in miles
+    function distanceMiles(lat1, lng1, lat2, lng2) {
+        const R = 3958.8; // Earth radius in miles
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLng = (lng2 - lng1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLng/2) * Math.sin(dLng/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
+    function formatDate(d) {
+        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+        return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+    }
+
+    function formatTime(d) {
+        let h = d.getHours();
+        const m = d.getMinutes();
+        const ampm = h >= 12 ? 'PM' : 'AM';
+        h = h % 12 || 12;
+        return `${h}:${m.toString().padStart(2, '0')} ${ampm}`;
+    }
+
+    function getGoogleMapsUrl(court) {
+        const q = encodeURIComponent(`${court.name}, ${court.address}, San Francisco, CA`);
+        return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('2072 Mission St, San Francisco, CA')}&destination=${q}&travelmode=bicycling`;
+    }
+
+    function getRecUrl() {
+        return 'https://www.rec.us/organizations/san-francisco-rec-park';
+    }
+
+    function renderCourts(filter = '') {
+        const container = document.getElementById('courts-container');
+        const now = new Date();
+
+        // Calculate distances and sort
+        let courts = COURTS.map(c => ({
+            ...c,
+            distance: distanceMiles(ORIGIN.lat, ORIGIN.lng, c.lat, c.lng)
+        })).sort((a, b) => a.distance - b.distance);
+
+        // Apply filter
+        if (filter) {
+            const f = filter.toLowerCase();
+            courts = courts.filter(c =>
+                c.name.toLowerCase().includes(f) ||
+                c.neighborhood.toLowerCase().includes(f) ||
+                c.address.toLowerCase().includes(f)
+            );
+        }
+
+        document.getElementById('court-count').textContent = courts.length;
+
+        if (courts.length === 0) {
+            container.innerHTML = `
+                <div class="no-results">
+                    <p style="font-size: 2rem; margin-bottom: 0.5rem;">🎾</p>
+                    <p>No courts match your search. The struggle continues...</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = `<div class="section-label">Courts Nearest to You (${courts.length})</div>` +
+            courts.map((c, i) => `
+                <div class="court-card" onclick="window.open('${getGoogleMapsUrl(c)}', '_blank')">
+                    <div class="court-rank">${i + 1}</div>
+                    <div class="court-info">
+                        <div class="court-name">${c.name}</div>
+                        <div class="court-address">📍 ${c.address} &middot; ${c.neighborhood}</div>
+                        <div class="court-meta">
+                            <span class="court-tag">${c.courts} court${c.courts > 1 ? 's' : ''}</span>
+                            ${c.fee ? '<span class="court-tag fee">$5/hr</span>' : ''}
+                            ${c.walkUp ? '<span class="court-tag walk-up">+ walk-up</span>' : ''}
+                        </div>
+                    </div>
+                    <div class="court-right">
+                        <div class="court-distance">
+                            <span class="distance-value">${c.distance.toFixed(1)}</span>
+                            <span class="distance-unit">miles away</span>
+                        </div>
+                        <a href="${getRecUrl()}" target="_blank" rel="noopener" class="book-btn" onclick="event.stopPropagation();">Book Now</a>
+                    </div>
+                </div>
+            `).join('');
+    }
+
+    // Init
+    function init() {
+        const now = new Date();
+        document.getElementById('current-date').textContent = formatDate(now);
+        document.getElementById('current-time').textContent = formatTime(now);
+
+        // Random struggle quote
+        const quote = STRUGGLE_QUOTES[Math.floor(Math.random() * STRUGGLE_QUOTES.length)];
+        document.getElementById('struggle-quote').textContent = `"${quote}"`;
+
+        renderCourts();
+
+        // Search filter
+        document.getElementById('search').addEventListener('input', (e) => {
+            renderCourts(e.target.value.trim());
+        });
+
+        // Update time every minute
+        setInterval(() => {
+            const n = new Date();
+            document.getElementById('current-time').textContent = formatTime(n);
+        }, 60000);
+    }
+
+    init();
+    </script>
+</body>
+</html>
