@@ -527,24 +527,16 @@ async function findCourts() {
     try {
         // Phase 1: Discover locationIds for courts missing from cache
         // Uses simple v2 scrape of landing page — extracts UUID from image URLs
+        // Fire all at once — user has 50 concurrent browsers
         const uncached = courts.filter(c => !getCachedLocationId(c.slug));
         if (uncached.length > 0) {
             document.getElementById('loading-sub').textContent = 'Discovering court IDs (' + uncached.length + ')...';
-            // Batch 10 at a time to stay under concurrency limits
-            for (let i = 0; i < uncached.length; i += 10) {
-                const batch = uncached.slice(i, i + 10);
-                await Promise.all(batch.map(c => discoverLocationId(c, apiKey)));
-            }
+            await Promise.all(uncached.map(c => discoverLocationId(c, apiKey)));
         }
 
-        // Phase 2: Scrape calendars — batch 10 at a time
+        // Phase 2: Scrape all calendars concurrently (50 browser plan)
         document.getElementById('loading-sub').textContent = 'Checking ' + fmtDateShort(targetDate) + ' on rec.us...';
-        const results = [];
-        for (let i = 0; i < courts.length; i += 10) {
-            const batch = courts.slice(i, i + 10);
-            const batchResults = await Promise.all(batch.map(c => scrapeCourt(c, apiKey, targetDate)));
-            results.push(...batchResults);
-        }
+        const results = await Promise.all(courts.map(c => scrapeCourt(c, apiKey, targetDate)));
         showResults(results, targetDate);
     } catch (e) {
         document.getElementById('loading').style.display = 'none';
