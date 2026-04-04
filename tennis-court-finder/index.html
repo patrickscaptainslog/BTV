@@ -486,12 +486,13 @@ async function scrapeCourt(court, apiKey, targetDate) {
                 return { hour: hour, min: min, label: s.label, status: 'available' };
             }).filter(Boolean).sort(function(a, b) { return a.hour - b.hour || a.min - b.min; });
 
-        const hasAnySlots = allSlots.length > 0;
-        updateProgress(court.name + (tennisSlots.length > 0 ? ' (' + tennisSlots.length + ' open)' : hasAnySlots ? ' (booked)' : ' (no slots)'));
+        // Calendar loaded successfully if we see "tennis" in the text (even with 0 slots = fully booked)
+        const calendarLoaded = allSlots.length > 0 || /tennis/i.test(text);
+        updateProgress(court.name + (tennisSlots.length > 0 ? ' (' + tennisSlots.length + ' open)' : calendarLoaded ? ' (booked)' : ' (no data)'));
 
         return {
             court: { ...court, locationId },
-            slots: tennisSlots.length > 0 ? tennisSlots : (hasAnySlots ? [] : null),
+            slots: tennisSlots.length > 0 ? tennisSlots : (calendarLoaded ? [] : null),
             error: false
         };
     } catch (e) {
