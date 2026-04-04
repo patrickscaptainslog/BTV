@@ -200,7 +200,11 @@ function haversine(lat1, lng1, lat2, lng2) {
 function fmtDateShort(d) { return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
 function fmtDateLong(d) { return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }); }
 function fmtTime(d) { return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
-function recUrl(slug) { return 'https://www.rec.us/' + slug; }
+function recUrl(slug, locationId) {
+    var url = 'https://www.rec.us/' + slug;
+    if (locationId) url += '?locationId=' + locationId + '&tab=calendar';
+    return url;
+}
 function mapsUrl(c) {
     return 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent('2072 Mission St, San Francisco, CA') + '&destination=' + encodeURIComponent(c.name + ' Tennis, ' + c.addr + ', San Francisco, CA') + '&travelmode=bicycling';
 }
@@ -214,6 +218,19 @@ let totalCourts = COURTS.length;
 // === API KEY (persisted in localStorage, never ask again) ===
 function getApiKey() { return localStorage.getItem('sbt_firecrawl_key') || 'fc-37a2515908d54465ba85a45d74aae8a7'; }
 function setApiKey(k) { localStorage.setItem('sbt_firecrawl_key', k); }
+
+// === LOCATION ID CACHE ===
+function getLocationIdCache() {
+    try { return JSON.parse(localStorage.getItem('sbt_location_ids') || '{}'); } catch(e) { return {}; }
+}
+function cacheLocationId(slug, id) {
+    var cache = getLocationIdCache();
+    cache[slug] = id;
+    localStorage.setItem('sbt_location_ids', JSON.stringify(cache));
+}
+function getCachedLocationId(slug) {
+    return getLocationIdCache()[slug] || null;
+}
 
 function toggleApiVis() {
     const inp = document.getElementById('api-key');
@@ -259,78 +276,202 @@ function updateProgress(msg) {
     if (status) status.textContent = scannedCount + ' / ' + totalCourts + ' scanned' + (msg ? ' — ' + msg : '');
 }
 
+async function discoverLocationId(court, apiKey) {
+    // Check cache first
+    const cached = getCachedLocationId(court.slug);
+    if (cached) { console.log(court.name + ': cached locationId ' + cached); return cached; }
+
+    try {
+        const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+            body: JSON.stringify({
+                url: 'https://www.rec.us/' + court.slug,
+                formats: ['extract'],
+                waitFor: 3000,
+                actions: [
+                    { type: 'wait', milliseconds: 3000 },
+                    { type: 'executeJavascript', script: `
+                        (function() {
+                            // Method 1: Find locationId in any link on the page
+                            var links = document.querySelectorAll('a[href*="locationId"]');
+                            for (var i = 0; i < links.length; i++) {
+                                var m = links[i].href.match(/locationId=([a-f0-9-]{36})/i);
+                                if (m) return m[1];
+                            }
+                            // Method 2: Search all hrefs for UUID pattern after locationId
+                            var allLinks = document.querySelectorAll('a[href]');
+                            for (var j = 0; j < allLinks.length; j++) {
+                                var h = allLinks[j].href;
+                                if (h.indexOf('locationId') !== -1) {
+                                    var m2 = h.match(/locationId=([a-f0-9-]{36})/i);
+                                    if (m2) return m2[1];
+                                }
+                            }
+                            // Method 3: Search page HTML for locationId pattern
+                            var html = document.documentElement.innerHTML;
+                            var m3 = html.match(/locationId[=:]["']?([a-f0-9-]{36})/i);
+                            if (m3) return m3[1];
+                            // Method 4: Check Next.js data
+                            if (window.__NEXT_DATA__) {
+                                var nd = JSON.stringify(window.__NEXT_DATA__);
+                                var m4 = nd.match(/"locationId"\\s*:\\s*"([a-f0-9-]{36})"/i);
+                                if (m4) return m4[1];
+                                // Also try just finding UUID pattern near 'location'
+                                var m5 = nd.match(/location[^"]*"\\s*:\\s*"([a-f0-9-]{36})"/i);
+                                if (m5) return m5[1];
+                            }
+                            return 'not_found';
+                        })()
+                    ` }
+                ],
+                extract: {
+                    prompt: 'Extract the locationId UUID from this rec.us page. Look for any UUID (format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx) that appears in links, buttons, or data attributes related to booking or calendar.',
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            locationId: { type: 'string', description: 'The locationId UUID found on the page, or empty string if not found' }
+                        },
+                        required: ['locationId']
+                    }
+                }
+            })
+        });
+
+        if (!resp.ok) return null;
+        const data = await resp.json();
+        const extract = data.data && data.data.extract;
+        const actionResults = data.data && data.data.actions && data.data.actions.results;
+
+        // Check executeJavascript result first
+        var locId = null;
+        if (actionResults) {
+            for (var r of actionResults) {
+                if (r && typeof r === 'string' && r.match(/^[a-f0-9-]{36}$/i)) {
+                    locId = r; break;
+                }
+            }
+        }
+        // Fallback to LLM extract
+        if (!locId && extract && extract.locationId && extract.locationId.match(/^[a-f0-9-]{36}$/i)) {
+            locId = extract.locationId;
+        }
+
+        if (locId) {
+            cacheLocationId(court.slug, locId);
+            console.log(court.name + ': discovered locationId ' + locId);
+        } else {
+            console.warn(court.name + ': could not find locationId');
+        }
+        return locId;
+    } catch(e) {
+        console.warn(court.name + ': locationId discovery error', e);
+        return null;
+    }
+}
+
 async function scrapeCourt(court, apiKey, targetDate) {
-    const url = recUrl(court.slug);
     const dateStr = fmtDateLong(targetDate);
     const now = new Date();
     const isToday = targetDate.toDateString() === now.toDateString();
     const currentTime = isToday ? fmtTime(now) : '7:00 AM';
     const dayNum = targetDate.getDate();
-    const monthStr = targetDate.toLocaleDateString('en-US', { month: 'long' });
 
     try {
+        // Get locationId from cache (already discovered in batch phase)
+        const locationId = getCachedLocationId(court.slug);
+
+        // Phase 2: Scrape calendar page
+        const calendarUrl = locationId
+            ? 'https://www.rec.us/' + court.slug + '?locationId=' + locationId + '&tab=calendar'
+            : 'https://www.rec.us/' + court.slug;
+
         const body = {
-            url: url,
+            url: calendarUrl,
             formats: ['extract', 'screenshot'],
             waitFor: 5000,
             actions: [
-                // Wait for React SPA to hydrate
-                { type: 'wait', milliseconds: 4000 },
-                // Click on "Tennis" sport filter - use JS since we need text matching
+                { type: 'wait', milliseconds: 5000 },
+                // If we didn't have locationId, try to click Calendar tab
+                ...(locationId ? [] : [
+                    { type: 'executeJavascript', script: `
+                        (function() {
+                            var els = document.querySelectorAll('a, button, div[role="tab"], div[role="button"], span, li');
+                            for (var i = 0; i < els.length; i++) {
+                                var t = els[i].textContent.trim().toLowerCase();
+                                if (t === 'calendar' || t === 'schedule' || t === 'view calendar') {
+                                    els[i].click(); return 'clicked calendar';
+                                }
+                            }
+                            var links = document.querySelectorAll('a[href*="tab=calendar"]');
+                            if (links.length > 0) { links[0].click(); return 'clicked calendar link'; }
+                            return 'no calendar found';
+                        })()
+                    ` },
+                    { type: 'wait', milliseconds: 4000 },
+                ]),
+                // Click "Tennis" filter to show only tennis slots
                 { type: 'executeJavascript', script: `
-                    // Find and click the Tennis button/link/tab
-                    const allEls = document.querySelectorAll('button, a, div[role="button"], span, li, div');
-                    for (const el of allEls) {
-                        const text = el.textContent.trim();
-                        if (text === 'Tennis' || text === 'tennis') {
-                            el.click();
-                            break;
+                    (function() {
+                        var els = document.querySelectorAll('button, a, div[role="button"], span, li, div, label, input');
+                        for (var i = 0; i < els.length; i++) {
+                            var t = els[i].textContent.trim();
+                            if (t === 'Tennis' || t === 'Tennis Court' || t === 'Tennis Courts') {
+                                els[i].click(); return 'clicked Tennis filter: ' + t;
+                            }
                         }
-                    }
+                        // Try checkboxes or radio buttons with tennis label
+                        var labels = document.querySelectorAll('label');
+                        for (var j = 0; j < labels.length; j++) {
+                            if (labels[j].textContent.trim().toLowerCase().indexOf('tennis') !== -1) {
+                                labels[j].click(); return 'clicked tennis label';
+                            }
+                        }
+                        return 'no Tennis filter found';
+                    })()
                 ` },
                 { type: 'wait', milliseconds: 3000 },
-                // Try to navigate to the target date in the datepicker
+                // Select target date
                 { type: 'executeJavascript', script: `
-                    // Click the target day number in the react-datepicker
-                    const dayNum = ${dayNum};
-                    // Try react-datepicker day buttons
-                    const dayEls = document.querySelectorAll('.react-datepicker__day');
-                    for (const el of dayEls) {
-                        if (el.textContent.trim() === String(dayNum) && !el.classList.contains('react-datepicker__day--outside-month')) {
-                            el.click();
-                            break;
+                    (function() {
+                        var dayNum = ${dayNum};
+                        // react-datepicker days
+                        var days = document.querySelectorAll('.react-datepicker__day');
+                        for (var i = 0; i < days.length; i++) {
+                            var el = days[i];
+                            if (el.textContent.trim() === String(dayNum) && !el.classList.contains('react-datepicker__day--outside-month')) {
+                                el.click(); return 'clicked day ' + dayNum;
+                            }
                         }
-                    }
-                    // Also try any element with aria-label containing the date
-                    const dateButtons = document.querySelectorAll('[aria-label*="${monthStr}"]');
-                    for (const el of dateButtons) {
-                        if (el.textContent.trim() === String(dayNum)) {
-                            el.click();
-                            break;
+                        // Generic date cells
+                        var btns = document.querySelectorAll('[data-day], [aria-label*="day"], td[role="gridcell"]');
+                        for (var j = 0; j < btns.length; j++) {
+                            if (btns[j].textContent.trim() === String(dayNum)) {
+                                btns[j].click(); return 'clicked gridcell ' + dayNum;
+                            }
                         }
-                    }
+                        return 'no datepicker found';
+                    })()
                 ` },
                 { type: 'wait', milliseconds: 3000 },
-                // Scroll to see all time slots
                 { type: 'scroll', direction: 'down' },
                 { type: 'wait', milliseconds: 1000 },
-                // Full page screenshot
                 { type: 'screenshot', fullPage: true },
             ],
             extract: {
-                prompt: 'You are looking at a rec.us facility page for "' + court.name + '" in San Francisco.\n\n'
+                prompt: 'You are looking at a rec.us CALENDAR/BOOKING page for "' + court.name + '" in San Francisco.\n\n'
                     + 'TARGET DATE: ' + dateStr + '\n'
                     + 'CURRENT TIME: ' + currentTime + '\n\n'
-                    + 'This page may show a booking schedule with time slots. Slots are 1.5 hours.\n\n'
+                    + 'This page should show a booking schedule/calendar with time slots. Each slot is 1.5 hours.\n\n'
                     + 'CRITICAL RULES:\n'
                     + '1. ONLY report TENNIS time slots. NEVER include pickleball, basketball, or other sports.\n'
-                    + '2. ONLY report slots clearly AVAILABLE/OPEN/BOOKABLE. NOT booked, reserved, grayed out, or taken.\n'
+                    + '2. ONLY report slots that are clearly AVAILABLE/OPEN/BOOKABLE — look for "Book" buttons, green/available indicators, or clickable time slots that are NOT grayed out, crossed out, or showing "Booked"/"Reserved"/"Full".\n'
                     + '3. ONLY report slots for ' + dateStr + '. Not any other date.\n'
                     + (isToday ? '4. ONLY report FUTURE slots (after ' + currentTime + ').\n' : '4. Report all available slots for that day.\n')
-                    + '5. "7:00am to 9:00pm" at the top = facility HOURS, not available slots.\n'
-                    + '6. If ALL tennis slots are booked, return empty array.\n'
-                    + '7. If you do NOT see a booking schedule with individual time slots, set page_has_schedule to false.\n'
-                    + '8. When in doubt, do NOT include a slot. False negatives >> false positives.\n',
+                    + '5. Operating hours like "7:00am to 9:00pm" are NOT available slots — ignore them.\n'
+                    + '6. If ALL tennis slots are booked/reserved, return an empty array.\n'
+                    + '7. If you do NOT see a booking calendar with individual time slots, set page_has_schedule to false.\n'
+                    + '8. When in doubt, do NOT include a slot. False negatives are better than false positives.\n',
                 schema: {
                     type: 'object',
                     properties: {
@@ -362,18 +503,18 @@ async function scrapeCourt(court, apiKey, targetDate) {
         if (!resp.ok) {
             console.warn('Firecrawl error for ' + court.name + ':', resp.status);
             updateProgress(court.name + ' (error)');
-            return { court, slots: null, error: true };
+            return { court: { ...court, locationId }, slots: null, error: true };
         }
 
         const data = await resp.json();
         const extract = data.data && data.data.extract;
         const screenshot = data.data && data.data.screenshot;
-        console.log('=== ' + court.name + ' ===', extract);
+        console.log('=== ' + court.name + ' ===', { extract, calendarUrl });
         if (screenshot) console.log('Screenshot:', screenshot);
 
         if (!extract || !extract.page_has_schedule) {
             updateProgress(court.name + ' (no schedule)');
-            return { court, slots: null, error: false, debug: extract ? extract.what_i_see : '' };
+            return { court: { ...court, locationId }, slots: null, error: false, debug: extract ? extract.what_i_see : '' };
         }
 
         const currentHour = isToday ? now.getHours() : -1;
@@ -389,7 +530,7 @@ async function scrapeCourt(court, apiKey, targetDate) {
         }).filter(Boolean).sort((a, b) => a.hour - b.hour);
 
         updateProgress(court.name + (slots.length > 0 ? ' (' + slots.length + ')' : ' (booked)'));
-        return { court, slots, error: false, debug: extract.what_i_see };
+        return { court: { ...court, locationId }, slots, error: false, debug: extract.what_i_see };
     } catch (e) {
         console.warn('Error for ' + court.name + ':', e);
         updateProgress(court.name + ' (failed)');
@@ -419,7 +560,24 @@ async function findCourts() {
         .sort((a, b) => a.dist - b.dist);
 
     try {
-        const results = await Promise.all(courts.map(c => scrapeCourt(c, apiKey, targetDate)));
+        // Phase 1: Discover locationIds for courts that don't have cached IDs (batch of 20 at a time)
+        const uncached = courts.filter(c => !getCachedLocationId(c.slug));
+        if (uncached.length > 0) {
+            document.getElementById('loading-sub').textContent = 'Discovering court IDs (' + uncached.length + ')...';
+            for (let i = 0; i < uncached.length; i += 20) {
+                const batch = uncached.slice(i, i + 20);
+                await Promise.all(batch.map(c => discoverLocationId(c, apiKey)));
+            }
+        }
+
+        // Phase 2: Scrape calendars (batch of 15 at a time to stay under concurrency limits)
+        document.getElementById('loading-sub').textContent = 'Checking ' + fmtDateShort(targetDate) + ' on rec.us...';
+        const results = [];
+        for (let i = 0; i < courts.length; i += 15) {
+            const batch = courts.slice(i, i + 15);
+            const batchResults = await Promise.all(batch.map(c => scrapeCourt(c, apiKey, targetDate)));
+            results.push(...batchResults);
+        }
         showResults(results, targetDate);
     } catch (e) {
         document.getElementById('loading').style.display = 'none';
@@ -473,8 +631,8 @@ function showResults(results, targetDate) {
 
 function courtCard(c, rank, hasSlots) {
     const slotsHtml = hasSlots && c.slots
-        ? c.slots.map(s => '<a class="slot slot-avail" href="' + recUrl(c.slug) + '" target="_blank">' + s.label + '</a>').join('')
-        : '<a class="slot slot-unknown" href="' + recUrl(c.slug) + '" target="_blank">Check rec.us</a>';
+        ? c.slots.map(s => '<a class="slot slot-avail" href="' + recUrl(c.slug, c.locationId) + '" target="_blank">' + s.label + '</a>').join('')
+        : '<a class="slot slot-unknown" href="' + recUrl(c.slug, c.locationId) + '" target="_blank">Check rec.us</a>';
     const debugHtml = c.debug ? '<div class="debug-info">' + escapeHtml(c.debug) + '</div>' : '';
 
     return '<div class="court-card"><div class="court-main">'
@@ -496,7 +654,7 @@ function courtCard(c, rank, hasSlots) {
         + debugHtml
         + '</div>'
         + '<div class="court-actions">'
-        + '<a class="court-action primary" href="' + recUrl(c.slug) + '" target="_blank">🎾 Book on Rec</a>'
+        + '<a class="court-action primary" href="' + recUrl(c.slug, c.locationId) + '" target="_blank">🎾 Book on Rec</a>'
         + '<a class="court-action" href="' + mapsUrl(c) + '" target="_blank">🗺️ Directions</a>'
         + '</div></div>';
 }
