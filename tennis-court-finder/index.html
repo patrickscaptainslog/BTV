@@ -229,17 +229,14 @@ function updateProgress(msg) {
     if (status) status.textContent = scannedCount + ' / ' + totalCourts + ' courts scanned' + (msg ? ' — ' + msg : '');
 }
 
-async function scrapeCourt(court, apiKey) {
+async function scrapeCourt(court, apiKey, isDiagnostic) {
     const url = recUrl(court.slug);
     const now = new Date();
     const todayStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
     const currentTime = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    const todayDay = now.getDate();
 
-    // Step 1: First scrape with actions to interact with the React SPA.
-    // rec.us pages need: wait for load -> click "Tennis" -> wait -> see time slots.
-    // We also take a screenshot so the LLM can visually parse the calendar.
     try {
+        // Get both markdown (raw content) and screenshot
         const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
             method: 'POST',
             headers: {
@@ -248,42 +245,8 @@ async function scrapeCourt(court, apiKey) {
             },
             body: JSON.stringify({
                 url: url,
-                formats: ['extract', 'screenshot'],
-                waitFor: 8000,
-                actions: [
-                    // Wait for the React app to hydrate
-                    { type: 'wait', milliseconds: 5000 },
-                    // Try clicking "Tennis" to filter to tennis courts
-                    { type: 'click', selector: 'button:has-text("Tennis"), a:has-text("Tennis"), div:has-text("Tennis"), [data-testid*="tennis"], [class*="tennis"], [aria-label*="Tennis"]' },
-                    { type: 'wait', milliseconds: 3000 },
-                    // Click today's date if there's a date picker visible
-                    { type: 'click', selector: '.react-datepicker__day--today, [aria-label*="today"], [aria-selected="true"], .today' },
-                    { type: 'wait', milliseconds: 3000 },
-                    // Take screenshot of final state
-                    { type: 'screenshot', fullPage: true }
-                ],
-                extract: {
-                    prompt: 'This is a screenshot/page of a tennis court reservation system (rec.us) for ' + court.name + ' in San Francisco. Today is ' + todayStr + ' and the current time is ' + currentTime + '.\n\nLook at the page carefully. It may show a calendar/schedule with time slots for booking tennis courts.\n\nYour task: identify which time slots are AVAILABLE (open, bookable, not reserved) for TODAY specifically.\n\nAvailable slots are typically shown as clickable buttons or links with times. Booked/taken slots may be grayed out, crossed out, or not shown at all.\n\nIf the page shows a list of courts (Court #1, Court #2, etc.), include available times from ANY of the courts.\n\nIf the page has not fully loaded, shows a login screen, or does not show any time-based schedule, set page_loaded to false.\n\nIMPORTANT: Only report times you can actually see on the page. Do not guess or fabricate times.',
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            available_slots: {
-                                type: 'array',
-                                description: 'Available/open time slots for tennis TODAY. Each item is the exact time shown (e.g. "7:00 AM"). Only include times actually visible on the page that appear to be bookable/available.',
-                                items: { type: 'string' }
-                            },
-                            page_loaded: {
-                                type: 'boolean',
-                                description: 'True ONLY if the page shows a schedule or calendar with time slots for tennis. False if it shows a generic landing page, login, error, or no time information.'
-                            },
-                            what_i_see: {
-                                type: 'string',
-                                description: 'Brief description of what the page actually shows - helps debug issues.'
-                            }
-                        },
-                        required: ['available_slots', 'page_loaded', 'what_i_see']
-                    }
-                }
+                formats: ['markdown', 'screenshot'],
+                waitFor: 15000,
             }),
         });
 
@@ -291,44 +254,78 @@ async function scrapeCourt(court, apiKey) {
             const errText = await resp.text();
             console.warn('Firecrawl error for ' + court.name + ':', resp.status, errText);
             updateProgress(court.name + ' (error)');
-            return { court, slots: null, error: true };
+            return { court, slots: null, error: true, raw: errText };
         }
 
         const data = await resp.json();
-        const extract = data.data && data.data.extract;
+        const md = (data.data && data.data.markdown) || '';
         const screenshot = data.data && data.data.screenshot;
-        console.log('=== ' + court.name + ' ===');
-        console.log('Extract:', JSON.stringify(extract, null, 2));
-        console.log('What page shows:', extract && extract.what_i_see);
-        if (screenshot) console.log('Screenshot URL:', screenshot);
 
-        if (!extract || !extract.page_loaded) {
-            updateProgress(court.name + ' (no schedule)');
-            return { court, slots: null, error: false, debug: extract && extract.what_i_see };
+        console.log('=== ' + court.name + ' ===');
+        console.log('URL:', url);
+        console.log('Markdown length:', md.length);
+        console.log('Markdown (first 2000 chars):', md.substring(0, 2000));
+        if (screenshot) console.log('Screenshot:', screenshot);
+
+        // If diagnostic, return raw data for display
+        if (isDiagnostic) {
+            updateProgress(court.name + ' (diagnostic)');
+            return { court, slots: null, error: false, raw: md, screenshot: screenshot, diagnostic: true };
         }
 
-        const currentHour = now.getHours();
-        const slots = (extract.available_slots || [])
-            .map(timeStr => {
-                const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
-                if (!m) return null;
-                let hour = parseInt(m[1]);
-                const ampm = m[3].toUpperCase();
-                if (ampm === 'PM' && hour !== 12) hour += 12;
-                if (ampm === 'AM' && hour === 12) hour = 0;
-                if (hour <= currentHour) return null;
-                return { hour, label: fmtHour(hour), status: 'available' };
-            })
-            .filter(Boolean)
-            .sort((a, b) => a.hour - b.hour);
-
-        updateProgress(court.name + (slots.length > 0 ? ' (' + slots.length + ' open)' : ' (full)'));
-        return { court, slots, error: false };
+        // Parse available slots from the raw markdown
+        const slots = parseSlotsFromMarkdown(md, now);
+        updateProgress(court.name + (slots ? (slots.length > 0 ? ' (' + slots.length + ' open)' : ' (full)') : ' (?)'));
+        return { court, slots, error: false, raw: md.substring(0, 500), screenshot: screenshot };
     } catch (e) {
         console.warn('Fetch error for ' + court.name + ':', e);
         updateProgress(court.name + ' (failed)');
-        return { court, slots: null, error: true };
+        return { court, slots: null, error: true, raw: e.message };
     }
+}
+
+function parseSlotsFromMarkdown(md, now) {
+    if (!md || md.length < 50) return null;
+    const currentHour = now.getHours();
+
+    // Look for time slot patterns. rec.us shows available times in various formats.
+    // We look for patterns like "7:00 AM", "2:00 PM", "7:00am", etc.
+    // that appear in the context of booking/scheduling
+    const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/g;
+    const allTimes = [];
+    let match;
+    while ((match = timeRegex.exec(md)) !== null) {
+        let hour = parseInt(match[1]);
+        const min = match[2];
+        const ampm = match[3].toUpperCase();
+        if (ampm === 'PM' && hour !== 12) hour += 12;
+        if (ampm === 'AM' && hour === 12) hour = 0;
+        if (hour >= 7 && hour <= 20 && hour > currentHour) {
+            allTimes.push({ hour, label: fmtHour(hour), original: match[0] });
+        }
+    }
+
+    // Deduplicate by hour
+    const seen = new Set();
+    const unique = allTimes.filter(t => {
+        if (seen.has(t.hour)) return false;
+        seen.add(t.hour);
+        return true;
+    }).sort((a, b) => a.hour - b.hour);
+
+    // If we found times in a page that also mentions tennis/court/book/reserve,
+    // these are likely available slots
+    const hasContext = /tennis|court|book|reserve|schedule|availab/i.test(md);
+    if (unique.length > 0 && hasContext) {
+        return unique.map(t => ({ hour: t.hour, label: t.label, status: 'available' }));
+    }
+
+    // If the page has tennis content but no times, it might be fully booked
+    if (hasContext && /no availab|fully booked|sold out|no open/i.test(md)) {
+        return []; // explicitly empty = fully booked
+    }
+
+    return null; // can't determine
 }
 
 // =============================================
@@ -373,12 +370,23 @@ async function findCourts() {
         dist: haversine(ORIGIN.lat, ORIGIN.lng, c.lat, c.lng)
     })).sort((a, b) => a.dist - b.dist);
 
-    // Scrape ALL courts in parallel (50 concurrent browsers available!)
-    document.getElementById('loading-sub').textContent = 'Scraping ' + courts.length + ' courts on rec.us via Firecrawl';
+    // First: diagnostic scrape of the nearest court to see what Firecrawl returns
+    document.getElementById('loading-sub').textContent = 'Diagnostic: scraping ' + courts[0].name + ' first...';
+    totalCourts = courts.length + 1; // +1 for diagnostic
 
     try {
-        const results = await Promise.all(courts.map(c => scrapeCourt(c, apiKey)));
-        showResults(results);
+        const diag = await scrapeCourt(courts[0], apiKey, true);
+        console.log('=== DIAGNOSTIC RESULT ===');
+        console.log('Raw markdown:', diag.raw);
+        console.log('Screenshot:', diag.screenshot);
+
+        // Store diagnostic for debug panel
+        window._diagResult = diag;
+
+        // Now scrape ALL courts
+        document.getElementById('loading-sub').textContent = 'Scraping ' + courts.length + ' courts on rec.us...';
+        const results = await Promise.all(courts.map(c => scrapeCourt(c, apiKey, false)));
+        showResults(results, diag);
     } catch (e) {
         console.error('Fatal error:', e);
         document.getElementById('loading').style.display = 'none';
@@ -387,7 +395,7 @@ async function findCourts() {
     }
 }
 
-function showResults(results) {
+function showResults(results, diag) {
     document.getElementById('loading').style.display = 'none';
     const now = new Date();
     document.getElementById('r-date').textContent = fmtDate(now);
@@ -399,7 +407,7 @@ function showResults(results) {
     const noSlots = [];
 
     for (const r of results) {
-        const c = { ...r.court, dist: haversine(ORIGIN.lat, ORIGIN.lng, r.court.lat, r.court.lng), debug: r.debug };
+        const c = { ...r.court, dist: haversine(ORIGIN.lat, ORIGIN.lng, r.court.lat, r.court.lng), debug: r.raw };
         if (r.error || r.slots === null) {
             unknown.push({ ...c, slots: null, error: r.error });
         } else if (r.slots.length > 0) {
@@ -448,9 +456,25 @@ function showResults(results) {
         }
     }
 
+    // Add debug panel at the end showing what Firecrawl actually returned
+    if (diag) {
+        html += '<div style="margin-top:1rem;padding:0.75rem;background:var(--card);border:1px solid var(--border);border-radius:12px;">';
+        html += '<div style="font-family:Bangers,cursive;font-size:1rem;color:var(--orange);margin-bottom:0.5rem;">Debug: What Firecrawl sees for ' + (diag.court ? diag.court.name : 'first court') + '</div>';
+        if (diag.screenshot) {
+            html += '<div style="margin-bottom:0.5rem;"><img src="' + diag.screenshot + '" style="width:100%;border-radius:8px;border:1px solid var(--border);" alt="Screenshot of rec.us page"></div>';
+        }
+        html += '<div style="font-size:0.7rem;color:var(--muted);margin-bottom:0.25rem;">Raw markdown (first 1500 chars):</div>';
+        html += '<pre style="font-size:0.6rem;color:var(--text);background:var(--dark);padding:0.5rem;border-radius:8px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;">' + escapeHtml((diag.raw || '(empty)').substring(0, 1500)) + '</pre>';
+        html += '</div>';
+    }
+
     list.innerHTML = html;
     document.getElementById('results').style.display = 'block';
     window.scrollTo(0, 0);
+}
+
+function escapeHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
 function renderCourtCard(c, rank, hasSlots) {
