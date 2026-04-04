@@ -199,7 +199,6 @@ function haversine(lat1, lng1, lat2, lng2) {
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 function fmtDateShort(d) { return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
-function fmtTime(d) { return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
 function recUrl(slug, locationId) {
     var u = 'https://www.rec.us/' + slug;
     if (locationId) u += '?locationId=' + locationId + '&tab=calendar';
@@ -210,13 +209,17 @@ function mapsUrl(c) {
 }
 function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
+// Build the date label rec.us uses in its horizontal date picker (e.g. "5" for day 5)
+function getTargetDayNum(d) { return d.getDate(); }
+
 // === STATE ===
 let selectedDate = new Date();
 let scannedCount = 0;
 let totalCourts = COURTS.length;
 
 // === API KEY (persisted in localStorage) ===
-function getApiKey() { return localStorage.getItem('sbt_firecrawl_key') || 'fc-37a2515908d54465ba85a45d74aae8a7'; }
+const FALLBACK_KEY = 'fc-37a2515908d54465ba85a45d74aae8a7';
+function getApiKey() { return localStorage.getItem('sbt_firecrawl_key') || FALLBACK_KEY; }
 function setApiKey(k) { localStorage.setItem('sbt_firecrawl_key', k); }
 
 // === LOCATION ID CACHE ===
@@ -262,7 +265,7 @@ function pickDate(el, offset) {
     selectedDate = d;
 }
 
-// === FIRECRAWL SCRAPER ===
+// === PROGRESS UI ===
 function updateProgress(msg) {
     scannedCount++;
     const pct = Math.round((scannedCount / totalCourts) * 100);
@@ -272,92 +275,66 @@ function updateProgress(msg) {
     if (status) status.textContent = scannedCount + ' / ' + totalCourts + ' scanned' + (msg ? ' — ' + msg : '');
 }
 
+// ============================================================
+// FIRECRAWL V2 INTERACT API — SCRAPING ENGINE
+// ============================================================
+
+const FC_BASE = 'https://api.firecrawl.dev/v2';
+
+// --- v2 helpers ---
+async function fcScrape(url, apiKey) {
+    const resp = await fetch(FC_BASE + '/scrape', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({ url: url, formats: ['markdown'], waitFor: 5000 })
+    });
+    if (!resp.ok) throw new Error('Scrape failed: ' + resp.status);
+    const data = await resp.json();
+    if (!data.success) throw new Error('Scrape unsuccessful');
+    return {
+        markdown: data.data.markdown || '',
+        scrapeId: data.data.metadata.scrapeId
+    };
+}
+
+async function fcInteract(scrapeId, code, apiKey, timeout) {
+    const resp = await fetch(FC_BASE + '/scrape/' + scrapeId + '/interact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
+        body: JSON.stringify({ code: code, language: 'node', timeout: timeout || 30 })
+    });
+    if (!resp.ok) throw new Error('Interact failed: ' + resp.status);
+    return await resp.json();
+}
+
+async function fcCleanup(scrapeId, apiKey) {
+    try {
+        await fetch(FC_BASE + '/scrape/' + scrapeId + '/interact', {
+            method: 'DELETE',
+            headers: { 'Authorization': 'Bearer ' + apiKey }
+        });
+    } catch(e) { /* best effort */ }
+}
+
+// --- LocationId discovery ---
+// Extracts UUID from image URLs in the landing page markdown (pattern: location-{UUID})
+function extractLocationIdFromMarkdown(markdown) {
+    const m = markdown.match(/location-([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})/i);
+    return m ? m[1] : null;
+}
+
 async function discoverLocationId(court, apiKey) {
-    // Check cache first
     const cached = getCachedLocationId(court.slug);
-    if (cached) { console.log(court.name + ': cached locationId ' + cached); return cached; }
+    if (cached) return cached;
 
     try {
-        const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-            body: JSON.stringify({
-                url: 'https://www.rec.us/' + court.slug,
-                formats: ['extract'],
-                waitFor: 3000,
-                actions: [
-                    { type: 'wait', milliseconds: 3000 },
-                    { type: 'executeJavascript', script: `
-                        (function() {
-                            // Method 1: Find locationId in any link on the page
-                            var links = document.querySelectorAll('a[href*="locationId"]');
-                            for (var i = 0; i < links.length; i++) {
-                                var m = links[i].href.match(/locationId=([a-f0-9-]{36})/i);
-                                if (m) return m[1];
-                            }
-                            // Method 2: Search all hrefs for UUID pattern after locationId
-                            var allLinks = document.querySelectorAll('a[href]');
-                            for (var j = 0; j < allLinks.length; j++) {
-                                var h = allLinks[j].href;
-                                if (h.indexOf('locationId') !== -1) {
-                                    var m2 = h.match(/locationId=([a-f0-9-]{36})/i);
-                                    if (m2) return m2[1];
-                                }
-                            }
-                            // Method 3: Search page HTML for locationId pattern
-                            var html = document.documentElement.innerHTML;
-                            var m3 = html.match(/locationId[=:]["']?([a-f0-9-]{36})/i);
-                            if (m3) return m3[1];
-                            // Method 4: Check Next.js data
-                            if (window.__NEXT_DATA__) {
-                                var nd = JSON.stringify(window.__NEXT_DATA__);
-                                var m4 = nd.match(/"locationId"\\s*:\\s*"([a-f0-9-]{36})"/i);
-                                if (m4) return m4[1];
-                                // Also try just finding UUID pattern near 'location'
-                                var m5 = nd.match(/location[^"]*"\\s*:\\s*"([a-f0-9-]{36})"/i);
-                                if (m5) return m5[1];
-                            }
-                            return 'not_found';
-                        })()
-                    ` }
-                ],
-                extract: {
-                    prompt: 'Extract the locationId UUID from this rec.us page. Look for any UUID (format: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx) that appears in links, buttons, or data attributes related to booking or calendar.',
-                    schema: {
-                        type: 'object',
-                        properties: {
-                            locationId: { type: 'string', description: 'The locationId UUID found on the page, or empty string if not found' }
-                        },
-                        required: ['locationId']
-                    }
-                }
-            })
-        });
-
-        if (!resp.ok) return null;
-        const data = await resp.json();
-        const extract = data.data && data.data.extract;
-        const actionResults = data.data && data.data.actions && data.data.actions.results;
-
-        // Check executeJavascript result first
-        var locId = null;
-        if (actionResults) {
-            for (var r of actionResults) {
-                if (r && typeof r === 'string' && r.match(/^[a-f0-9-]{36}$/i)) {
-                    locId = r; break;
-                }
-            }
-        }
-        // Fallback to LLM extract
-        if (!locId && extract && extract.locationId && extract.locationId.match(/^[a-f0-9-]{36}$/i)) {
-            locId = extract.locationId;
-        }
-
+        const { markdown } = await fcScrape('https://www.rec.us/' + court.slug, apiKey);
+        const locId = extractLocationIdFromMarkdown(markdown);
         if (locId) {
             cacheLocationId(court.slug, locId);
             console.log(court.name + ': discovered locationId ' + locId);
         } else {
-            console.warn(court.name + ': could not find locationId');
+            console.warn(court.name + ': no locationId found in page');
         }
         return locId;
     } catch(e) {
@@ -366,137 +343,139 @@ async function discoverLocationId(court, apiKey) {
     }
 }
 
+// --- Slot parsing ---
+// Handles BOTH formats:
+//   Markdown: "##### Reserved\n\n7:30AM - 9:00AMMT" (initials appended to end time)
+//   InnerText: "Reserved\n7:30AM - 9:00AM\nMT" (initials on separate line)
+function parseSlots(text) {
+    var slots = [];
+    // Strip markdown heading prefixes and clean lines
+    var lines = text.split(/\n/)
+        .map(function(l) { return l.replace(/^#{1,6}\s*/, '').trim(); })
+        .filter(Boolean);
+    var currentSport = null;
+
+    for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        var lower = line.toLowerCase();
+
+        // Detect sport headers
+        if (lower === 'tennis') { currentSport = 'tennis'; continue; }
+        if (lower === 'pickleball') { currentSport = 'pickleball'; continue; }
+
+        // Skip non-tennis
+        if (currentSport !== 'tennis') continue;
+
+        // Detect "No free spots" message
+        if (lower.indexOf('no free spots') !== -1) continue;
+
+        // Detect status lines: "Reservable", "Reserved", "Not Reservable"
+        var status = null;
+        if (lower === 'reservable') status = 'available';
+        else if (lower === 'reserved') status = 'reserved';
+        else if (lower === 'not reservable') status = 'blocked';
+        else continue;
+
+        // Next line should contain time range (may have initials appended: "7:30AM - 9:00AMMT")
+        var nextLine = (lines[i + 1] || '').trim();
+        var timeMatch = nextLine.match(/^(\d{1,2}:\d{2}\s*[AP]M)\s*-\s*(\d{1,2}:\d{2}\s*[AP]M)/i);
+        if (!timeMatch) continue;
+
+        var startTime = timeMatch[1].replace(/\s+/g, '');
+        var endTime = timeMatch[2].replace(/\s+/g, '');
+
+        slots.push({
+            time: startTime,
+            endTime: endTime,
+            sport: currentSport,
+            available: status === 'available',
+            label: startTime + ' - ' + endTime
+        });
+
+        i++; // skip the time line we just consumed
+        // Skip optional initials line (short text like "JL", "MT", "TLC '25-'26")
+        var afterTime = (lines[i + 1] || '').trim();
+        if (afterTime.length <= 15 && !/reserv|not |tennis|pickleball|court/i.test(afterTime) && !/^\d/.test(afterTime)) {
+            i++;
+        }
+    }
+    return slots;
+}
+
+// --- Main scraping function per court ---
 async function scrapeCourt(court, apiKey, targetDate) {
     const now = new Date();
     const isToday = targetDate.toDateString() === now.toDateString();
-    const dayNum = targetDate.getDate();
-    const targetMonth = targetDate.getMonth();
-    const targetYear = targetDate.getFullYear();
+    const locationId = getCachedLocationId(court.slug);
+
+    if (!locationId) {
+        updateProgress(court.name + ' (no ID)');
+        return { court: { ...court, locationId: null }, slots: null, error: true };
+    }
+
+    const calendarUrl = 'https://www.rec.us/' + court.slug + '?locationId=' + locationId + '&tab=calendar';
+    let scrapeId = null;
 
     try {
-        const locationId = getCachedLocationId(court.slug);
-        const calendarUrl = locationId
-            ? 'https://www.rec.us/' + court.slug + '?locationId=' + locationId + '&tab=calendar'
-            : 'https://www.rec.us/' + court.slug;
+        // Step 1: Open the calendar page (defaults to today)
+        const scrapeResult = await fcScrape(calendarUrl, apiKey);
+        scrapeId = scrapeResult.scrapeId;
 
-        const body = {
-            url: calendarUrl,
-            formats: ['markdown'],
-            waitFor: 5000,
-            actions: [
-                { type: 'wait', milliseconds: 5000 },
-                // If no locationId, try to click Calendar tab
-                ...(locationId ? [] : [
-                    { type: 'executeJavascript', script: `
-                        (function() {
-                            var els = document.querySelectorAll('a, button, div[role="tab"], div[role="button"], span, li');
-                            for (var i = 0; i < els.length; i++) {
-                                var t = els[i].textContent.trim().toLowerCase();
-                                if (t === 'calendar' || t === 'schedule' || t === 'view calendar') {
-                                    els[i].click(); return 'clicked calendar';
-                                }
-                            }
-                            var links = document.querySelectorAll('a[href*="tab=calendar"]');
-                            if (links.length > 0) { links[0].click(); return 'clicked calendar link'; }
-                            return 'no calendar found';
-                        })()
-                    ` },
-                    { type: 'wait', milliseconds: 4000 },
-                ]),
-                // Navigate to correct month if needed
-                { type: 'executeJavascript', script: `
-                    (function() {
-                        var targetMonth = ${targetMonth};
-                        var header = document.querySelector('.react-datepicker__current-month');
-                        if (!header) return 'no datepicker header';
-                        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                        var shown = header.textContent.trim();
-                        var shownMonth = -1;
-                        for (var m = 0; m < 12; m++) {
-                            if (shown.indexOf(months[m]) !== -1) { shownMonth = m; break; }
-                        }
-                        if (shownMonth === targetMonth) return 'correct month';
-                        var nextBtn = document.querySelector('.react-datepicker__navigation--next');
-                        if (nextBtn && shownMonth < targetMonth) {
-                            for (var c = 0; c < (targetMonth - shownMonth); c++) nextBtn.click();
-                            return 'navigated forward';
-                        }
-                        return 'month ok';
-                    })()
-                ` },
-                { type: 'wait', milliseconds: 1000 },
-                // Select target date
-                { type: 'executeJavascript', script: `
-                    (function() {
-                        var dayNum = ${dayNum};
-                        var days = document.querySelectorAll('.react-datepicker__day');
-                        for (var i = 0; i < days.length; i++) {
-                            if (days[i].textContent.trim() === String(dayNum) && !days[i].classList.contains('react-datepicker__day--outside-month')) {
-                                days[i].click(); return 'clicked day ' + dayNum;
-                            }
-                        }
-                        return 'no datepicker found';
-                    })()
-                ` },
-                { type: 'wait', milliseconds: 4000 },
-                { type: 'scroll', direction: 'down' },
-                { type: 'wait', milliseconds: 2000 },
-                // Simple: just grab the page text
-                { type: 'executeJavascript', script: 'document.body.innerText.substring(0, 10000)' },
-            ]
-        };
-
-        const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
-            body: JSON.stringify(body),
-        });
-
-        if (!resp.ok) {
-            console.warn('Firecrawl error for ' + court.name + ':', resp.status);
-            updateProgress(court.name + ' (error)');
-            return { court: { ...court, locationId }, slots: null, error: true };
-        }
-
-        const data = await resp.json();
-        // Get page text from markdown format or from executeJavascript innerText
-        var pageText = '';
-        if (data.data && data.data.markdown) {
-            pageText = data.data.markdown;
-        }
-        // Also try the innerText from the last executeJavascript
-        var innerText = '';
-        if (data.data && data.data.actions && data.data.actions.results) {
-            var results = data.data.actions.results;
-            for (var r = results.length - 1; r >= 0; r--) {
-                if (typeof results[r] === 'string' && results[r].length > 100) {
-                    innerText = results[r];
-                    break;
+        let text;
+        if (isToday) {
+            // For today: the initial scrape markdown already has the calendar data
+            text = scrapeResult.markdown;
+        } else {
+            // For other dates: use interact to click the target date
+            const dayNum = targetDate.getDate();
+            const clickCode = `
+                await page.waitForLoadState("networkidle");
+                // Find and click the target day number in the horizontal date picker
+                const dayEls = await page.locator("h6, [class*=day]").all();
+                let clicked = false;
+                for (const el of dayEls) {
+                    const txt = await el.textContent();
+                    if (txt.trim() === "${dayNum}") {
+                        await el.click();
+                        clicked = true;
+                        break;
+                    }
                 }
+                if (!clicked) {
+                    // Fallback: try clicking any element with just the day number
+                    const all = await page.locator("text=\\"${dayNum}\\"").all();
+                    for (const el of all) {
+                        const t = await el.textContent();
+                        if (t.trim() === "${dayNum}") { await el.click(); clicked = true; break; }
+                    }
+                }
+                await page.waitForTimeout(3000);
+                await page.waitForLoadState("networkidle");
+                const body = await page.evaluate(() => document.body.innerText);
+                JSON.stringify({ clicked, body });
+            `;
+
+            const interactResult = await fcInteract(scrapeId, clickCode, apiKey, 45);
+            if (interactResult.result) {
+                const parsed = JSON.parse(interactResult.result);
+                text = parsed.body || '';
+            } else {
+                console.warn(court.name + ': interact returned no result', interactResult.stderr);
+                text = scrapeResult.markdown; // fallback to today's data
             }
         }
-        // Use whichever has more content
-        var text = pageText.length > innerText.length ? pageText : innerText;
-        console.log('=== ' + court.name + ' === pageText length:', pageText.length, 'innerText length:', innerText.length);
-        console.log(court.name + ' TEXT:', text.substring(0, 2000));
 
-        // Parse the text for time slots
-        // Look for patterns like: "7:00 AM" or "4:30 PM" near "Tennis"/"Pickleball" and "Book"/"Booked"
-        var slots = parseSlots(text, court.name);
-        console.log(court.name + ' parsed slots:', slots);
+        // Parse slots from the text
+        const allSlots = parseSlots(text);
 
-        if (slots.length === 0 && text.length < 200) {
-            updateProgress(court.name + ' (no schedule)');
-            return { court: { ...court, locationId }, slots: null, error: false, debug: 'Page text too short (' + text.length + ' chars)' };
-        }
+        // Filter to available tennis slots, exclude past times if today
+        const currentHour = isToday ? now.getHours() : -1;
+        const currentMin = isToday ? now.getMinutes() : 0;
 
-        // Filter: tennis only, available only, future only
-        var currentHour = isToday ? now.getHours() : -1;
-        var currentMin = isToday ? now.getMinutes() : 0;
-        var tennisSlots = slots
-            .filter(function(s) { return s.sport === 'tennis' && s.available; })
+        const tennisSlots = allSlots
+            .filter(function(s) { return s.available; })
             .map(function(s) {
-                var m = s.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+                var m = s.time.match(/(\d{1,2}):(\d{2})(AM|PM)/i);
                 if (!m) return null;
                 var hour = parseInt(m[1]);
                 var min = parseInt(m[2]);
@@ -504,99 +483,24 @@ async function scrapeCourt(court, apiKey, targetDate) {
                 if (ampm === 'PM' && hour !== 12) hour += 12;
                 if (ampm === 'AM' && hour === 12) hour = 0;
                 if (isToday && (hour < currentHour || (hour === currentHour && min <= currentMin))) return null;
-                return { hour: hour, min: min, label: s.time, status: 'available' };
+                return { hour: hour, min: min, label: s.label, status: 'available' };
             }).filter(Boolean).sort(function(a, b) { return a.hour - b.hour || a.min - b.min; });
 
-        var allSlotsDebug = slots.map(function(s) { return s.time + ' ' + s.sport + (s.available ? ' OPEN' : ' booked'); }).join(', ');
-        updateProgress(court.name + (tennisSlots.length > 0 ? ' (' + tennisSlots.length + ')' : slots.length > 0 ? ' (booked)' : ' (no slots)'));
+        const hasAnySlots = allSlots.length > 0;
+        updateProgress(court.name + (tennisSlots.length > 0 ? ' (' + tennisSlots.length + ' open)' : hasAnySlots ? ' (booked)' : ' (no slots)'));
+
         return {
             court: { ...court, locationId },
-            slots: tennisSlots.length > 0 ? tennisSlots : (slots.length > 0 ? [] : null),
-            error: false,
-            debug: allSlotsDebug || 'No slots found in text'
+            slots: tennisSlots.length > 0 ? tennisSlots : (hasAnySlots ? [] : null),
+            error: false
         };
     } catch (e) {
-        console.warn('Error for ' + court.name + ':', e);
-        updateProgress(court.name + ' (failed)');
-        return { court, slots: null, error: true };
+        console.warn(court.name + ' scrape error:', e);
+        updateProgress(court.name + ' (error)');
+        return { court: { ...court, locationId }, slots: null, error: true };
+    } finally {
+        if (scrapeId) fcCleanup(scrapeId, apiKey);
     }
-}
-
-// Parse page text to find time slots with sport type and availability
-function parseSlots(text, courtName) {
-    var slots = [];
-    var seen = {};
-
-    // Split text into lines for context-aware parsing
-    var lines = text.split(/\n/);
-
-    // Track current sport context as we scan lines
-    var currentSport = null;
-
-    for (var i = 0; i < lines.length; i++) {
-        var line = lines[i].trim();
-        if (!line) continue;
-        var lower = line.toLowerCase();
-
-        // Detect sport context from headers/labels
-        if (lower.indexOf('tennis') !== -1 && lower.indexOf('pickleball') === -1 && line.length < 80) {
-            currentSport = 'tennis';
-        } else if (lower.indexOf('pickleball') !== -1 && line.length < 80) {
-            currentSport = 'pickleball';
-        }
-
-        // Find time patterns in this line
-        var timeRe = /(\d{1,2}:\d{2}\s*(?:AM|PM|am|pm))/g;
-        var match;
-        while ((match = timeRe.exec(line)) !== null) {
-            var timeStr = match[1].replace(/\s+/g, ' ').trim();
-            // Normalize to uppercase AM/PM
-            timeStr = timeStr.replace(/am/i, 'AM').replace(/pm/i, 'PM');
-
-            // Skip operating hours patterns like "7:00am to 9:00pm" or "Hours: ..."
-            if (lower.indexOf('hours') !== -1 || (lower.indexOf(' to ') !== -1 && lower.indexOf('book') === -1)) continue;
-            // Skip if this line is just a time range header like "7:00 AM - 9:00 PM"
-            if (/^\d{1,2}:\d{2}\s*(?:AM|PM)\s*[-–—]\s*\d{1,2}:\d{2}\s*(?:AM|PM)$/i.test(line)) continue;
-
-            // Determine sport — check this line and nearby lines
-            var sport = currentSport || 'unknown';
-            var context = (lines[i-2]||'') + ' ' + (lines[i-1]||'') + ' ' + line + ' ' + (lines[i+1]||'') + ' ' + (lines[i+2]||'');
-            var ctxLower = context.toLowerCase();
-            if (ctxLower.indexOf('pickleball') !== -1 && ctxLower.indexOf('tennis') === -1) sport = 'pickleball';
-            else if (ctxLower.indexOf('tennis') !== -1 && ctxLower.indexOf('pickleball') === -1) sport = 'tennis';
-            else if (ctxLower.indexOf('pickleball') !== -1 && ctxLower.indexOf('tennis') !== -1) {
-                // Both mentioned — check which is closer to the time
-                var pDist = Math.abs(ctxLower.indexOf('pickleball') - ctxLower.indexOf(timeStr.toLowerCase()));
-                var tDist = Math.abs(ctxLower.indexOf('tennis') - ctxLower.indexOf(timeStr.toLowerCase()));
-                sport = pDist < tDist ? 'pickleball' : 'tennis';
-            }
-
-            // Determine availability — check line and nearby lines for booking status
-            var available = false;
-            var bookContext = (line + ' ' + (lines[i+1]||'') + ' ' + (lines[i+2]||'')).toLowerCase();
-            if (bookContext.indexOf('book now') !== -1 || bookContext.indexOf('reserve') !== -1 ||
-                (bookContext.indexOf('book') !== -1 && bookContext.indexOf('booked') === -1)) {
-                available = true;
-            }
-            // If we see "booked", "full", "unavailable" nearby, it's NOT available
-            if (bookContext.indexOf('booked') !== -1 || bookContext.indexOf('full') !== -1 ||
-                bookContext.indexOf('unavailable') !== -1 || bookContext.indexOf('sold out') !== -1) {
-                available = false;
-            }
-            // Also check: if the line/context has a link with "book" in it
-            if (bookContext.indexOf('book') !== -1 && bookContext.indexOf('booked') === -1 &&
-                bookContext.indexOf('full') === -1) {
-                available = true;
-            }
-
-            var key = timeStr + '|' + sport;
-            if (seen[key]) continue;
-            seen[key] = true;
-            slots.push({ time: timeStr, sport: sport, available: available, line: line.substring(0, 100) });
-        }
-    }
-
-    return slots;
 }
 
 // === MAIN FLOW ===
@@ -621,21 +525,23 @@ async function findCourts() {
         .sort((a, b) => a.dist - b.dist);
 
     try {
-        // Phase 1: Discover locationIds for courts that don't have cached IDs (batch of 20 at a time)
+        // Phase 1: Discover locationIds for courts missing from cache
+        // Uses simple v2 scrape of landing page — extracts UUID from image URLs
         const uncached = courts.filter(c => !getCachedLocationId(c.slug));
         if (uncached.length > 0) {
             document.getElementById('loading-sub').textContent = 'Discovering court IDs (' + uncached.length + ')...';
-            for (let i = 0; i < uncached.length; i += 20) {
-                const batch = uncached.slice(i, i + 20);
+            // Batch 10 at a time to stay under concurrency limits
+            for (let i = 0; i < uncached.length; i += 10) {
+                const batch = uncached.slice(i, i + 10);
                 await Promise.all(batch.map(c => discoverLocationId(c, apiKey)));
             }
         }
 
-        // Phase 2: Scrape calendars (batch of 15 at a time to stay under concurrency limits)
+        // Phase 2: Scrape calendars — batch 10 at a time
         document.getElementById('loading-sub').textContent = 'Checking ' + fmtDateShort(targetDate) + ' on rec.us...';
         const results = [];
-        for (let i = 0; i < courts.length; i += 15) {
-            const batch = courts.slice(i, i + 15);
+        for (let i = 0; i < courts.length; i += 10) {
+            const batch = courts.slice(i, i + 10);
             const batchResults = await Promise.all(batch.map(c => scrapeCourt(c, apiKey, targetDate)));
             results.push(...batchResults);
         }
@@ -647,13 +553,14 @@ async function findCourts() {
     }
 }
 
+// === RESULTS DISPLAY ===
 function showResults(results, targetDate) {
     document.getElementById('loading').style.display = 'none';
     document.getElementById('r-date').textContent = fmtDateShort(targetDate);
 
     const withSlots = [], noSchedule = [], booked = [];
     for (const r of results) {
-        const c = { ...r.court, dist: haversine(ORIGIN.lat, ORIGIN.lng, r.court.lat, r.court.lng), debug: r.debug };
+        const c = { ...r.court, dist: haversine(ORIGIN.lat, ORIGIN.lng, r.court.lat, r.court.lng) };
         if (r.error || r.slots === null) noSchedule.push(c);
         else if (r.slots.length > 0) withSlots.push({ ...c, slots: r.slots });
         else booked.push(c);
@@ -694,7 +601,6 @@ function courtCard(c, rank, hasSlots) {
     const slotsHtml = hasSlots && c.slots
         ? c.slots.map(s => '<a class="slot slot-avail" href="' + recUrl(c.slug, c.locationId) + '" target="_blank">' + s.label + '</a>').join('')
         : '<a class="slot slot-unknown" href="' + recUrl(c.slug, c.locationId) + '" target="_blank">Check rec.us</a>';
-    const debugHtml = c.debug ? '<div class="debug-info">' + escapeHtml(c.debug) + '</div>' : '';
 
     return '<div class="court-card"><div class="court-main">'
         + '<div class="court-rank">' + rank + '</div>'
@@ -712,7 +618,6 @@ function courtCard(c, rank, hasSlots) {
         + '<div class="court-slots">'
         + (hasSlots ? '<div class="slots-label">Open tennis slots — tap to book:</div>' : '')
         + '<div class="slots-grid">' + slotsHtml + '</div>'
-        + debugHtml
         + '</div>'
         + '<div class="court-actions">'
         + '<a class="court-action primary" href="' + recUrl(c.slug, c.locationId) + '" target="_blank">🎾 Book on Rec</a>'
@@ -727,7 +632,6 @@ function goBack() {
 
 // === INIT ===
 (function init() {
-    // Load saved API key - if saved, hide the input section
     const saved = getApiKey();
     const inp = document.getElementById('api-key');
     if (saved) {
@@ -735,8 +639,6 @@ function goBack() {
         document.getElementById('api-section').style.display = 'none';
     }
     inp.addEventListener('change', function() { setApiKey(this.value.trim()); });
-
-    // Build date pills
     buildDatePills();
 })();
 </script>
