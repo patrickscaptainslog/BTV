@@ -231,7 +231,12 @@ function updateProgress(msg) {
 
 async function scrapeCourt(court, apiKey) {
     const url = recUrl(court.slug);
+    const now = new Date();
+    const todayStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const currentTime = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+
     try {
+        // Use Firecrawl's extract mode with LLM to get structured availability
         const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
             method: 'POST',
             headers: {
@@ -240,8 +245,30 @@ async function scrapeCourt(court, apiKey) {
             },
             body: JSON.stringify({
                 url: url,
-                formats: ['markdown'],
-                waitFor: 6000,
+                formats: ['extract'],
+                waitFor: 10000,
+                extract: {
+                    prompt: 'This is a tennis court booking page. Today is ' + todayStr + ' and the current time is ' + currentTime + '. Look at TODAY\'S date specifically. List ONLY the time slots that are currently AVAILABLE (open, not booked, not taken) for TENNIS court reservations TODAY. Do NOT include time slots that are already booked, reserved, grayed out, or in the past. If you cannot determine availability or the page does not show today\'s schedule, set available_slots to an empty array and set page_loaded to false.',
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            available_slots: {
+                                type: 'array',
+                                description: 'List of available/open time slots for tennis TODAY only. Each item is the time label exactly as shown (e.g. "7:00 AM", "2:00 PM"). Only include slots that are OPEN and BOOKABLE, not booked or past.',
+                                items: { type: 'string' }
+                            },
+                            page_loaded: {
+                                type: 'boolean',
+                                description: 'True if the page loaded and shows a tennis court schedule/calendar for today. False if the page did not load properly or does not show availability.'
+                            },
+                            facility_name: {
+                                type: 'string',
+                                description: 'The name of the tennis facility as shown on the page'
+                            }
+                        },
+                        required: ['available_slots', 'page_loaded']
+                    }
+                }
             }),
         });
 
@@ -253,75 +280,38 @@ async function scrapeCourt(court, apiKey) {
         }
 
         const data = await resp.json();
-        const md = (data.data && data.data.markdown) || '';
-        const slots = parseSlots(md, court);
+        const extract = data.data && data.data.extract;
+        console.log('Extract for ' + court.name + ':', JSON.stringify(extract, null, 2));
+
+        if (!extract || !extract.page_loaded) {
+            updateProgress(court.name + ' (no data)');
+            return { court, slots: null, error: false };
+        }
+
+        const currentHour = now.getHours();
+        const slots = (extract.available_slots || [])
+            .map(timeStr => {
+                // Parse "7:00 AM" style strings
+                const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
+                if (!m) return null;
+                let hour = parseInt(m[1]);
+                const ampm = m[3].toUpperCase();
+                if (ampm === 'PM' && hour !== 12) hour += 12;
+                if (ampm === 'AM' && hour === 12) hour = 0;
+                // Only future slots
+                if (hour <= currentHour) return null;
+                return { hour, label: fmtHour(hour), status: 'available' };
+            })
+            .filter(Boolean)
+            .sort((a, b) => a.hour - b.hour);
+
         updateProgress(court.name);
-        return { court, slots, error: false, raw: md };
+        return { court, slots, error: false };
     } catch (e) {
         console.warn('Fetch error for ' + court.name + ':', e);
         updateProgress(court.name + ' (failed)');
         return { court, slots: null, error: true };
     }
-}
-
-function parseSlots(markdown, court) {
-    // rec.us shows time slots like "7:00 AM", "8:00 AM", etc.
-    // Available slots are clickable/visible, booked ones show differently
-    // We parse for time patterns and context clues
-
-    const now = new Date();
-    const currentHour = now.getHours();
-    const currentMin = now.getMinutes();
-
-    // Find all time references in the markdown
-    const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/g;
-    const foundTimes = new Set();
-    let match;
-    while ((match = timeRegex.exec(markdown)) !== null) {
-        let hour = parseInt(match[1]);
-        const min = parseInt(match[2]);
-        const ampm = match[3].toUpperCase();
-        if (ampm === 'PM' && hour !== 12) hour += 12;
-        if (ampm === 'AM' && hour === 12) hour = 0;
-        // Only include future times between 7 AM and 9 PM
-        if (hour >= 7 && hour <= 20) {
-            if (hour > currentHour || (hour === currentHour && min > currentMin)) {
-                foundTimes.add(hour);
-            }
-        }
-    }
-
-    // Look for patterns indicating availability
-    // rec.us typically shows "Tennis" followed by time slots
-    // Available slots are listed; fully booked courts may show fewer/no times
-    const mdLower = markdown.toLowerCase();
-
-    // Check for "no availability", "fully booked", "no open", etc.
-    const noAvail = /no availability|fully booked|no open slots|no times available|sold out/i.test(markdown);
-    if (noAvail) return [];
-
-    // Check for "book" or "reserve" near time slots - indicates availability
-    const hasBooking = /book|reserve|available|open|select a time/i.test(markdown);
-
-    // If we found specific times, those are likely available slots
-    if (foundTimes.size > 0) {
-        return Array.from(foundTimes).sort((a, b) => a - b).map(h => ({
-            hour: h,
-            label: fmtHour(h),
-            status: 'available'
-        }));
-    }
-
-    // If page loaded but no times found, check if it has Tennis content at all
-    const hasTennis = /tennis/i.test(markdown);
-    if (hasTennis && hasBooking) {
-        // Page has tennis content and booking language but no specific times parsed
-        // Return null to indicate "check manually"
-        return null;
-    }
-
-    // If we found nothing useful, return null (unknown)
-    return null;
 }
 
 // =============================================
