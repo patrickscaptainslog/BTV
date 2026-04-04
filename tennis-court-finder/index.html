@@ -17,7 +17,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', -apple-system, sans-serif; background: var(--dark); color: var(--text); min-height: 100dvh; overflow-x: hidden; }
 
-        /* SPLASH */
         #splash { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100dvh; padding: 2rem; text-align: center; }
         .splash-bus { font-size: 5rem; animation: busRock 1.5s ease-in-out infinite; }
         @keyframes busRock { 0%,100% { transform: rotate(-5deg) translateX(-3px); } 50% { transform: rotate(5deg) translateX(3px); } }
@@ -25,11 +24,22 @@
         .splash-sub { color: var(--muted); font-size: 1rem; margin-bottom: 1.5rem; font-style: italic; }
         .splash-sub b { color: var(--orange); font-style: normal; }
 
-        .api-section { margin-bottom: 1.5rem; width: 100%; max-width: 340px; }
+        .api-section { margin-bottom: 1rem; width: 100%; max-width: 340px; }
         .api-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.35rem; text-align: left; }
         .api-input { width: 100%; padding: 0.6rem 0.8rem; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); font-size: 0.85rem; font-family: monospace; outline: none; }
         .api-input:focus { border-color: var(--yellow); }
-        .api-saved { color: var(--avail); font-size: 0.7rem; margin-top: 0.25rem; display: none; }
+        .api-row { display: flex; align-items: center; gap: 0.5rem; }
+        .api-row .api-input { flex: 1; }
+        .api-toggle { background: none; border: 1px solid var(--border); color: var(--muted); padding: 0.55rem 0.7rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; white-space: nowrap; }
+
+        .date-section { margin-bottom: 1.5rem; width: 100%; max-width: 380px; }
+        .date-label { font-size: 0.75rem; color: var(--muted); margin-bottom: 0.5rem; }
+        .date-pills { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: center; }
+        .date-pill { padding: 0.5rem 0.8rem; border-radius: 10px; border: 2px solid var(--border); background: var(--card); color: var(--text); font-size: 0.8rem; cursor: pointer; transition: all 0.15s; text-align: center; min-width: 4.5rem; }
+        .date-pill.active { border-color: var(--yellow); background: rgba(204,255,0,0.1); color: var(--yellow); font-weight: 700; }
+        .date-pill:active { transform: scale(0.95); }
+        .date-pill .day-name { font-size: 0.65rem; color: var(--muted); display: block; }
+        .date-pill.active .day-name { color: var(--yellow); opacity: 0.7; }
 
         .find-btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.1rem 2.5rem; background: var(--yellow); color: var(--dark); font-family: 'Bangers', cursive; font-size: 1.6rem; letter-spacing: 1px; border: none; border-radius: 60px; cursor: pointer; transition: all 0.15s; box-shadow: 0 0 30px var(--glow), 0 4px 15px rgba(0,0,0,0.4); animation: pulse 2s ease-in-out infinite; }
         .find-btn:hover { transform: scale(1.05); }
@@ -39,8 +49,8 @@
 
         .splash-note { margin-top: 1.5rem; font-size: 0.75rem; color: var(--muted); max-width: 300px; }
         .splash-note a { color: var(--orange); text-decoration: none; }
+        .error-msg { color: var(--red); font-size: 0.8rem; margin-top: 0.75rem; max-width: 300px; }
 
-        /* LOADING */
         #loading { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: 100dvh; text-align: center; padding: 2rem; }
         .loading-balls { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
         .loading-balls span { width: 20px; height: 20px; background: var(--yellow); border-radius: 50%; animation: bounce 0.5s ease-in-out infinite alternate; }
@@ -53,15 +63,12 @@
         .loading-bar { height: 100%; background: var(--yellow); border-radius: 3px; transition: width 0.3s; width: 0%; }
         .loading-status { color: var(--muted); font-size: 0.75rem; margin-top: 0.5rem; }
 
-        /* RESULTS */
         #results { display: none; padding-bottom: 2rem; }
         .results-header { position: sticky; top: 0; z-index: 10; background: var(--dark); border-bottom: 1px solid var(--border); padding: 0.75rem 1rem; display: flex; align-items: center; justify-content: space-between; }
-        .results-header-left { display: flex; align-items: center; gap: 0.5rem; }
         .results-logo { font-family: 'Bangers', cursive; font-size: 1.2rem; color: var(--yellow); }
         .back-btn { background: none; border: 1px solid var(--border); color: var(--muted); padding: 0.4rem 0.8rem; border-radius: 8px; font-size: 0.8rem; cursor: pointer; }
         .results-info { padding: 0.75rem 1rem; display: flex; gap: 1rem; align-items: center; font-size: 0.8rem; color: var(--muted); border-bottom: 1px solid var(--border); flex-wrap: wrap; }
         .results-info .val { color: var(--yellow); font-weight: 700; }
-
         .court-list { padding: 0.5rem; }
         .court-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; margin: 0.5rem 0; overflow: hidden; }
         .court-main { display: flex; align-items: center; padding: 1rem; gap: 0.75rem; }
@@ -78,92 +85,81 @@
         .court-dist { text-align: right; min-width: 3.5rem; }
         .dist-num { font-family: 'Bangers', cursive; font-size: 1.5rem; color: var(--yellow); line-height: 1; }
         .dist-label { font-size: 0.6rem; color: var(--muted); }
-
         .court-slots { padding: 0 1rem 0.75rem; }
         .slots-label { font-size: 0.7rem; color: var(--muted); margin-bottom: 0.35rem; }
         .slots-grid { display: flex; flex-wrap: wrap; gap: 0.3rem; }
         .slot { font-size: 0.7rem; font-weight: 600; padding: 0.3rem 0.55rem; border-radius: 6px; text-decoration: none; transition: all 0.1s; }
         .slot-avail { background: rgba(0,204,102,0.15); color: var(--avail); border: 1px solid rgba(0,204,102,0.25); }
         .slot-avail:active { background: var(--avail); color: var(--dark); }
-        .slot-taken { background: rgba(255,68,68,0.08); color: #a66; border: 1px solid rgba(255,68,68,0.1); text-decoration: line-through; opacity: 0.5; pointer-events: none; }
         .slot-unknown { background: rgba(204,255,0,0.08); color: var(--yellow); border: 1px solid rgba(204,255,0,0.15); }
-        .slot-unknown:active { background: var(--yellow); color: var(--dark); }
-
         .court-actions { display: flex; border-top: 1px solid var(--border); }
         .court-action { flex: 1; display: flex; align-items: center; justify-content: center; gap: 0.4rem; padding: 0.65rem; font-size: 0.8rem; font-weight: 700; text-decoration: none; color: var(--text); border: none; background: none; cursor: pointer; }
         .court-action:active { background: rgba(255,255,255,0.05); }
         .court-action:first-child { border-right: 1px solid var(--border); }
         .court-action.primary { color: var(--yellow); }
-
         .no-slots { text-align: center; padding: 3rem 2rem; color: var(--muted); }
         .results-footer { text-align: center; padding: 1.5rem 1rem; font-size: 0.7rem; color: var(--muted); }
         .results-footer a { color: var(--orange); text-decoration: none; }
-        .error-msg { color: var(--red); font-size: 0.8rem; margin-top: 0.75rem; max-width: 300px; }
+        .debug-info { font-size: 0.6rem; color: var(--muted); font-style: italic; margin-top: 0.2rem; }
     </style>
 </head>
 <body>
 
-<!-- SPLASH -->
 <div id="splash">
     <div class="splash-bus">🚌</div>
     <div class="splash-title">Struggle Bus<br>Tennis</div>
     <div class="splash-sub">SF courts near <b>2072 Mission St</b></div>
 
-    <div class="api-section">
-        <div class="api-label">Firecrawl API Key (for live availability)</div>
-        <input type="password" class="api-input" id="api-key" placeholder="fc-..." autocomplete="off">
-        <div class="api-saved" id="api-saved">Saved!</div>
+    <div class="api-section" id="api-section">
+        <div class="api-label">Firecrawl API Key</div>
+        <div class="api-row">
+            <input type="password" class="api-input" id="api-key" placeholder="fc-..." autocomplete="off">
+            <button class="api-toggle" id="api-toggle" onclick="toggleApiVis()">Show</button>
+        </div>
     </div>
 
-    <button class="find-btn" id="find-btn" onclick="findCourts()">
-        🎾 Find Courts Now
-    </button>
+    <div class="date-section">
+        <div class="date-label">Pick a day</div>
+        <div class="date-pills" id="date-pills"></div>
+    </div>
+
+    <button class="find-btn" onclick="findCourts()">🎾 Find Courts</button>
     <div class="error-msg" id="splash-error"></div>
 
     <div class="splash-note">
         Scrapes <a href="https://www.rec.us/sfrecpark" target="_blank">rec.us</a> live via
-        <a href="https://firecrawl.dev" target="_blank">Firecrawl</a> to find open courts today.
-        Sorted by distance from 2072 Mission St.
+        <a href="https://firecrawl.dev" target="_blank">Firecrawl</a>.
+        Sorted by distance. Tennis only.
     </div>
 </div>
 
-<!-- LOADING -->
 <div id="loading">
     <div class="loading-balls"><span></span><span></span><span></span></div>
     <div class="loading-text" id="loading-text">Scanning courts...</div>
-    <div class="loading-sub" id="loading-sub">Firing up 29 browsers</div>
+    <div class="loading-sub" id="loading-sub"></div>
     <div class="loading-progress"><div class="loading-bar" id="loading-bar"></div></div>
     <div class="loading-status" id="loading-status">0 / 29 courts scanned</div>
 </div>
 
-<!-- RESULTS -->
 <div id="results">
     <div class="results-header">
-        <div class="results-header-left">
-            <span class="results-logo">🚌 Struggle Bus</span>
-        </div>
+        <span class="results-logo">🚌 Struggle Bus</span>
         <button class="back-btn" onclick="goBack()">Search Again</button>
     </div>
     <div class="results-info">
         <span>📅 <span class="val" id="r-date"></span></span>
-        <span>🕐 After <span class="val" id="r-time"></span></span>
-        <span>🎾 <span class="val" id="r-count"></span> with open slots</span>
+        <span>🎾 <span class="val" id="r-count"></span> with open tennis slots</span>
     </div>
     <div class="court-list" id="court-list"></div>
     <div class="results-footer">
         Live availability from <a href="https://www.rec.us/sfrecpark" target="_blank">rec.us</a> via Firecrawl.<br>
-        Green slots = open. Tap to book. $5/hr fee applies.<br><br>
+        Green = open tennis. Tap to book. $5/hr. 1.5hr slots.<br>
         The struggle is real, but the courts are open. 🎾🚌
     </div>
 </div>
 
 <script>
-// =============================================
-// STRUGGLE BUS TENNIS - Live Court Finder
-// =============================================
-
 const ORIGIN = { lat: 37.76375, lng: -122.41930 };
-
 const COURTS = [
     { name: "Alice Marble", addr: "1525 Hyde St", hood: "Russian Hill", lat: 37.7983, lng: -122.4178, n: 4, walkUp: false, slug: "alicemarble" },
     { name: "Balboa Park", addr: "San Jose Ave & Ocean Ave", hood: "Balboa Park", lat: 37.7233, lng: -122.4413, n: 3, walkUp: false, slug: "balboa" },
@@ -197,48 +193,85 @@ const COURTS = [
 ];
 
 function haversine(lat1, lng1, lat2, lng2) {
-    const R = 3958.8;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const R = 3958.8, dLat = (lat2-lat1)*Math.PI/180, dLng = (lng2-lng1)*Math.PI/180;
     const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
-
-function fmtDate(d) { return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+function fmtDateShort(d) { return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }); }
+function fmtDateLong(d) { return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }); }
 function fmtTime(d) { return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }); }
-function fmtHour(h) { const ampm = h >= 12 ? 'PM' : 'AM'; return (h % 12 || 12) + ampm; }
 function recUrl(slug) { return 'https://www.rec.us/' + slug; }
 function mapsUrl(c) {
-    const d = encodeURIComponent(c.name + ' Tennis Courts, ' + c.addr + ', San Francisco, CA');
-    return 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent('2072 Mission St, San Francisco, CA') + '&destination=' + d + '&travelmode=bicycling';
+    return 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent('2072 Mission St, San Francisco, CA') + '&destination=' + encodeURIComponent(c.name + ' Tennis, ' + c.addr + ', San Francisco, CA') + '&travelmode=bicycling';
 }
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-// =============================================
-// FIRECRAWL SCRAPING ENGINE
-// =============================================
-
+// === STATE ===
+let selectedDate = new Date();
 let scannedCount = 0;
 let totalCourts = COURTS.length;
 
+// === API KEY (persisted in localStorage, never ask again) ===
+function getApiKey() { return localStorage.getItem('sbt_firecrawl_key') || ''; }
+function setApiKey(k) { localStorage.setItem('sbt_firecrawl_key', k); }
+
+function toggleApiVis() {
+    const inp = document.getElementById('api-key');
+    const btn = document.getElementById('api-toggle');
+    if (inp.type === 'password') { inp.type = 'text'; btn.textContent = 'Hide'; }
+    else { inp.type = 'password'; btn.textContent = 'Show'; }
+}
+
+// === DATE PILLS ===
+function buildDatePills() {
+    const container = document.getElementById('date-pills');
+    const now = new Date();
+    let html = '';
+    for (let i = 0; i < 6; i++) {
+        const d = new Date(now);
+        d.setDate(d.getDate() + i);
+        const label = i === 0 ? 'Today' : i === 1 ? 'Tomorrow' : d.toLocaleDateString('en-US', { weekday: 'short' });
+        const dateStr = d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        const iso = d.toISOString().split('T')[0];
+        const active = i === 0 ? ' active' : '';
+        html += '<div class="date-pill' + active + '" data-iso="' + iso + '" onclick="pickDate(this, ' + i + ')">'
+            + '<span class="day-name">' + label + '</span>' + dateStr + '</div>';
+    }
+    container.innerHTML = html;
+}
+
+function pickDate(el, offset) {
+    document.querySelectorAll('.date-pill').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    const d = new Date();
+    d.setDate(d.getDate() + offset);
+    d.setHours(0,0,0,0);
+    selectedDate = d;
+}
+
+// === FIRECRAWL SCRAPER ===
 function updateProgress(msg) {
     scannedCount++;
     const pct = Math.round((scannedCount / totalCourts) * 100);
     const bar = document.getElementById('loading-bar');
     const status = document.getElementById('loading-status');
     if (bar) bar.style.width = pct + '%';
-    if (status) status.textContent = scannedCount + ' / ' + totalCourts + ' courts scanned' + (msg ? ' — ' + msg : '');
+    if (status) status.textContent = scannedCount + ' / ' + totalCourts + ' scanned' + (msg ? ' — ' + msg : '');
 }
 
-async function scrapeCourt(court, apiKey, isDiagnostic) {
+async function scrapeCourt(court, apiKey, targetDate) {
     const url = recUrl(court.slug);
+    const dateStr = fmtDateLong(targetDate);
     const now = new Date();
-    const todayStr = now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-    const currentTime = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    const isToday = targetDate.toDateString() === now.toDateString();
+    const currentTime = isToday ? fmtTime(now) : '7:00 AM';
+    const dayNum = targetDate.getDate();
+    const monthStr = targetDate.toLocaleDateString('en-US', { month: 'long' });
 
     try {
         const body = {
             url: url,
-            formats: isDiagnostic ? ['markdown', 'screenshot'] : ['extract', 'screenshot'],
+            formats: ['extract', 'screenshot'],
             waitFor: 5000,
             actions: [
                 { type: 'wait', milliseconds: 3000 },
@@ -250,296 +283,209 @@ async function scrapeCourt(court, apiKey, isDiagnostic) {
                 { type: 'wait', milliseconds: 2000 },
                 { type: 'screenshot', fullPage: true },
             ],
-        };
-
-        // For non-diagnostic, use LLM extract with very strict prompt
-        if (!isDiagnostic) {
-            body.extract = {
-                prompt: 'You are looking at a rec.us facility page for "' + court.name + '" in San Francisco. Today is ' + todayStr + '. Current time is ' + currentTime + '.\n\n'
-                    + 'This page may show a booking schedule with time slots for courts. Time slots on rec.us are 1.5 hours each.\n\n'
+            extract: {
+                prompt: 'You are looking at a rec.us facility page for "' + court.name + '" in San Francisco.\n\n'
+                    + 'TARGET DATE: ' + dateStr + '\n'
+                    + 'CURRENT TIME: ' + currentTime + '\n\n'
+                    + 'This page may show a booking schedule with time slots. Slots are 1.5 hours.\n\n'
                     + 'CRITICAL RULES:\n'
-                    + '1. ONLY report TENNIS time slots. Do NOT include pickleball, basketball, or any other sport.\n'
-                    + '2. ONLY report slots that are clearly AVAILABLE/OPEN/BOOKABLE. Do NOT report booked, reserved, grayed out, or taken slots.\n'
-                    + '3. ONLY report slots for TODAY (' + todayStr + '). Not tomorrow or any other date.\n'
-                    + '4. ONLY report slots that are in the FUTURE (after ' + currentTime + ').\n'
-                    + '5. The text "7:00am to 9:00pm" at the top is the facility OPERATING HOURS, not available slots. Do not report these as available.\n'
-                    + '6. If you see a schedule/calendar but ALL tennis slots appear booked/taken, return an empty array.\n'
+                    + '1. ONLY report TENNIS time slots. NEVER include pickleball, basketball, or other sports.\n'
+                    + '2. ONLY report slots clearly AVAILABLE/OPEN/BOOKABLE. NOT booked, reserved, grayed out, or taken.\n'
+                    + '3. ONLY report slots for ' + dateStr + '. Not any other date.\n'
+                    + (isToday ? '4. ONLY report FUTURE slots (after ' + currentTime + ').\n' : '4. Report all available slots for that day.\n')
+                    + '5. "7:00am to 9:00pm" at the top = facility HOURS, not available slots.\n'
+                    + '6. If ALL tennis slots are booked, return empty array.\n'
                     + '7. If you do NOT see a booking schedule with individual time slots, set page_has_schedule to false.\n'
-                    + '8. When in doubt, do NOT include a slot. False negatives are much better than false positives.\n',
+                    + '8. When in doubt, do NOT include a slot. False negatives >> false positives.\n',
                 schema: {
                     type: 'object',
                     properties: {
                         available_tennis_slots: {
                             type: 'array',
-                            description: 'ONLY open/available TENNIS (not pickleball) time slots for TODAY that are in the future. Each item is the start time exactly as shown (e.g. "7:00 PM"). Empty array if all slots are booked or no tennis schedule visible.',
+                            description: 'ONLY open/available TENNIS slots for the target date. Start times only (e.g. "7:00 PM"). Empty if all booked.',
                             items: { type: 'string' }
                         },
                         page_has_schedule: {
                             type: 'boolean',
-                            description: 'True ONLY if the page shows an actual booking calendar/schedule with individual clickable time slots. False if it just shows facility info, photos, hours, or a generic landing page.'
+                            description: 'True ONLY if page shows a booking calendar with individual time slots. False for info/landing pages.'
                         },
                         what_i_see: {
                             type: 'string',
-                            description: 'One sentence describing what the page shows.'
+                            description: 'One sentence: what does the page show?'
                         }
                     },
                     required: ['available_tennis_slots', 'page_has_schedule', 'what_i_see']
                 }
-            };
-        }
+            }
+        };
 
         const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + apiKey,
-            },
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + apiKey },
             body: JSON.stringify(body),
         });
 
         if (!resp.ok) {
-            const errText = await resp.text();
-            console.warn('Firecrawl error for ' + court.name + ':', resp.status, errText);
+            console.warn('Firecrawl error for ' + court.name + ':', resp.status);
             updateProgress(court.name + ' (error)');
-            return { court, slots: null, error: true, raw: errText };
+            return { court, slots: null, error: true };
         }
 
         const data = await resp.json();
-        const screenshot = data.data && data.data.screenshot;
-
-        if (isDiagnostic) {
-            const md = (data.data && data.data.markdown) || '';
-            console.log('=== DIAGNOSTIC: ' + court.name + ' ===');
-            console.log('Markdown:', md.substring(0, 3000));
-            if (screenshot) console.log('Screenshot:', screenshot);
-            updateProgress(court.name + ' (diagnostic)');
-            return { court, slots: null, error: false, raw: md, screenshot, diagnostic: true };
-        }
-
-        // LLM extract result
         const extract = data.data && data.data.extract;
-        console.log('=== ' + court.name + ' ===');
-        console.log('Extract:', JSON.stringify(extract, null, 2));
+        const screenshot = data.data && data.data.screenshot;
+        console.log('=== ' + court.name + ' ===', extract);
         if (screenshot) console.log('Screenshot:', screenshot);
 
         if (!extract || !extract.page_has_schedule) {
             updateProgress(court.name + ' (no schedule)');
-            return { court, slots: null, error: false, raw: extract ? extract.what_i_see : 'no extract', screenshot };
+            return { court, slots: null, error: false, debug: extract ? extract.what_i_see : '' };
         }
 
-        const currentHour = now.getHours();
-        const slots = (extract.available_tennis_slots || [])
-            .map(timeStr => {
-                const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
-                if (!m) return null;
-                let hour = parseInt(m[1]);
-                const ampm = m[3].toUpperCase();
-                if (ampm === 'PM' && hour !== 12) hour += 12;
-                if (ampm === 'AM' && hour === 12) hour = 0;
-                if (hour <= currentHour) return null;
-                return { hour, label: timeStr, status: 'available' };
-            })
-            .filter(Boolean)
-            .sort((a, b) => a.hour - b.hour);
+        const currentHour = isToday ? now.getHours() : -1;
+        const slots = (extract.available_tennis_slots || []).map(timeStr => {
+            const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
+            if (!m) return null;
+            let hour = parseInt(m[1]);
+            const ampm = m[3].toUpperCase();
+            if (ampm === 'PM' && hour !== 12) hour += 12;
+            if (ampm === 'AM' && hour === 12) hour = 0;
+            if (isToday && hour <= currentHour) return null;
+            return { hour, label: timeStr, status: 'available' };
+        }).filter(Boolean).sort((a, b) => a.hour - b.hour);
 
-        const status = slots.length > 0 ? ' (' + slots.length + ' tennis)' : ' (no tennis open)';
-        updateProgress(court.name + status);
-        return { court, slots, error: false, raw: extract.what_i_see, screenshot };
+        updateProgress(court.name + (slots.length > 0 ? ' (' + slots.length + ')' : ' (booked)'));
+        return { court, slots, error: false, debug: extract.what_i_see };
     } catch (e) {
-        console.warn('Fetch error for ' + court.name + ':', e);
+        console.warn('Error for ' + court.name + ':', e);
         updateProgress(court.name + ' (failed)');
-        return { court, slots: null, error: true, raw: e.message };
+        return { court, slots: null, error: true };
     }
 }
 
-// =============================================
-// MAIN FLOW
-// =============================================
-
-// Load saved API key
-document.addEventListener('DOMContentLoaded', function() {
-    const saved = localStorage.getItem('firecrawl_api_key');
-    if (saved) document.getElementById('api-key').value = saved;
-
-    document.getElementById('api-key').addEventListener('input', function() {
-        localStorage.setItem('firecrawl_api_key', this.value.trim());
-        const s = document.getElementById('api-saved');
-        s.style.display = 'block';
-        setTimeout(() => s.style.display = 'none', 1500);
-    });
-});
-
+// === MAIN FLOW ===
 async function findCourts() {
     const apiKey = document.getElementById('api-key').value.trim();
-    if (!apiKey) {
-        document.getElementById('splash-error').textContent = 'Please enter your Firecrawl API key above.';
+    if (!apiKey || !apiKey.startsWith('fc-')) {
+        document.getElementById('splash-error').textContent = 'Enter a valid Firecrawl API key (starts with fc-)';
         return;
     }
-    if (!apiKey.startsWith('fc-')) {
-        document.getElementById('splash-error').textContent = 'API key should start with "fc-". Get one at firecrawl.dev';
-        return;
-    }
-
+    setApiKey(apiKey);
     document.getElementById('splash-error').textContent = '';
-    localStorage.setItem('firecrawl_api_key', apiKey);
-
-    // Switch to loading screen
     document.getElementById('splash').style.display = 'none';
     document.getElementById('loading').style.display = 'flex';
     scannedCount = 0;
+    totalCourts = COURTS.length;
+    document.getElementById('loading-bar').style.width = '0%';
 
-    // Sort courts by distance first
-    const courts = COURTS.map(c => ({
-        ...c,
-        dist: haversine(ORIGIN.lat, ORIGIN.lng, c.lat, c.lng)
-    })).sort((a, b) => a.dist - b.dist);
+    const targetDate = selectedDate;
+    document.getElementById('loading-sub').textContent = 'Checking ' + fmtDateShort(targetDate) + ' on rec.us...';
 
-    // First: diagnostic scrape of the nearest court to see what Firecrawl returns
-    document.getElementById('loading-sub').textContent = 'Diagnostic: scraping ' + courts[0].name + ' first...';
-    totalCourts = courts.length + 1; // +1 for diagnostic
+    const courts = COURTS.map(c => ({ ...c, dist: haversine(ORIGIN.lat, ORIGIN.lng, c.lat, c.lng) }))
+        .sort((a, b) => a.dist - b.dist);
 
     try {
-        const diag = await scrapeCourt(courts[0], apiKey, true);
-        console.log('=== DIAGNOSTIC RESULT ===');
-        console.log('Raw markdown:', diag.raw);
-        console.log('Screenshot:', diag.screenshot);
-
-        // Store diagnostic for debug panel
-        window._diagResult = diag;
-
-        // Now scrape ALL courts
-        document.getElementById('loading-sub').textContent = 'Scraping ' + courts.length + ' courts on rec.us...';
-        const results = await Promise.all(courts.map(c => scrapeCourt(c, apiKey, false)));
-        showResults(results, diag);
+        const results = await Promise.all(courts.map(c => scrapeCourt(c, apiKey, targetDate)));
+        showResults(results, targetDate);
     } catch (e) {
-        console.error('Fatal error:', e);
         document.getElementById('loading').style.display = 'none';
         document.getElementById('splash').style.display = 'flex';
-        document.getElementById('splash-error').textContent = 'Something went wrong: ' + e.message;
+        document.getElementById('splash-error').textContent = 'Error: ' + e.message;
     }
 }
 
-function showResults(results, diag) {
+function showResults(results, targetDate) {
     document.getElementById('loading').style.display = 'none';
-    const now = new Date();
-    document.getElementById('r-date').textContent = fmtDate(now);
-    document.getElementById('r-time').textContent = fmtTime(now);
+    document.getElementById('r-date').textContent = fmtDateShort(targetDate);
 
-    // Separate: courts with available slots, courts with unknown, courts with no slots
-    const withSlots = [];
-    const unknown = [];
-    const noSlots = [];
-
+    const withSlots = [], noSchedule = [], booked = [];
     for (const r of results) {
-        const c = { ...r.court, dist: haversine(ORIGIN.lat, ORIGIN.lng, r.court.lat, r.court.lng), debug: r.raw };
-        if (r.error || r.slots === null) {
-            unknown.push({ ...c, slots: null, error: r.error });
-        } else if (r.slots.length > 0) {
-            withSlots.push({ ...c, slots: r.slots });
-        } else {
-            noSlots.push({ ...c, slots: [] });
-        }
+        const c = { ...r.court, dist: haversine(ORIGIN.lat, ORIGIN.lng, r.court.lat, r.court.lng), debug: r.debug };
+        if (r.error || r.slots === null) noSchedule.push(c);
+        else if (r.slots.length > 0) withSlots.push({ ...c, slots: r.slots });
+        else booked.push(c);
     }
-
-    // Sort each group by distance
     withSlots.sort((a, b) => a.dist - b.dist);
-    unknown.sort((a, b) => a.dist - b.dist);
-    noSlots.sort((a, b) => a.dist - b.dist);
+    noSchedule.sort((a, b) => a.dist - b.dist);
+    booked.sort((a, b) => a.dist - b.dist);
 
     document.getElementById('r-count').textContent = withSlots.length;
+    let html = '', rank = 1;
 
-    const list = document.getElementById('court-list');
-    let html = '';
-    let rank = 1;
-
-    if (withSlots.length === 0 && unknown.length === 0) {
-        html = '<div class="no-slots"><div style="font-size:3rem;margin-bottom:0.5rem">😰</div><p style="font-size:1.1rem;font-weight:700;margin-bottom:0.5rem">No open courts found</p><p>All courts appear booked for today. The struggle is very real.</p></div>';
+    if (withSlots.length === 0) {
+        html += '<div class="no-slots"><div style="font-size:3rem;margin-bottom:0.5rem">😰</div>'
+            + '<p style="font-size:1.1rem;font-weight:700;margin-bottom:0.5rem">No open tennis courts found</p>'
+            + '<p>All courts appear booked for ' + fmtDateShort(targetDate) + '. The struggle is very real.</p></div>';
     }
 
-    // Available courts
     if (withSlots.length > 0) {
-        html += '<div style="padding:0.75rem 0.5rem 0.25rem;"><span style="font-family:Bangers,cursive;font-size:1.2rem;color:var(--avail);">Open Courts (' + withSlots.length + ')</span></div>';
-        for (const c of withSlots) {
-            html += renderCourtCard(c, rank++, true);
-        }
+        html += '<div style="padding:0.75rem 0.5rem 0.25rem"><span style="font-family:Bangers,cursive;font-size:1.2rem;color:var(--avail)">Open Tennis (' + withSlots.length + ')</span></div>';
+        for (const c of withSlots) html += courtCard(c, rank++, true);
+    }
+    if (booked.length > 0) {
+        html += '<div style="padding:0.75rem 0.5rem 0.25rem;margin-top:0.5rem"><span style="font-family:Bangers,cursive;font-size:1.1rem;color:var(--red)">Fully Booked (' + booked.length + ')</span></div>';
+        for (const c of booked) html += courtCard(c, rank++, false);
+    }
+    if (noSchedule.length > 0) {
+        html += '<div style="padding:0.75rem 0.5rem 0.25rem;margin-top:0.5rem"><span style="font-family:Bangers,cursive;font-size:1.1rem;color:var(--muted)">Could Not Check (' + noSchedule.length + ')</span>'
+            + '<div style="font-size:0.7rem;color:var(--muted)">No schedule found on page — check rec.us directly</div></div>';
+        for (const c of noSchedule) html += courtCard(c, rank++, false);
     }
 
-    // Unknown courts (could not parse - link to check manually)
-    if (unknown.length > 0) {
-        html += '<div style="padding:0.75rem 0.5rem 0.25rem;margin-top:0.5rem;"><span style="font-family:Bangers,cursive;font-size:1.2rem;color:var(--yellow);">Check Manually (' + unknown.length + ')</span><div style="font-size:0.7rem;color:var(--muted);">Could not parse availability — tap to check on rec.us</div></div>';
-        for (const c of unknown) {
-            html += renderCourtCard(c, rank++, false);
-        }
-    }
-
-    // Fully booked
-    if (noSlots.length > 0) {
-        html += '<div style="padding:0.75rem 0.5rem 0.25rem;margin-top:0.5rem;"><span style="font-family:Bangers,cursive;font-size:1.2rem;color:var(--red);">Fully Booked (' + noSlots.length + ')</span></div>';
-        for (const c of noSlots) {
-            html += renderCourtCard(c, rank++, false);
-        }
-    }
-
-    // Add debug panel at the end showing what Firecrawl actually returned
-    if (diag) {
-        html += '<div style="margin-top:1rem;padding:0.75rem;background:var(--card);border:1px solid var(--border);border-radius:12px;">';
-        html += '<div style="font-family:Bangers,cursive;font-size:1rem;color:var(--orange);margin-bottom:0.5rem;">Debug: What Firecrawl sees for ' + (diag.court ? diag.court.name : 'first court') + '</div>';
-        if (diag.screenshot) {
-            html += '<div style="margin-bottom:0.5rem;"><img src="' + diag.screenshot + '" style="width:100%;border-radius:8px;border:1px solid var(--border);" alt="Screenshot of rec.us page"></div>';
-        }
-        html += '<div style="font-size:0.7rem;color:var(--muted);margin-bottom:0.25rem;">Raw markdown (first 1500 chars):</div>';
-        html += '<pre style="font-size:0.6rem;color:var(--text);background:var(--dark);padding:0.5rem;border-radius:8px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:300px;overflow-y:auto;">' + escapeHtml((diag.raw || '(empty)').substring(0, 1500)) + '</pre>';
-        html += '</div>';
-    }
-
-    list.innerHTML = html;
+    document.getElementById('court-list').innerHTML = html;
     document.getElementById('results').style.display = 'block';
     window.scrollTo(0, 0);
 }
 
-function escapeHtml(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function courtCard(c, rank, hasSlots) {
+    const slotsHtml = hasSlots && c.slots
+        ? c.slots.map(s => '<a class="slot slot-avail" href="' + recUrl(c.slug) + '" target="_blank">' + s.label + '</a>').join('')
+        : '<a class="slot slot-unknown" href="' + recUrl(c.slug) + '" target="_blank">Check rec.us</a>';
+    const debugHtml = c.debug ? '<div class="debug-info">' + escapeHtml(c.debug) + '</div>' : '';
 
-function renderCourtCard(c, rank, hasSlots) {
-    const debugHtml = (!hasSlots && c.debug) ? '<div style="font-size:0.65rem;color:var(--muted);margin-top:0.3rem;font-style:italic;">Page shows: ' + c.debug + '</div>' : '';
-    const slotsHtml = hasSlots && c.slots ? c.slots.map(s =>
-        '<a class="slot slot-avail" href="' + recUrl(c.slug) + '" target="_blank" rel="noopener">' + s.label + '</a>'
-    ).join('') : '<a class="slot slot-unknown" href="' + recUrl(c.slug) + '" target="_blank" rel="noopener">Check rec.us</a>' + debugHtml;
-
-    return '<div class="court-card">' +
-        '<div class="court-main">' +
-            '<div class="court-rank">' + rank + '</div>' +
-            '<div class="court-body">' +
-                '<div class="court-name">' + c.name + '</div>' +
-                '<div class="court-addr">' + c.addr + ' · ' + c.hood + '</div>' +
-                '<div class="court-tags">' +
-                    '<span class="tag tag-courts">' + c.n + ' court' + (c.n > 1 ? 's' : '') + '</span>' +
-                    '<span class="tag tag-fee">$5/hr</span>' +
-                    (c.walkUp ? '<span class="tag tag-walkup">walk-up ok</span>' : '') +
-                    (hasSlots ? '<span class="tag tag-live">LIVE</span>' : '') +
-                '</div>' +
-            '</div>' +
-            '<div class="court-dist">' +
-                '<div class="dist-num">' + c.dist.toFixed(1) + '</div>' +
-                '<div class="dist-label">mi away</div>' +
-            '</div>' +
-        '</div>' +
-        '<div class="court-slots">' +
-            '<div class="slots-label">' + (hasSlots ? 'Available slots — tap to book:' : '') + '</div>' +
-            '<div class="slots-grid">' + slotsHtml + '</div>' +
-        '</div>' +
-        '<div class="court-actions">' +
-            '<a class="court-action primary" href="' + recUrl(c.slug) + '" target="_blank" rel="noopener">🎾 Book on Rec</a>' +
-            '<a class="court-action" href="' + mapsUrl(c) + '" target="_blank" rel="noopener">🗺️ Directions</a>' +
-        '</div>' +
-    '</div>';
+    return '<div class="court-card"><div class="court-main">'
+        + '<div class="court-rank">' + rank + '</div>'
+        + '<div class="court-body">'
+        + '<div class="court-name">' + c.name + '</div>'
+        + '<div class="court-addr">' + c.addr + ' · ' + c.hood + '</div>'
+        + '<div class="court-tags">'
+        + '<span class="tag tag-courts">' + c.n + ' court' + (c.n>1?'s':'') + '</span>'
+        + '<span class="tag tag-fee">$5/hr</span>'
+        + (c.walkUp ? '<span class="tag tag-walkup">walk-up ok</span>' : '')
+        + (hasSlots ? '<span class="tag tag-live">LIVE</span>' : '')
+        + '</div></div>'
+        + '<div class="court-dist"><div class="dist-num">' + c.dist.toFixed(1) + '</div><div class="dist-label">mi</div></div>'
+        + '</div>'
+        + '<div class="court-slots">'
+        + (hasSlots ? '<div class="slots-label">Open tennis slots — tap to book:</div>' : '')
+        + '<div class="slots-grid">' + slotsHtml + '</div>'
+        + debugHtml
+        + '</div>'
+        + '<div class="court-actions">'
+        + '<a class="court-action primary" href="' + recUrl(c.slug) + '" target="_blank">🎾 Book on Rec</a>'
+        + '<a class="court-action" href="' + mapsUrl(c) + '" target="_blank">🗺️ Directions</a>'
+        + '</div></div>';
 }
 
 function goBack() {
     document.getElementById('results').style.display = 'none';
     document.getElementById('splash').style.display = 'flex';
 }
+
+// === INIT ===
+(function init() {
+    // Load saved API key - if saved, hide the input section
+    const saved = getApiKey();
+    const inp = document.getElementById('api-key');
+    if (saved) {
+        inp.value = saved;
+        document.getElementById('api-section').style.display = 'none';
+    }
+    inp.addEventListener('change', function() { setApiKey(this.value.trim()); });
+
+    // Build date pills
+    buildDatePills();
+})();
 </script>
 </body>
 </html>
