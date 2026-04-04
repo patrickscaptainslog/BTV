@@ -236,31 +236,65 @@ async function scrapeCourt(court, apiKey, isDiagnostic) {
     const currentTime = now.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
 
     try {
-        // Get both markdown (raw content) and screenshot
+        const body = {
+            url: url,
+            formats: isDiagnostic ? ['markdown', 'screenshot'] : ['extract', 'screenshot'],
+            waitFor: 5000,
+            actions: [
+                { type: 'wait', milliseconds: 3000 },
+                { type: 'scroll', direction: 'down' },
+                { type: 'wait', milliseconds: 1000 },
+                { type: 'scroll', direction: 'down' },
+                { type: 'wait', milliseconds: 1000 },
+                { type: 'scroll', direction: 'down' },
+                { type: 'wait', milliseconds: 2000 },
+                { type: 'screenshot', fullPage: true },
+            ],
+        };
+
+        // For non-diagnostic, use LLM extract with very strict prompt
+        if (!isDiagnostic) {
+            body.extract = {
+                prompt: 'You are looking at a rec.us facility page for "' + court.name + '" in San Francisco. Today is ' + todayStr + '. Current time is ' + currentTime + '.\n\n'
+                    + 'This page may show a booking schedule with time slots for courts. Time slots on rec.us are 1.5 hours each.\n\n'
+                    + 'CRITICAL RULES:\n'
+                    + '1. ONLY report TENNIS time slots. Do NOT include pickleball, basketball, or any other sport.\n'
+                    + '2. ONLY report slots that are clearly AVAILABLE/OPEN/BOOKABLE. Do NOT report booked, reserved, grayed out, or taken slots.\n'
+                    + '3. ONLY report slots for TODAY (' + todayStr + '). Not tomorrow or any other date.\n'
+                    + '4. ONLY report slots that are in the FUTURE (after ' + currentTime + ').\n'
+                    + '5. The text "7:00am to 9:00pm" at the top is the facility OPERATING HOURS, not available slots. Do not report these as available.\n'
+                    + '6. If you see a schedule/calendar but ALL tennis slots appear booked/taken, return an empty array.\n'
+                    + '7. If you do NOT see a booking schedule with individual time slots, set page_has_schedule to false.\n'
+                    + '8. When in doubt, do NOT include a slot. False negatives are much better than false positives.\n',
+                schema: {
+                    type: 'object',
+                    properties: {
+                        available_tennis_slots: {
+                            type: 'array',
+                            description: 'ONLY open/available TENNIS (not pickleball) time slots for TODAY that are in the future. Each item is the start time exactly as shown (e.g. "7:00 PM"). Empty array if all slots are booked or no tennis schedule visible.',
+                            items: { type: 'string' }
+                        },
+                        page_has_schedule: {
+                            type: 'boolean',
+                            description: 'True ONLY if the page shows an actual booking calendar/schedule with individual clickable time slots. False if it just shows facility info, photos, hours, or a generic landing page.'
+                        },
+                        what_i_see: {
+                            type: 'string',
+                            description: 'One sentence describing what the page shows.'
+                        }
+                    },
+                    required: ['available_tennis_slots', 'page_has_schedule', 'what_i_see']
+                }
+            };
+        }
+
         const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + apiKey,
             },
-            body: JSON.stringify({
-                url: url,
-                formats: ['markdown', 'screenshot'],
-                waitFor: 5000,
-                actions: [
-                    // Wait for React to hydrate
-                    { type: 'wait', milliseconds: 3000 },
-                    // Scroll down to reveal schedule below gallery/photos
-                    { type: 'scroll', direction: 'down' },
-                    { type: 'wait', milliseconds: 1000 },
-                    { type: 'scroll', direction: 'down' },
-                    { type: 'wait', milliseconds: 1000 },
-                    { type: 'scroll', direction: 'down' },
-                    { type: 'wait', milliseconds: 2000 },
-                    // Take full page screenshot
-                    { type: 'screenshot', fullPage: true },
-                ],
-            }),
+            body: JSON.stringify(body),
         });
 
         if (!resp.ok) {
@@ -271,74 +305,51 @@ async function scrapeCourt(court, apiKey, isDiagnostic) {
         }
 
         const data = await resp.json();
-        const md = (data.data && data.data.markdown) || '';
         const screenshot = data.data && data.data.screenshot;
 
-        console.log('=== ' + court.name + ' ===');
-        console.log('URL:', url);
-        console.log('Markdown length:', md.length);
-        console.log('Markdown (first 2000 chars):', md.substring(0, 2000));
-        if (screenshot) console.log('Screenshot:', screenshot);
-
-        // If diagnostic, return raw data for display
         if (isDiagnostic) {
+            const md = (data.data && data.data.markdown) || '';
+            console.log('=== DIAGNOSTIC: ' + court.name + ' ===');
+            console.log('Markdown:', md.substring(0, 3000));
+            if (screenshot) console.log('Screenshot:', screenshot);
             updateProgress(court.name + ' (diagnostic)');
-            return { court, slots: null, error: false, raw: md, screenshot: screenshot, diagnostic: true };
+            return { court, slots: null, error: false, raw: md, screenshot, diagnostic: true };
         }
 
-        // Parse available slots from the raw markdown
-        const slots = parseSlotsFromMarkdown(md, now);
-        updateProgress(court.name + (slots ? (slots.length > 0 ? ' (' + slots.length + ' open)' : ' (full)') : ' (?)'));
-        return { court, slots, error: false, raw: md.substring(0, 500), screenshot: screenshot };
+        // LLM extract result
+        const extract = data.data && data.data.extract;
+        console.log('=== ' + court.name + ' ===');
+        console.log('Extract:', JSON.stringify(extract, null, 2));
+        if (screenshot) console.log('Screenshot:', screenshot);
+
+        if (!extract || !extract.page_has_schedule) {
+            updateProgress(court.name + ' (no schedule)');
+            return { court, slots: null, error: false, raw: extract ? extract.what_i_see : 'no extract', screenshot };
+        }
+
+        const currentHour = now.getHours();
+        const slots = (extract.available_tennis_slots || [])
+            .map(timeStr => {
+                const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
+                if (!m) return null;
+                let hour = parseInt(m[1]);
+                const ampm = m[3].toUpperCase();
+                if (ampm === 'PM' && hour !== 12) hour += 12;
+                if (ampm === 'AM' && hour === 12) hour = 0;
+                if (hour <= currentHour) return null;
+                return { hour, label: timeStr, status: 'available' };
+            })
+            .filter(Boolean)
+            .sort((a, b) => a.hour - b.hour);
+
+        const status = slots.length > 0 ? ' (' + slots.length + ' tennis)' : ' (no tennis open)';
+        updateProgress(court.name + status);
+        return { court, slots, error: false, raw: extract.what_i_see, screenshot };
     } catch (e) {
         console.warn('Fetch error for ' + court.name + ':', e);
         updateProgress(court.name + ' (failed)');
         return { court, slots: null, error: true, raw: e.message };
     }
-}
-
-function parseSlotsFromMarkdown(md, now) {
-    if (!md || md.length < 50) return null;
-    const currentHour = now.getHours();
-
-    // Look for time slot patterns. rec.us shows available times in various formats.
-    // We look for patterns like "7:00 AM", "2:00 PM", "7:00am", etc.
-    // that appear in the context of booking/scheduling
-    const timeRegex = /(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/g;
-    const allTimes = [];
-    let match;
-    while ((match = timeRegex.exec(md)) !== null) {
-        let hour = parseInt(match[1]);
-        const min = match[2];
-        const ampm = match[3].toUpperCase();
-        if (ampm === 'PM' && hour !== 12) hour += 12;
-        if (ampm === 'AM' && hour === 12) hour = 0;
-        if (hour >= 7 && hour <= 20 && hour > currentHour) {
-            allTimes.push({ hour, label: fmtHour(hour), original: match[0] });
-        }
-    }
-
-    // Deduplicate by hour
-    const seen = new Set();
-    const unique = allTimes.filter(t => {
-        if (seen.has(t.hour)) return false;
-        seen.add(t.hour);
-        return true;
-    }).sort((a, b) => a.hour - b.hour);
-
-    // If we found times in a page that also mentions tennis/court/book/reserve,
-    // these are likely available slots
-    const hasContext = /tennis|court|book|reserve|schedule|availab/i.test(md);
-    if (unique.length > 0 && hasContext) {
-        return unique.map(t => ({ hour: t.hour, label: t.label, status: 'available' }));
-    }
-
-    // If the page has tennis content but no times, it might be fully booked
-    if (hasContext && /no availab|fully booked|sold out|no open/i.test(md)) {
-        return []; // explicitly empty = fully booked
-    }
-
-    return null; // can't determine
 }
 
 // =============================================
