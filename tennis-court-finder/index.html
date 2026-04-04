@@ -462,23 +462,35 @@ async function scrapeCourt(court, apiKey, targetDate) {
                 prompt: 'You are looking at a rec.us CALENDAR/BOOKING page for "' + court.name + '" in San Francisco.\n\n'
                     + 'TARGET DATE: ' + dateStr + '\n'
                     + 'CURRENT TIME: ' + currentTime + '\n\n'
-                    + 'This page should show a booking schedule/calendar with time slots. Each slot is 1.5 hours.\n\n'
-                    + 'CRITICAL RULES:\n'
-                    + '1. ONLY report TENNIS time slots. NEVER include pickleball, basketball, or other sports.\n'
-                    + '2. ONLY report slots that are clearly AVAILABLE/OPEN/BOOKABLE — look for "Book" buttons, green/available indicators, or clickable time slots that are NOT grayed out, crossed out, or showing "Booked"/"Reserved"/"Full".\n'
-                    + '3. ONLY report slots for ' + dateStr + '. Not any other date.\n'
-                    + (isToday ? '4. ONLY report FUTURE slots (after ' + currentTime + ').\n' : '4. Report all available slots for that day.\n')
-                    + '5. Operating hours like "7:00am to 9:00pm" are NOT available slots — ignore them.\n'
-                    + '6. If ALL tennis slots are booked/reserved, return an empty array.\n'
-                    + '7. If you do NOT see a booking calendar with individual time slots, set page_has_schedule to false.\n'
-                    + '8. When in doubt, do NOT include a slot. False negatives are better than false positives.\n',
+                    + 'This page shows a booking schedule/calendar with time slots. Each slot is 1.5 hours.\n\n'
+                    + 'IMPORTANT: Extract ALL visible time slots with their EXACT start time and sport type.\n'
+                    + 'Times may be on the hour (7:00) or half hour (4:30, 5:30). Copy the EXACT time shown — do NOT round.\n\n'
+                    + 'For EACH time slot, report:\n'
+                    + '- exact_time: The EXACT start time as displayed (e.g. "4:30 PM", "7:00 AM"). Do NOT round or approximate.\n'
+                    + '- sport: The sport name shown (e.g. "Tennis", "Pickleball", "Tennis Court", "Pickleball Court"). Copy EXACTLY.\n'
+                    + '- is_available: true if the slot is bookable/open/available (has a "Book" button, is clickable, NOT grayed out, NOT showing "Booked"/"Full"/"Reserved")\n\n'
+                    + 'RULES:\n'
+                    + '1. Extract ALL slots you see, both tennis AND pickleball — we filter programmatically.\n'
+                    + '2. ONLY slots for ' + dateStr + '.\n'
+                    + (isToday ? '3. ONLY slots after ' + currentTime + '.\n' : '3. All slots for that day.\n')
+                    + '4. Operating hours (e.g. "7:00am to 9:00pm") are NOT slots — ignore them.\n'
+                    + '5. If no booking calendar/schedule is visible, set page_has_schedule to false.\n'
+                    + '6. Copy times EXACTLY as shown. "4:30 PM" must stay "4:30 PM", not "4:00 PM".\n',
                 schema: {
                     type: 'object',
                     properties: {
-                        available_tennis_slots: {
+                        all_slots: {
                             type: 'array',
-                            description: 'ONLY open/available TENNIS slots for the target date. Start times only (e.g. "7:00 PM"). Empty if all booked.',
-                            items: { type: 'string' }
+                            description: 'ALL visible time slots on the calendar for the target date',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    exact_time: { type: 'string', description: 'Exact start time as displayed, e.g. "4:30 PM" or "7:00 AM"' },
+                                    sport: { type: 'string', description: 'Sport name exactly as shown, e.g. "Tennis", "Pickleball", "Tennis Court"' },
+                                    is_available: { type: 'boolean', description: 'True if slot can be booked (not grayed out, not "Booked"/"Full")' }
+                                },
+                                required: ['exact_time', 'sport', 'is_available']
+                            }
                         },
                         page_has_schedule: {
                             type: 'boolean',
@@ -486,10 +498,10 @@ async function scrapeCourt(court, apiKey, targetDate) {
                         },
                         what_i_see: {
                             type: 'string',
-                            description: 'One sentence: what does the page show?'
+                            description: 'One sentence: what does the page show? Mention what sports and times are visible.'
                         }
                     },
-                    required: ['available_tennis_slots', 'page_has_schedule', 'what_i_see']
+                    required: ['all_slots', 'page_has_schedule', 'what_i_see']
                 }
             }
         };
@@ -518,16 +530,31 @@ async function scrapeCourt(court, apiKey, targetDate) {
         }
 
         const currentHour = isToday ? now.getHours() : -1;
-        const slots = (extract.available_tennis_slots || []).map(timeStr => {
-            const m = timeStr.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
-            if (!m) return null;
-            let hour = parseInt(m[1]);
-            const ampm = m[3].toUpperCase();
-            if (ampm === 'PM' && hour !== 12) hour += 12;
-            if (ampm === 'AM' && hour === 12) hour = 0;
-            if (isToday && hour <= currentHour) return null;
-            return { hour, label: timeStr, status: 'available' };
-        }).filter(Boolean).sort((a, b) => a.hour - b.hour);
+        const currentMin = isToday ? now.getMinutes() : 0;
+        // Filter: only tennis, only available, parse exact times
+        const allSlots = extract.all_slots || [];
+        console.log(court.name + ' raw slots:', allSlots);
+        const slots = allSlots
+            .filter(s => {
+                // Must be available
+                if (!s.is_available) return false;
+                // Must be tennis (not pickleball, basketball, etc.)
+                const sport = (s.sport || '').toLowerCase();
+                if (sport.indexOf('tennis') === -1) return false;
+                if (sport.indexOf('pickleball') !== -1) return false;
+                return true;
+            })
+            .map(s => {
+                const m = s.exact_time.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
+                if (!m) return null;
+                let hour = parseInt(m[1]);
+                const min = parseInt(m[2]);
+                const ampm = m[3].toUpperCase();
+                if (ampm === 'PM' && hour !== 12) hour += 12;
+                if (ampm === 'AM' && hour === 12) hour = 0;
+                if (isToday && (hour < currentHour || (hour === currentHour && min <= currentMin))) return null;
+                return { hour, min, label: s.exact_time, status: 'available' };
+            }).filter(Boolean).sort((a, b) => a.hour - b.hour || a.min - b.min);
 
         updateProgress(court.name + (slots.length > 0 ? ' (' + slots.length + ')' : ' (booked)'));
         return { court: { ...court, locationId }, slots, error: false, debug: extract.what_i_see };
