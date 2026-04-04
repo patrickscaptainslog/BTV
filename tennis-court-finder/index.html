@@ -246,7 +246,20 @@ async function scrapeCourt(court, apiKey, isDiagnostic) {
             body: JSON.stringify({
                 url: url,
                 formats: ['markdown', 'screenshot'],
-                waitFor: 15000,
+                waitFor: 5000,
+                actions: [
+                    // Wait for React to hydrate
+                    { type: 'wait', milliseconds: 3000 },
+                    // Scroll down to reveal schedule below gallery/photos
+                    { type: 'scroll', direction: 'down' },
+                    { type: 'wait', milliseconds: 1000 },
+                    { type: 'scroll', direction: 'down' },
+                    { type: 'wait', milliseconds: 1000 },
+                    { type: 'scroll', direction: 'down' },
+                    { type: 'wait', milliseconds: 2000 },
+                    // Take full page screenshot
+                    { type: 'screenshot', fullPage: true },
+                ],
             }),
         });
 
