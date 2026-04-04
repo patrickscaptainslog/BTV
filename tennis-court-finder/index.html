@@ -376,23 +376,25 @@ async function scrapeCourt(court, apiKey, targetDate) {
     const isToday = targetDate.toDateString() === now.toDateString();
     const currentTime = isToday ? fmtTime(now) : '7:00 AM';
     const dayNum = targetDate.getDate();
+    const targetMonth = targetDate.getMonth(); // 0-indexed
+    const targetYear = targetDate.getFullYear();
 
     try {
         // Get locationId from cache (already discovered in batch phase)
         const locationId = getCachedLocationId(court.slug);
 
-        // Phase 2: Scrape calendar page
+        // Scrape calendar page
         const calendarUrl = locationId
             ? 'https://www.rec.us/' + court.slug + '?locationId=' + locationId + '&tab=calendar'
             : 'https://www.rec.us/' + court.slug;
 
         const body = {
             url: calendarUrl,
-            formats: ['extract', 'screenshot'],
+            formats: ['screenshot'],
             waitFor: 5000,
             actions: [
                 { type: 'wait', milliseconds: 5000 },
-                // If we didn't have locationId, try to click Calendar tab
+                // If no locationId, try to click Calendar tab
                 ...(locationId ? [] : [
                     { type: 'executeJavascript', script: `
                         (function() {
@@ -410,40 +412,43 @@ async function scrapeCourt(court, apiKey, targetDate) {
                     ` },
                     { type: 'wait', milliseconds: 4000 },
                 ]),
-                // Click "Tennis" filter to show only tennis slots
+                // Navigate to correct month if needed (click next month arrow)
                 { type: 'executeJavascript', script: `
                     (function() {
-                        var els = document.querySelectorAll('button, a, div[role="button"], span, li, div, label, input');
-                        for (var i = 0; i < els.length; i++) {
-                            var t = els[i].textContent.trim();
-                            if (t === 'Tennis' || t === 'Tennis Court' || t === 'Tennis Courts') {
-                                els[i].click(); return 'clicked Tennis filter: ' + t;
-                            }
+                        var targetMonth = ${targetMonth};
+                        var targetYear = ${targetYear};
+                        // Check current month shown in datepicker
+                        var header = document.querySelector('.react-datepicker__current-month');
+                        if (!header) return 'no datepicker header';
+                        var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+                        var shown = header.textContent.trim();
+                        var shownMonth = -1;
+                        for (var m = 0; m < 12; m++) {
+                            if (shown.indexOf(months[m]) !== -1) { shownMonth = m; break; }
                         }
-                        // Try checkboxes or radio buttons with tennis label
-                        var labels = document.querySelectorAll('label');
-                        for (var j = 0; j < labels.length; j++) {
-                            if (labels[j].textContent.trim().toLowerCase().indexOf('tennis') !== -1) {
-                                labels[j].click(); return 'clicked tennis label';
-                            }
+                        if (shownMonth === targetMonth) return 'already on correct month';
+                        // Click next month button
+                        var nextBtn = document.querySelector('.react-datepicker__navigation--next');
+                        if (nextBtn && shownMonth < targetMonth) {
+                            for (var c = 0; c < (targetMonth - shownMonth); c++) nextBtn.click();
+                            return 'navigated to month ' + targetMonth;
                         }
-                        return 'no Tennis filter found';
+                        return 'month nav not needed or failed';
                     })()
                 ` },
-                { type: 'wait', milliseconds: 3000 },
+                { type: 'wait', milliseconds: 1000 },
                 // Select target date
                 { type: 'executeJavascript', script: `
                     (function() {
                         var dayNum = ${dayNum};
-                        // react-datepicker days
                         var days = document.querySelectorAll('.react-datepicker__day');
                         for (var i = 0; i < days.length; i++) {
                             var el = days[i];
                             if (el.textContent.trim() === String(dayNum) && !el.classList.contains('react-datepicker__day--outside-month')) {
-                                el.click(); return 'clicked day ' + dayNum;
+                                el.click();
+                                return 'clicked day ' + dayNum;
                             }
                         }
-                        // Generic date cells
                         var btns = document.querySelectorAll('[data-day], [aria-label*="day"], td[role="gridcell"]');
                         for (var j = 0; j < btns.length; j++) {
                             if (btns[j].textContent.trim() === String(dayNum)) {
@@ -453,57 +458,107 @@ async function scrapeCourt(court, apiKey, targetDate) {
                         return 'no datepicker found';
                     })()
                 ` },
-                { type: 'wait', milliseconds: 3000 },
+                { type: 'wait', milliseconds: 4000 },
                 { type: 'scroll', direction: 'down' },
-                { type: 'wait', milliseconds: 1000 },
-                { type: 'screenshot', fullPage: true },
-            ],
-            extract: {
-                prompt: 'You are looking at a rec.us CALENDAR/BOOKING page for "' + court.name + '" in San Francisco.\n\n'
-                    + 'TARGET DATE: ' + dateStr + '\n'
-                    + 'CURRENT TIME: ' + currentTime + '\n\n'
-                    + 'This page shows a booking schedule/calendar with time slots. Each slot is 1.5 hours.\n\n'
-                    + 'IMPORTANT: Extract ALL visible time slots with their EXACT start time and sport type.\n'
-                    + 'Times may be on the hour (7:00) or half hour (4:30, 5:30). Copy the EXACT time shown — do NOT round.\n\n'
-                    + 'For EACH time slot, report:\n'
-                    + '- exact_time: The EXACT start time as displayed (e.g. "4:30 PM", "7:00 AM"). Do NOT round or approximate.\n'
-                    + '- sport: The sport name shown (e.g. "Tennis", "Pickleball", "Tennis Court", "Pickleball Court"). Copy EXACTLY.\n'
-                    + '- is_available: true if the slot is bookable/open/available (has a "Book" button, is clickable, NOT grayed out, NOT showing "Booked"/"Full"/"Reserved")\n\n'
-                    + 'RULES:\n'
-                    + '1. Extract ALL slots you see, both tennis AND pickleball — we filter programmatically.\n'
-                    + '2. ONLY slots for ' + dateStr + '.\n'
-                    + (isToday ? '3. ONLY slots after ' + currentTime + '.\n' : '3. All slots for that day.\n')
-                    + '4. Operating hours (e.g. "7:00am to 9:00pm") are NOT slots — ignore them.\n'
-                    + '5. If no booking calendar/schedule is visible, set page_has_schedule to false.\n'
-                    + '6. Copy times EXACTLY as shown. "4:30 PM" must stay "4:30 PM", not "4:00 PM".\n',
-                schema: {
-                    type: 'object',
-                    properties: {
-                        all_slots: {
-                            type: 'array',
-                            description: 'ALL visible time slots on the calendar for the target date',
-                            items: {
-                                type: 'object',
-                                properties: {
-                                    exact_time: { type: 'string', description: 'Exact start time as displayed, e.g. "4:30 PM" or "7:00 AM"' },
-                                    sport: { type: 'string', description: 'Sport name exactly as shown, e.g. "Tennis", "Pickleball", "Tennis Court"' },
-                                    is_available: { type: 'boolean', description: 'True if slot can be booked (not grayed out, not "Booked"/"Full")' }
-                                },
-                                required: ['exact_time', 'sport', 'is_available']
+                { type: 'wait', milliseconds: 2000 },
+                // THE KEY: scrape the DOM directly for slot data — no LLM needed
+                { type: 'executeJavascript', script: `
+                    (function() {
+                        var slots = [];
+                        var seen = {};
+
+                        // Strategy 1: Find all text nodes with time patterns, walk up to find container
+                        var timeRe = /(\\d{1,2}:\\d{2})\\s*(AM|PM|am|pm)/;
+                        var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+                        var timeEls = [];
+                        while (walker.nextNode()) {
+                            var txt = walker.currentNode.textContent.trim();
+                            if (timeRe.test(txt) && txt.length < 30) {
+                                timeEls.push({ node: walker.currentNode, text: txt });
                             }
-                        },
-                        page_has_schedule: {
-                            type: 'boolean',
-                            description: 'True ONLY if page shows a booking calendar with individual time slots. False for info/landing pages.'
-                        },
-                        what_i_see: {
-                            type: 'string',
-                            description: 'One sentence: what does the page show? Mention what sports and times are visible.'
                         }
-                    },
-                    required: ['all_slots', 'page_has_schedule', 'what_i_see']
-                }
-            }
+
+                        for (var i = 0; i < timeEls.length; i++) {
+                            var el = timeEls[i].node.parentElement;
+                            // Walk up to find the slot container (look for one that mentions sport + booking status)
+                            var container = el;
+                            for (var up = 0; up < 8 && container && container !== document.body; up++) {
+                                var ct = container.textContent || '';
+                                // Good container: has time + (sport or book/booked)
+                                if ((ct.toLowerCase().indexOf('tennis') !== -1 || ct.toLowerCase().indexOf('pickleball') !== -1 || ct.toLowerCase().indexOf('book') !== -1) && ct.length < 1000) {
+                                    break;
+                                }
+                                container = container.parentElement;
+                            }
+                            if (!container || container === document.body) continue;
+
+                            var fullText = container.textContent || '';
+                            // Skip operating hours
+                            if (fullText.indexOf('Hours') !== -1 && fullText.indexOf('to') !== -1 && fullText.length < 80) continue;
+
+                            // Extract time
+                            var tm = timeEls[i].text.match(timeRe);
+                            if (!tm) continue;
+                            var timeStr = tm[1] + ' ' + tm[2].toUpperCase();
+
+                            // Determine sport
+                            var lower = fullText.toLowerCase();
+                            var sport = 'unknown';
+                            if (lower.indexOf('pickleball') !== -1) sport = 'pickleball';
+                            else if (lower.indexOf('tennis') !== -1) sport = 'tennis';
+
+                            // Determine availability
+                            var isBooked = lower.indexOf('booked') !== -1 || lower.indexOf('full') !== -1 || lower.indexOf('reserved') !== -1 || lower.indexOf('unavailable') !== -1;
+                            var hasBook = lower.indexOf('book') !== -1 && !isBooked;
+                            // Check for disabled/grayed-out buttons
+                            var btns = container.querySelectorAll('button');
+                            var btnDisabled = false;
+                            for (var b = 0; b < btns.length; b++) {
+                                if (btns[b].disabled || btns[b].classList.contains('disabled') || btns[b].getAttribute('aria-disabled') === 'true') {
+                                    btnDisabled = true;
+                                }
+                            }
+
+                            var available = hasBook && !isBooked && !btnDisabled;
+
+                            var key = timeStr + '|' + sport;
+                            if (seen[key]) continue;
+                            seen[key] = true;
+
+                            slots.push({
+                                time: timeStr,
+                                sport: sport,
+                                available: available,
+                                snippet: fullText.substring(0, 150).replace(/\\s+/g, ' ').trim()
+                            });
+                        }
+
+                        // Strategy 2: If no slots found, try looking for card-like elements
+                        if (slots.length === 0) {
+                            var cards = document.querySelectorAll('[class*="card"], [class*="slot"], [class*="event"], [class*="booking"], [class*="schedule"], [class*="item"]');
+                            for (var c = 0; c < cards.length; c++) {
+                                var cardText = cards[c].textContent || '';
+                                var tm2 = cardText.match(timeRe);
+                                if (!tm2) continue;
+                                var timeStr2 = tm2[1] + ' ' + tm2[2].toUpperCase();
+                                var lower2 = cardText.toLowerCase();
+                                var sport2 = 'unknown';
+                                if (lower2.indexOf('pickleball') !== -1) sport2 = 'pickleball';
+                                else if (lower2.indexOf('tennis') !== -1) sport2 = 'tennis';
+                                var booked2 = lower2.indexOf('booked') !== -1 || lower2.indexOf('full') !== -1;
+                                var book2 = lower2.indexOf('book') !== -1 && !booked2;
+                                var key2 = timeStr2 + '|' + sport2;
+                                if (seen[key2]) continue;
+                                seen[key2] = true;
+                                slots.push({ time: timeStr2, sport: sport2, available: book2 && !booked2, snippet: cardText.substring(0, 150).replace(/\\s+/g, ' ').trim() });
+                            }
+                        }
+
+                        return JSON.stringify({ slots: slots, found: slots.length, url: window.location.href, title: document.title });
+                    })()
+                ` },
+                { type: 'screenshot', fullPage: true },
+            ]
         };
 
         const resp = await fetch('https://api.firecrawl.dev/v1/scrape', {
@@ -519,45 +574,53 @@ async function scrapeCourt(court, apiKey, targetDate) {
         }
 
         const data = await resp.json();
-        const extract = data.data && data.data.extract;
         const screenshot = data.data && data.data.screenshot;
-        console.log('=== ' + court.name + ' ===', { extract, calendarUrl });
+
+        // Read the DOM scrape result from the last executeJavascript action
+        var domData = null;
+        if (data.data && data.data.actions && data.data.actions.results) {
+            var actionResults = data.data.actions.results;
+            // The DOM scraper is the last executeJavascript (last-but-one action, before screenshot)
+            for (var r = actionResults.length - 1; r >= 0; r--) {
+                if (typeof actionResults[r] === 'string' && actionResults[r].indexOf('"slots"') !== -1) {
+                    try { domData = JSON.parse(actionResults[r]); } catch(e) {}
+                    break;
+                }
+            }
+        }
+
+        console.log('=== ' + court.name + ' ===', { domData, calendarUrl });
         if (screenshot) console.log('Screenshot:', screenshot);
 
-        if (!extract || !extract.page_has_schedule) {
+        if (!domData || domData.slots.length === 0) {
             updateProgress(court.name + ' (no schedule)');
-            return { court: { ...court, locationId }, slots: null, error: false, debug: extract ? extract.what_i_see : '' };
+            return { court: { ...court, locationId }, slots: null, error: false, debug: domData ? 'DOM scrape: 0 slots at ' + domData.url : 'No DOM data' };
         }
 
         const currentHour = isToday ? now.getHours() : -1;
         const currentMin = isToday ? now.getMinutes() : 0;
-        // Filter: only tennis, only available, parse exact times
-        const allSlots = extract.all_slots || [];
-        console.log(court.name + ' raw slots:', allSlots);
-        const slots = allSlots
+        // Filter: only tennis, only available
+        console.log(court.name + ' raw DOM slots:', domData.slots);
+        const slots = domData.slots
             .filter(s => {
-                // Must be available
-                if (!s.is_available) return false;
-                // Must be tennis (not pickleball, basketball, etc.)
-                const sport = (s.sport || '').toLowerCase();
-                if (sport.indexOf('tennis') === -1) return false;
-                if (sport.indexOf('pickleball') !== -1) return false;
+                if (!s.available) return false;
+                if (s.sport !== 'tennis') return false;
                 return true;
             })
             .map(s => {
-                const m = s.exact_time.match(/(\d{1,2}):(\d{2})\s*(AM|PM|am|pm)/);
+                const m = s.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/);
                 if (!m) return null;
                 let hour = parseInt(m[1]);
                 const min = parseInt(m[2]);
-                const ampm = m[3].toUpperCase();
+                const ampm = m[3];
                 if (ampm === 'PM' && hour !== 12) hour += 12;
                 if (ampm === 'AM' && hour === 12) hour = 0;
                 if (isToday && (hour < currentHour || (hour === currentHour && min <= currentMin))) return null;
-                return { hour, min, label: s.exact_time, status: 'available' };
+                return { hour, min, label: s.time, status: 'available' };
             }).filter(Boolean).sort((a, b) => a.hour - b.hour || a.min - b.min);
 
         updateProgress(court.name + (slots.length > 0 ? ' (' + slots.length + ')' : ' (booked)'));
-        return { court: { ...court, locationId }, slots, error: false, debug: extract.what_i_see };
+        return { court: { ...court, locationId }, slots, error: false, debug: domData.slots.map(s => s.time + ' ' + s.sport + (s.available ? ' OPEN' : ' booked')).join(', ') };
     } catch (e) {
         console.warn('Error for ' + court.name + ':', e);
         updateProgress(court.name + ' (failed)');
