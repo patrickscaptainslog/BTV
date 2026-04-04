@@ -2,623 +2,536 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struggle Bus Tennis - SF Court Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Struggle Bus Tennis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --tennis-yellow: #ccff00;
-            --tennis-green: #2d5016;
-            --court-clay: #cc6633;
-            --bus-orange: #ff6b35;
-            --dark-bg: #1a1a2e;
-            --card-bg: #16213e;
-            --card-border: #0f3460;
-            --text-primary: #eee;
-            --text-secondary: #aab;
-            --glow: rgba(204, 255, 0, 0.3);
+            --yellow: #ccff00;
+            --green: #2d5016;
+            --orange: #ff6b35;
+            --dark: #0f0f1a;
+            --card: #1a1a2e;
+            --border: #2a2a4a;
+            --text: #eee;
+            --muted: #889;
+            --glow: rgba(204, 255, 0, 0.25);
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            min-height: 100vh;
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--dark);
+            color: var(--text);
+            min-height: 100dvh;
             overflow-x: hidden;
         }
 
-        /* Animated tennis ball background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background:
-                radial-gradient(circle at 20% 50%, rgba(204, 255, 0, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 107, 53, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 50% 80%, rgba(204, 102, 51, 0.03) 0%, transparent 50%);
-            animation: bgPulse 8s ease-in-out infinite alternate;
-            z-index: -1;
-        }
-
-        @keyframes bgPulse {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(-2%, -2%) rotate(3deg); }
-        }
-
-        .header {
+        /* ---- SPLASH SCREEN ---- */
+        #splash {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100dvh;
+            padding: 2rem;
             text-align: center;
-            padding: 2rem 1rem 1rem;
-            position: relative;
         }
-
-        .logo {
+        .splash-bus { font-size: 5rem; animation: busRock 1.5s ease-in-out infinite; }
+        @keyframes busRock {
+            0%, 100% { transform: rotate(-5deg) translateX(-3px); }
+            50% { transform: rotate(5deg) translateX(3px); }
+        }
+        .splash-title {
             font-family: 'Bangers', cursive;
-            font-size: clamp(2.5rem, 7vw, 4.5rem);
-            color: var(--tennis-yellow);
-            text-shadow:
-                3px 3px 0 var(--tennis-green),
-                6px 6px 0 rgba(0,0,0,0.3);
-            letter-spacing: 2px;
-            animation: logoWobble 3s ease-in-out infinite;
-            display: inline-block;
+            font-size: clamp(3rem, 10vw, 5rem);
+            color: var(--yellow);
+            text-shadow: 3px 3px 0 var(--green), 6px 6px 0 rgba(0,0,0,0.4);
+            line-height: 1;
+            margin: 0.5rem 0;
         }
-
-        @keyframes logoWobble {
-            0%, 100% { transform: rotate(-1deg); }
-            50% { transform: rotate(1deg); }
-        }
-
-        .bus-icon {
-            font-size: 2.5rem;
-            display: inline-block;
-            animation: busRoll 2s ease-in-out infinite;
-            margin-right: 0.5rem;
-        }
-
-        @keyframes busRoll {
-            0%, 100% { transform: translateX(0) rotate(0deg); }
-            25% { transform: translateX(3px) rotate(2deg); }
-            75% { transform: translateX(-3px) rotate(-2deg); }
-        }
-
-        .tagline {
+        .splash-sub {
+            color: var(--muted);
             font-size: 1rem;
-            color: var(--text-secondary);
-            margin-top: 0.25rem;
+            margin-bottom: 2rem;
             font-style: italic;
         }
+        .splash-sub b { color: var(--orange); font-style: normal; }
 
-        .tagline .highlight {
-            color: var(--bus-orange);
-            font-weight: 700;
+        .find-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.1rem 2.5rem;
+            background: var(--yellow);
+            color: var(--dark);
+            font-family: 'Bangers', cursive;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.15s;
+            box-shadow: 0 0 30px var(--glow), 0 4px 15px rgba(0,0,0,0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        .find-btn:hover { transform: scale(1.05); }
+        .find-btn:active { transform: scale(0.97); }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px var(--glow), 0 4px 15px rgba(0,0,0,0.4); }
+            50% { box-shadow: 0 0 40px var(--glow), 0 4px 20px rgba(0,0,0,0.4); }
         }
 
-        .info-bar {
-            display: flex;
+        .splash-note {
+            margin-top: 1.5rem;
+            font-size: 0.75rem;
+            color: var(--muted);
+            max-width: 300px;
+        }
+        .splash-note a { color: var(--orange); text-decoration: none; }
+
+        /* ---- LOADING ---- */
+        #loading {
+            display: none;
+            flex-direction: column;
+            align-items: center;
             justify-content: center;
-            align-items: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            padding: 1rem;
-            margin: 1rem auto;
-            max-width: 700px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            border: 1px solid var(--card-border);
-        }
-
-        .info-chip {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-        }
-
-        .info-chip .icon { font-size: 1.1rem; }
-        .info-chip .value { color: var(--tennis-yellow); font-weight: 700; }
-
-        .origin-section {
+            min-height: 100dvh;
             text-align: center;
-            padding: 0.5rem 1rem;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
+            padding: 2rem;
         }
-
-        .origin-section a {
-            color: var(--bus-orange);
-            text-decoration: none;
+        .loading-balls { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .loading-balls span {
+            width: 20px; height: 20px;
+            background: var(--yellow);
+            border-radius: 50%;
+            animation: bounce 0.5s ease-in-out infinite alternate;
         }
-
-        .search-section {
-            max-width: 500px;
-            margin: 0.75rem auto;
-            padding: 0 1rem;
+        .loading-balls span:nth-child(2) { animation-delay: 0.1s; }
+        .loading-balls span:nth-child(3) { animation-delay: 0.2s; }
+        @keyframes bounce {
+            to { transform: translateY(-15px); opacity: 0.6; }
         }
-
-        .search-input {
-            width: 100%;
-            padding: 0.75rem 1rem 0.75rem 2.5rem;
-            border-radius: 10px;
-            border: 2px solid var(--card-border);
-            background: var(--card-bg);
-            color: var(--text-primary);
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: var(--tennis-yellow);
-        }
-
-        .search-wrapper {
-            position: relative;
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 1.1rem;
-        }
-
-        .courts-container {
-            max-width: 800px;
-            margin: 1rem auto;
-            padding: 0 1rem 3rem;
-        }
-
-        .section-label {
+        .loading-text {
             font-family: 'Bangers', cursive;
             font-size: 1.3rem;
-            color: var(--tennis-yellow);
-            margin-bottom: 0.75rem;
-            letter-spacing: 1px;
+            color: var(--yellow);
         }
+        .loading-sub { color: var(--muted); font-size: 0.85rem; margin-top: 0.25rem; }
 
-        .court-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 1rem 1.25rem;
-            margin-bottom: 0.75rem;
+        /* ---- RESULTS ---- */
+        #results { display: none; padding-bottom: 2rem; }
+
+        .results-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: var(--dark);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 1rem;
             display: flex;
             align-items: center;
-            gap: 1rem;
-            transition: all 0.2s;
+            justify-content: space-between;
+        }
+        .results-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .results-logo {
+            font-family: 'Bangers', cursive;
+            font-size: 1.2rem;
+            color: var(--yellow);
+        }
+        .results-meta {
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+        .back-btn {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--muted);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
             cursor: pointer;
-            position: relative;
+        }
+        .back-btn:active { background: var(--border); }
+
+        .results-info {
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+        .results-info .val { color: var(--yellow); font-weight: 700; }
+
+        .court-list { padding: 0.5rem; }
+
+        .court-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            margin: 0.5rem 0;
             overflow: hidden;
+            transition: border-color 0.15s;
         }
+        .court-card:active { border-color: var(--yellow); }
 
-        .court-card:hover {
-            border-color: var(--tennis-yellow);
-            box-shadow: 0 0 20px var(--glow);
-            transform: translateY(-2px);
-        }
-
-        .court-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--tennis-yellow);
-            border-radius: 4px 0 0 4px;
+        .court-main {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: inherit;
         }
 
         .court-rank {
             font-family: 'Bangers', cursive;
-            font-size: 1.8rem;
-            color: var(--bus-orange);
-            min-width: 2.5rem;
+            font-size: 1.6rem;
+            color: var(--orange);
+            min-width: 2rem;
             text-align: center;
         }
-
-        .court-info {
-            flex: 1;
-            min-width: 0;
-        }
-
+        .court-body { flex: 1; min-width: 0; }
         .court-name {
             font-weight: 700;
-            font-size: 1.05rem;
-            color: var(--text-primary);
+            font-size: 1rem;
+            line-height: 1.2;
             margin-bottom: 0.15rem;
         }
-
-        .court-address {
-            font-size: 0.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.3rem;
+        .court-addr {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
         }
-
-        .court-meta {
-            display: flex;
-            gap: 0.75rem;
-            flex-wrap: wrap;
-        }
-
-        .court-tag {
-            font-size: 0.72rem;
-            padding: 0.15rem 0.5rem;
+        .court-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+        .tag {
+            font-size: 0.65rem;
+            padding: 0.12rem 0.45rem;
             border-radius: 20px;
-            background: rgba(204, 255, 0, 0.1);
-            color: var(--tennis-yellow);
-            border: 1px solid rgba(204, 255, 0, 0.2);
+            font-weight: 600;
+        }
+        .tag-courts {
+            background: rgba(204,255,0,0.1);
+            color: var(--yellow);
+            border: 1px solid rgba(204,255,0,0.2);
+        }
+        .tag-fee {
+            background: rgba(255,107,53,0.1);
+            color: var(--orange);
+            border: 1px solid rgba(255,107,53,0.15);
+        }
+        .tag-walkup {
+            background: rgba(100,200,100,0.1);
+            color: #7d7;
+            border: 1px solid rgba(100,200,100,0.2);
         }
 
-        .court-tag.fee {
-            background: rgba(255, 107, 53, 0.1);
-            color: var(--bus-orange);
-            border-color: rgba(255, 107, 53, 0.2);
-        }
-
-        .court-tag.walk-up {
-            background: rgba(100, 200, 100, 0.1);
-            color: #7ddf7d;
-            border-color: rgba(100, 200, 100, 0.2);
-        }
-
-        .court-distance {
+        .court-dist {
             text-align: right;
-            min-width: 4.5rem;
+            min-width: 3.5rem;
         }
-
-        .distance-value {
+        .dist-num {
             font-family: 'Bangers', cursive;
             font-size: 1.5rem;
-            color: var(--tennis-yellow);
+            color: var(--yellow);
+            line-height: 1;
+        }
+        .dist-label {
+            font-size: 0.6rem;
+            color: var(--muted);
         }
 
-        .distance-unit {
+        .court-slots {
+            padding: 0 1rem 0.75rem;
+        }
+        .slots-label {
             font-size: 0.7rem;
-            color: var(--text-secondary);
-            display: block;
+            color: var(--muted);
+            margin-bottom: 0.35rem;
         }
-
-        .book-btn {
-            display: inline-block;
-            padding: 0.5rem 1.2rem;
-            background: var(--tennis-yellow);
-            color: var(--dark-bg);
-            font-weight: 700;
-            font-size: 0.8rem;
-            border-radius: 8px;
-            text-decoration: none;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .book-btn:hover {
-            background: #e0ff44;
-            transform: scale(1.05);
-        }
-
-        .court-right {
+        .slots-grid {
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.3rem;
         }
-
-        .loading {
-            text-align: center;
-            padding: 3rem;
-        }
-
-        .loading .ball {
-            display: inline-block;
-            width: 30px;
-            height: 30px;
-            background: var(--tennis-yellow);
-            border-radius: 50%;
-            animation: bounce 0.6s ease-in-out infinite alternate;
-        }
-
-        .loading .ball:nth-child(2) { animation-delay: 0.15s; }
-        .loading .ball:nth-child(3) { animation-delay: 0.3s; }
-
-        @keyframes bounce {
-            from { transform: translateY(0); }
-            to { transform: translateY(-20px); }
-        }
-
-        .footer {
-            text-align: center;
-            padding: 1.5rem;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            border-top: 1px solid var(--card-border);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .footer a {
-            color: var(--bus-orange);
+        .slot {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.3rem 0.55rem;
+            border-radius: 6px;
+            background: rgba(204,255,0,0.08);
+            color: var(--yellow);
+            border: 1px solid rgba(204,255,0,0.15);
             text-decoration: none;
+            transition: all 0.1s;
+        }
+        .slot:active {
+            background: var(--yellow);
+            color: var(--dark);
         }
 
-        .struggle-quote {
-            text-align: center;
-            padding: 0.75rem 1rem;
-            font-style: italic;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            max-width: 600px;
-            margin: 0 auto;
+        .court-actions {
+            display: flex;
+            border-top: 1px solid var(--border);
         }
-
-        .no-results {
-            text-align: center;
-            padding: 2rem;
-            color: var(--text-secondary);
-        }
-
-        .fee-notice {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto 1rem;
-            padding: 0.6rem 1rem;
-            background: rgba(255, 107, 53, 0.08);
-            border: 1px solid rgba(255, 107, 53, 0.2);
-            border-radius: 10px;
+        .court-action {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0.65rem;
             font-size: 0.8rem;
-            color: var(--text-secondary);
+            font-weight: 700;
+            text-decoration: none;
+            color: var(--text);
+            border: none;
+            background: none;
+            cursor: pointer;
+            transition: background 0.1s;
         }
+        .court-action:active { background: rgba(255,255,255,0.05); }
+        .court-action:first-child { border-right: 1px solid var(--border); }
+        .court-action.primary { color: var(--yellow); }
 
-        @media (max-width: 600px) {
-            .court-card { flex-wrap: wrap; }
-            .court-right {
-                flex-direction: row;
-                align-items: center;
-                width: 100%;
-                justify-content: space-between;
-                padding-top: 0.5rem;
-                border-top: 1px solid var(--card-border);
-                margin-top: 0.25rem;
-            }
-            .court-distance { text-align: left; }
+        .no-slots {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--muted);
         }
+        .no-slots-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+
+        .results-footer {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+        .results-footer a { color: var(--orange); text-decoration: none; }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">
-            <span class="bus-icon">🚌</span> Struggle Bus Tennis
+
+<!-- SPLASH -->
+<div id="splash">
+    <div class="splash-bus">🚌</div>
+    <div class="splash-title">Struggle Bus<br>Tennis</div>
+    <div class="splash-sub">SF courts near <b>2072 Mission St</b></div>
+    <button class="find-btn" onclick="findCourts()">
+        🎾 Find Courts Now
+    </button>
+    <div class="splash-note">
+        Shows today's remaining time slots at all
+        <a href="https://sfrecpark.org/1446/Reservable-Tennis-Courts" target="_blank">SF Rec Park</a>
+        reservable courts, sorted by distance. Tap a court to book on
+        <a href="https://www.rec.us/sfrecpark" target="_blank">Rec</a>.
+    </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading">
+    <div class="loading-balls"><span></span><span></span><span></span></div>
+    <div class="loading-text">Scanning courts...</div>
+    <div class="loading-sub">Checking today's remaining slots</div>
+</div>
+
+<!-- RESULTS -->
+<div id="results">
+    <div class="results-header">
+        <div class="results-header-left">
+            <span class="results-logo">🚌 Struggle Bus</span>
+            <span class="results-meta" id="results-time"></span>
         </div>
-        <div class="tagline">Finding courts so you don't have to <span class="highlight">double fault</span> on planning</div>
+        <button class="back-btn" onclick="goBack()">Search Again</button>
     </div>
-
-    <div class="info-bar">
-        <div class="info-chip">
-            <span class="icon">📅</span>
-            <span id="current-date" class="value"></span>
-        </div>
-        <div class="info-chip">
-            <span class="icon">🕐</span>
-            <span>After</span>
-            <span id="current-time" class="value"></span>
-        </div>
-        <div class="info-chip">
-            <span class="icon">📍</span>
-            <span id="court-count" class="value"></span>
-            <span>courts</span>
-        </div>
+    <div class="results-info">
+        <span>📅 <span class="val" id="r-date"></span></span>
+        <span>🕐 Slots after <span class="val" id="r-time"></span></span>
+        <span>📍 <span class="val" id="r-count"></span> courts</span>
     </div>
-
-    <div class="origin-section">
-        Sorted by distance from <strong>2072 Mission St, SF</strong> &middot;
-        <a href="https://sfrecpark.org/1446/Reservable-Tennis-Courts" target="_blank" rel="noopener">SF Rec Park Info</a>
+    <div class="court-list" id="court-list"></div>
+    <div class="results-footer">
+        Availability shown is based on standard court hours (7 AM – 9 PM).<br>
+        Tap <strong>Book on Rec</strong> to see live availability & reserve. $5/hr fee applies.<br><br>
+        Data from <a href="https://sfrecpark.org/1446/Reservable-Tennis-Courts" target="_blank">SF Rec & Park</a> &middot;
+        The struggle is real, but the courts are open. 🎾
     </div>
+</div>
 
-    <div class="struggle-quote" id="struggle-quote"></div>
+<script>
+// =============================================
+// STRUGGLE BUS TENNIS
+// =============================================
 
-    <div class="search-section">
-        <div class="search-wrapper">
-            <span class="search-icon">🎾</span>
-            <input type="text" class="search-input" id="search" placeholder="Filter courts by name or neighborhood...">
-        </div>
-    </div>
+const ORIGIN = { lat: 37.76375, lng: -122.41930 }; // 2072 Mission St
 
-    <div class="fee-notice">
-        💰 $5/hr reservation fee at select courts &middot; Reservations open 7 days ahead at 8am &middot;
-        <a href="https://www.rec.us/organizations/san-francisco-rec-park" target="_blank" rel="noopener" style="color: var(--bus-orange);">Book on Rec</a>
-    </div>
+const COURTS = [
+    { name: "Alice Marble", addr: "1525 Hyde St", hood: "Russian Hill", lat: 37.7983, lng: -122.4178, n: 4, walkUp: false, slug: "alicemarble" },
+    { name: "Balboa Park", addr: "San Jose Ave & Ocean Ave", hood: "Balboa Park", lat: 37.7233, lng: -122.4413, n: 3, walkUp: false, slug: "balboa" },
+    { name: "Buena Vista", addr: "Buena Vista Ave East", hood: "Haight-Ashbury", lat: 37.7688, lng: -122.4387, n: 3, walkUp: true, slug: "buenavista" },
+    { name: "Crocker Amazon", addr: "799 Moscow St", hood: "Crocker-Amazon", lat: 37.7108, lng: -122.4341, n: 4, walkUp: false, slug: "crockeramazon" },
+    { name: "Dolores Park", addr: "18th & Dolores St", hood: "Mission Dolores", lat: 37.7617, lng: -122.4268, n: 6, walkUp: true, slug: "dolores" },
+    { name: "DuPont", addr: "Junipero Serra & Stonecrest", hood: "Lakeside", lat: 37.7145, lng: -122.4715, n: 4, walkUp: false, slug: "dupont" },
+    { name: "Fulton Playground", addr: "25th Ave & Fulton St", hood: "Outer Richmond", lat: 37.7735, lng: -122.4837, n: 2, walkUp: false, slug: "fulton" },
+    { name: "Glen Canyon Park", addr: "Elk St & Chenery St", hood: "Glen Park", lat: 37.7390, lng: -122.4435, n: 2, walkUp: true, slug: "glencanyon" },
+    { name: "Goldman Tennis Center", addr: "Nancy Pelosi Dr, GG Park", hood: "Golden Gate Park", lat: 37.7681, lng: -122.4599, n: 16, walkUp: true, slug: "goldman" },
+    { name: "Hamilton", addr: "1900 Geary Blvd", hood: "Western Addition", lat: 37.7847, lng: -122.4340, n: 3, walkUp: false, slug: "hamilton" },
+    { name: "Helen Wills", addr: "Broadway & Larkin St", hood: "Russian Hill", lat: 37.7959, lng: -122.4174, n: 4, walkUp: false, slug: "helenwills" },
+    { name: "Jackson Playground", addr: "17th & Arkansas St", hood: "Potrero Hill", lat: 37.7647, lng: -122.3963, n: 2, walkUp: false, slug: "jackson" },
+    { name: "Joe DiMaggio", addr: "651 Lombard St", hood: "North Beach", lat: 37.8018, lng: -122.4099, n: 3, walkUp: true, slug: "joedimaggio" },
+    { name: "J.P. Murphy", addr: "1960 9th Ave", hood: "Inner Sunset", lat: 37.7558, lng: -122.4660, n: 3, walkUp: false, slug: "jpmurphy" },
+    { name: "Lafayette Park", addr: "Sacramento & Laguna St", hood: "Pacific Heights", lat: 37.7912, lng: -122.4279, n: 4, walkUp: false, slug: "lafayette" },
+    { name: "McLaren Park", addr: "100 John F Shelley Dr", hood: "McLaren Park", lat: 37.7190, lng: -122.4195, n: 3, walkUp: false, slug: "mclaren" },
+    { name: "Minnie & Lovie Ward", addr: "650 Capitol Ave", hood: "Oceanview", lat: 37.7194, lng: -122.4589, n: 2, walkUp: false, slug: "minnielovieward" },
+    { name: "Miraloma", addr: "Omar Way & Sequoia Way", hood: "Miraloma Park", lat: 37.7360, lng: -122.4462, n: 2, walkUp: false, slug: "miraloma" },
+    { name: "Moscone", addr: "1800 Chestnut St", hood: "Marina", lat: 37.8010, lng: -122.4285, n: 4, walkUp: false, slug: "moscone" },
+    { name: "Mountain Lake", addr: "12th Ave & Lake St", hood: "Inner Richmond", lat: 37.7876, lng: -122.4727, n: 2, walkUp: false, slug: "mountainlake" },
+    { name: "Parkside Square", addr: "24th Ave & Vicente St", hood: "Parkside", lat: 37.7383, lng: -122.4815, n: 2, walkUp: false, slug: "parkside" },
+    { name: "Potrero Hill", addr: "801 Arkansas St", hood: "Potrero Hill", lat: 37.7613, lng: -122.3970, n: 2, walkUp: false, slug: "potrerohill" },
+    { name: "Presidio Wall", addr: "3545 Pacific Ave", hood: "Presidio Heights", lat: 37.7907, lng: -122.4519, n: 3, walkUp: false, slug: "presidiowall" },
+    { name: "Richmond", addr: "251 18th Ave", hood: "Inner Richmond", lat: 37.7828, lng: -122.4758, n: 2, walkUp: false, slug: "richmond" },
+    { name: "Rossi Park", addr: "Arguello Blvd & Anza St", hood: "Inner Richmond", lat: 37.7800, lng: -122.4583, n: 4, walkUp: true, slug: "rossi" },
+    { name: "St. Mary's", addr: "Justin Dr & Murray St", hood: "Bernal Heights", lat: 37.7365, lng: -122.4300, n: 3, walkUp: false, slug: "stmarys" },
+    { name: "Stern Grove", addr: "19th Ave & Wawona St", hood: "Parkside", lat: 37.7366, lng: -122.4745, n: 2, walkUp: false, slug: "sterngrove" },
+    { name: "Sunset Rec", addr: "2201 Lawton St", hood: "Inner Sunset", lat: 37.7559, lng: -122.4916, n: 2, walkUp: false, slug: "sunset" },
+    { name: "Upper Noe", addr: "295 Day St", hood: "Noe Valley", lat: 37.7510, lng: -122.4345, n: 1, walkUp: false, slug: "uppernoe" },
+];
 
-    <div class="courts-container" id="courts-container">
-        <div class="loading">
-            <span class="ball"></span>
-            <span class="ball"></span>
-            <span class="ball"></span>
-        </div>
-    </div>
+// Court hours: 7 AM to 9 PM, 1-hour slots
+const FIRST_HOUR = 7;
+const LAST_HOUR = 20; // 8 PM start = last slot
 
-    <div class="footer">
-        <p>Data sourced from <a href="https://sfrecpark.org/1446/Reservable-Tennis-Courts" target="_blank" rel="noopener">SF Rec & Park</a> &middot; Book at <a href="https://www.rec.us/organizations/san-francisco-rec-park" target="_blank" rel="noopener">rec.us/sfrecpark</a></p>
-        <p style="margin-top: 0.5rem;">The struggle is real, but the courts are open. 🎾🚌</p>
-    </div>
+function haversine(lat1, lng1, lat2, lng2) {
+    const R = 3958.8;
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
 
-    <script>
-    // ==========================================
-    // STRUGGLE BUS TENNIS - SF Court Finder
-    // ==========================================
+function fmtDate(d) {
+    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+}
 
-    // Origin: 2072 Mission St, San Francisco
-    const ORIGIN = { lat: 37.76375, lng: -122.41930 };
+function fmtTime(d) {
+    return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+}
 
-    const STRUGGLE_QUOTES = [
-        "Every champion was once a beginner who refused to give up... on finding an open court.",
-        "Your backhand may be ugly, but at least you showed up.",
-        "Tennis is just angry ping pong with extra steps.",
-        "The only bad workout is the one that got rained out at an uncovered court.",
-        "Life's a struggle bus, but at least the courts are reservable now.",
-        "Double faults build character. Probably.",
-        "You miss 100% of the serves you don't toss.",
-        "The net doesn't judge your footwork.",
-        "Cardio? I thought you said court-io.",
-        "First rule of Struggle Bus Tennis: we all ride the struggle bus.",
-    ];
+function fmtHour(h) {
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hr = h % 12 || 12;
+    return `${hr}${ampm}`;
+}
 
-    // All SF Rec Park reservable tennis courts
-    // Coordinates are approximate center of each facility
-    const COURTS = [
-        { name: "Alice Marble Tennis Courts", address: "1525 Hyde St", neighborhood: "Russian Hill", lat: 37.7983, lng: -122.4178, courts: 4, fee: true, walkUp: false },
-        { name: "Balboa Park Tennis Courts", address: "San Jose Ave & Ocean Ave", neighborhood: "Balboa Park", lat: 37.7233, lng: -122.4413, courts: 3, fee: true, walkUp: false },
-        { name: "Buena Vista Park Tennis Courts", address: "Buena Vista Ave East", neighborhood: "Haight-Ashbury", lat: 37.7688, lng: -122.4387, courts: 3, fee: true, walkUp: true },
-        { name: "Crocker Amazon Tennis Courts", address: "799 Moscow St", neighborhood: "Crocker-Amazon", lat: 37.7108, lng: -122.4341, courts: 4, fee: true, walkUp: false },
-        { name: "Dolores Park Tennis Courts", address: "18th & Dolores St", neighborhood: "Mission Dolores", lat: 37.7617, lng: -122.4268, courts: 6, fee: true, walkUp: true },
-        { name: "DuPont Tennis Courts", address: "Junipero Serra Blvd & Stonecrest Dr", neighborhood: "Lakeside", lat: 37.7145, lng: -122.4715, courts: 4, fee: true, walkUp: false },
-        { name: "Fulton Playground Tennis Courts", address: "25th Ave & Fulton St", neighborhood: "Outer Richmond", lat: 37.7735, lng: -122.4837, courts: 2, fee: true, walkUp: false },
-        { name: "Glen Canyon Park Tennis Courts", address: "Elk St & Chenery St", neighborhood: "Glen Park", lat: 37.7390, lng: -122.4435, courts: 2, fee: true, walkUp: true },
-        { name: "Goldman Tennis Center", address: "Golden Gate Park, Nancy Pelosi Dr", neighborhood: "Golden Gate Park", lat: 37.7681, lng: -122.4599, courts: 16, fee: true, walkUp: true },
-        { name: "Hamilton Rec Center Tennis Courts", address: "1900 Geary Blvd", neighborhood: "Western Addition", lat: 37.7847, lng: -122.4340, courts: 3, fee: true, walkUp: false },
-        { name: "Helen Wills Tennis Courts", address: "Broadway & Larkin St", neighborhood: "Russian Hill", lat: 37.7959, lng: -122.4174, courts: 4, fee: true, walkUp: false },
-        { name: "Jackson Playground Tennis Courts", address: "17th & Arkansas St", neighborhood: "Potrero Hill", lat: 37.7647, lng: -122.3963, courts: 2, fee: true, walkUp: false },
-        { name: "Joe DiMaggio Tennis Courts", address: "651 Lombard St", neighborhood: "North Beach", lat: 37.8018, lng: -122.4099, courts: 3, fee: true, walkUp: true },
-        { name: "J.P. Murphy Tennis Courts", address: "1960 9th Ave", neighborhood: "Inner Sunset", lat: 37.7558, lng: -122.4660, courts: 3, fee: true, walkUp: false },
-        { name: "Lafayette Park Tennis Courts", address: "Sacramento St & Laguna St", neighborhood: "Pacific Heights", lat: 37.7912, lng: -122.4279, courts: 4, fee: true, walkUp: false },
-        { name: "McLaren Park Tennis Courts", address: "100 John F Shelley Dr", neighborhood: "McLaren Park", lat: 37.7190, lng: -122.4195, courts: 3, fee: true, walkUp: false },
-        { name: "Minnie & Lovie Ward Tennis Courts", address: "650 Capitol Ave", neighborhood: "Oceanview", lat: 37.7194, lng: -122.4589, courts: 2, fee: true, walkUp: false },
-        { name: "Miraloma Playground Tennis Courts", address: "Omar Way & Sequoia Way", neighborhood: "Miraloma Park", lat: 37.7360, lng: -122.4462, courts: 2, fee: true, walkUp: false },
-        { name: "Moscone Rec Center Tennis Courts", address: "1800 Chestnut St", neighborhood: "Marina", lat: 37.8010, lng: -122.4285, courts: 4, fee: true, walkUp: false },
-        { name: "Mountain Lake Park Tennis Courts", address: "12th Ave & Lake St", neighborhood: "Inner Richmond", lat: 37.7876, lng: -122.4727, courts: 2, fee: true, walkUp: false },
-        { name: "Parkside Square Tennis Courts", address: "24th Ave & Vicente St", neighborhood: "Parkside", lat: 37.7383, lng: -122.4815, courts: 2, fee: true, walkUp: false },
-        { name: "Potrero Hill Rec Center Tennis Courts", address: "801 Arkansas St", neighborhood: "Potrero Hill", lat: 37.7613, lng: -122.3970, courts: 2, fee: true, walkUp: false },
-        { name: "Presidio Wall Tennis Courts", address: "3545 Pacific Ave", neighborhood: "Presidio Heights", lat: 37.7907, lng: -122.4519, courts: 3, fee: true, walkUp: false },
-        { name: "Richmond Rec Center Tennis Courts", address: "251 18th Ave", neighborhood: "Inner Richmond", lat: 37.7828, lng: -122.4758, courts: 2, fee: true, walkUp: false },
-        { name: "Rossi Park Tennis Courts", address: "Arguello Blvd & Anza St", neighborhood: "Inner Richmond", lat: 37.7800, lng: -122.4583, courts: 4, fee: true, walkUp: true },
-        { name: "St. Mary's Rec Center Tennis Courts", address: "Justin Dr & Murray St", neighborhood: "Bernal Heights", lat: 37.7365, lng: -122.4300, courts: 3, fee: true, walkUp: false },
-        { name: "Stern Grove Tennis Courts", address: "19th Ave & Wawona St", neighborhood: "Parkside", lat: 37.7366, lng: -122.4745, courts: 2, fee: true, walkUp: false },
-        { name: "Sunset Rec Center Tennis Courts", address: "2201 Lawton St", neighborhood: "Inner Sunset", lat: 37.7559, lng: -122.4916, courts: 2, fee: true, walkUp: false },
-        { name: "Upper Noe Rec Center Tennis Court", address: "295 Day St", neighborhood: "Noe Valley", lat: 37.7510, lng: -122.4345, courts: 1, fee: true, walkUp: false },
-    ];
+function recUrl(slug) {
+    return `https://www.rec.us/${slug}`;
+}
 
-    // Haversine distance in miles
-    function distanceMiles(lat1, lng1, lat2, lng2) {
-        const R = 3958.8; // Earth radius in miles
-        const dLat = (lat2 - lat1) * Math.PI / 180;
-        const dLng = (lng2 - lng1) * Math.PI / 180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                  Math.sin(dLng/2) * Math.sin(dLng/2);
-        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c;
+function mapsUrl(court) {
+    const dest = encodeURIComponent(`${court.name} Tennis Courts, ${court.addr}, San Francisco, CA`);
+    const orig = encodeURIComponent('2072 Mission St, San Francisco, CA');
+    return `https://www.google.com/maps/dir/?api=1&origin=${orig}&destination=${dest}&travelmode=bicycling`;
+}
+
+function getRemainingSlots() {
+    const now = new Date();
+    const currentHour = now.getHours();
+    const slots = [];
+    // Next full hour onward
+    const startHour = Math.max(FIRST_HOUR, currentHour + 1);
+    for (let h = startHour; h <= LAST_HOUR; h++) {
+        slots.push(h);
+    }
+    return slots;
+}
+
+function findCourts() {
+    document.getElementById('splash').style.display = 'none';
+    document.getElementById('loading').style.display = 'flex';
+
+    // Fake a brief loading delay for UX feel
+    setTimeout(() => {
+        document.getElementById('loading').style.display = 'none';
+        showResults();
+    }, 800);
+}
+
+function showResults() {
+    const now = new Date();
+    const slots = getRemainingSlots();
+
+    document.getElementById('r-date').textContent = fmtDate(now);
+    document.getElementById('r-time').textContent = fmtTime(now);
+    document.getElementById('results-time').textContent = fmtTime(now);
+
+    // Sort courts by distance
+    const courts = COURTS.map(c => ({
+        ...c,
+        dist: haversine(ORIGIN.lat, ORIGIN.lng, c.lat, c.lng)
+    })).sort((a, b) => a.dist - b.dist);
+
+    document.getElementById('r-count').textContent = courts.length;
+
+    const list = document.getElementById('court-list');
+
+    if (slots.length === 0) {
+        list.innerHTML = `
+            <div class="no-slots">
+                <div class="no-slots-icon">🌙</div>
+                <p style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Courts are closed for the day</p>
+                <p>Court hours are 7 AM – 9 PM. Ride the struggle bus back tomorrow!</p>
+            </div>`;
+        document.getElementById('results').style.display = 'block';
+        return;
     }
 
-    function formatDate(d) {
-        const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-        const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-        return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
-    }
-
-    function formatTime(d) {
-        let h = d.getHours();
-        const m = d.getMinutes();
-        const ampm = h >= 12 ? 'PM' : 'AM';
-        h = h % 12 || 12;
-        return `${h}:${m.toString().padStart(2, '0')} ${ampm}`;
-    }
-
-    function getGoogleMapsUrl(court) {
-        const q = encodeURIComponent(`${court.name}, ${court.address}, San Francisco, CA`);
-        return `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent('2072 Mission St, San Francisco, CA')}&destination=${q}&travelmode=bicycling`;
-    }
-
-    function getRecUrl() {
-        return 'https://www.rec.us/organizations/san-francisco-rec-park';
-    }
-
-    function renderCourts(filter = '') {
-        const container = document.getElementById('courts-container');
-        const now = new Date();
-
-        // Calculate distances and sort
-        let courts = COURTS.map(c => ({
-            ...c,
-            distance: distanceMiles(ORIGIN.lat, ORIGIN.lng, c.lat, c.lng)
-        })).sort((a, b) => a.distance - b.distance);
-
-        // Apply filter
-        if (filter) {
-            const f = filter.toLowerCase();
-            courts = courts.filter(c =>
-                c.name.toLowerCase().includes(f) ||
-                c.neighborhood.toLowerCase().includes(f) ||
-                c.address.toLowerCase().includes(f)
-            );
-        }
-
-        document.getElementById('court-count').textContent = courts.length;
-
-        if (courts.length === 0) {
-            container.innerHTML = `
-                <div class="no-results">
-                    <p style="font-size: 2rem; margin-bottom: 0.5rem;">🎾</p>
-                    <p>No courts match your search. The struggle continues...</p>
-                </div>`;
-            return;
-        }
-
-        container.innerHTML = `<div class="section-label">Courts Nearest to You (${courts.length})</div>` +
-            courts.map((c, i) => `
-                <div class="court-card" onclick="window.open('${getGoogleMapsUrl(c)}', '_blank')">
-                    <div class="court-rank">${i + 1}</div>
-                    <div class="court-info">
-                        <div class="court-name">${c.name}</div>
-                        <div class="court-address">📍 ${c.address} &middot; ${c.neighborhood}</div>
-                        <div class="court-meta">
-                            <span class="court-tag">${c.courts} court${c.courts > 1 ? 's' : ''}</span>
-                            ${c.fee ? '<span class="court-tag fee">$5/hr</span>' : ''}
-                            ${c.walkUp ? '<span class="court-tag walk-up">+ walk-up</span>' : ''}
-                        </div>
-                    </div>
-                    <div class="court-right">
-                        <div class="court-distance">
-                            <span class="distance-value">${c.distance.toFixed(1)}</span>
-                            <span class="distance-unit">miles away</span>
-                        </div>
-                        <a href="${getRecUrl()}" target="_blank" rel="noopener" class="book-btn" onclick="event.stopPropagation();">Book Now</a>
+    list.innerHTML = courts.map((c, i) => `
+        <div class="court-card">
+            <div class="court-main">
+                <div class="court-rank">${i + 1}</div>
+                <div class="court-body">
+                    <div class="court-name">${c.name}</div>
+                    <div class="court-addr">${c.addr} · ${c.hood}</div>
+                    <div class="court-tags">
+                        <span class="tag tag-courts">${c.n} court${c.n > 1 ? 's' : ''}</span>
+                        <span class="tag tag-fee">$5/hr</span>
+                        ${c.walkUp ? '<span class="tag tag-walkup">walk-up ok</span>' : ''}
                     </div>
                 </div>
-            `).join('');
-    }
+                <div class="court-dist">
+                    <div class="dist-num">${c.dist.toFixed(1)}</div>
+                    <div class="dist-label">mi away</div>
+                </div>
+            </div>
+            <div class="court-slots">
+                <div class="slots-label">Remaining time slots today — tap to book:</div>
+                <div class="slots-grid">
+                    ${slots.map(h => `<a class="slot" href="${recUrl(c.slug)}" target="_blank" rel="noopener">${fmtHour(h)}</a>`).join('')}
+                </div>
+            </div>
+            <div class="court-actions">
+                <a class="court-action primary" href="${recUrl(c.slug)}" target="_blank" rel="noopener">🎾 Book on Rec</a>
+                <a class="court-action" href="${mapsUrl(c)}" target="_blank" rel="noopener">🗺️ Directions</a>
+            </div>
+        </div>
+    `).join('');
 
-    // Init
-    function init() {
-        const now = new Date();
-        document.getElementById('current-date').textContent = formatDate(now);
-        document.getElementById('current-time').textContent = formatTime(now);
+    document.getElementById('results').style.display = 'block';
+    window.scrollTo(0, 0);
+}
 
-        // Random struggle quote
-        const quote = STRUGGLE_QUOTES[Math.floor(Math.random() * STRUGGLE_QUOTES.length)];
-        document.getElementById('struggle-quote').textContent = `"${quote}"`;
-
-        renderCourts();
-
-        // Search filter
-        document.getElementById('search').addEventListener('input', (e) => {
-            renderCourts(e.target.value.trim());
-        });
-
-        // Update time every minute
-        setInterval(() => {
-            const n = new Date();
-            document.getElementById('current-time').textContent = formatTime(n);
-        }, 60000);
-    }
-
-    init();
-    </script>
+function goBack() {
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('splash').style.display = 'flex';
+}
+</script>
 </body>
 </html>
