@@ -274,13 +274,47 @@ async function scrapeCourt(court, apiKey, targetDate) {
             formats: ['extract', 'screenshot'],
             waitFor: 5000,
             actions: [
+                // Wait for React SPA to hydrate
+                { type: 'wait', milliseconds: 4000 },
+                // Click on "Tennis" sport filter - use JS since we need text matching
+                { type: 'executeJavascript', script: `
+                    // Find and click the Tennis button/link/tab
+                    const allEls = document.querySelectorAll('button, a, div[role="button"], span, li, div');
+                    for (const el of allEls) {
+                        const text = el.textContent.trim();
+                        if (text === 'Tennis' || text === 'tennis') {
+                            el.click();
+                            break;
+                        }
+                    }
+                ` },
                 { type: 'wait', milliseconds: 3000 },
+                // Try to navigate to the target date in the datepicker
+                { type: 'executeJavascript', script: `
+                    // Click the target day number in the react-datepicker
+                    const dayNum = ${dayNum};
+                    // Try react-datepicker day buttons
+                    const dayEls = document.querySelectorAll('.react-datepicker__day');
+                    for (const el of dayEls) {
+                        if (el.textContent.trim() === String(dayNum) && !el.classList.contains('react-datepicker__day--outside-month')) {
+                            el.click();
+                            break;
+                        }
+                    }
+                    // Also try any element with aria-label containing the date
+                    const dateButtons = document.querySelectorAll('[aria-label*="${monthStr}"]');
+                    for (const el of dateButtons) {
+                        if (el.textContent.trim() === String(dayNum)) {
+                            el.click();
+                            break;
+                        }
+                    }
+                ` },
+                { type: 'wait', milliseconds: 3000 },
+                // Scroll to see all time slots
                 { type: 'scroll', direction: 'down' },
                 { type: 'wait', milliseconds: 1000 },
-                { type: 'scroll', direction: 'down' },
-                { type: 'wait', milliseconds: 1000 },
-                { type: 'scroll', direction: 'down' },
-                { type: 'wait', milliseconds: 2000 },
+                // Full page screenshot
                 { type: 'screenshot', fullPage: true },
             ],
             extract: {
