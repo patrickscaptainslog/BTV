@@ -16,7 +16,11 @@ export default async function DashboardPage() {
   try {
     const rentRoll = await fetchRentRoll();
     const vacancyRows = await fetchUnitVacancy();
-    data = await buildDashboardData(rentRoll, vacancyRows);
+    if (rentRoll.length === 0) {
+      fetchError = "AppFolio returned 0 rent-roll rows. The connection works but no data came back — try Refresh.";
+    } else {
+      data = await buildDashboardData(rentRoll, vacancyRows);
+    }
   } catch (err) {
     fetchError = err instanceof Error ? err.message : String(err);
   }

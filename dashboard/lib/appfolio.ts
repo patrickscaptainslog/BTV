@@ -1,5 +1,4 @@
 import "server-only";
-import { unstable_cache } from "next/cache";
 
 function authHeader(): string {
   const id = process.env.APPFOLIO_CLIENT_ID;
@@ -14,14 +13,19 @@ function baseUrl(): string {
   return `https://${db}.appfolio.com/api/v2/reports`;
 }
 
+// AppFolio v2 response: results is a direct array of row objects,
+// and next_page_url (when present) is a TOP-LEVEL sibling of results.
 interface ReportResponse {
-  results: {
-    data: Record<string, unknown>[];
-    next_page_url?: string;
-  };
+  results: Record<string, unknown>[] | { data?: Record<string, unknown>[] };
+  next_page_url?: string;
 }
 
-async function doFetch(url: string, body: Record<string, unknown>): Promise<Response> {
+function extractRows(json: ReportResponse): Record<string, unknown>[] {
+  if (Array.isArray(json.results)) return json.results;
+  return json.results?.data ?? [];
+}
+
+async function postReport(url: string, body: Record<string, unknown>): Promise<Response> {
   const headers = {
     Authorization: authHeader(),
     "Content-Type": "application/json",
@@ -46,23 +50,20 @@ async function fetchAllPages(
 ): Promise<Record<string, unknown>[]> {
   const rows: Record<string, unknown>[] = [];
   const firstUrl = `${baseUrl()}/${reportName}.json`;
-  const body = { ...params, paginate_results: true };
 
-  let res = await doFetch(firstUrl, body);
+  let res = await postReport(firstUrl, { ...params, paginate_results: true });
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`AppFolio API ${res.status}: ${text.slice(0, 300)}`);
   }
 
-  let json = (await res.json()) as { results: Record<string, unknown>[] | { data?: Record<string, unknown>[]; next_page_url?: string } };
-  // AppFolio returns results as a direct array (not nested under .data)
-  const firstPage = Array.isArray(json.results) ? json.results : (json.results?.data ?? []);
-  rows.push(...firstPage);
+  let json = (await res.json()) as ReportResponse;
+  rows.push(...extractRows(json));
 
-  // Subsequent pages
-  const maybeNested = json.results as { next_page_url?: string };
-  let nextUrl = Array.isArray(json.results) ? null : (maybeNested?.next_page_url ?? null);
-  while (nextUrl) {
+  // next_page_url is top-level and not rate-limited per AppFolio docs
+  let nextUrl = json.next_page_url ?? null;
+  let guard = 0;
+  while (nextUrl && guard < 50) {
     res = await fetch(nextUrl, {
       method: "GET",
       headers: { Authorization: authHeader(), Accept: "application/json" },
@@ -70,8 +71,9 @@ async function fetchAllPages(
     });
     if (!res.ok) break;
     json = (await res.json()) as ReportResponse;
-    rows.push(...(json.results?.data ?? []));
-    nextUrl = json.results?.next_page_url ?? null;
+    rows.push(...extractRows(json));
+    nextUrl = json.next_page_url ?? null;
+    guard++;
   }
 
   return rows;
@@ -84,6 +86,7 @@ export async function fetchReport(
   return fetchAllPages(reportName, params);
 }
 
+// Try multiple report name candidates; only fall through on a 404
 async function fetchFirstAvailable(
   candidates: string[],
   params: Record<string, unknown> = {}
@@ -100,38 +103,45 @@ async function fetchFirstAvailable(
   throw lastError ?? new Error("No valid report found");
 }
 
-export const fetchRentRoll = unstable_cache(
-  async () => fetchFirstAvailable([
-    "rent_roll",
-    "rent_roll_detail",
-    "tenant_detail",
-    "tenant_directory",
-  ]),
-  ["appfolio-rent-roll-v3"],
-  { revalidate: 900, tags: ["appfolio"] }
-);
+// ---------------------------------------------------------------------------
+// Module-scope in-memory TTL cache.
+// Lives only for the lifetime of a warm serverless instance, so it can NEVER
+// persist a bad value across deployments (unlike unstable_cache / Data Cache).
+// Empty results are never cached — a transient empty response self-heals.
+// ---------------------------------------------------------------------------
+type CacheEntry = { at: number; rows: Record<string, unknown>[] };
+const memCache = new Map<string, CacheEntry>();
+const TTL_MS = 15 * 60 * 1000; // 15 minutes
 
-export const fetchUnitVacancy = unstable_cache(
-  async () => {
-    await new Promise((r) => setTimeout(r, 2000));
-    return fetchFirstAvailable([
-      "unit_vacancy",
-      "unit_vacancy_detail",
-      "unit_directory",
-      "vacant_unit_detail",
-    ]);
-  },
-  ["appfolio-unit-vacancy-v3"],
-  { revalidate: 900, tags: ["appfolio"] }
-);
+async function cached(
+  key: string,
+  loader: () => Promise<Record<string, unknown>[]>
+): Promise<Record<string, unknown>[]> {
+  const hit = memCache.get(key);
+  if (hit && Date.now() - hit.at < TTL_MS) return hit.rows;
+  const rows = await loader();
+  if (rows.length > 0) memCache.set(key, { at: Date.now(), rows });
+  return rows;
+}
 
-export const fetchCompletedProcesses = unstable_cache(
-  async () => {
+export function clearCache() {
+  memCache.clear();
+}
+
+export const fetchRentRoll = () =>
+  cached("rent-roll", () =>
+    fetchFirstAvailable(["rent_roll", "rent_roll_detail", "tenant_detail", "tenant_directory"]));
+
+export const fetchUnitVacancy = async () => {
+  await new Promise((r) => setTimeout(r, 2000)); // space out from rent roll fetch
+  return cached("unit-vacancy", () =>
+    fetchFirstAvailable(["unit_vacancy", "unit_vacancy_detail", "unit_directory", "vacant_unit_detail"]));
+};
+
+export const fetchCompletedProcesses = () =>
+  cached("completed-processes", () => {
     const today = new Date();
     const from = new Date(today.getTime() - 30 * 86_400_000).toISOString().slice(0, 10);
     const to = new Date(today.getTime() + 90 * 86_400_000).toISOString().slice(0, 10);
     return fetchReport("completed_processes", { from_date: from, to_date: to });
-  },
-  ["appfolio-completed-processes-v3"],
-  { revalidate: 900, tags: ["appfolio"] }
-);
+  });
