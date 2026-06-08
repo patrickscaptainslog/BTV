@@ -1,34 +1,53 @@
 import { NextResponse } from "next/server";
 
-async function post(reportName: string) {
+async function tryFetch(reportName: string, method: string, queryParams: string, body?: string) {
   const id = process.env.APPFOLIO_CLIENT_ID!;
   const secret = process.env.APPFOLIO_CLIENT_SECRET!;
   const db = process.env.APPFOLIO_DATABASE!;
   const auth = "Basic " + Buffer.from(`${id}:${secret}`).toString("base64");
-  const url = `https://${db}.appfolio.com/api/v2/reports/${reportName}.json`;
+  const url = `https://${db}.appfolio.com/api/v2/reports/${reportName}.json${queryParams}`;
 
   const res = await fetch(url, {
-    method: "POST",
-    headers: { Authorization: auth, "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify({ paginate_results: true }),
+    method,
+    headers: {
+      Authorization: auth,
+      ...(body ? { "Content-Type": "application/json" } : {}),
+      Accept: "application/json",
+    },
+    ...(body ? { body } : {}),
     cache: "no-store",
   });
 
-  if (!res.ok) return { error: `${res.status}`, columns: [], sample: null };
+  const text = await res.text();
+  if (!res.ok) return { method, queryParams, body: body ?? null, status: res.status, error: text.slice(0, 100) };
 
-  const json = await res.json() as { results?: { data?: Record<string, unknown>[] } };
-  const rows = json.results?.data ?? [];
-  const columns = rows.length > 0 ? Object.keys(rows[0]) : [];
-  const sample = rows.length > 0 ? rows[0] : null;
-
-  return { rows: rows.length, columns, sample };
+  try {
+    const json = JSON.parse(text) as { results?: { data?: Record<string, unknown>[] } };
+    const rows = json.results?.data ?? [];
+    const columns = rows.length > 0 ? Object.keys(rows[0]) : [];
+    const sample = rows.length > 0 ? rows[0] : null;
+    return { method, queryParams, body: body ?? null, status: res.status, rows: rows.length, columns, sample };
+  } catch {
+    return { method, queryParams, body: body ?? null, status: res.status, rawSnippet: text.slice(0, 200) };
+  }
 }
 
 export async function GET() {
-  await new Promise((r) => setTimeout(r, 500));
-  const rentRoll = await post("rent_roll");
-  await new Promise((r) => setTimeout(r, 3000));
-  const vacancy = await post("unit_vacancy");
+  const today = new Date().toISOString().slice(0, 10);
+  const attempts = [
+    () => tryFetch("rent_roll", "GET", "?paginate_results=true"),
+    () => tryFetch("rent_roll", "GET", ""),
+    () => tryFetch("rent_roll", "POST", "", "{}"),
+    () => tryFetch("rent_roll", "POST", "", JSON.stringify({ paginate_results: true })),
+    () => tryFetch("rent_roll", "POST", "?paginate_results=true", "{}"),
+    () => tryFetch("rent_roll", "GET", `?as_of_date=${today}`),
+  ];
 
-  return NextResponse.json({ rent_roll: rentRoll, unit_vacancy: vacancy });
+  const results = [];
+  for (const attempt of attempts) {
+    await new Promise((r) => setTimeout(r, 2500));
+    results.push(await attempt());
+  }
+
+  return NextResponse.json(results);
 }
