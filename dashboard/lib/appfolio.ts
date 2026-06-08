@@ -57,15 +57,43 @@ export async function fetchReport(
   return fetchAllPages(url, auth);
 }
 
+// Try multiple report name candidates, return first that succeeds
+async function fetchFirstAvailable(
+  candidates: string[],
+  params: Record<string, string> = {}
+): Promise<Record<string, unknown>[]> {
+  let lastError: Error | null = null;
+  for (const name of candidates) {
+    try {
+      return await fetchReport(name, params);
+    } catch (err) {
+      lastError = err instanceof Error ? err : new Error(String(err));
+      // Only try next candidate on 404
+      if (!lastError.message.includes("404")) throw lastError;
+    }
+  }
+  throw lastError ?? new Error("No valid report found");
+}
+
 // Cached fetchers — revalidate every 15 minutes
 export const fetchRentRoll = unstable_cache(
-  async () => fetchReport("rent_roll"),
+  async () => fetchFirstAvailable([
+    "tenant_detail",
+    "tenant_directory",
+    "rent_roll",
+    "current_tenant_detail",
+  ]),
   ["appfolio-rent-roll"],
   { revalidate: 900, tags: ["appfolio"] }
 );
 
 export const fetchUnitVacancy = unstable_cache(
-  async () => fetchReport("unit_vacancy"),
+  async () => fetchFirstAvailable([
+    "unit_vacancy_detail",
+    "unit_vacancy",
+    "unit_directory",
+    "vacant_unit_detail",
+  ]),
   ["appfolio-unit-vacancy"],
   { revalidate: 900, tags: ["appfolio"] }
 );
