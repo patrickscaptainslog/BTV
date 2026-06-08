@@ -60,7 +60,7 @@ export default async function DashboardPage() {
               <KpiCard
                 label="Occupancy"
                 value={`${data.occupancy.occupancy_pct}%`}
-                sub={`${data.occupancy.occupied_units} / ${data.occupancy.total_units} units`}
+                sub={`${data.occupancy.occupied_units} / ${data.occupancy.total_units} units leased`}
                 accent={data.occupancy.occupancy_pct >= 90 ? "green" : data.occupancy.occupancy_pct >= 80 ? "amber" : "red"}
               />
               <KpiCard

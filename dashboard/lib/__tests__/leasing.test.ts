@@ -30,15 +30,15 @@ const base = {
 };
 
 describe("upcomingMoveIns", () => {
-  it("returns future leases with move-in within window", () => {
+  it("returns any future move-in within window regardless of status label", () => {
     const rows = [
       { ...base, unit_id: "1", status: "Future", move_in: "2025-01-30" },
-      { ...base, unit_id: "2", status: "Future", move_in: "2025-04-01" }, // outside 60d
-      { ...base, unit_id: "3", status: "Current", move_in: "2025-01-20" }, // not future
+      { ...base, unit_id: "2", status: "Vacant Rented", move_in: "2025-02-05" }, // future tenant
+      { ...base, unit_id: "3", status: "Future", move_in: "2025-04-01" }, // outside 60d
+      { ...base, unit_id: "4", status: "Occupied", move_in: "2024-06-01" }, // past move-in
     ];
     const result = upcomingMoveIns(rows);
-    expect(result).toHaveLength(1);
-    expect(result[0].unit_id).toBe("1");
+    expect(result.map((r) => r.unit_id).sort()).toEqual(["1", "2"]);
     expect(result[0].days_until).toBe(15);
   });
 });
@@ -86,31 +86,32 @@ describe("renewalsToChase", () => {
 });
 
 describe("occupancySummary", () => {
-  it("calculates occupancy percentage", () => {
+  it("counts leased units (occupied + future tenant) toward occupancy", () => {
     const rentRoll = [
-      { ...base, unit_id: "1", unit: "101", status: "Current" },
-      { ...base, unit_id: "2", unit: "102", status: "Current" },
+      { ...base, unit: "101", status: "Occupied", tenant: "Bob" },
+      { ...base, unit: "102", status: "Vacant Rented", tenant: "Future Guy", move_in: "2025-02-01" }, // leased
+      { ...base, unit: "103", status: "Vacant", tenant: "", market_rent: "1200.00" }, // truly vacant
     ];
-    const vacancy = [
-      { unit_id: "3", property_name: "15th", unit: "103", market_rent: "1200.00" },
-    ];
-    const result = occupancySummary(rentRoll, vacancy);
-    expect(result.occupied_units).toBe(2);
+    const result = occupancySummary(rentRoll, []);
     expect(result.total_units).toBe(3);
+    expect(result.occupied_units).toBe(2); // 101 occupied + 102 future-leased
     expect(result.occupancy_pct).toBe(67);
+    expect(result.vacant_units).toHaveLength(1);
+    expect(result.vacant_units[0].unit_number).toBe("103");
   });
 
   it("calculates estimated lost rent for vacant units", () => {
-    const vacancy = [
+    const rentRoll = [
       {
-        unit_id: "1",
         property_name: "Oak Ave",
         unit: "1A",
+        status: "Vacant",
+        tenant: "",
         market_rent: "3000.00",
         move_out: "2025-01-05",
       },
     ];
-    const result = occupancySummary([], vacancy);
+    const result = occupancySummary(rentRoll, []);
     expect(result.vacant_units[0].days_vacant).toBe(10);
     expect(result.vacant_units[0].estimated_lost_rent).toBe(1000);
   });
