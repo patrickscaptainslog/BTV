@@ -31,13 +31,15 @@ async function fetchAllPages(
       cache: "no-store",
     });
 
-    // Retry once on rate limit
-    if (res.status === 429) {
-      await new Promise((r) => setTimeout(r, 5000));
+    // Retry up to 3 times on rate limit with backoff
+    let retries = 0;
+    while (res.status === 429 && retries < 3) {
+      await new Promise((r) => setTimeout(r, 8000 * (retries + 1)));
       res = await fetch(next, {
         headers: { Authorization: auth, Accept: "application/json" },
         cache: "no-store",
       });
+      retries++;
     }
 
     if (!res.ok) {
