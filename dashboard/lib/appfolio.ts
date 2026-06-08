@@ -1,13 +1,17 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 
-function baseUrl(): string {
+function authHeader(): string {
   const id = process.env.APPFOLIO_CLIENT_ID;
   const secret = process.env.APPFOLIO_CLIENT_SECRET;
+  if (!id || !secret) throw new Error("Missing APPFOLIO_CLIENT_ID or APPFOLIO_CLIENT_SECRET");
+  return "Basic " + Buffer.from(`${id}:${secret}`).toString("base64");
+}
+
+function baseUrl(): string {
   const db = process.env.APPFOLIO_DATABASE;
-  if (!id || !secret || !db) throw new Error("Missing APPFOLIO_* env vars");
-  // Credentials embedded in URL as AppFolio docs specify
-  return `https://${id}:${secret}@${db}.appfolio.com/api/v2/reports`;
+  if (!db) throw new Error("Missing APPFOLIO_DATABASE");
+  return `https://${db}.appfolio.com/api/v2/reports`;
 }
 
 interface ReportResponse {
@@ -18,23 +22,18 @@ interface ReportResponse {
 }
 
 async function doFetch(url: string, body: Record<string, unknown>): Promise<Response> {
-  let res = await fetch(url, {
-    method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "application/json" },
-    body: JSON.stringify(body),
-    cache: "no-store",
-  });
+  const headers = {
+    Authorization: authHeader(),
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  };
 
-  // Retry up to 3 times on rate limit with backoff
+  let res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body), cache: "no-store" });
+
   let retries = 0;
   while (res.status === 429 && retries < 3) {
     await new Promise((r) => setTimeout(r, 8000 * (retries + 1)));
-    res = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", Accept: "application/json" },
-      body: JSON.stringify(body),
-      cache: "no-store",
-    });
+    res = await fetch(url, { method: "POST", headers, body: JSON.stringify(body), cache: "no-store" });
     retries++;
   }
 
@@ -45,14 +44,11 @@ async function fetchAllPages(
   reportName: string,
   params: Record<string, unknown> = {}
 ): Promise<Record<string, unknown>[]> {
-  const base = baseUrl();
   const rows: Record<string, unknown>[] = [];
-
-  // First page
-  const firstUrl = `${base}/${reportName}.json`;
+  const firstUrl = `${baseUrl()}/${reportName}.json`;
   const body = { ...params, paginate_results: true };
-  let res = await doFetch(firstUrl, body);
 
+  let res = await doFetch(firstUrl, body);
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`AppFolio API ${res.status}: ${text.slice(0, 300)}`);
@@ -61,12 +57,12 @@ async function fetchAllPages(
   let json = (await res.json()) as ReportResponse;
   rows.push(...(json.results?.data ?? []));
 
-  // Subsequent pages — next_page_url is not rate-limited per docs
+  // next_page_url is not rate-limited per docs
   let nextUrl = json.results?.next_page_url ?? null;
   while (nextUrl) {
     res = await fetch(nextUrl, {
       method: "GET",
-      headers: { Accept: "application/json" },
+      headers: { Authorization: authHeader(), Accept: "application/json" },
       cache: "no-store",
     });
     if (!res.ok) break;
@@ -85,7 +81,6 @@ export async function fetchReport(
   return fetchAllPages(reportName, params);
 }
 
-// Try multiple report name candidates, return first that succeeds
 async function fetchFirstAvailable(
   candidates: string[],
   params: Record<string, unknown> = {}
@@ -96,15 +91,12 @@ async function fetchFirstAvailable(
       return await fetchReport(name, params);
     } catch (err) {
       lastError = err instanceof Error ? err : new Error(String(err));
-      // Only try next candidate on 404
       if (!lastError.message.includes("404")) throw lastError;
     }
   }
   throw lastError ?? new Error("No valid report found");
 }
 
-// Cached fetchers — revalidate every 15 minutes
-// Sequential to stay under AppFolio's 7 req/15s rate limit
 export const fetchRentRoll = unstable_cache(
   async () => fetchFirstAvailable([
     "rent_roll",
@@ -112,7 +104,7 @@ export const fetchRentRoll = unstable_cache(
     "tenant_detail",
     "tenant_directory",
   ]),
-  ["appfolio-rent-roll-v2"],
+  ["appfolio-rent-roll-v3"],
   { revalidate: 900, tags: ["appfolio"] }
 );
 
@@ -126,7 +118,7 @@ export const fetchUnitVacancy = unstable_cache(
       "vacant_unit_detail",
     ]);
   },
-  ["appfolio-unit-vacancy-v2"],
+  ["appfolio-unit-vacancy-v3"],
   { revalidate: 900, tags: ["appfolio"] }
 );
 
@@ -137,6 +129,6 @@ export const fetchCompletedProcesses = unstable_cache(
     const to = new Date(today.getTime() + 90 * 86_400_000).toISOString().slice(0, 10);
     return fetchReport("completed_processes", { from_date: from, to_date: to });
   },
-  ["appfolio-completed-processes-v2"],
+  ["appfolio-completed-processes-v3"],
   { revalidate: 900, tags: ["appfolio"] }
 );
