@@ -54,11 +54,14 @@ async function fetchAllPages(
     throw new Error(`AppFolio API ${res.status}: ${text.slice(0, 300)}`);
   }
 
-  let json = (await res.json()) as ReportResponse;
-  rows.push(...(json.results?.data ?? []));
+  let json = (await res.json()) as { results: Record<string, unknown>[] | { data?: Record<string, unknown>[]; next_page_url?: string } };
+  // AppFolio returns results as a direct array (not nested under .data)
+  const firstPage = Array.isArray(json.results) ? json.results : (json.results?.data ?? []);
+  rows.push(...firstPage);
 
-  // next_page_url is not rate-limited per docs
-  let nextUrl = json.results?.next_page_url ?? null;
+  // Subsequent pages
+  const maybeNested = json.results as { next_page_url?: string };
+  let nextUrl = Array.isArray(json.results) ? null : (maybeNested?.next_page_url ?? null);
   while (nextUrl) {
     res = await fetch(nextUrl, {
       method: "GET",

@@ -9,14 +9,13 @@ import type {
 } from "./types";
 
 // ---------------------------------------------------------------------------
-// Column name adapters
-// AppFolio column names are confirmed via scripts/check-appfolio.ts.
-// These helpers extract values tolerantly so that minor column-name variance
-// in different AppFolio tiers doesn't crash the dashboard.
+// Column name adapters — actual AppFolio column names confirmed via /api/columns
+// rent_roll columns: property_name, unit, tenant, status, lease_from, lease_to,
+//   move_in, move_out, rent, market_rent, bd_ba, unit_id, past_due
 // ---------------------------------------------------------------------------
 
 function str(row: Record<string, unknown>, ...keys: string[]): string {
-  for (const k of keys) if (row[k] != null) return String(row[k]);
+  for (const k of keys) if (row[k] != null && row[k] !== "") return String(row[k]);
   return "";
 }
 
@@ -36,9 +35,17 @@ function nullable(row: Record<string, unknown>, ...keys: string[]): string | nul
   return null;
 }
 
+function isMtm(row: Record<string, unknown>): boolean {
+  // AppFolio: lease_to is null for month-to-month leases
+  return row["lease_to"] == null || row["lease_to"] === "";
+}
+
+function unitKey(r: Record<string, unknown>): string {
+  return str(r, "property_name") + "|" + str(r, "unit");
+}
+
 // ---------------------------------------------------------------------------
 // Upcoming move-ins (next `days` days)
-// Source: rent_roll rows with status "Future" and a move_in date in window
 // ---------------------------------------------------------------------------
 export function upcomingMoveIns(
   rentRoll: Record<string, unknown>[],
@@ -46,8 +53,8 @@ export function upcomingMoveIns(
 ): MoveEvent[] {
   return rentRoll
     .filter((r) => {
-      const status = str(r, "lease_status", "status").toLowerCase();
-      const moveIn = nullable(r, "move_in", "move_in_date", "lease_start");
+      const status = str(r, "status").toLowerCase();
+      const moveIn = nullable(r, "move_in");
       return (
         (status === "future" || status === "approved") &&
         moveIn &&
@@ -55,16 +62,15 @@ export function upcomingMoveIns(
       );
     })
     .map((r) => {
-      const date =
-        nullable(r, "move_in", "move_in_date", "lease_start") ?? "";
+      const date = nullable(r, "move_in") ?? "";
       return {
-        unit_id: str(r, "unit_id", "id"),
-        property_name: str(r, "property_name", "property", "building"),
-        unit_number: str(r, "unit_number", "unit", "unit_name"),
-        tenant_name: str(r, "tenant_name", "tenant", "name"),
+        unit_id: str(r, "unit_id"),
+        property_name: str(r, "property_name"),
+        unit_number: str(r, "unit"),
+        tenant_name: str(r, "tenant"),
         date,
         days_until: date ? daysUntil(date) : 0,
-        monthly_rent: num(r, "rent", "monthly_rent", "market_rent"),
+        monthly_rent: num(r, "rent", "market_rent"),
         has_replacement: true,
       };
     })
@@ -73,20 +79,15 @@ export function upcomingMoveIns(
 
 // ---------------------------------------------------------------------------
 // Upcoming move-outs (next `days` days)
-// Source: rent_roll rows with a move_out date in window
-// has_replacement = another Future/Approved lease exists for the same unit
 // ---------------------------------------------------------------------------
 export function upcomingMoveOuts(
   rentRoll: Record<string, unknown>[],
   days = 60
 ): MoveEvent[] {
-  const unitKey = (r: Record<string, unknown>) =>
-    str(r, "property_name", "property", "building") + "|" + str(r, "unit_number", "unit", "unit_name");
-
   const futureUnits = new Set(
     rentRoll
       .filter((r) => {
-        const status = str(r, "lease_status", "status").toLowerCase();
+        const status = str(r, "status").toLowerCase();
         return status === "future" || status === "approved";
       })
       .map(unitKey)
@@ -94,8 +95,8 @@ export function upcomingMoveOuts(
 
   return rentRoll
     .filter((r) => {
-      const moveOut = nullable(r, "move_out", "move_out_date", "lease_end");
-      const status = str(r, "lease_status", "status").toLowerCase();
+      const moveOut = nullable(r, "move_out");
+      const status = str(r, "status").toLowerCase();
       return (
         moveOut &&
         withinDays(moveOut, days) &&
@@ -104,16 +105,15 @@ export function upcomingMoveOuts(
       );
     })
     .map((r) => {
-      const date =
-        nullable(r, "move_out", "move_out_date", "lease_end") ?? "";
+      const date = nullable(r, "move_out") ?? "";
       return {
-        unit_id: str(r, "unit_id", "id"),
-        property_name: str(r, "property_name", "property", "building"),
-        unit_number: str(r, "unit_number", "unit", "unit_name"),
-        tenant_name: str(r, "tenant_name", "tenant", "name"),
+        unit_id: str(r, "unit_id"),
+        property_name: str(r, "property_name"),
+        unit_number: str(r, "unit"),
+        tenant_name: str(r, "tenant"),
         date,
         days_until: date ? daysUntil(date) : 0,
-        monthly_rent: num(r, "rent", "monthly_rent"),
+        monthly_rent: num(r, "rent"),
         has_replacement: futureUnits.has(unitKey(r)),
       };
     })
@@ -122,20 +122,15 @@ export function upcomingMoveOuts(
 
 // ---------------------------------------------------------------------------
 // Renewals to chase
-// Source: rent_roll rows with active/MTM leases expiring within `days` days
-// and no future/approved lease waiting for that unit
 // ---------------------------------------------------------------------------
 export function renewalsToChase(
   rentRoll: Record<string, unknown>[],
   days = 120
 ): RenewalAlert[] {
-  const unitKey = (r: Record<string, unknown>) =>
-    str(r, "property_name", "property", "building") + "|" + str(r, "unit_number", "unit", "unit_name");
-
   const futureUnits = new Set(
     rentRoll
       .filter((r) => {
-        const status = str(r, "lease_status", "status").toLowerCase();
+        const status = str(r, "status").toLowerCase();
         return status === "future" || status === "approved";
       })
       .map(unitKey)
@@ -143,28 +138,22 @@ export function renewalsToChase(
 
   return rentRoll
     .filter((r) => {
-      const status = str(r, "lease_status", "status").toLowerCase();
-      const isCurrent = status === "current" || status === "active" || status === "month-to-month";
+      const status = str(r, "status").toLowerCase();
+      const isCurrent = status === "current" || status === "active";
       if (!isCurrent) return false;
-
-      const leaseEnd = nullable(r, "lease_end", "lease_end_date");
-      const isMtm =
-        status === "month-to-month" ||
-        str(r, "is_month_to_month", "mtm").toLowerCase() === "true";
-
-      if (isMtm) return true;
+      const mtm = isMtm(r);
+      if (mtm) return true;
+      const leaseEnd = nullable(r, "lease_to");
       return leaseEnd ? daysUntil(leaseEnd) <= days : false;
     })
     .filter((r) => !futureUnits.has(unitKey(r)))
     .map((r): RenewalAlert => {
-      const leaseEnd = nullable(r, "lease_end", "lease_end_date");
-      const isMtm =
-        str(r, "lease_status", "status").toLowerCase() === "month-to-month" ||
-        str(r, "is_month_to_month", "mtm").toLowerCase() === "true";
+      const leaseEnd = nullable(r, "lease_to");
+      const mtm = isMtm(r);
       const daysLeft = leaseEnd ? daysUntil(leaseEnd) : null;
 
       let status: RenewalAlert["status"];
-      if (isMtm) {
+      if (mtm) {
         status = "month-to-month";
       } else if (daysLeft !== null && daysLeft <= 30) {
         status = "action-needed";
@@ -173,13 +162,13 @@ export function renewalsToChase(
       }
 
       return {
-        unit_id: str(r, "unit_id", "id"),
-        property_name: str(r, "property_name", "property", "building"),
-        unit_number: str(r, "unit_number", "unit", "unit_name"),
-        tenant_name: str(r, "tenant_name", "tenant", "name"),
+        unit_id: str(r, "unit_id"),
+        property_name: str(r, "property_name"),
+        unit_number: str(r, "unit"),
+        tenant_name: str(r, "tenant"),
         lease_end: leaseEnd,
         days_until_end: daysLeft,
-        monthly_rent: num(r, "rent", "monthly_rent"),
+        monthly_rent: num(r, "rent"),
         status,
       };
     })
@@ -193,7 +182,6 @@ export function renewalsToChase(
 
 // ---------------------------------------------------------------------------
 // Occupancy summary + vacant units
-// Source: rent_roll (active leases) + unit_vacancy report
 // ---------------------------------------------------------------------------
 export function occupancySummary(
   rentRoll: Record<string, unknown>[],
@@ -202,22 +190,40 @@ export function occupancySummary(
   const occupied = new Set(
     rentRoll
       .filter((r) => {
-        const s = str(r, "lease_status", "status").toLowerCase();
-        return s === "current" || s === "active" || s === "month-to-month";
+        const s = str(r, "status").toLowerCase();
+        return s === "current" || s === "active";
       })
-      .map((r) => str(r, "unit_id", "id") + "|" + str(r, "unit_number", "unit", "unit_name"))
+      .map(unitKey)
   );
 
-  const vacantUnits: VacantUnit[] = vacancyRows.map((r) => {
-    const vacantSince = nullable(r, "vacant_since", "vacancy_start", "move_out_date");
-    const marketRent = num(r, "market_rent", "rent", "monthly_rent");
+  // Vacant units come from rent_roll rows with status "Vacant"
+  // or from the unit_vacancy report if available
+  const vacantSource = vacancyRows.length > 0 ? vacancyRows : rentRoll.filter((r) => {
+    const s = str(r, "status").toLowerCase();
+    return s === "vacant" || s === "off market" || s === "notice";
+  });
+
+  const vacantUnits: VacantUnit[] = vacantSource.map((r) => {
+    const vacantSince = nullable(r, "move_out", "vacant_since", "vacancy_start");
+    const marketRent = num(r, "market_rent", "rent");
     const daysVacant = vacantSince ? Math.max(0, -daysUntil(vacantSince)) : null;
+
+    // Parse beds/baths from "bd_ba" field like "2/1" or "--/--"
+    let beds: number | null = null;
+    let baths: number | null = null;
+    const bdBa = str(r, "bd_ba");
+    if (bdBa && bdBa !== "--/--") {
+      const parts = bdBa.split("/");
+      beds = parts[0] ? parseInt(parts[0]) : null;
+      baths = parts[1] ? parseFloat(parts[1]) : null;
+    }
+
     return {
-      unit_id: str(r, "unit_id", "id"),
-      property_name: str(r, "property_name", "property", "building"),
-      unit_number: str(r, "unit_number", "unit", "unit_name"),
-      beds: r["beds"] != null ? Number(r["beds"]) : null,
-      baths: r["baths"] != null ? Number(r["baths"]) : null,
+      unit_id: str(r, "unit_id"),
+      property_name: str(r, "property_name"),
+      unit_number: str(r, "unit", "unit_number"),
+      beds,
+      baths,
       market_rent: marketRent || null,
       days_vacant: daysVacant,
       estimated_lost_rent:
@@ -239,7 +245,6 @@ export function occupancySummary(
       ? Math.round(validVacantDays.reduce((a, b) => a + b, 0) / validVacantDays.length)
       : null;
 
-  // Expirations by month (next 12 months)
   const buckets: Record<string, ExpirationBucket> = {};
   const today = new Date();
   for (let i = 0; i < 12; i++) {
@@ -250,7 +255,7 @@ export function occupancySummary(
   }
 
   rentRoll.forEach((r) => {
-    const end = nullable(r, "lease_end", "lease_end_date");
+    const end = nullable(r, "lease_to");
     if (!end) return;
     const { key } = monthBucket(end);
     if (buckets[key]) buckets[key].count++;
