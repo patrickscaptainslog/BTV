@@ -26,10 +26,19 @@ async function fetchAllPages(
   let next: string | null = url;
 
   while (next) {
-    const res = await fetch(next, {
+    let res = await fetch(next, {
       headers: { Authorization: auth, Accept: "application/json" },
       cache: "no-store",
     });
+
+    // Retry once on rate limit
+    if (res.status === 429) {
+      await new Promise((r) => setTimeout(r, 5000));
+      res = await fetch(next, {
+        headers: { Authorization: auth, Accept: "application/json" },
+        cache: "no-store",
+      });
+    }
 
     if (!res.ok) {
       const body = await res.text();
@@ -40,8 +49,7 @@ async function fetchAllPages(
     rows.push(...(json.results?.data ?? []));
     next = json.results?.next_page_url ?? null;
 
-    // Brief pause between pages to stay well under rate limit
-    if (next) await new Promise((r) => setTimeout(r, 300));
+    if (next) await new Promise((r) => setTimeout(r, 500));
   }
 
   return rows;
@@ -76,24 +84,28 @@ async function fetchFirstAvailable(
 }
 
 // Cached fetchers — revalidate every 15 minutes
+// Sequential to stay under AppFolio's 7 req/15s rate limit
 export const fetchRentRoll = unstable_cache(
   async () => fetchFirstAvailable([
+    "rent_roll",
+    "rent_roll_detail",
     "tenant_detail",
     "tenant_directory",
-    "rent_roll",
-    "current_tenant_detail",
   ]),
   ["appfolio-rent-roll"],
   { revalidate: 900, tags: ["appfolio"] }
 );
 
 export const fetchUnitVacancy = unstable_cache(
-  async () => fetchFirstAvailable([
-    "unit_vacancy_detail",
-    "unit_vacancy",
-    "unit_directory",
-    "vacant_unit_detail",
-  ]),
+  async () => {
+    await new Promise((r) => setTimeout(r, 2000)); // space out from rent roll fetch
+    return fetchFirstAvailable([
+      "unit_vacancy",
+      "unit_vacancy_detail",
+      "unit_directory",
+      "vacant_unit_detail",
+    ]);
+  },
   ["appfolio-unit-vacancy"],
   { revalidate: 900, tags: ["appfolio"] }
 );

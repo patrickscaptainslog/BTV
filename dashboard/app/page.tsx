@@ -14,10 +14,8 @@ export default async function DashboardPage() {
   let fetchError: string | null = null;
 
   try {
-    const [rentRoll, vacancyRows] = await Promise.all([
-      fetchRentRoll(),
-      fetchUnitVacancy(),
-    ]);
+    const rentRoll = await fetchRentRoll();
+    const vacancyRows = await fetchUnitVacancy();
     data = await buildDashboardData(rentRoll, vacancyRows);
   } catch (err) {
     fetchError = err instanceof Error ? err.message : String(err);
