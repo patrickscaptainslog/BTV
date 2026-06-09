@@ -85,33 +85,33 @@ export function upcomingMoveIns(
   tenantDir: Record<string, unknown>[] = [],
   days = 60
 ): MoveEvent[] {
-  // Primary source: tenant_directory filtered to rows with a future move-in date.
-  // Unlike rent_roll, it includes full names/dates for "Vacant-Rented" units.
-  if (tenantDir.length > 0) {
-    return tenantDir
-      .filter((r) => {
-        const moveIn = nullable(r, "move_in");
-        return moveIn != null && withinDays(moveIn, days);
-      })
-      .map((r) => {
-        const date = nullable(r, "move_in") ?? "";
-        return {
-          unit_id: String(r["unit_id"] ?? ""),
-          property_name: str(r, "property_name"),
-          unit_number: str(r, "unit"),
-          tenant_name: str(r, "tenant"),
-          date,
-          days_until: date ? daysUntil(date) : 0,
-          monthly_rent: num(r, "rent"),
-          has_replacement: true,
-        };
-      })
-      .sort((a, b) => a.days_until - b.days_until);
-  }
-
-  // Fallback (no tenant_directory / test fixtures): use rent_roll date-based rows.
-  const withDate = rentRoll
+  // Source 1: tenant_directory rows with a known future move-in date.
+  // AppFolio's Reports API only returns active/notice tenants in tenant_directory —
+  // future tenants for Vacant-Rented units are NOT present, so this is usually empty.
+  const fromDir = tenantDir
     .filter((r) => {
+      const moveIn = nullable(r, "move_in");
+      return moveIn != null && withinDays(moveIn, days);
+    })
+    .map((r) => {
+      const date = nullable(r, "move_in") ?? "";
+      return {
+        unit_id: String(r["unit_id"] ?? ""),
+        property_name: str(r, "property_name"),
+        unit_number: str(r, "unit"),
+        tenant_name: str(r, "tenant"),
+        date,
+        days_until: date ? daysUntil(date) : 0,
+        monthly_rent: num(r, "rent"),
+        has_replacement: true,
+      };
+    });
+
+  // Source 2: rent_roll rows with a future date (test fixtures + fallback).
+  const coveredKeys = new Set(fromDir.map((m) => m.property_name + "|" + m.unit_number));
+  const fromRentRoll = rentRoll
+    .filter((r) => {
+      if (coveredKeys.has(unitKey(r))) return false;
       const moveIn = nullable(r, "move_in", "lease_from");
       return moveIn != null && withinDays(moveIn, days);
     })
@@ -129,10 +129,12 @@ export function upcomingMoveIns(
       };
     });
 
-  // Add Vacant-Rented placeholders for any unit not already covered by a date row.
-  const withDateKeys = new Set(withDate.map((m) => m.property_name + "|" + m.unit_number));
-  const pending = rentRoll
-    .filter((r) => statusOf(r) === "vacant-rented" && !withDateKeys.has(unitKey(r)))
+  // Source 3: Vacant-Rented units not covered above.
+  // AppFolio signed a lease but exposes zero tenant details via the Reports API.
+  // Show the unit so the count is correct; dates/names require checking AppFolio directly.
+  const allKeys = new Set([...fromDir, ...fromRentRoll].map((m) => m.property_name + "|" + m.unit_number));
+  const vacantRented = rentRoll
+    .filter((r) => statusOf(r) === "vacant-rented" && !allKeys.has(unitKey(r)))
     .map((r): MoveEvent => ({
       unit_id: str(r, "unit_id"),
       property_name: str(r, "property_name"),
@@ -144,7 +146,7 @@ export function upcomingMoveIns(
       has_replacement: true,
     }));
 
-  return [...withDate, ...pending].sort((a, b) => a.days_until - b.days_until);
+  return [...fromDir, ...fromRentRoll, ...vacantRented].sort((a, b) => a.days_until - b.days_until);
 }
 
 // ---------------------------------------------------------------------------
