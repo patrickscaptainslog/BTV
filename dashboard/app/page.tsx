@@ -74,7 +74,7 @@ export default async function DashboardPage() {
                 accent={data.move_ins.length > 0 ? "green" : "default"}
               />
               <KpiCard
-                label="Move-Outs (60d)"
+                label="Move-Outs (90d)"
                 value={data.move_outs.length}
                 accent={data.move_outs.filter(m => !m.has_replacement).length > 0 ? "amber" : "default"}
               />
@@ -162,7 +162,7 @@ export default async function DashboardPage() {
 
             {/* Move-Outs */}
             <section className="bg-white rounded-xl border border-slate-200 p-5">
-              <SectionHeader title="Upcoming Move-Outs" count={data.move_outs.length} />
+              <SectionHeader title="Upcoming Move-Outs (90d)" count={data.move_outs.length} />
               {data.move_outs.length === 0 ? (
                 <p className="text-sm text-slate-400">No move-outs in the next 60 days.</p>
               ) : (

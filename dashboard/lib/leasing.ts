@@ -167,7 +167,7 @@ export function upcomingMoveIns(
 // ---------------------------------------------------------------------------
 export function upcomingMoveOuts(
   rentRoll: Record<string, unknown>[],
-  days = 60
+  days = 90
 ): MoveEvent[] {
   // Units that have a future tenant lined up (used to flag replacements)
   const futureUnits = new Set(rentRoll.filter(isFutureTenant).map(unitKey));
