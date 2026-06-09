@@ -3,70 +3,50 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-// Probe whether rent_roll accepts a future date parameter.
-// AppFolio often uses "as_of_date" for point-in-time rent rolls.
+// Try every plausible date-parameter name for AppFolio's rent_roll report.
+// We know as_of_date is accepted (no 400) but silently ignored.
 export async function GET() {
   clearCache();
 
-  const today = new Date();
-  const todayStr = today.toISOString().slice(0, 10);
-  const in30 = new Date(today.getTime() + 30 * 86400000).toISOString().slice(0, 10);
-  const in60 = new Date(today.getTime() + 60 * 86400000).toISOString().slice(0, 10);
-  const in90 = new Date(today.getTime() + 90 * 86400000).toISOString().slice(0, 10);
+  const in90 = new Date(Date.now() + 90 * 86400000).toISOString().slice(0, 10);
+  // also try MM/DD/YYYY format
+  const [y, m, d] = in90.split("-");
+  const in90_us = `${m}/${d}/${y}`;
 
-  // Fetch today's roll first
-  const currentRoll = await fetchReport("rent_roll");
-  await new Promise((r) => setTimeout(r, 2500));
+  const PARAM_VARIANTS = [
+    { as_of: in90 },
+    { report_date: in90 },
+    { date: in90 },
+    { target_date: in90 },
+    { period_end_date: in90 },
+    { period_date: in90 },
+    { end_date: in90 },
+    { as_of_date: in90_us },             // MM/DD/YYYY format
+    { report_date: in90_us },
+    { from_date: in90, to_date: in90 },  // range collapsed to single day
+  ];
 
-  // Try future date with as_of_date param
-  let futureRoll: Record<string, unknown>[] = [];
-  let futureError = "";
-  try {
-    futureRoll = await fetchReport("rent_roll", { as_of_date: in60 });
-  } catch (e) {
-    futureError = e instanceof Error ? e.message.slice(0, 200) : String(e);
+  const results: Record<string, unknown>[] = [];
+  for (const params of PARAM_VARIANTS) {
+    await new Promise((r) => setTimeout(r, 2200));
+    try {
+      const rows = await fetchReport("rent_roll", params);
+      const statuses: Record<string, number> = {};
+      for (const r of rows) {
+        const s = String(r["status"] ?? "(none)");
+        statuses[s] = (statuses[s] ?? 0) + 1;
+      }
+      // Detect any "Current" rows with future move_in — that's success
+      const futureCurrentRows = rows.filter((r) => {
+        const mi = String(r["move_in"] ?? "");
+        return String(r["status"]).toLowerCase() === "current" && mi >= in90.slice(0, 7);
+      }).map((r) => ({ tenant: r["tenant"], unit: r["unit"], move_in: r["move_in"] }));
+
+      results.push({ params, total: rows.length, statuses, future_current_rows: futureCurrentRows });
+    } catch (e) {
+      results.push({ params, error: e instanceof Error ? e.message.slice(0, 150) : String(e) });
+    }
   }
 
-  // Status counts for each roll
-  const countStatuses = (rows: Record<string, unknown>[]) => {
-    const counts: Record<string, number> = {};
-    for (const r of rows) {
-      const s = String(r["status"] ?? "(none)");
-      counts[s] = (counts[s] ?? 0) + 1;
-    }
-    return counts;
-  };
-
-  // Rows that differ between current and future (potential move-ins)
-  const currentByUnit = new Map(currentRoll.map((r) => [
-    String(r["property_name"]) + "|" + String(r["unit"]), r
-  ]));
-  const newInFuture = futureRoll.filter((r) => {
-    const key = String(r["property_name"]) + "|" + String(r["unit"]);
-    const cur = currentByUnit.get(key);
-    return !cur || String(cur["status"]) !== String(r["status"]);
-  }).map((r) => ({
-    property_name: r["property_name"],
-    unit: r["unit"],
-    tenant: r["tenant"],
-    status_now: currentByUnit.get(String(r["property_name"]) + "|" + String(r["unit"]))?.[
-      "status"
-    ],
-    status_future: r["status"],
-    move_in: r["move_in"],
-    lease_from: r["lease_from"],
-  }));
-
-  return NextResponse.json({
-    today: todayStr,
-    in30,
-    in60,
-    in90,
-    current_roll_rows: currentRoll.length,
-    current_roll_statuses: countStatuses(currentRoll),
-    future_roll_rows: futureRoll.length,
-    future_roll_error: futureError || null,
-    future_roll_statuses: countStatuses(futureRoll),
-    status_changes: newInFuture,
-  });
+  return NextResponse.json({ target_date: in90, target_date_us: in90_us, results });
 }
