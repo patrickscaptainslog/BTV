@@ -82,33 +82,43 @@ function isRented(r: Record<string, unknown>): boolean {
 // ---------------------------------------------------------------------------
 export function upcomingMoveIns(
   rentRoll: Record<string, unknown>[],
-  tenantDir: Record<string, unknown>[] = [],
+  futureTenants: Record<string, unknown>[] = [],
   days = 60
 ): MoveEvent[] {
-  // Source 1: tenant_directory rows with a known future move-in date.
-  // AppFolio's Reports API only returns active/notice tenants in tenant_directory —
-  // future tenants for Vacant-Rented units are NOT present, so this is usually empty.
-  const fromDir = tenantDir
-    .filter((r) => {
-      const moveIn = nullable(r, "move_in");
-      return moveIn != null && withinDays(moveIn, days);
-    })
-    .map((r) => {
-      const date = nullable(r, "move_in") ?? "";
-      return {
-        unit_id: String(r["unit_id"] ?? ""),
-        property_name: str(r, "property_name"),
-        unit_number: str(r, "unit"),
-        tenant_name: str(r, "tenant"),
-        date,
-        days_until: date ? daysUntil(date) : 0,
-        monthly_rent: num(r, "rent"),
-        has_replacement: true,
-      };
-    });
+  // Restrict futureTenants to units currently Vacant-Rented in rent_roll.
+  // This prevents stale charges on ex-tenants from appearing as spurious move-ins
+  // (e.g., a past tenant with outstanding charges at a now-occupied unit).
+  const vacantRentedUnitIds = new Set(
+    rentRoll.filter((r) => statusOf(r) === "vacant-rented").map((r) => str(r, "unit_id"))
+  );
 
-  // Source 2: rent_roll rows with a future date (test fixtures + fallback).
-  const coveredKeys = new Set(fromDir.map((m) => m.property_name + "|" + m.unit_number));
+  // Build unit_id → futureTenant map for enrichment and dedup
+  const futureByUnitId = new Map<string, Record<string, unknown>>();
+  for (const ft of futureTenants) {
+    const uid = str(ft, "unit_id");
+    if (uid && vacantRentedUnitIds.has(uid)) futureByUnitId.set(uid, ft);
+  }
+
+  // Source 1: future tenants from aged_receivables with a known move-in date within window.
+  const fromFuture: MoveEvent[] = [];
+  for (const [uid, ft] of futureByUnitId.entries()) {
+    const moveIn = nullable(ft, "move_in");
+    if (moveIn != null && withinDays(moveIn, days)) {
+      fromFuture.push({
+        unit_id: uid,
+        property_name: str(ft, "property_name"),
+        unit_number: str(ft, "unit"),
+        tenant_name: str(ft, "tenant"),
+        date: moveIn,
+        days_until: daysUntil(moveIn),
+        monthly_rent: num(ft, "rent"),
+        has_replacement: true,
+      });
+    }
+  }
+
+  // Source 2: rent_roll rows with a future move-in date (test fixtures + manual overrides).
+  const coveredKeys = new Set(fromFuture.map((m) => m.property_name + "|" + m.unit_number));
   const fromRentRoll = rentRoll
     .filter((r) => {
       if (coveredKeys.has(unitKey(r))) return false;
@@ -129,24 +139,27 @@ export function upcomingMoveIns(
       };
     });
 
-  // Source 3: Vacant-Rented units not covered above.
-  // AppFolio signed a lease but exposes zero tenant details via the Reports API.
-  // Show the unit so the count is correct; dates/names require checking AppFolio directly.
-  const allKeys = new Set([...fromDir, ...fromRentRoll].map((m) => m.property_name + "|" + m.unit_number));
+  // Source 3: Vacant-Rented units not covered above — signed lease but no API date yet.
+  // Enrich with tenant name from aged_receivables if available (e.g., deposit-only entries).
+  const allKeys = new Set([...fromFuture, ...fromRentRoll].map((m) => m.property_name + "|" + m.unit_number));
   const vacantRented = rentRoll
     .filter((r) => statusOf(r) === "vacant-rented" && !allKeys.has(unitKey(r)))
-    .map((r): MoveEvent => ({
-      unit_id: str(r, "unit_id"),
-      property_name: str(r, "property_name"),
-      unit_number: str(r, "unit"),
-      tenant_name: "",
-      date: "",
-      days_until: 999,
-      monthly_rent: num(r, "rent", "market_rent"),
-      has_replacement: true,
-    }));
+    .map((r): MoveEvent => {
+      const uid = str(r, "unit_id");
+      const ft = futureByUnitId.get(uid);
+      return {
+        unit_id: uid,
+        property_name: str(r, "property_name"),
+        unit_number: str(r, "unit"),
+        tenant_name: ft ? str(ft, "tenant") : "",
+        date: "",
+        days_until: 999,
+        monthly_rent: num(r, "rent", "market_rent"),
+        has_replacement: true,
+      };
+    });
 
-  return [...fromDir, ...fromRentRoll, ...vacantRented].sort((a, b) => a.days_until - b.days_until);
+  return [...fromFuture, ...fromRentRoll, ...vacantRented].sort((a, b) => a.days_until - b.days_until);
 }
 
 // ---------------------------------------------------------------------------
@@ -364,10 +377,10 @@ export function occupancySummary(
 export async function buildDashboardData(
   rentRoll: Record<string, unknown>[],
   vacancyRows: Record<string, unknown>[],
-  tenantDir: Record<string, unknown>[] = []
+  futureTenants: Record<string, unknown>[] = []
 ): Promise<DashboardData> {
   return {
-    move_ins: upcomingMoveIns(rentRoll, tenantDir),
+    move_ins: upcomingMoveIns(rentRoll, futureTenants),
     move_outs: upcomingMoveOuts(rentRoll),
     renewals: renewalsToChase(rentRoll),
     occupancy: occupancySummary(rentRoll, vacancyRows),

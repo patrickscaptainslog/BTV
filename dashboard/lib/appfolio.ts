@@ -142,10 +142,42 @@ export const fetchUnitVacancy = async () => {
 // Future tenants are identifiable by a move_in date in the future — rent_roll
 // omits those details for "Vacant-Rented" rows, so this is the primary source
 // for the upcoming move-ins list.
-export const fetchTenantDirectory = () =>
-  cached("tenant-directory", async () => {
-    await new Promise((r) => setTimeout(r, 4000)); // space out: rent-roll + unit-vacancy first
-    return fetchReport("tenant_directory");
+// ---------------------------------------------------------------------------
+// Future tenants via aged_receivables_detail (tenant_statuses: ["2"])
+// This is the only Reports API endpoint that exposes upcoming tenants for
+// Vacant-Rented units. One synthetic row is returned per future occupancy,
+// using the "Rent Income" charge date as the move-in date.
+// ---------------------------------------------------------------------------
+export const fetchFutureTenants = () =>
+  cached("future-tenants", async () => {
+    await new Promise((r) => setTimeout(r, 4000));
+    let rows: Record<string, unknown>[] = [];
+    try {
+      rows = await fetchReport("aged_receivables_detail", { tenant_statuses: ["2"] });
+    } catch {
+      return [];
+    }
+
+    const byOccupancy = new Map<string, Record<string, unknown>>();
+    for (const row of rows) {
+      const occupancyId = String(row["occupancy_id"] ?? "");
+      if (!occupancyId) continue;
+      const existing = byOccupancy.get(occupancyId);
+      const isRent = String(row["account_name"] ?? "") === "Rent Income";
+      if (!existing || isRent) {
+        byOccupancy.set(occupancyId, {
+          unit_id: String(row["unit_id"] ?? ""),
+          property_name: row["property_name"],
+          unit: row["unit_name"],          // same format as rent_roll "unit" field
+          tenant: row["payer_name"],       // "LastName, FirstName" format
+          move_in: isRent ? row["invoice_occurred_on"] : null,
+          status: "Future",
+          rent: isRent ? row["total_amount"] : null,
+        });
+      }
+    }
+
+    return Array.from(byOccupancy.values());
   });
 
 // ---------------------------------------------------------------------------
