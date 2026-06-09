@@ -82,9 +82,34 @@ function isRented(r: Record<string, unknown>): boolean {
 // ---------------------------------------------------------------------------
 export function upcomingMoveIns(
   rentRoll: Record<string, unknown>[],
+  tenantDir: Record<string, unknown>[] = [],
   days = 60
 ): MoveEvent[] {
-  // Case 1: rows with a known future move-in date within the window.
+  // Primary source: tenant_directory filtered to rows with a future move-in date.
+  // Unlike rent_roll, it includes full names/dates for "Vacant-Rented" units.
+  if (tenantDir.length > 0) {
+    return tenantDir
+      .filter((r) => {
+        const moveIn = nullable(r, "move_in");
+        return moveIn != null && withinDays(moveIn, days);
+      })
+      .map((r) => {
+        const date = nullable(r, "move_in") ?? "";
+        return {
+          unit_id: String(r["unit_id"] ?? ""),
+          property_name: str(r, "property_name"),
+          unit_number: str(r, "unit"),
+          tenant_name: str(r, "tenant"),
+          date,
+          days_until: date ? daysUntil(date) : 0,
+          monthly_rent: num(r, "rent"),
+          has_replacement: true,
+        };
+      })
+      .sort((a, b) => a.days_until - b.days_until);
+  }
+
+  // Fallback (no tenant_directory / test fixtures): use rent_roll date-based rows.
   const withDate = rentRoll
     .filter((r) => {
       const moveIn = nullable(r, "move_in", "lease_from");
@@ -104,9 +129,7 @@ export function upcomingMoveIns(
       };
     });
 
-  // Case 2: "Vacant-Rented" units — AppFolio omits future tenant details
-  // (name, move-in date) from rent_roll rows with this status. Include them
-  // as pending entries so the count is accurate; use days_until=999 to sort last.
+  // Add Vacant-Rented placeholders for any unit not already covered by a date row.
   const withDateKeys = new Set(withDate.map((m) => m.property_name + "|" + m.unit_number));
   const pending = rentRoll
     .filter((r) => statusOf(r) === "vacant-rented" && !withDateKeys.has(unitKey(r)))
@@ -338,10 +361,11 @@ export function occupancySummary(
 // ---------------------------------------------------------------------------
 export async function buildDashboardData(
   rentRoll: Record<string, unknown>[],
-  vacancyRows: Record<string, unknown>[]
+  vacancyRows: Record<string, unknown>[],
+  tenantDir: Record<string, unknown>[] = []
 ): Promise<DashboardData> {
   return {
-    move_ins: upcomingMoveIns(rentRoll),
+    move_ins: upcomingMoveIns(rentRoll, tenantDir),
     move_outs: upcomingMoveOuts(rentRoll),
     renewals: renewalsToChase(rentRoll),
     occupancy: occupancySummary(rentRoll, vacancyRows),

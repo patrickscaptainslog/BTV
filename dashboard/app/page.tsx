@@ -1,4 +1,4 @@
-import { fetchRentRoll, fetchUnitVacancy } from "@/lib/appfolio";
+import { fetchRentRoll, fetchUnitVacancy, fetchTenantDirectory } from "@/lib/appfolio";
 import { buildDashboardData } from "@/lib/leasing";
 import { formatDate } from "@/lib/dates";
 import KpiCard from "@/components/KpiCard";
@@ -16,10 +16,11 @@ export default async function DashboardPage() {
   try {
     const rentRoll = await fetchRentRoll();
     const vacancyRows = await fetchUnitVacancy();
+    const tenantDir = await fetchTenantDirectory();
     if (rentRoll.length === 0) {
       fetchError = "AppFolio returned 0 rent-roll rows. The connection works but no data came back — try Refresh.";
     } else {
-      data = await buildDashboardData(rentRoll, vacancyRows);
+      data = await buildDashboardData(rentRoll, vacancyRows, tenantDir);
     }
   } catch (err) {
     fetchError = err instanceof Error ? err.message : String(err);

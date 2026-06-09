@@ -138,10 +138,12 @@ export const fetchUnitVacancy = async () => {
     fetchFirstAvailable(["unit_vacancy", "unit_vacancy_detail", "unit_directory", "vacant_unit_detail"]));
 };
 
-export const fetchCompletedProcesses = () =>
-  cached("completed-processes", () => {
-    const today = new Date();
-    const from = new Date(today.getTime() - 30 * 86_400_000).toISOString().slice(0, 10);
-    const to = new Date(today.getTime() + 90 * 86_400_000).toISOString().slice(0, 10);
-    return fetchReport("completed_processes", { from_date: from, to_date: to });
+// tenant_directory has full details for ALL leases (current, future, notice-giving).
+// Future tenants are identifiable by a move_in date in the future — rent_roll
+// omits those details for "Vacant-Rented" rows, so this is the primary source
+// for the upcoming move-ins list.
+export const fetchTenantDirectory = () =>
+  cached("tenant-directory", async () => {
+    await new Promise((r) => setTimeout(r, 4000)); // space out: rent-roll + unit-vacancy first
+    return fetchReport("tenant_directory");
   });
