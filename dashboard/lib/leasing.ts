@@ -83,7 +83,7 @@ function isRented(r: Record<string, unknown>): boolean {
 export function upcomingMoveIns(
   rentRoll: Record<string, unknown>[],
   futureTenants: Record<string, unknown>[] = [],
-  days = 60
+  days = 90
 ): MoveEvent[] {
   // futureTenants comes from tenant_directory status-2 — all valid future occupancies,
   // no need to filter by Vacant-Rented (no double-count risk unlike aged_receivables).

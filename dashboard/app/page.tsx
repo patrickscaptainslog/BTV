@@ -108,7 +108,7 @@ export default async function DashboardPage() {
             {/* KPI Strip */}
             <div className="grid grid-cols-3 gap-3">
               <KpiCard
-                label="Move-Ins (60d)"
+                label="Move-Ins (90d)"
                 value={data.move_ins.length}
                 accent={data.move_ins.length > 0 ? "green" : "default"}
                 href="#move-ins"
@@ -132,7 +132,7 @@ export default async function DashboardPage() {
               <details open className="group">
                 <summary className="flex items-center justify-between px-5 py-4 cursor-pointer list-none select-none hover:bg-slate-50">
                   <div className="flex items-center gap-2">
-                    <h2 className="text-base font-semibold text-slate-800">Upcoming Move-Ins</h2>
+                    <h2 className="text-base font-semibold text-slate-800">Upcoming Move-Ins (90d)</h2>
                     <span className="text-xs font-medium bg-slate-100 text-slate-500 rounded-full px-2 py-0.5">
                       {data.move_ins.length}
                     </span>
@@ -143,7 +143,7 @@ export default async function DashboardPage() {
                 </summary>
                 <div className="px-5 pb-5">
                   {data.move_ins.length === 0 ? (
-                    <p className="text-sm text-slate-400">No move-ins in the next 60 days.</p>
+                    <p className="text-sm text-slate-400">No move-ins in the next 90 days.</p>
                   ) : (
                     <div className="overflow-x-auto">
                       <table className="w-full text-sm">
@@ -152,8 +152,7 @@ export default async function DashboardPage() {
                             <th className="text-left pb-2 pr-4">Unit</th>
                             <th className="text-left pb-2 pr-4">Tenant</th>
                             <th className="text-left pb-2 pr-4">Move-In</th>
-                            <th className="text-right pb-2 pr-4">Days</th>
-                            <th className="text-right pb-2">Rent</th>
+                            <th className="text-right pb-2">Days</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -162,14 +161,13 @@ export default async function DashboardPage() {
                               <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
                               <td className="py-2 pr-4 text-slate-600">{m.tenant_name || <span className="text-slate-300 italic">—</span>}</td>
                               <td className="py-2 pr-4 text-slate-600">{m.date ? formatDate(m.date) : <span className="text-slate-300 italic">check AppFolio</span>}</td>
-                              <td className="py-2 pr-4 text-right">
+                              <td className="py-2 text-right">
                                 {m.days_until < 999 ? (
                                   <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>
                                     {m.days_until}d
                                   </span>
                                 ) : <span className="text-slate-300">—</span>}
                               </td>
-                              <td className="py-2 text-right text-slate-600">{m.monthly_rent ? `$${m.monthly_rent.toLocaleString()}` : "—"}</td>
                             </tr>
                           ))}
                         </tbody>
@@ -206,7 +204,6 @@ export default async function DashboardPage() {
                             <th className="text-left pb-2 pr-4">Tenant</th>
                             <th className="text-left pb-2 pr-4">Move-Out</th>
                             <th className="text-right pb-2 pr-4">Days</th>
-                            <th className="text-right pb-2 pr-4">Rent</th>
                             <th className="text-left pb-2">Replacement</th>
                           </tr>
                         </thead>
@@ -221,7 +218,6 @@ export default async function DashboardPage() {
                                   {m.days_until}d
                                 </span>
                               </td>
-                              <td className="py-2 pr-4 text-right text-slate-600">${m.monthly_rent.toLocaleString()}</td>
                               <td className="py-2">
                                 <StatusBadge status={m.has_replacement ? "has-replacement" : "no-replacement"} />
                               </td>
@@ -260,7 +256,6 @@ export default async function DashboardPage() {
                           {(v.beds != null || v.baths != null) && (
                             <p className="text-xs text-slate-400">
                               {v.beds != null ? `${v.beds}bd` : ""}{v.baths != null ? ` ${v.baths}ba` : ""}
-                              {v.market_rent ? ` · $${v.market_rent.toLocaleString()}/mo` : ""}
                             </p>
                           )}
                         </td>
