@@ -1,4 +1,4 @@
-import { fetchRentRoll, fetchUnitVacancy, fetchTenantDirectory } from "@/lib/appfolio";
+import { fetchRentRoll, fetchUnitVacancy, fetchTenantDirectory, getManualOverrides } from "@/lib/appfolio";
 import { buildDashboardData } from "@/lib/leasing";
 import { formatDate } from "@/lib/dates";
 import KpiCard from "@/components/KpiCard";
@@ -20,7 +20,10 @@ export default async function DashboardPage() {
     if (rentRoll.length === 0) {
       fetchError = "AppFolio returned 0 rent-roll rows. The connection works but no data came back — try Refresh.";
     } else {
-      data = await buildDashboardData(rentRoll, vacancyRows, tenantDir);
+      // Merge manual overrides for future tenants AppFolio's API doesn't expose
+      const overrides = getManualOverrides();
+      const augmentedRoll = overrides.length > 0 ? [...rentRoll, ...overrides] : rentRoll;
+      data = await buildDashboardData(augmentedRoll, vacancyRows, tenantDir);
     }
   } catch (err) {
     fetchError = err instanceof Error ? err.message : String(err);

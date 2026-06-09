@@ -147,3 +147,27 @@ export const fetchTenantDirectory = () =>
     await new Promise((r) => setTimeout(r, 4000)); // space out: rent-roll + unit-vacancy first
     return fetchReport("tenant_directory");
   });
+
+// ---------------------------------------------------------------------------
+// Manual move-in overrides
+// AppFolio's Reports API never exposes future tenants for Vacant-Rented units
+// (tenant/date fields are null in every report). Set MOVE_IN_OVERRIDES in
+// Vercel env vars as a JSON array to fill the gap:
+//
+//   [{"property_name":"15th","unit":"6 - 6","tenant":"Gabriel L","move_in":"2026-06-12","rent":"1500.00"},
+//    {"property_name":"15th","unit":"21 - 21","tenant":"Adrien M","move_in":"2026-08-01","rent":"1500.00"}]
+//
+// These are merged into the rent roll as synthetic "Future" rows so the
+// normal move-in detection picks them up automatically.
+// ---------------------------------------------------------------------------
+export function getManualOverrides(): Record<string, unknown>[] {
+  const raw = process.env.MOVE_IN_OVERRIDES;
+  if (!raw) return [];
+  try {
+    const overrides = JSON.parse(raw) as Record<string, unknown>[];
+    return overrides.map((o) => ({ status: "Future", ...o }));
+  } catch {
+    console.error("MOVE_IN_OVERRIDES parse error — must be valid JSON array");
+    return [];
+  }
+}
