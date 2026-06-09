@@ -298,27 +298,28 @@ export function occupancySummary(
 
   // Group all rows by unit. A unit counts as rented if ANY of its rows are
   // occupied or have a future tenant lined up (economic / leased occupancy).
-  const units = new Map<string, { property: string; rented: boolean; rows: Record<string, unknown>[] }>();
+  const units = new Map<string, { property: string; rented: boolean; physical: boolean; rows: Record<string, unknown>[] }>();
   rentRoll.forEach((r) => {
     const key = unitKey(r);
-    const u = units.get(key) ?? { property: str(r, "property_name") || "(Unknown)", rented: false, rows: [] };
+    const u = units.get(key) ?? { property: str(r, "property_name") || "(Unknown)", rented: false, physical: false, rows: [] };
     u.rented = u.rented || isRented(r);
+    u.physical = u.physical || isOccupied(r);
     u.rows.push(r);
     units.set(key, u);
   });
 
   // Aggregate overall and per-property
-  const propMap = new Map<string, { total: number; leased: number; vacant: VacantUnit[] }>();
+  const propMap = new Map<string, { total: number; leased: number; physical: number; vacant: VacantUnit[] }>();
   const vacantUnits: VacantUnit[] = [];
   let rentedCount = 0;
+  let physicalCount = 0;
 
   for (const u of Array.from(units.values())) {
-    const p = propMap.get(u.property) ?? { total: 0, leased: 0, vacant: [] };
+    const p = propMap.get(u.property) ?? { total: 0, leased: 0, physical: 0, vacant: [] };
     p.total++;
-    if (u.rented) {
-      rentedCount++;
-      p.leased++;
-    } else {
+    if (u.rented) { rentedCount++; p.leased++; }
+    if (u.physical) { physicalCount++; p.physical++; }
+    if (!u.rented) {
       const v = buildVacant(u.rows);
       vacantUnits.push(v);
       p.vacant.push(v);
@@ -335,7 +336,9 @@ export function occupancySummary(
       property_name,
       total_units: v.total,
       leased_units: v.leased,
+      physical_units: v.physical,
       occupancy_pct: v.total > 0 ? Math.round((v.leased / v.total) * 100) : 0,
+      physical_pct: v.total > 0 ? Math.round((v.physical / v.total) * 100) : 0,
       vacant_units: v.vacant,
     }))
     .sort((a, b) => a.property_name.localeCompare(b.property_name));

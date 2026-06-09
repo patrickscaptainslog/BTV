@@ -61,8 +61,10 @@ export interface ExpirationBucket {
 export interface PropertyOccupancy {
   property_name: string;
   total_units: number;
-  leased_units: number;
+  leased_units: number;    // occupied + vacant-rented (signed lease)
+  physical_units: number;  // current + notice only (bodies in building)
   occupancy_pct: number;
+  physical_pct: number;
   vacant_units: VacantUnit[];
 }
 

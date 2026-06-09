@@ -78,12 +78,25 @@ export default async function DashboardPage() {
             {/* Property occupancy summary */}
             <div className="flex flex-wrap gap-3">
               {data.occupancy.by_property.map((p) => (
-                <div key={p.property_name} className="bg-white rounded-lg border border-slate-200 px-4 py-2.5 flex items-baseline gap-2.5">
-                  <span className="text-sm font-medium text-slate-700">{p.property_name}</span>
-                  <span className={`text-lg font-semibold ${p.occupancy_pct >= 95 ? "text-emerald-600" : p.occupancy_pct >= 85 ? "text-amber-600" : "text-red-600"}`}>
-                    {p.occupancy_pct}%
-                  </span>
-                  <span className="text-xs text-slate-400">{p.leased_units}/{p.total_units}</span>
+                <div key={p.property_name} className="bg-white rounded-lg border border-slate-200 px-4 py-3">
+                  <p className="text-sm font-semibold text-slate-800 mb-2">{p.property_name}</p>
+                  <div className="flex gap-4 text-xs">
+                    <div>
+                      <p className="text-slate-400 uppercase tracking-wide mb-0.5">Leased</p>
+                      <span className={`text-base font-semibold ${p.occupancy_pct >= 95 ? "text-emerald-600" : p.occupancy_pct >= 85 ? "text-amber-600" : "text-red-600"}`}>
+                        {p.occupancy_pct}%
+                      </span>
+                      <span className="text-slate-400 ml-1">{p.leased_units}/{p.total_units}</span>
+                    </div>
+                    <div className="w-px bg-slate-100" />
+                    <div>
+                      <p className="text-slate-400 uppercase tracking-wide mb-0.5">Physical</p>
+                      <span className={`text-base font-semibold ${p.physical_pct >= 95 ? "text-emerald-600" : p.physical_pct >= 85 ? "text-amber-600" : "text-red-600"}`}>
+                        {p.physical_pct}%
+                      </span>
+                      <span className="text-slate-400 ml-1">{p.physical_units}/{p.total_units}</span>
+                    </div>
+                  </div>
                 </div>
               ))}
             </div>
