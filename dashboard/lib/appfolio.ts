@@ -151,46 +151,49 @@ export const fetchUnitVacancy = async () => {
 export const fetchFutureTenants = () =>
   cached("future-tenants", async () => {
     await new Promise((r) => setTimeout(r, 4000));
-    let rows: Record<string, unknown>[] = [];
+
+    // tenant_directory with tenant_statuses:["2"] returns ALL future tenants including
+    // those not yet billed — aged_receivables misses anyone without a Rent Income charge.
+    let tdRows: Record<string, unknown>[] = [];
     try {
-      rows = await fetchReport("aged_receivables_detail", { tenant_statuses: ["2"] });
+      tdRows = await fetchReport("tenant_directory", { tenant_statuses: ["2"] });
     } catch {
       return [];
     }
+    if (tdRows.length === 0) return [];
 
-    const byOccupancy = new Map<string, Record<string, unknown>>();
-    for (const row of rows) {
-      const occupancyId = String(row["occupancy_id"] ?? "");
-      if (!occupancyId) continue;
-      const existing = byOccupancy.get(occupancyId);
-      const isRent = String(row["account_name"] ?? "") === "Rent Income";
-      if (!existing || isRent) {
-        byOccupancy.set(occupancyId, {
-          unit_id: String(row["unit_id"] ?? ""),
-          property_name: row["property_name"],
-          unit: row["unit_name"],          // same format as rent_roll "unit" field
-          tenant: row["payer_name"],       // "LastName, FirstName" format
-          move_in: isRent ? row["invoice_occurred_on"] : null,
-          status: "Future",
-          rent: isRent ? row["total_amount"] : null,
-        });
+    // Supplement with actual rent amounts from aged_receivables Rent Income charges.
+    // tenant_directory shows rent:"0.00" until invoiced, so overlay it from here.
+    await new Promise((r) => setTimeout(r, 2000));
+    let arRows: Record<string, unknown>[] = [];
+    try {
+      arRows = await fetchReport("aged_receivables_detail", { tenant_statuses: ["2"] });
+    } catch { /* non-fatal — rent shows as blank */ }
+    const rentByUnitId = new Map<string, string>();
+    for (const row of arRows) {
+      if (String(row["account_name"] ?? "") === "Rent Income") {
+        const uid = String(row["unit_id"] ?? "");
+        if (uid) rentByUnitId.set(uid, String(row["total_amount"] ?? ""));
       }
     }
 
-    return Array.from(byOccupancy.values());
+    return tdRows.map((row) => ({
+      unit_id: String(row["unit_id"] ?? ""),
+      property_name: row["property_name"],
+      unit: row["unit"],
+      tenant: row["tenant"],
+      move_in: row["move_in"] ?? row["lease_from"] ?? null,
+      status: "Future",
+      rent: rentByUnitId.get(String(row["unit_id"] ?? "")) ?? null,
+    }));
   });
 
 // ---------------------------------------------------------------------------
-// Manual move-in overrides
-// AppFolio's Reports API never exposes future tenants for Vacant-Rented units
-// (tenant/date fields are null in every report). Set MOVE_IN_OVERRIDES in
-// Vercel env vars as a JSON array to fill the gap:
-//
-//   [{"property_name":"15th","unit":"6 - 6","tenant":"Gabriel L","move_in":"2026-06-12","rent":"1500.00"},
-//    {"property_name":"15th","unit":"21 - 21","tenant":"Adrien M","move_in":"2026-08-01","rent":"1500.00"}]
-//
-// These are merged into the rent roll as synthetic "Future" rows so the
-// normal move-in detection picks them up automatically.
+// Manual move-in overrides (emergency fallback only)
+// tenant_directory with tenant_statuses:["2"] now covers all future tenants.
+// Use MOVE_IN_OVERRIDES only if AppFolio is missing a lease that exists elsewhere.
+// Format: JSON array in Vercel env var, e.g.:
+//   [{"property_name":"15th","unit":"6 - 6","tenant":"Alice","move_in":"2026-09-01","rent":"1500.00"}]
 // ---------------------------------------------------------------------------
 export function getManualOverrides(): Record<string, unknown>[] {
   const raw = process.env.MOVE_IN_OVERRIDES;

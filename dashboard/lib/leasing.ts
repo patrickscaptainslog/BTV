@@ -85,23 +85,18 @@ export function upcomingMoveIns(
   futureTenants: Record<string, unknown>[] = [],
   days = 60
 ): MoveEvent[] {
-  // Restrict futureTenants to units currently Vacant-Rented in rent_roll.
-  // This prevents stale charges on ex-tenants from appearing as spurious move-ins
-  // (e.g., a past tenant with outstanding charges at a now-occupied unit).
-  const vacantRentedUnitIds = new Set(
-    rentRoll.filter((r) => statusOf(r) === "vacant-rented").map((r) => str(r, "unit_id"))
-  );
-
-  // Build unit_id → futureTenant map for enrichment and dedup
+  // futureTenants comes from tenant_directory status-2 — all valid future occupancies,
+  // no need to filter by Vacant-Rented (no double-count risk unlike aged_receivables).
   const futureByUnitId = new Map<string, Record<string, unknown>>();
   for (const ft of futureTenants) {
     const uid = str(ft, "unit_id");
-    if (uid && vacantRentedUnitIds.has(uid)) futureByUnitId.set(uid, ft);
+    if (uid) futureByUnitId.set(uid, ft);
   }
 
-  // Source 1: future tenants from aged_receivables with a known move-in date within window.
-  const fromFuture: MoveEvent[] = Array.from(futureByUnitId.entries())
-    .flatMap(([uid, ft]) => {
+  // Source 1: future tenants with a known move-in date within window.
+  const fromFuture: MoveEvent[] = Array.from(futureByUnitId.values())
+    .flatMap((ft) => {
+      const uid = str(ft, "unit_id");
       const moveIn = nullable(ft, "move_in");
       if (moveIn == null || !withinDays(moveIn, days)) return [];
       return [{
@@ -138,8 +133,8 @@ export function upcomingMoveIns(
       };
     });
 
-  // Source 3: Vacant-Rented units not covered above — signed lease but no API date yet.
-  // Enrich with tenant name from aged_receivables if available (e.g., deposit-only entries).
+  // Source 3: Vacant-Rented units not covered by Sources 1/2 — move-in outside window
+  // or not yet in tenant_directory. Enrich with tenant name from futureTenants if available.
   const allKeys = new Set([...fromFuture, ...fromRentRoll].map((m) => m.property_name + "|" + m.unit_number));
   const vacantRented = rentRoll
     .filter((r) => statusOf(r) === "vacant-rented" && !allKeys.has(unitKey(r)))
