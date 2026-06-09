@@ -8,6 +8,10 @@ import RefreshButton from "@/components/RefreshButton";
 
 export const dynamic = "force-dynamic";
 
+function occColor(pct: number) {
+  return pct >= 90 ? "text-emerald-600" : pct >= 75 ? "text-amber-600" : "text-red-600";
+}
+
 export default async function DashboardPage() {
   let data;
   let fetchError: string | null = null;
@@ -47,7 +51,7 @@ export default async function DashboardPage() {
               <p className="text-sm text-slate-500 mt-0.5">
                 {occ.occupied_units} of {occ.total_units} units leased
                 <span className="mx-1.5 text-slate-300">·</span>
-                <span className={occ.occupancy_pct >= 95 ? "text-emerald-600 font-medium" : occ.occupancy_pct >= 85 ? "text-amber-600 font-medium" : "text-red-600 font-medium"}>
+                <span className={`${occColor(occ.occupancy_pct)} font-medium`}>
                   {occ.occupancy_pct}% occupied
                 </span>
                 {occ.vacant_units.length > 0 && (
@@ -83,7 +87,7 @@ export default async function DashboardPage() {
                   <div className="flex gap-4 text-xs">
                     <div>
                       <p className="text-slate-400 uppercase tracking-wide mb-0.5">Leased</p>
-                      <span className={`text-base font-semibold ${p.occupancy_pct >= 95 ? "text-emerald-600" : p.occupancy_pct >= 85 ? "text-amber-600" : "text-red-600"}`}>
+                      <span className={`text-base font-semibold ${occColor(p.occupancy_pct)}`}>
                         {p.occupancy_pct}%
                       </span>
                       <span className="text-slate-400 ml-1">{p.leased_units}/{p.total_units}</span>
@@ -91,7 +95,7 @@ export default async function DashboardPage() {
                     <div className="w-px bg-slate-100" />
                     <div>
                       <p className="text-slate-400 uppercase tracking-wide mb-0.5">Physical</p>
-                      <span className={`text-base font-semibold ${p.physical_pct >= 95 ? "text-emerald-600" : p.physical_pct >= 85 ? "text-amber-600" : "text-red-600"}`}>
+                      <span className={`text-base font-semibold ${occColor(p.physical_pct)}`}>
                         {p.physical_pct}%
                       </span>
                       <span className="text-slate-400 ml-1">{p.physical_units}/{p.total_units}</span>
