@@ -100,6 +100,21 @@ describe("occupancySummary", () => {
     expect(result.vacant_units[0].unit_number).toBe("103");
   });
 
+  it("splits occupancy by property", () => {
+    const rentRoll = [
+      { ...base, property_name: "15th", unit: "1", status: "Occupied", tenant: "A" },
+      { ...base, property_name: "15th", unit: "7", status: "Vacant", tenant: "" },
+      { ...base, property_name: "Oak", unit: "1", status: "Occupied", tenant: "B" },
+      { ...base, property_name: "Oak", unit: "2", status: "Occupied", tenant: "C" },
+    ];
+    const result = occupancySummary(rentRoll, []);
+    const by = Object.fromEntries(result.by_property.map((p) => [p.property_name, p]));
+    expect(by["15th"].total_units).toBe(2);
+    expect(by["15th"].leased_units).toBe(1);
+    expect(by["15th"].occupancy_pct).toBe(50);
+    expect(by["Oak"].occupancy_pct).toBe(100);
+  });
+
   it("calculates estimated lost rent for vacant units", () => {
     const rentRoll = [
       {

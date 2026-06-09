@@ -58,6 +58,14 @@ export interface ExpirationBucket {
   count: number;
 }
 
+export interface PropertyOccupancy {
+  property_name: string;
+  total_units: number;
+  leased_units: number;
+  occupancy_pct: number;
+  vacant_units: VacantUnit[];
+}
+
 export interface OccupancySummary {
   total_units: number;
   occupied_units: number;
@@ -65,6 +73,7 @@ export interface OccupancySummary {
   vacant_units: VacantUnit[];
   avg_days_vacant: number | null;
   expirations_by_month: ExpirationBucket[];
+  by_property: PropertyOccupancy[];
 }
 
 export interface DashboardData {

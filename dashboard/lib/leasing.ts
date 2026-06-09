@@ -3,6 +3,7 @@ import type {
   MoveEvent,
   RenewalAlert,
   OccupancySummary,
+  PropertyOccupancy,
   VacantUnit,
   ExpirationBucket,
   DashboardData,
@@ -55,7 +56,7 @@ function isOccupied(r: Record<string, unknown>): boolean {
 }
 // Leased but not yet moved in (e.g. "Vacant Rented" / "(Future)")
 function isFutureTenant(r: Record<string, unknown>): boolean {
-  const mi = nullable(r, "move_in");
+  const mi = nullable(r, "move_in", "lease_from");
   if (mi != null && daysUntil(mi) > 0) return true;
   const s = statusOf(r);
   return s.includes("future") || s.includes("approved");
@@ -74,13 +75,14 @@ export function upcomingMoveIns(
 ): MoveEvent[] {
   // A move-in is any lease whose move-in date is in the future and within
   // the window — regardless of the status label (Future / Vacant Rented / etc.)
+  // Future tenants often have move_in blank, so fall back to lease_from.
   return rentRoll
     .filter((r) => {
-      const moveIn = nullable(r, "move_in");
+      const moveIn = nullable(r, "move_in", "lease_from");
       return moveIn != null && withinDays(moveIn, days);
     })
     .map((r) => {
-      const date = nullable(r, "move_in") ?? "";
+      const date = nullable(r, "move_in", "lease_from") ?? "";
       return {
         unit_id: str(r, "unit_id"),
         property_name: str(r, "property_name"),
@@ -184,38 +186,18 @@ export function occupancySummary(
   rentRoll: Record<string, unknown>[],
   vacancyRows: Record<string, unknown>[]
 ): OccupancySummary {
-  // Group all rows by unit. A unit counts as rented if ANY of its rows are
-  // occupied or have a future tenant lined up (economic / leased occupancy).
-  const units = new Map<string, { rented: boolean; rows: Record<string, unknown>[] }>();
-  rentRoll.forEach((r) => {
-    const key = unitKey(r);
-    const u = units.get(key) ?? { rented: false, rows: [] };
-    u.rented = u.rented || isRented(r);
-    u.rows.push(r);
-    units.set(key, u);
-  });
-
-  const totalUnits = units.size;
-  let rentedCount = 0;
-  const vacantUnits: VacantUnit[] = [];
-
-  for (const u of Array.from(units.values())) {
-    if (u.rented) {
-      rentedCount++;
-      continue;
-    }
-    // Truly vacant unit (no current tenant and none lined up)
+  // Build a VacantUnit record from a unit's rows
+  const buildVacant = (rows: Record<string, unknown>[]): VacantUnit => {
     const r =
-      u.rows.find((row) => {
+      rows.find((row) => {
         const t = str(row, "tenant").toLowerCase();
         return statusOf(row).includes("vacant") || t === "" || t.includes("no tenant");
-      }) ?? u.rows[0];
+      }) ?? rows[0];
 
     const vacantSince = nullable(r, "move_out", "vacant_since", "vacancy_start");
     const marketRent = num(r, "market_rent", "rent");
     const daysVacant = vacantSince ? Math.max(0, -daysUntil(vacantSince)) : null;
 
-    // Parse beds/baths from "bd_ba" field like "2/1" or "--/--"
     let beds: number | null = null;
     let baths: number | null = null;
     const bdBa = str(r, "bd_ba");
@@ -225,7 +207,7 @@ export function occupancySummary(
       baths = parts[1] ? parseFloat(parts[1]) : null;
     }
 
-    vacantUnits.push({
+    return {
       unit_id: str(r, "unit_id"),
       property_name: str(r, "property_name"),
       unit_number: str(r, "unit", "unit_number"),
@@ -235,11 +217,52 @@ export function occupancySummary(
       days_vacant: daysVacant,
       estimated_lost_rent:
         daysVacant != null && marketRent ? Math.round((marketRent / 30) * daysVacant) : null,
-    });
+    };
+  };
+
+  // Group all rows by unit. A unit counts as rented if ANY of its rows are
+  // occupied or have a future tenant lined up (economic / leased occupancy).
+  const units = new Map<string, { property: string; rented: boolean; rows: Record<string, unknown>[] }>();
+  rentRoll.forEach((r) => {
+    const key = unitKey(r);
+    const u = units.get(key) ?? { property: str(r, "property_name") || "(Unknown)", rented: false, rows: [] };
+    u.rented = u.rented || isRented(r);
+    u.rows.push(r);
+    units.set(key, u);
+  });
+
+  // Aggregate overall and per-property
+  const propMap = new Map<string, { total: number; leased: number; vacant: VacantUnit[] }>();
+  const vacantUnits: VacantUnit[] = [];
+  let rentedCount = 0;
+
+  for (const u of Array.from(units.values())) {
+    const p = propMap.get(u.property) ?? { total: 0, leased: 0, vacant: [] };
+    p.total++;
+    if (u.rented) {
+      rentedCount++;
+      p.leased++;
+    } else {
+      const v = buildVacant(u.rows);
+      vacantUnits.push(v);
+      p.vacant.push(v);
+    }
+    propMap.set(u.property, p);
   }
 
+  const totalUnits = units.size;
   const occupancyPct =
     totalUnits > 0 ? Math.round((rentedCount / totalUnits) * 100) : 0;
+
+  const byProperty: PropertyOccupancy[] = Array.from(propMap.entries())
+    .map(([property_name, v]) => ({
+      property_name,
+      total_units: v.total,
+      leased_units: v.leased,
+      occupancy_pct: v.total > 0 ? Math.round((v.leased / v.total) * 100) : 0,
+      vacant_units: v.vacant,
+    }))
+    .sort((a, b) => a.property_name.localeCompare(b.property_name));
 
   const validVacantDays = vacantUnits
     .map((v) => v.days_vacant)
@@ -274,6 +297,7 @@ export function occupancySummary(
     vacant_units: vacantUnits,
     avg_days_vacant: avgDaysVacant,
     expirations_by_month: Object.values(buckets),
+    by_property: byProperty,
   };
 }
 

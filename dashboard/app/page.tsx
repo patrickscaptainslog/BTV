@@ -56,13 +56,7 @@ export default async function DashboardPage() {
         {data && (
           <>
             {/* KPI Strip */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-              <KpiCard
-                label="Occupancy"
-                value={`${data.occupancy.occupancy_pct}%`}
-                sub={`${data.occupancy.occupied_units} / ${data.occupancy.total_units} units leased`}
-                accent={data.occupancy.occupancy_pct >= 90 ? "green" : data.occupancy.occupancy_pct >= 80 ? "amber" : "red"}
-              />
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
               <KpiCard
                 label="Vacant"
                 value={data.occupancy.vacant_units.length}
@@ -92,6 +86,35 @@ export default async function DashboardPage() {
                 accent="default"
               />
             </div>
+
+            {/* Occupancy by Property */}
+            <section className="bg-white rounded-xl border border-slate-200 p-5">
+              <SectionHeader title="Occupancy by Property" count={data.occupancy.by_property.length} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {data.occupancy.by_property.map((p) => {
+                  const accent = p.occupancy_pct >= 90 ? "text-emerald-600" : p.occupancy_pct >= 80 ? "text-amber-600" : "text-red-600";
+                  return (
+                    <div key={p.property_name} className="border border-slate-100 rounded-lg px-4 py-3">
+                      <div className="flex items-baseline justify-between gap-2">
+                        <p className="text-sm font-medium text-slate-800 truncate">{p.property_name}</p>
+                        <p className={`text-lg font-semibold ${accent}`}>{p.occupancy_pct}%</p>
+                      </div>
+                      <p className="text-xs text-slate-400 mt-0.5">
+                        {p.leased_units} / {p.total_units} leased
+                        {p.vacant_units.length > 0 && ` · ${p.vacant_units.length} vacant`}
+                      </p>
+                      {/* progress bar */}
+                      <div className="mt-2 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full ${p.occupancy_pct >= 90 ? "bg-emerald-500" : p.occupancy_pct >= 80 ? "bg-amber-500" : "bg-red-500"}`}
+                          style={{ width: `${p.occupancy_pct}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
 
             {/* Move-Ins */}
             <section className="bg-white rounded-xl border border-slate-200 p-5">
