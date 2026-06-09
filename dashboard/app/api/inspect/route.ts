@@ -1,42 +1,65 @@
-import { fetchRentRoll } from "@/lib/appfolio";
+import { fetchReport } from "@/lib/appfolio";
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
-  const rows = await fetchRentRoll();
+// Probe multiple AppFolio report candidates to find future tenant details.
+// Vacant-Rented rows in rent_roll have null tenant/date — another report
+// must hold that data (Adrien Jun 12, Gabriel Aug 1).
+const PROBE_REPORTS = [
+  "tenant_detail",
+  "tenant_directory",
+  "future_tenants",
+  "prospective_tenants",
+  "upcoming_leases",
+  "lease_detail",
+  "in_progress_workflows",
+];
 
-  // Distinct status values with counts
+async function tryReport(name: string): Promise<{ ok: boolean; rows: number; sample: unknown[] }> {
+  try {
+    const rows = await fetchReport(name);
+    return { ok: true, rows: rows.length, sample: rows.slice(0, 2) };
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
+    return { ok: false, rows: 0, sample: [msg.slice(0, 120)] };
+  }
+}
+
+export async function GET() {
+  // Fetch rent_roll first
+  const rentRoll = await fetchReport("rent_roll");
+
   const statusCounts: Record<string, number> = {};
-  for (const r of rows) {
+  for (const r of rentRoll) {
     const s = String(r["status"] ?? "(none)");
     statusCounts[s] = (statusCounts[s] ?? 0) + 1;
   }
 
-  // Slim view of key fields for every row
-  const slim = rows.map((r) => ({
-    property_name: r["property_name"],
-    unit: r["unit"],
-    tenant: r["tenant"],
-    status: r["status"],
-    move_in: r["move_in"],
-    move_out: r["move_out"],
-    lease_from: r["lease_from"],
-    lease_to: r["lease_to"],
-  }));
+  const vacantRented = rentRoll
+    .filter((r) => String(r["status"] ?? "").toLowerCase() === "vacant-rented")
+    .map((r) => ({
+      property_name: r["property_name"],
+      unit: r["unit"],
+      tenant: r["tenant"],
+      status: r["status"],
+      move_in: r["move_in"],
+      move_out: r["move_out"],
+      lease_from: r["lease_from"],
+      lease_to: r["lease_to"],
+    }));
 
-  // Rows of interest: future-looking or named tenants the user mentioned
-  const interesting = slim.filter((r) => {
-    const t = String(r.tenant ?? "").toLowerCase();
-    const s = String(r.status ?? "").toLowerCase();
-    return t.includes("adrien") || t.includes("gabriel") ||
-      s.includes("vacant") || s.includes("future") || String(r.unit ?? "") === "7";
-  });
+  // Probe candidate reports sequentially (rate-limit aware)
+  const probes: Record<string, unknown> = {};
+  for (const name of PROBE_REPORTS) {
+    probes[name] = await tryReport(name);
+    await new Promise((r) => setTimeout(r, 2500));
+  }
 
   return NextResponse.json({
-    total_rows: rows.length,
-    distinct_properties: Array.from(new Set(slim.map((r) => r.property_name))),
+    total_rent_roll: rentRoll.length,
     statusCounts,
-    interesting,
+    vacant_rented_units: vacantRented,
+    report_probes: probes,
   });
 }
