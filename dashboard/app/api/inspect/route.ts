@@ -3,56 +3,70 @@ import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
+// Probe whether rent_roll accepts a future date parameter.
+// AppFolio often uses "as_of_date" for point-in-time rent rolls.
 export async function GET() {
-  // Force fresh data
   clearCache();
 
-  const rentRoll = await fetchReport("rent_roll");
+  const today = new Date();
+  const todayStr = today.toISOString().slice(0, 10);
+  const in30 = new Date(today.getTime() + 30 * 86400000).toISOString().slice(0, 10);
+  const in60 = new Date(today.getTime() + 60 * 86400000).toISOString().slice(0, 10);
+  const in90 = new Date(today.getTime() + 90 * 86400000).toISOString().slice(0, 10);
+
+  // Fetch today's roll first
+  const currentRoll = await fetchReport("rent_roll");
   await new Promise((r) => setTimeout(r, 2500));
-  const tenantDir = await fetchReport("tenant_directory");
 
-  const today = new Date().toISOString().slice(0, 10);
-
-  // All distinct status values in tenant_directory
-  const tdStatuses: Record<string, number> = {};
-  for (const r of tenantDir) {
-    const s = String(r["status"] ?? "(none)");
-    tdStatuses[s] = (tdStatuses[s] ?? 0) + 1;
+  // Try future date with as_of_date param
+  let futureRoll: Record<string, unknown>[] = [];
+  let futureError = "";
+  try {
+    futureRoll = await fetchReport("rent_roll", { as_of_date: in60 });
+  } catch (e) {
+    futureError = e instanceof Error ? e.message.slice(0, 200) : String(e);
   }
 
-  // Tenant_directory rows with a FUTURE move_in date (>= today)
-  const futureMoveIns = tenantDir
-    .filter((r) => {
-      const mi = r["move_in"];
-      return mi != null && String(mi) >= today;
-    })
-    .map((r) => ({
-      property_name: r["property_name"],
-      unit: r["unit"],
-      unit_id: r["unit_id"],
-      tenant: r["tenant"],
-      status: r["status"],
-      move_in: r["move_in"],
-      lease_from: r["lease_from"],
-      lease_to: r["lease_to"],
-    }));
+  // Status counts for each roll
+  const countStatuses = (rows: Record<string, unknown>[]) => {
+    const counts: Record<string, number> = {};
+    for (const r of rows) {
+      const s = String(r["status"] ?? "(none)");
+      counts[s] = (counts[s] ?? 0) + 1;
+    }
+    return counts;
+  };
 
-  // Rent_roll Vacant-Rented rows for cross-reference
-  const vacantRented = rentRoll
-    .filter((r) => String(r["status"] ?? "") === "Vacant-Rented")
-    .map((r) => ({
-      property_name: r["property_name"],
-      unit: r["unit"],
-      unit_id: r["unit_id"],
-      tenant: r["tenant"],
-      move_in: r["move_in"],
-    }));
+  // Rows that differ between current and future (potential move-ins)
+  const currentByUnit = new Map(currentRoll.map((r) => [
+    String(r["property_name"]) + "|" + String(r["unit"]), r
+  ]));
+  const newInFuture = futureRoll.filter((r) => {
+    const key = String(r["property_name"]) + "|" + String(r["unit"]);
+    const cur = currentByUnit.get(key);
+    return !cur || String(cur["status"]) !== String(r["status"]);
+  }).map((r) => ({
+    property_name: r["property_name"],
+    unit: r["unit"],
+    tenant: r["tenant"],
+    status_now: currentByUnit.get(String(r["property_name"]) + "|" + String(r["unit"]))?.[
+      "status"
+    ],
+    status_future: r["status"],
+    move_in: r["move_in"],
+    lease_from: r["lease_from"],
+  }));
 
   return NextResponse.json({
-    today,
-    total_tenant_directory: tenantDir.length,
-    td_statuses: tdStatuses,
-    future_move_ins_in_td: futureMoveIns,
-    vacant_rented_in_rent_roll: vacantRented,
+    today: todayStr,
+    in30,
+    in60,
+    in90,
+    current_roll_rows: currentRoll.length,
+    current_roll_statuses: countStatuses(currentRoll),
+    future_roll_rows: futureRoll.length,
+    future_roll_error: futureError || null,
+    future_roll_statuses: countStatuses(futureRoll),
+    status_changes: newInFuture,
   });
 }
