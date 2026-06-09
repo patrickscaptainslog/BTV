@@ -137,14 +137,16 @@ export default async function DashboardPage() {
                       {data.move_ins.map((m, i) => (
                         <tr key={i} className="hover:bg-slate-50">
                           <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
-                          <td className="py-2 pr-4 text-slate-600">{m.tenant_name}</td>
-                          <td className="py-2 pr-4 text-slate-600">{formatDate(m.date)}</td>
+                          <td className="py-2 pr-4 text-slate-600">{m.tenant_name || <span className="text-slate-300 italic">—</span>}</td>
+                          <td className="py-2 pr-4 text-slate-600">{m.date ? formatDate(m.date) : <span className="text-slate-300 italic">check AppFolio</span>}</td>
                           <td className="py-2 pr-4 text-right">
-                            <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>
-                              {m.days_until}d
-                            </span>
+                            {m.days_until < 999 ? (
+                              <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>
+                                {m.days_until}d
+                              </span>
+                            ) : <span className="text-slate-300">—</span>}
                           </td>
-                          <td className="py-2 text-right text-slate-600">${m.monthly_rent.toLocaleString()}</td>
+                          <td className="py-2 text-right text-slate-600">{m.monthly_rent ? `$${m.monthly_rent.toLocaleString()}` : "—"}</td>
                         </tr>
                       ))}
                     </tbody>

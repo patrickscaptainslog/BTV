@@ -45,25 +45,36 @@ function unitKey(r: Record<string, unknown>): string {
   return str(r, "property_name") + "|" + str(r, "unit");
 }
 
-// --- Status helpers (tolerant of AppFolio label variants) ------------------
+// --- Status helpers --------------------------------------------------------
+// Real AppFolio statuses confirmed via /api/inspect:
+//   "Current" (45), "Vacant-Rented" (3), "Vacant-Unrented" (1),
+//   "Notice-Rented" (2), "Notice-Unrented" (2)
 function statusOf(r: Record<string, unknown>): string {
   return str(r, "status").toLowerCase();
 }
-// Currently physically occupied
+
+// Physically in unit now (also includes notice-giving tenants — they're still there)
 function isOccupied(r: Record<string, unknown>): boolean {
   const s = statusOf(r);
-  return s.includes("occupied") || s.includes("current");
+  return s === "current"
+    || s === "notice-rented"
+    || s === "notice-unrented"
+    || s.includes("occupied"); // test-fixture compat
 }
-// Leased but not yet moved in (e.g. "Vacant Rented" / "(Future)")
+
+// Vacant with a signed lease — "Vacant-Rented" in AppFolio.
+// Also handles test fixtures that use "Future" status or a future move-in date.
 function isFutureTenant(r: Record<string, unknown>): boolean {
+  const s = statusOf(r);
+  if (s === "vacant-rented") return true;
   const mi = nullable(r, "move_in", "lease_from");
   if (mi != null && daysUntil(mi) > 0) return true;
-  const s = statusOf(r);
   return s.includes("future") || s.includes("approved");
 }
-// Rented = occupied now OR committed to a future tenant
+
+// Economically leased = currently occupied OR committed future tenant
 function isRented(r: Record<string, unknown>): boolean {
-  return isOccupied(r) || isFutureTenant(r) || statusOf(r).includes("rented");
+  return isOccupied(r) || isFutureTenant(r);
 }
 
 // ---------------------------------------------------------------------------
@@ -73,10 +84,8 @@ export function upcomingMoveIns(
   rentRoll: Record<string, unknown>[],
   days = 60
 ): MoveEvent[] {
-  // A move-in is any lease whose move-in date is in the future and within
-  // the window — regardless of the status label (Future / Vacant Rented / etc.)
-  // Future tenants often have move_in blank, so fall back to lease_from.
-  return rentRoll
+  // Case 1: rows with a known future move-in date within the window.
+  const withDate = rentRoll
     .filter((r) => {
       const moveIn = nullable(r, "move_in", "lease_from");
       return moveIn != null && withinDays(moveIn, days);
@@ -93,8 +102,26 @@ export function upcomingMoveIns(
         monthly_rent: num(r, "rent", "market_rent"),
         has_replacement: true,
       };
-    })
-    .sort((a, b) => a.days_until - b.days_until);
+    });
+
+  // Case 2: "Vacant-Rented" units — AppFolio omits future tenant details
+  // (name, move-in date) from rent_roll rows with this status. Include them
+  // as pending entries so the count is accurate; use days_until=999 to sort last.
+  const withDateKeys = new Set(withDate.map((m) => m.property_name + "|" + m.unit_number));
+  const pending = rentRoll
+    .filter((r) => statusOf(r) === "vacant-rented" && !withDateKeys.has(unitKey(r)))
+    .map((r): MoveEvent => ({
+      unit_id: str(r, "unit_id"),
+      property_name: str(r, "property_name"),
+      unit_number: str(r, "unit"),
+      tenant_name: "",
+      date: "",
+      days_until: 999,
+      monthly_rent: num(r, "rent", "market_rent"),
+      has_replacement: true,
+    }));
+
+  return [...withDate, ...pending].sort((a, b) => a.days_until - b.days_until);
 }
 
 // ---------------------------------------------------------------------------
@@ -122,7 +149,9 @@ export function upcomingMoveOuts(
         date,
         days_until: date ? daysUntil(date) : 0,
         monthly_rent: num(r, "rent"),
-        has_replacement: futureUnits.has(unitKey(r)),
+        // "Notice-Rented" = AppFolio confirms a replacement is signed in same row;
+        // also check for a separate future-tenant row on the same unit.
+        has_replacement: statusOf(r) === "notice-rented" || futureUnits.has(unitKey(r)),
       };
     })
     .sort((a, b) => a.days_until - b.days_until);
@@ -139,8 +168,11 @@ export function renewalsToChase(
 
   return rentRoll
     .filter((r) => {
-      // Only chase leases for tenants currently in place (not future move-ins)
-      if (!isOccupied(r) || isFutureTenant(r)) return false;
+      // Only chase tenants currently in place and NOT already giving notice.
+      // "notice-rented" / "notice-unrented" have already decided to leave.
+      const s = statusOf(r);
+      const isCurrentTenant = s === "current" || s.includes("occupied"); // test-fixture compat
+      if (!isCurrentTenant) return false;
       if (isMtm(r)) return true;
       const leaseEnd = nullable(r, "lease_to");
       return leaseEnd ? daysUntil(leaseEnd) <= days : false;
