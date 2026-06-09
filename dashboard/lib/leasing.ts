@@ -100,11 +100,11 @@ export function upcomingMoveIns(
   }
 
   // Source 1: future tenants from aged_receivables with a known move-in date within window.
-  const fromFuture: MoveEvent[] = [];
-  for (const [uid, ft] of futureByUnitId.entries()) {
-    const moveIn = nullable(ft, "move_in");
-    if (moveIn != null && withinDays(moveIn, days)) {
-      fromFuture.push({
+  const fromFuture: MoveEvent[] = Array.from(futureByUnitId.entries())
+    .flatMap(([uid, ft]) => {
+      const moveIn = nullable(ft, "move_in");
+      if (moveIn == null || !withinDays(moveIn, days)) return [];
+      return [{
         unit_id: uid,
         property_name: str(ft, "property_name"),
         unit_number: str(ft, "unit"),
@@ -113,9 +113,8 @@ export function upcomingMoveIns(
         days_until: daysUntil(moveIn),
         monthly_rent: num(ft, "rent"),
         has_replacement: true,
-      });
-    }
-  }
+      }];
+    });
 
   // Source 2: rent_roll rows with a future move-in date (test fixtures + manual overrides).
   const coveredKeys = new Set(fromFuture.map((m) => m.property_name + "|" + m.unit_number));
