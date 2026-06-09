@@ -172,13 +172,20 @@ export function upcomingMoveOuts(
   // Units that have a future tenant lined up (used to flag replacements)
   const futureUnits = new Set(rentRoll.filter(isFutureTenant).map(unitKey));
 
+  // For Notice tenants, AppFolio may leave move_out null and only populate lease_to.
+  function moveOutDate(r: Record<string, unknown>): string | null {
+    const s = statusOf(r);
+    const isNotice = s === "notice-rented" || s === "notice-unrented";
+    return nullable(r, "move_out") ?? (isNotice ? nullable(r, "lease_to") : null);
+  }
+
   return rentRoll
     .filter((r) => {
-      const moveOut = nullable(r, "move_out");
-      return moveOut != null && withinDays(moveOut, days) && !isFutureTenant(r);
+      const date = moveOutDate(r);
+      return date != null && withinDays(date, days) && !isFutureTenant(r);
     })
     .map((r) => {
-      const date = nullable(r, "move_out") ?? "";
+      const date = moveOutDate(r) ?? "";
       return {
         unit_id: str(r, "unit_id"),
         property_name: str(r, "property_name"),
