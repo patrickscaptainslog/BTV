@@ -75,6 +75,19 @@ export default async function DashboardPage() {
 
         {data && (
           <>
+            {/* Property occupancy summary */}
+            <div className="flex flex-wrap gap-3">
+              {data.occupancy.by_property.map((p) => (
+                <div key={p.property_name} className="bg-white rounded-lg border border-slate-200 px-4 py-2.5 flex items-baseline gap-2.5">
+                  <span className="text-sm font-medium text-slate-700">{p.property_name}</span>
+                  <span className={`text-lg font-semibold ${p.occupancy_pct >= 95 ? "text-emerald-600" : p.occupancy_pct >= 85 ? "text-amber-600" : "text-red-600"}`}>
+                    {p.occupancy_pct}%
+                  </span>
+                  <span className="text-xs text-slate-400">{p.leased_units}/{p.total_units}</span>
+                </div>
+              ))}
+            </div>
+
             {/* KPI Strip */}
             <div className="grid grid-cols-3 gap-3">
               <KpiCard
