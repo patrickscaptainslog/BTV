@@ -34,7 +34,7 @@ describe("upcomingMoveIns", () => {
     const rows = [
       { ...base, unit_id: "1", status: "Future", move_in: "2025-01-30" },
       { ...base, unit_id: "2", status: "Vacant Rented", move_in: "2025-02-05" }, // future tenant
-      { ...base, unit_id: "3", status: "Future", move_in: "2025-04-01" }, // outside 60d
+      { ...base, unit_id: "3", status: "Future", move_in: "2025-06-01" }, // outside 90d window
       { ...base, unit_id: "4", status: "Occupied", move_in: "2024-06-01" }, // past move-in
     ];
     const result = upcomingMoveIns(rows);

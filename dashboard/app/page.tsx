@@ -5,6 +5,7 @@ import KpiCard from "@/components/KpiCard";
 import StatusBadge from "@/components/StatusBadge";
 import ExpirationChart from "@/components/ExpirationChart";
 import RefreshButton from "@/components/RefreshButton";
+import ExportButton from "@/components/ExportButton";
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +67,10 @@ export default async function DashboardPage() {
               <p className="text-xs text-slate-400 mt-0.5">Updated {refreshedAt}</p>
             )}
           </div>
-          <RefreshButton />
+          <div className="flex items-center gap-3">
+            <RefreshButton />
+            <ExportButton />
+          </div>
         </div>
       </header>
 
