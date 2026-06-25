@@ -16,9 +16,9 @@ const accentMap = {
 
 export default function KpiCard({ label, value, sub, accent = "default", href }: Props) {
   const inner = (
-    <div className="bg-white rounded-xl border border-slate-200 px-5 py-4">
-      <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">{label}</p>
-      <p className={`text-3xl font-semibold ${accentMap[accent]}`}>{value}</p>
+    <div className="bg-white rounded-xl border border-slate-200 px-3 py-3 sm:px-5 sm:py-4">
+      <p className="text-[10px] sm:text-xs font-medium text-slate-500 uppercase tracking-wide mb-1 leading-tight">{label}</p>
+      <p className={`text-2xl sm:text-3xl font-semibold ${accentMap[accent]}`}>{value}</p>
       {sub && <p className="text-xs text-slate-400 mt-1">{sub}</p>}
     </div>
   );

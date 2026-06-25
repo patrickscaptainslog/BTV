@@ -81,7 +81,58 @@ export default function RenewalTracker({ renewals, initialStatuses, kvAvailable 
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-xs text-red-700">{error}</div>
       )}
-      <div className="overflow-x-auto">
+
+      {/* Mobile: stacked cards */}
+      <ul className="sm:hidden divide-y divide-slate-100">
+        {renewals.map((r) => {
+          const entry = statuses[r.unit_id];
+          const status = entry?.status ?? "";
+          const note = entry?.note ?? "";
+          return (
+            <li key={r.unit_id} className="py-3 space-y-2">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <p className="font-medium text-slate-800">{r.property_name} {r.unit_number}</p>
+                  <p className="text-sm text-slate-600 truncate">{r.tenant_name}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    {r.lease_end ? formatDate(r.lease_end) : "—"}
+                    {r.days_until_end != null && (
+                      <span className={`ml-2 font-medium ${r.days_until_end < 0 ? "text-red-700" : r.days_until_end <= 30 ? "text-red-600" : "text-amber-600"}`}>
+                        {r.days_until_end < 0 ? `${Math.abs(r.days_until_end)}d ago` : `${r.days_until_end}d`}
+                      </span>
+                    )}
+                  </p>
+                </div>
+                <div className="shrink-0"><StatusBadge status={r.status} /></div>
+              </div>
+              <select
+                value={status}
+                disabled={!kvAvailable || saving[r.unit_id]}
+                onChange={(e) => persist(r, e.target.value as ContactStatus | "", note)}
+                className={`w-full text-sm rounded-md border px-3 py-2 outline-none focus:ring-2 focus:ring-slate-300 disabled:opacity-60 ${CONTACT_CLS[status]}`}
+              >
+                {CONTACT_OPTIONS.map((o) => (
+                  <option key={o.value} value={o.value}>{o.label}</option>
+                ))}
+              </select>
+              <input
+                type="text"
+                defaultValue={note}
+                disabled={!kvAvailable}
+                placeholder="Add note…"
+                maxLength={500}
+                onBlur={(e) => {
+                  if (e.target.value !== note) persist(r, status, e.target.value);
+                }}
+                className="w-full text-sm rounded-md border border-slate-200 px-3 py-2 text-slate-700 placeholder:text-slate-300 outline-none focus:ring-2 focus:ring-slate-300 disabled:opacity-60"
+              />
+            </li>
+          );
+        })}
+      </ul>
+
+      {/* Desktop: table */}
+      <div className="hidden sm:block overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
             <tr className="text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">

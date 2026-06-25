@@ -50,8 +50,8 @@ export default async function DashboardPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Header */}
-      <header className="bg-white border-b border-slate-200 px-6 py-4">
-        <div className="max-w-5xl mx-auto flex items-start justify-between gap-4">
+      <header className="bg-white border-b border-slate-200 px-4 sm:px-6 py-4">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 sm:gap-4">
           <div>
             <h1 className="text-lg font-semibold text-slate-900">Leasing Dashboard</h1>
             {occ && (
@@ -73,14 +73,14 @@ export default async function DashboardPage() {
               <p className="text-xs text-slate-400 mt-0.5">Updated {refreshedAt}</p>
             )}
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             <RefreshButton />
             <ExportButton />
           </div>
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 py-8 space-y-6">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
         {fetchError && (
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">
             <strong>API Error:</strong> {fetchError}
@@ -90,7 +90,7 @@ export default async function DashboardPage() {
         {data && (
           <>
             {/* Property occupancy summary */}
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {data.occupancy.by_property.map((p) => (
                 <div key={p.property_name} className="bg-white rounded-lg border border-slate-200 px-4 py-3">
                   <p className="text-sm font-semibold text-slate-800 mb-2">{p.property_name}</p>
@@ -155,34 +155,54 @@ export default async function DashboardPage() {
                   {data.move_ins.length === 0 ? (
                     <p className="text-sm text-slate-400">No move-ins in the next 90 days.</p>
                   ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">
-                            <th className="text-left pb-2 pr-4">Unit</th>
-                            <th className="text-left pb-2 pr-4">Tenant</th>
-                            <th className="text-left pb-2 pr-4">Move-In</th>
-                            <th className="text-right pb-2">Days</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-50">
-                          {data.move_ins.map((m, i) => (
-                            <tr key={i} className="hover:bg-slate-50">
-                              <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
-                              <td className="py-2 pr-4 text-slate-600">{m.tenant_name || <span className="text-slate-300 italic">—</span>}</td>
-                              <td className="py-2 pr-4 text-slate-600">{m.date ? formatDate(m.date) : <span className="text-slate-300 italic">check AppFolio</span>}</td>
-                              <td className="py-2 text-right">
-                                {m.days_until < 999 ? (
-                                  <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>
-                                    {m.days_until}d
-                                  </span>
-                                ) : <span className="text-slate-300">—</span>}
-                              </td>
+                    <>
+                      {/* Mobile: stacked cards */}
+                      <ul className="sm:hidden divide-y divide-slate-100">
+                        {data.move_ins.map((m, i) => (
+                          <li key={i} className="py-3 flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="font-medium text-slate-800">{m.property_name} {m.unit_number}</p>
+                              <p className="text-sm text-slate-600 truncate">{m.tenant_name || <span className="text-slate-300 italic">—</span>}</p>
+                              <p className="text-xs text-slate-400 mt-0.5">{m.date ? formatDate(m.date) : <span className="italic">check AppFolio</span>}</p>
+                            </div>
+                            {m.days_until < 999 && (
+                              <span className={`shrink-0 text-sm font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-500"}`}>
+                                {m.days_until}d
+                              </span>
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                      {/* Desktop: table */}
+                      <div className="hidden sm:block overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">
+                              <th className="text-left pb-2 pr-4">Unit</th>
+                              <th className="text-left pb-2 pr-4">Tenant</th>
+                              <th className="text-left pb-2 pr-4">Move-In</th>
+                              <th className="text-right pb-2">Days</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                          </thead>
+                          <tbody className="divide-y divide-slate-50">
+                            {data.move_ins.map((m, i) => (
+                              <tr key={i} className="hover:bg-slate-50">
+                                <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
+                                <td className="py-2 pr-4 text-slate-600">{m.tenant_name || <span className="text-slate-300 italic">—</span>}</td>
+                                <td className="py-2 pr-4 text-slate-600">{m.date ? formatDate(m.date) : <span className="text-slate-300 italic">check AppFolio</span>}</td>
+                                <td className="py-2 text-right">
+                                  {m.days_until < 999 ? (
+                                    <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>
+                                      {m.days_until}d
+                                    </span>
+                                  ) : <span className="text-slate-300">—</span>}
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
                   )}
                 </div>
               </details>
@@ -206,36 +226,59 @@ export default async function DashboardPage() {
                   {data.move_outs.length === 0 ? (
                     <p className="text-sm text-slate-400">No move-outs in the next 90 days.</p>
                   ) : (
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-sm">
-                        <thead>
-                          <tr className="text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">
-                            <th className="text-left pb-2 pr-4">Unit</th>
-                            <th className="text-left pb-2 pr-4">Tenant</th>
-                            <th className="text-left pb-2 pr-4">Move-Out</th>
-                            <th className="text-right pb-2 pr-4">Days</th>
-                            <th className="text-left pb-2">Replacement</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-50">
-                          {data.move_outs.map((m, i) => (
-                            <tr key={i} className="hover:bg-slate-50">
-                              <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
-                              <td className="py-2 pr-4 text-slate-600">{m.tenant_name}</td>
-                              <td className="py-2 pr-4 text-slate-600">{formatDate(m.date)}</td>
-                              <td className="py-2 pr-4 text-right">
-                                <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>
-                                  {m.days_until}d
-                                </span>
-                              </td>
-                              <td className="py-2">
-                                <StatusBadge status={m.has_replacement ? "has-replacement" : "no-replacement"} />
-                              </td>
+                    <>
+                      {/* Mobile: stacked cards */}
+                      <ul className="sm:hidden divide-y divide-slate-100">
+                        {data.move_outs.map((m, i) => (
+                          <li key={i} className="py-3">
+                            <div className="flex items-start justify-between gap-3">
+                              <div className="min-w-0">
+                                <p className="font-medium text-slate-800">{m.property_name} {m.unit_number}</p>
+                                <p className="text-sm text-slate-600 truncate">{m.tenant_name}</p>
+                                <p className="text-xs text-slate-400 mt-0.5">{formatDate(m.date)}</p>
+                              </div>
+                              <span className={`shrink-0 text-sm font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-500"}`}>
+                                {m.days_until}d
+                              </span>
+                            </div>
+                            <div className="mt-2">
+                              <StatusBadge status={m.has_replacement ? "has-replacement" : "no-replacement"} />
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                      {/* Desktop: table */}
+                      <div className="hidden sm:block overflow-x-auto">
+                        <table className="w-full text-sm">
+                          <thead>
+                            <tr className="text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">
+                              <th className="text-left pb-2 pr-4">Unit</th>
+                              <th className="text-left pb-2 pr-4">Tenant</th>
+                              <th className="text-left pb-2 pr-4">Move-Out</th>
+                              <th className="text-right pb-2 pr-4">Days</th>
+                              <th className="text-left pb-2">Replacement</th>
                             </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
+                          </thead>
+                          <tbody className="divide-y divide-slate-50">
+                            {data.move_outs.map((m, i) => (
+                              <tr key={i} className="hover:bg-slate-50">
+                                <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
+                                <td className="py-2 pr-4 text-slate-600">{m.tenant_name}</td>
+                                <td className="py-2 pr-4 text-slate-600">{formatDate(m.date)}</td>
+                                <td className="py-2 pr-4 text-right">
+                                  <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>
+                                    {m.days_until}d
+                                  </span>
+                                </td>
+                                <td className="py-2">
+                                  <StatusBadge status={m.has_replacement ? "has-replacement" : "no-replacement"} />
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
                   )}
                 </div>
               </details>
