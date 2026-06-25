@@ -44,7 +44,7 @@ describe("dashboardToCsv", () => {
       {
         ...data,
         renewals: [
-          { unit_id: "9", property_name: "15th", unit_number: "3 - 3", tenant_name: "Lee, Sam", lease_end: "2026-05-01", days_until_end: -46, monthly_rent: 1500, status: "expired" },
+          { unit_id: "9", property_name: "15th", unit_number: "3 - 3", tenant_name: "Lee, Sam", email: "sam@example.com", phone: "415-555-0199", lease_end: "2026-05-01", days_until_end: -46, monthly_rent: 1500, status: "expired" },
         ],
       },
       { "9": { status: "no-reply", note: "emailed twice", tenant_name: "Lee, Sam", updated_at: "2026-06-16T00:00:00Z" } }
@@ -52,6 +52,8 @@ describe("dashboardToCsv", () => {
     expect(withRenewal).toContain("No Reply");
     expect(withRenewal).toContain("emailed twice");
     expect(withRenewal).toContain("Expired");
+    expect(withRenewal).toContain("sam@example.com");
+    expect(withRenewal).toContain("415-555-0199");
   });
 
   it("ignores outreach status when the tenant has changed (stale entry)", () => {

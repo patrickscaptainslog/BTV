@@ -84,6 +84,18 @@ describe("renewalsToChase", () => {
     expect(result[0].status).toBe("action-needed");
   });
 
+  it("attaches email/phone from the tenant directory, matched by unit + tenant", () => {
+    const rows = [
+      { ...base, unit_id: "501", unit: "501", status: "Current", tenant: "Dana Lee", lease_to: null },
+    ];
+    const contacts = [
+      { unit_id: "501", tenant: "Dana Lee", email: "dana@example.com", phone_numbers: "415-555-0100" },
+    ];
+    const result = renewalsToChase(rows, contacts);
+    expect(result[0].email).toBe("dana@example.com");
+    expect(result[0].phone).toBe("415-555-0100");
+  });
+
   it("marks already-passed lease_to as expired and sorts it first", () => {
     const rows = [
       { ...base, unit_id: "1", unit: "401", status: "Current", lease_to: "2025-02-10" }, // expiring soon

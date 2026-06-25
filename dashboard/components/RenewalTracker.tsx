@@ -94,6 +94,12 @@ export default function RenewalTracker({ renewals, initialStatuses, kvAvailable 
                 <div className="min-w-0">
                   <p className="font-medium text-slate-800">{r.property_name} {r.unit_number}</p>
                   <p className="text-sm text-slate-600 truncate">{r.tenant_name}</p>
+                  {(r.email || r.phone) && (
+                    <p className="text-xs mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5">
+                      {r.email && <a href={`mailto:${r.email}`} className="text-blue-600 truncate max-w-[12rem]">{r.email}</a>}
+                      {r.phone && <a href={`tel:${r.phone}`} className="text-blue-600">{r.phone}</a>}
+                    </p>
+                  )}
                   <p className="text-xs text-slate-400 mt-0.5">
                     {r.lease_end ? formatDate(r.lease_end) : "—"}
                     {r.days_until_end != null && (
@@ -153,7 +159,16 @@ export default function RenewalTracker({ renewals, initialStatuses, kvAvailable 
               return (
                 <tr key={r.unit_id} className="hover:bg-slate-50 align-top">
                   <td className="py-2.5 pr-4 font-medium text-slate-800 whitespace-nowrap">{r.property_name} {r.unit_number}</td>
-                  <td className="py-2.5 pr-4 text-slate-600 whitespace-nowrap">{r.tenant_name}</td>
+                  <td className="py-2.5 pr-4 text-slate-600 whitespace-nowrap">
+                    {r.tenant_name}
+                    {(r.email || r.phone) && (
+                      <span className="block text-xs font-normal">
+                        {r.email && <a href={`mailto:${r.email}`} className="text-blue-600 hover:underline">{r.email}</a>}
+                        {r.email && r.phone && <span className="text-slate-300"> · </span>}
+                        {r.phone && <a href={`tel:${r.phone}`} className="text-blue-600 hover:underline">{r.phone}</a>}
+                      </span>
+                    )}
+                  </td>
                   <td className="py-2.5 pr-4 text-slate-600 whitespace-nowrap">{r.lease_end ? formatDate(r.lease_end) : "—"}</td>
                   <td className="py-2.5 pr-4 text-right whitespace-nowrap">
                     {r.days_until_end != null ? (

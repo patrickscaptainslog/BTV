@@ -45,6 +45,38 @@ function unitKey(r: Record<string, unknown>): string {
   return str(r, "property_name") + "|" + str(r, "unit");
 }
 
+// --- Contact extraction (tenant_directory) ---------------------------------
+// AppFolio column names vary by account; try the common variants in order.
+function contactEmail(row: Record<string, unknown>): string | null {
+  return nullable(row, "email", "email_address", "primary_email", "tenant_email");
+}
+
+function contactPhone(row: Record<string, unknown>): string | null {
+  return nullable(
+    row,
+    "phone_numbers", "phone", "phone_number", "primary_phone",
+    "mobile_phone", "cell_phone", "home_phone", "work_phone"
+  );
+}
+
+// Build lookup maps from tenant_directory rows. We key by unit_id + tenant name
+// (so co-living units resolve each roommate), with a unit_id-only fallback.
+type Contact = { email: string | null; phone: string | null };
+function buildContactMaps(contacts: Record<string, unknown>[]) {
+  const byTenant = new Map<string, Contact>();
+  const byUnit = new Map<string, Contact>();
+  for (const c of contacts) {
+    const uid = str(c, "unit_id");
+    if (!uid) continue;
+    const entry: Contact = { email: contactEmail(c), phone: contactPhone(c) };
+    if (!entry.email && !entry.phone) continue;
+    const name = str(c, "tenant").trim().toLowerCase();
+    if (name) byTenant.set(`${uid}|${name}`, entry);
+    if (!byUnit.has(uid)) byUnit.set(uid, entry);
+  }
+  return { byTenant, byUnit };
+}
+
 // --- Status helpers --------------------------------------------------------
 // Real AppFolio statuses confirmed via /api/inspect:
 //   "Current" (45), "Vacant-Rented" (3), "Vacant-Unrented" (1),
@@ -201,9 +233,11 @@ export function upcomingMoveOuts(
 // ---------------------------------------------------------------------------
 export function renewalsToChase(
   rentRoll: Record<string, unknown>[],
+  contacts: Record<string, unknown>[] = [],
   days = 120
 ): RenewalAlert[] {
   const futureUnits = new Set(rentRoll.filter(isFutureTenant).map(unitKey));
+  const { byTenant, byUnit } = buildContactMaps(contacts);
 
   return rentRoll
     .filter((r) => {
@@ -233,8 +267,12 @@ export function renewalsToChase(
         status = "expiring-soon";
       }
 
+      const uid = str(r, "unit_id");
+      const name = str(r, "tenant").trim().toLowerCase();
+      const contact = byTenant.get(`${uid}|${name}`) ?? byUnit.get(uid) ?? null;
+
       return {
-        unit_id: str(r, "unit_id"),
+        unit_id: uid,
         property_name: str(r, "property_name"),
         unit_number: str(r, "unit"),
         tenant_name: str(r, "tenant"),
@@ -242,6 +280,8 @@ export function renewalsToChase(
         days_until_end: daysLeft,
         monthly_rent: num(r, "rent"),
         status,
+        email: contact?.email ?? null,
+        phone: contact?.phone ?? null,
       };
     })
     .sort((a, b) => {
@@ -383,12 +423,13 @@ export function occupancySummary(
 export async function buildDashboardData(
   rentRoll: Record<string, unknown>[],
   vacancyRows: Record<string, unknown>[],
-  futureTenants: Record<string, unknown>[] = []
+  futureTenants: Record<string, unknown>[] = [],
+  tenantContacts: Record<string, unknown>[] = []
 ): Promise<DashboardData> {
   return {
     move_ins: upcomingMoveIns(rentRoll, futureTenants),
     move_outs: upcomingMoveOuts(rentRoll),
-    renewals: renewalsToChase(rentRoll),
+    renewals: renewalsToChase(rentRoll, tenantContacts),
     occupancy: occupancySummary(rentRoll, vacancyRows),
     refreshed_at: new Date().toISOString(),
   };

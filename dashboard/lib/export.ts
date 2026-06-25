@@ -114,7 +114,7 @@ export function dashboardToCsv(data: DashboardData, leaseStatuses: LeaseStatusMa
 
   // --- Lease renewals + outreach tracking ---
   lines.push(row([`LEASE RENEWALS (${data.renewals.length})`]));
-  lines.push(row(["Property", "Unit", "Tenant", "Lease End", "Days Until End", "Lease Status", "Outreach Status", "Note"]));
+  lines.push(row(["Property", "Unit", "Tenant", "Email", "Phone", "Lease End", "Days Until End", "Lease Status", "Outreach Status", "Note"]));
   for (const r of data.renewals) {
     const entry = leaseStatuses[r.unit_id];
     const fresh = entry && entry.tenant_name === r.tenant_name ? entry : null;
@@ -122,6 +122,8 @@ export function dashboardToCsv(data: DashboardData, leaseStatuses: LeaseStatusMa
       r.property_name,
       r.unit_number,
       r.tenant_name,
+      r.email ?? "",
+      r.phone ?? "",
       r.lease_end ?? "",
       r.days_until_end ?? "",
       LEASE_LABEL[r.status],

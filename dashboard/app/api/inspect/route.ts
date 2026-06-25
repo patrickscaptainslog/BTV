@@ -39,9 +39,16 @@ export async function GET() {
   // aged_receivables future tenants (what we currently use for names/dates)
   const ar = await postReport("aged_receivables_detail", { tenant_statuses: ["2"] });
 
+  await new Promise(r => setTimeout(r, 2500));
+
+  // tenant_directory current tenants (status 0) — confirms email/phone column names
+  const td0 = await postReport("tenant_directory", { tenant_statuses: ["0"] });
+  const td0Columns = td0.rows.length > 0 ? Object.keys(td0.rows[0]) : [];
+
   return NextResponse.json({
     vacant_rented_rows_full: vacantRented,
     tenant_directory_status2: { total: td2.rows.length, rows: td2.rows },
     aged_receivables_status2: { total: ar.rows.length, rows: ar.rows },
+    tenant_directory_status0: { total: td0.rows.length, columns: td0Columns, sample: td0.rows.slice(0, 2) },
   });
 }

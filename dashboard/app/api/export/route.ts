@@ -1,4 +1,4 @@
-import { fetchRentRoll, fetchUnitVacancy, fetchFutureTenants, getManualOverrides } from "@/lib/appfolio";
+import { fetchRentRoll, fetchUnitVacancy, fetchFutureTenants, fetchTenantDirectory, getManualOverrides } from "@/lib/appfolio";
 import { buildDashboardData } from "@/lib/leasing";
 import { dashboardToCsv } from "@/lib/export";
 import { getLeaseStatuses } from "@/lib/leaseStatus";
@@ -10,6 +10,7 @@ export async function GET() {
     const rentRoll = await fetchRentRoll();
     const vacancyRows = await fetchUnitVacancy();
     const futureTenants = await fetchFutureTenants();
+    const tenantContacts = await fetchTenantDirectory();
 
     if (rentRoll.length === 0) {
       return new Response("AppFolio returned 0 rent-roll rows — try again.", { status: 503 });
@@ -17,7 +18,7 @@ export async function GET() {
 
     const overrides = getManualOverrides();
     const augmentedRoll = overrides.length > 0 ? [...rentRoll, ...overrides] : rentRoll;
-    const data = await buildDashboardData(augmentedRoll, vacancyRows, futureTenants);
+    const data = await buildDashboardData(augmentedRoll, vacancyRows, futureTenants, tenantContacts);
     const leaseStatuses = await getLeaseStatuses();
 
     const csv = dashboardToCsv(data, leaseStatuses);

@@ -39,6 +39,8 @@ export interface RenewalAlert {
   days_until_end: number | null;
   monthly_rent: number;
   status: "expired" | "expiring-soon" | "month-to-month" | "action-needed";
+  email?: string | null;
+  phone?: string | null;
 }
 
 // --- Renewal outreach tracking (admin-editable, persisted in KV) -----------

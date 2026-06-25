@@ -189,6 +189,22 @@ export const fetchFutureTenants = () =>
   });
 
 // ---------------------------------------------------------------------------
+// Current-tenant contact directory (email + phone) for the renewals list.
+// rent_roll carries no contact columns; tenant_directory does. Keyed downstream
+// by unit_id + tenant name so co-living units map each tenant to their own row.
+// tenant_statuses ["0"] = current tenants in AppFolio's directory filter.
+// ---------------------------------------------------------------------------
+export const fetchTenantDirectory = () =>
+  cached("tenant-directory", async () => {
+    await new Promise((r) => setTimeout(r, 6000)); // space out from earlier report calls
+    try {
+      return await fetchReport("tenant_directory", { tenant_statuses: ["0"] });
+    } catch {
+      return [];
+    }
+  });
+
+// ---------------------------------------------------------------------------
 // Manual move-in overrides (emergency fallback only)
 // tenant_directory with tenant_statuses:["2"] now covers all future tenants.
 // Use MOVE_IN_OVERRIDES only if AppFolio is missing a lease that exists elsewhere.
