@@ -47,16 +47,31 @@ function unitKey(r: Record<string, unknown>): string {
 
 // --- Contact extraction (tenant_directory) ---------------------------------
 // AppFolio column names vary by account; try the common variants in order.
+// Note: AppFolio uses the plural "phone_numbers", so "emails" (plural) is the
+// most likely email column — list it first.
 function contactEmail(row: Record<string, unknown>): string | null {
-  return nullable(row, "email", "email_address", "primary_email", "tenant_email");
+  return nullable(
+    row,
+    "emails", "email", "email_addresses", "email_address", "primary_email", "tenant_email"
+  );
 }
 
 function contactPhone(row: Record<string, unknown>): string | null {
-  return nullable(
+  return cleanPhone(nullable(
     row,
     "phone_numbers", "phone", "phone_number", "primary_phone",
     "mobile_phone", "cell_phone", "home_phone", "work_phone"
-  );
+  ));
+}
+
+// AppFolio sometimes prefixes a phone value with its type label, e.g.
+// "Mobile: (415) 555-0100" or "Home Phone - 415-555-0100". Strip a leading
+// alphabetic label (letters/spaces followed by ":" or "-") so only the number
+// remains. A bare number has no such prefix and is returned unchanged.
+function cleanPhone(v: string | null): string | null {
+  if (!v) return null;
+  const cleaned = v.replace(/^\s*[A-Za-z][A-Za-z ]*[:\-]\s*/, "").trim();
+  return cleaned || null;
 }
 
 // Build lookup maps from tenant_directory rows. We key by unit_id + tenant name
