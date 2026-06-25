@@ -6,6 +6,8 @@ import StatusBadge from "@/components/StatusBadge";
 import ExpirationChart from "@/components/ExpirationChart";
 import RefreshButton from "@/components/RefreshButton";
 import ExportButton from "@/components/ExportButton";
+import RenewalTracker from "@/components/RenewalTracker";
+import { getLeaseStatuses, kvAvailable } from "@/lib/leaseStatus";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +33,10 @@ export default async function DashboardPage() {
   } catch (err) {
     fetchError = err instanceof Error ? err.message : String(err);
   }
+
+  // Renewal outreach statuses (admin-editable, persisted in KV)
+  const leaseStatuses = await getLeaseStatuses();
+  const kvOn = kvAvailable();
 
   const refreshedAt = data
     ? new Date(data.refreshed_at).toLocaleString("en-US", {
@@ -233,6 +239,18 @@ export default async function DashboardPage() {
                   )}
                 </div>
               </details>
+            </section>
+
+            {/* Lease Renewals — expiring/expired leases with outreach tracking */}
+            <section id="renewals" className="bg-white rounded-xl border border-slate-200 p-5">
+              <div className="flex items-center gap-2 mb-1">
+                <h2 className="text-base font-semibold text-slate-800">Lease Renewals</h2>
+                <span className="text-xs font-medium bg-slate-100 text-slate-500 rounded-full px-2 py-0.5">
+                  {data.renewals.length}
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mb-3">Expired, expiring (120d), and month-to-month leases. Set outreach status and notes per tenant.</p>
+              <RenewalTracker renewals={data.renewals} initialStatuses={leaseStatuses} kvAvailable={kvOn} />
             </section>
 
             {/* Vacant Units */}

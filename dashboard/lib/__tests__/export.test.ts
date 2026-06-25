@@ -35,7 +35,36 @@ describe("dashboardToCsv", () => {
     expect(csv).toContain("UPCOMING MOVE-INS (1)");
     expect(csv).toContain("UPCOMING MOVE-OUTS (1)");
     expect(csv).toContain("VACANT UNITS (1)");
+    expect(csv).toContain("LEASE RENEWALS");
     expect(csv).toContain("LEASE EXPIRATIONS BY MONTH");
+  });
+
+  it("merges outreach status and notes into the renewals section", () => {
+    const withRenewal = dashboardToCsv(
+      {
+        ...data,
+        renewals: [
+          { unit_id: "9", property_name: "15th", unit_number: "3 - 3", tenant_name: "Lee, Sam", lease_end: "2026-05-01", days_until_end: -46, monthly_rent: 1500, status: "expired" },
+        ],
+      },
+      { "9": { status: "no-reply", note: "emailed twice", tenant_name: "Lee, Sam", updated_at: "2026-06-16T00:00:00Z" } }
+    );
+    expect(withRenewal).toContain("No Reply");
+    expect(withRenewal).toContain("emailed twice");
+    expect(withRenewal).toContain("Expired");
+  });
+
+  it("ignores outreach status when the tenant has changed (stale entry)", () => {
+    const stale = dashboardToCsv(
+      {
+        ...data,
+        renewals: [
+          { unit_id: "9", property_name: "15th", unit_number: "3 - 3", tenant_name: "New, Person", lease_end: "2026-05-01", days_until_end: -46, monthly_rent: 1500, status: "expired" },
+        ],
+      },
+      { "9": { status: "renewing", note: "old tenant note", tenant_name: "Lee, Sam", updated_at: "2026-06-16T00:00:00Z" } }
+    );
+    expect(stale).not.toContain("old tenant note");
   });
 
   it("escapes cells containing commas", () => {

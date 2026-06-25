@@ -1,4 +1,19 @@
-import type { DashboardData } from "./types";
+import type { DashboardData, LeaseStatusMap, ContactStatus } from "./types";
+
+const CONTACT_LABEL: Record<ContactStatus | "", string> = {
+  "": "",
+  contacted: "Contacted",
+  renewing: "Renewing",
+  "not-renewing": "Not Renewing",
+  "no-reply": "No Reply",
+};
+
+const LEASE_LABEL: Record<DashboardData["renewals"][number]["status"], string> = {
+  expired: "Expired",
+  "action-needed": "Action needed",
+  "expiring-soon": "Expiring soon",
+  "month-to-month": "Month-to-month",
+};
 
 // Escape a single CSV cell per RFC 4180: wrap in quotes if it contains
 // a comma, quote, or newline; double any embedded quotes.
@@ -14,7 +29,7 @@ function row(values: unknown[]): string {
 
 // Build a single consolidated CSV with labeled sections stacked vertically,
 // the way a monthly report is assembled in Excel: read top to bottom, copy blocks.
-export function dashboardToCsv(data: DashboardData): string {
+export function dashboardToCsv(data: DashboardData, leaseStatuses: LeaseStatusMap = {}): string {
   const occ = data.occupancy;
   const lines: string[] = [];
 
@@ -93,6 +108,25 @@ export function dashboardToCsv(data: DashboardData): string {
       v.beds ?? "",
       v.baths ?? "",
       v.days_vacant ?? "",
+    ]));
+  }
+  lines.push("");
+
+  // --- Lease renewals + outreach tracking ---
+  lines.push(row([`LEASE RENEWALS (${data.renewals.length})`]));
+  lines.push(row(["Property", "Unit", "Tenant", "Lease End", "Days Until End", "Lease Status", "Outreach Status", "Note"]));
+  for (const r of data.renewals) {
+    const entry = leaseStatuses[r.unit_id];
+    const fresh = entry && entry.tenant_name === r.tenant_name ? entry : null;
+    lines.push(row([
+      r.property_name,
+      r.unit_number,
+      r.tenant_name,
+      r.lease_end ?? "",
+      r.days_until_end ?? "",
+      LEASE_LABEL[r.status],
+      fresh ? CONTACT_LABEL[fresh.status] : "",
+      fresh ? fresh.note : "",
     ]));
   }
   lines.push("");

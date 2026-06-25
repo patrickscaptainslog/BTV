@@ -225,6 +225,8 @@ export function renewalsToChase(
       let status: RenewalAlert["status"];
       if (mtm) {
         status = "month-to-month";
+      } else if (daysLeft !== null && daysLeft < 0) {
+        status = "expired";
       } else if (daysLeft !== null && daysLeft <= 30) {
         status = "action-needed";
       } else {
@@ -243,7 +245,7 @@ export function renewalsToChase(
       };
     })
     .sort((a, b) => {
-      const order = { "action-needed": 0, "expiring-soon": 1, "month-to-month": 2 };
+      const order = { "expired": 0, "action-needed": 1, "expiring-soon": 2, "month-to-month": 3 };
       const diff = order[a.status] - order[b.status];
       if (diff !== 0) return diff;
       return (a.days_until_end ?? 999) - (b.days_until_end ?? 999);

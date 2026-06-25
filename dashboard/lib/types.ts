@@ -38,8 +38,20 @@ export interface RenewalAlert {
   lease_end: string | null;
   days_until_end: number | null;
   monthly_rent: number;
-  status: "expiring-soon" | "month-to-month" | "action-needed";
+  status: "expired" | "expiring-soon" | "month-to-month" | "action-needed";
 }
+
+// --- Renewal outreach tracking (admin-editable, persisted in KV) -----------
+export type ContactStatus = "contacted" | "renewing" | "not-renewing" | "no-reply";
+
+export interface LeaseStatusEntry {
+  status: ContactStatus | "";
+  note: string;
+  tenant_name: string; // staleness guard: ignore if current tenant differs
+  updated_at: string;  // ISO datetime
+}
+
+export type LeaseStatusMap = Record<string, LeaseStatusEntry>; // keyed by unit_id
 
 export interface VacantUnit {
   unit_id: string;

@@ -83,6 +83,17 @@ describe("renewalsToChase", () => {
     const result = renewalsToChase(rows);
     expect(result[0].status).toBe("action-needed");
   });
+
+  it("marks already-passed lease_to as expired and sorts it first", () => {
+    const rows = [
+      { ...base, unit_id: "1", unit: "401", status: "Current", lease_to: "2025-02-10" }, // expiring soon
+      { ...base, unit_id: "2", unit: "402", status: "Current", lease_to: "2024-12-01" }, // expired
+    ];
+    const result = renewalsToChase(rows);
+    expect(result[0].unit_number).toBe("402");
+    expect(result[0].status).toBe("expired");
+    expect(result[0].days_until_end).toBeLessThan(0);
+  });
 });
 
 describe("occupancySummary", () => {
