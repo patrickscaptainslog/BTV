@@ -1,0 +1,90 @@
+[
+ {
+  "id": "s1-cr-001",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1300,
+  "stem": "Prove that $\\sqrt{2}$ is irrational.\n\nYour response should be a complete, rigorous argument. State your proof strategy, justify each step, and clearly identify where the contradiction (if any) arises.",
+  "modelAnswer": "**Proof by contradiction.** Suppose $\\sqrt{2}$ is rational. Then $\\sqrt{2} = \\frac{p}{q}$ for integers $p, q$ with $q \\ne 0$, and we may take the fraction in lowest terms, so $\\gcd(p, q) = 1$.\n\nSquaring both sides: $2 = \\frac{p^2}{q^2}$, so $p^2 = 2q^2$. Thus $p^2$ is even. Since the square of an odd number is odd ($(2k+1)^2 = 4k^2 + 4k + 1$), $p$ itself must be even: $p = 2k$ for some integer $k$.\n\nSubstituting: $(2k)^2 = 2q^2$, so $4k^2 = 2q^2$, giving $q^2 = 2k^2$. By the same reasoning, $q$ is even.\n\nBut then $p$ and $q$ are both even, so $2 \\mid \\gcd(p, q)$ — contradicting $\\gcd(p, q) = 1$. Therefore the assumption fails, and $\\sqrt{2}$ is irrational. $\\blacksquare$",
+  "tags": ["proof", "contradiction", "irrational"]
+ },
+ {
+  "id": "s1-cr-002",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1300,
+  "stem": "Prove that for every integer $n$, if $n^2$ is even, then $n$ is even.\n\nUse a proof by contraposition (or another valid method), and justify each step.",
+  "modelAnswer": "**Proof by contraposition.** The contrapositive of the claim is: if $n$ is odd, then $n^2$ is odd. Proving the contrapositive proves the original statement, since an implication and its contrapositive are logically equivalent.\n\nSuppose $n$ is odd. Then $n = 2k + 1$ for some integer $k$. Squaring:\n$$n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1.$$\nSince $2k^2 + 2k$ is an integer, $n^2$ has the form $2m + 1$, so $n^2$ is odd.\n\nTherefore, if $n^2$ is even, $n$ must be even. $\\blacksquare$\n\n*(Remark: this fact is exactly the step used inside the classical proof that $\\sqrt{2}$ is irrational.)*",
+  "tags": ["proof", "contraposition", "parity"]
+ },
+ {
+  "id": "s1-cr-003",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1250,
+  "stem": "Solve the inequality $|2x - 1| \\ge 7$ completely.\n\nShow all algebraic steps, express the solution set in interval notation, and explain why the absolute value produces the case structure you use.",
+  "modelAnswer": "The inequality $|A| \\ge 7$ means the quantity $A$ is at distance at least 7 from 0, which happens exactly when $A \\ge 7$ or $A \\le -7$. This gives two cases:\n\n**Case 1:** $2x - 1 \\ge 7 \\Rightarrow 2x \\ge 8 \\Rightarrow x \\ge 4$.\n\n**Case 2:** $2x - 1 \\le -7 \\Rightarrow 2x \\le -6 \\Rightarrow x \\le -3$.\n\nThe solution set is the union: $(-\\infty, -3] \\cup [4, \\infty)$.\n\n**Check:** at $x = 4$: $|8 - 1| = 7 \\ge 7$ ✓; at $x = -3$: $|-6 - 1| = 7 \\ge 7$ ✓; at $x = 0$ (between): $|-1| = 1 < 7$, correctly excluded. ✓\n\nThe two cases cannot be combined into a single \"and\" statement: the solution is a union of two disjoint rays, which is characteristic of $|A| \\ge c$ (whereas $|A| \\le c$ gives the single interval $-c \\le A \\le c$).",
+  "tags": ["absolute-value", "inequality"]
+ },
+ {
+  "id": "s1-cr-004",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1350,
+  "stem": "Let $f(x) = \\dfrac{2x + 3}{x - 1}$.\n\n(a) State the domain of $f$.\n(b) Find $f^{-1}(x)$, showing all steps.\n(c) State the domain of $f^{-1}$, and explain how it relates to the range of $f$.\n(d) Verify your answer by computing $f(f^{-1}(x))$.",
+  "modelAnswer": "**(a)** The domain of $f$ is all reals except where the denominator vanishes: $x \\ne 1$.\n\n**(b)** Set $y = \\frac{2x + 3}{x - 1}$ and solve for $x$:\n$$y(x - 1) = 2x + 3 \\Rightarrow xy - y = 2x + 3 \\Rightarrow xy - 2x = y + 3 \\Rightarrow x(y - 2) = y + 3 \\Rightarrow x = \\frac{y + 3}{y - 2}.$$\nSwapping the roles of the variables: $f^{-1}(x) = \\dfrac{x + 3}{x - 2}$.\n\n**(c)** The domain of $f^{-1}$ is $x \\ne 2$. This is exactly the range of $f$: solving $\\frac{2x+3}{x-1} = 2$ gives $2x + 3 = 2x - 2$, which is impossible, so $f$ never takes the value 2 — and it takes every other value. In general, the domain of $f^{-1}$ equals the range of $f$ (and vice versa). The value $y = 2$ is the horizontal asymptote of $f$.\n\n**(d)** $f\\left(\\frac{x+3}{x-2}\\right) = \\dfrac{2 \\cdot \\frac{x+3}{x-2} + 3}{\\frac{x+3}{x-2} - 1} = \\dfrac{\\frac{2(x+3) + 3(x-2)}{x-2}}{\\frac{(x+3) - (x-2)}{x-2}} = \\dfrac{2x + 6 + 3x - 6}{x + 3 - x + 2} = \\dfrac{5x}{5} = x.$ ✓",
+  "tags": ["inverse-function", "rational-function", "domain-range"]
+ },
+ {
+  "id": "s1-cr-005",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1350,
+  "stem": "Prove by mathematical induction that for every positive integer $n$:\n$$1 + 2 + 3 + \\cdots + n = \\frac{n(n+1)}{2}.$$\n\nClearly label the base case and the inductive step, and indicate exactly where the induction hypothesis is used.",
+  "modelAnswer": "**Base case ($n = 1$):** The left side is $1$; the right side is $\\frac{1 \\cdot 2}{2} = 1$. Equal. ✓\n\n**Inductive step:** Assume the formula holds for some $n = k \\ge 1$ (induction hypothesis):\n$$1 + 2 + \\cdots + k = \\frac{k(k+1)}{2}.$$\nWe must show it holds for $n = k + 1$. Starting from the left side for $k + 1$:\n$$1 + 2 + \\cdots + k + (k+1) = \\underbrace{\\frac{k(k+1)}{2}}_{\\text{induction hypothesis}} + (k+1).$$\nFactor out $(k+1)$:\n$$= (k+1)\\left(\\frac{k}{2} + 1\\right) = (k+1) \\cdot \\frac{k + 2}{2} = \\frac{(k+1)(k+2)}{2},$$\nwhich is exactly the formula with $n = k + 1$.\n\n**Conclusion:** The formula holds for $n = 1$, and whenever it holds for $k$ it holds for $k + 1$; by the principle of mathematical induction it holds for every positive integer $n$. $\\blacksquare$",
+  "tags": ["induction", "series"]
+ },
+ {
+  "id": "s1-cr-006",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1400,
+  "stem": "Consider $\\mathbb{Z}_7$ and $\\mathbb{Z}_6$, the integers modulo 7 and modulo 6, each with addition and multiplication mod $n$.\n\n(a) Show that every nonzero element of $\\mathbb{Z}_7$ has a multiplicative inverse, by exhibiting the inverse of each element.\n(b) Show that $\\mathbb{Z}_6$ is NOT a field, by exhibiting a specific nonzero element with no multiplicative inverse and proving it has none.\n(c) State the general principle your two examples illustrate.",
+  "modelAnswer": "**(a)** In $\\mathbb{Z}_7$: $1 \\cdot 1 = 1$; $2 \\cdot 4 = 8 \\equiv 1$; $3 \\cdot 5 = 15 \\equiv 1$; $4 \\cdot 2 \\equiv 1$; $5 \\cdot 3 \\equiv 1$; $6 \\cdot 6 = 36 = 35 + 1 \\equiv 1$. So the inverses of $1, 2, 3, 4, 5, 6$ are $1, 4, 5, 2, 3, 6$ respectively — every nonzero element is invertible, and $\\mathbb{Z}_7$ satisfies the remaining field axioms it inherits as a commutative ring with identity. Hence $\\mathbb{Z}_7$ is a field.\n\n**(b)** In $\\mathbb{Z}_6$, consider the element $2$. Its multiples are $2 \\cdot 0 = 0$, $2 \\cdot 1 = 2$, $2 \\cdot 2 = 4$, $2 \\cdot 3 = 6 \\equiv 0$, $2 \\cdot 4 = 8 \\equiv 2$, $2 \\cdot 5 = 10 \\equiv 4$. The value $1$ never occurs, so no $x \\in \\mathbb{Z}_6$ satisfies $2x \\equiv 1 \\pmod 6$. (Structurally: $2x \\equiv 1$ would make $2x - 6k = 1$ for some integer $k$, but the left side is even and 1 is odd.) Also note $2 \\cdot 3 \\equiv 0$ with $2, 3 \\ne 0$: $\\mathbb{Z}_6$ has zero divisors, which a field cannot have.\n\n**(c)** General principle: $\\mathbb{Z}_n$ is a field if and only if $n$ is prime. When $n$ is prime, every $a \\not\\equiv 0$ is coprime to $n$, so $ax \\equiv 1 \\pmod n$ is solvable (by Bézout's identity). When $n = ab$ is composite with $1 < a, b < n$, then $a$ is a zero divisor ($ab \\equiv 0$) and cannot be invertible.",
+  "tags": ["fields", "modular", "inverses"]
+ },
+ {
+  "id": "s1-cr-007",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1300,
+  "stem": "Let $p(x) = x^4 - 5x^2 + 4$.\n\n(a) Find all roots of $p(x) = 0$ (real and complex), showing your method.\n(b) Write the complete factorization of $p(x)$ over the real numbers.\n(c) Explain how your answer is consistent with the Fundamental Theorem of Algebra.",
+  "modelAnswer": "**(a)** The polynomial is quadratic in $u = x^2$: $u^2 - 5u + 4 = 0$, which factors as $(u - 1)(u - 4) = 0$, so $u = 1$ or $u = 4$. Back-substituting: $x^2 = 1$ gives $x = \\pm 1$; $x^2 = 4$ gives $x = \\pm 2$. The four roots are $x = 1, -1, 2, -2$ — all real.\n\n**Check:** $p(1) = 1 - 5 + 4 = 0$ ✓; $p(2) = 16 - 20 + 4 = 0$ ✓ (and $p$ is even, so $-1, -2$ are roots too).\n\n**(b)** $p(x) = (x - 1)(x + 1)(x - 2)(x + 2)$.\n\n**(c)** The Fundamental Theorem of Algebra guarantees a degree-4 polynomial has exactly 4 roots in $\\mathbb{C}$, counted with multiplicity. Here all four happen to be real and distinct, so the factorization over $\\mathbb{R}$ splits completely into linear factors — no irreducible quadratic factors are needed. (Had a pair of roots been non-real, they would occur as a conjugate pair, contributing an irreducible quadratic factor with real coefficients.)",
+  "tags": ["polynomials", "quadratic-in-disguise", "FTA"]
+ },
+ {
+  "id": "s1-cr-008",
+  "type": "cr",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1350,
+  "stem": "Consider the system of equations:\n$$3x + 2y = 7$$\n$$x + 4y = 9$$\n\n(a) Write the system as a matrix equation $A\\mathbf{x} = \\mathbf{b}$.\n(b) Compute $\\det A$, and explain what its value tells you about the number of solutions.\n(c) Solve the system using $A^{-1}$ (or Cramer's rule), showing all work.\n(d) Interpret the solution geometrically.",
+  "modelAnswer": "**(a)** $\\begin{pmatrix} 3 & 2 \\\\ 1 & 4 \\end{pmatrix}\\begin{pmatrix} x \\\\ y \\end{pmatrix} = \\begin{pmatrix} 7 \\\\ 9 \\end{pmatrix}$.\n\n**(b)** $\\det A = 3 \\cdot 4 - 2 \\cdot 1 = 10 \\ne 0$. A nonzero determinant means $A$ is invertible, so the system has exactly one solution. (Determinant zero would mean the two lines are parallel or identical: no solutions or infinitely many.)\n\n**(c)** $A^{-1} = \\frac{1}{10}\\begin{pmatrix} 4 & -2 \\\\ -1 & 3 \\end{pmatrix}$, so\n$$\\mathbf{x} = A^{-1}\\mathbf{b} = \\frac{1}{10}\\begin{pmatrix} 4 & -2 \\\\ -1 & 3 \\end{pmatrix}\\begin{pmatrix} 7 \\\\ 9 \\end{pmatrix} = \\frac{1}{10}\\begin{pmatrix} 28 - 18 \\\\ -7 + 27 \\end{pmatrix} = \\frac{1}{10}\\begin{pmatrix} 10 \\\\ 20 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}.$$\nSo $x = 1$, $y = 2$. **Check:** $3(1) + 2(2) = 7$ ✓; $1 + 4(2) = 9$ ✓.\n\n**(d)** Each equation is a line in the plane; because the determinant is nonzero the lines have different slopes ($-\\frac{3}{2}$ and $-\\frac{1}{4}$) and intersect in exactly one point, $(1, 2)$.",
+  "tags": ["linear-systems", "matrix-inverse", "determinant"]
+ }
+]
