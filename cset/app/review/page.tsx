@@ -62,6 +62,9 @@ export default function ReviewPage() {
         item={item}
         onAnswered={onAnswered}
         onNext={() => setQueue(queue.slice(1))}
+        // Skip leaves the item due (nothing recorded) and rotates it to the
+        // end of this session's queue so it comes back after the rest.
+        onSkip={() => setQueue(queue.length > 1 ? [...queue.slice(1), queue[0]] : queue)}
         nextLabel={queue.length > 1 ? "Next review" : "Done"}
       />
     </div>

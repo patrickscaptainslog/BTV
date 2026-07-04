@@ -84,6 +84,8 @@ export interface DrillOptions {
   subdomain?: SubdomainCode;
   /** avoid repeating anything answered in the last N attempts */
   recencyWindow?: number;
+  /** item IDs to avoid (e.g. skipped this session) unless the pool is exhausted */
+  exclude?: Iterable<string>;
 }
 
 /**
@@ -101,6 +103,7 @@ export function pickDrillItem(
   const subdomains = opts.subdomain ? [opts.subdomain] : subdomainsForSubtest(opts.subtest);
 
   const recent = new Set(attempts.slice(-(opts.recencyWindow ?? 30)).map((a) => a.itemId));
+  for (const id of opts.exclude ?? []) recent.add(id);
 
   // Weakness weights: subdomain at rating 1500 gets weight ~1, at 900 ~7.
   const weights = subdomains.map((sd) => {

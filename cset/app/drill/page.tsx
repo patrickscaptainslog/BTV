@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { MC_BANK } from "@/lib/bank";
 import { pickDrillItem } from "@/lib/blueprint";
 import { applyAttempt } from "@/lib/elo";
@@ -21,13 +21,21 @@ function DrillInner() {
   );
   const [item, setItem] = useState<MCItem | null>(null);
   const [streak, setStreak] = useState({ right: 0, total: 0 });
+  // Items skipped this session — avoid serving them right back.
+  const skippedRef = useRef<Set<string>>(new Set());
 
   const pick = (st: Subtest, sd: SubdomainCode | "") => {
     const next = pickDrillItem(MC_BANK, getRatings(), getAttempts(), {
       subtest: st,
       subdomain: sd === "" ? undefined : sd,
+      exclude: skippedRef.current,
     });
     setItem(next);
+  };
+
+  const onSkip = () => {
+    if (item) skippedRef.current.add(item.id);
+    pick(subtest, subdomain);
   };
 
   useEffect(() => {
@@ -100,7 +108,7 @@ function DrillInner() {
         )}
       </p>
       {item ? (
-        <QuestionCard item={item} onAnswered={onAnswered} onNext={() => pick(subtest, subdomain)} />
+        <QuestionCard item={item} onAnswered={onAnswered} onNext={() => pick(subtest, subdomain)} onSkip={onSkip} />
       ) : (
         <p className="text-slate-500">No questions available for this filter.</p>
       )}

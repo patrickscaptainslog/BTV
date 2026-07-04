@@ -14,11 +14,13 @@ interface Props {
   /** called once when the user submits an answer */
   onAnswered: (choice: number, correct: boolean, elapsedMs: number) => void;
   onNext: () => void;
+  /** advance without answering; falls back to onNext if omitted */
+  onSkip?: () => void;
   nextLabel?: string;
 }
 
 /** Drill/review-style card: answer, get immediate feedback + worked solution. */
-export default function QuestionCard({ item, onAnswered, onNext, nextLabel = "Next question" }: Props) {
+export default function QuestionCard({ item, onAnswered, onNext, onSkip, nextLabel = "Next question" }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
   const [flagged, setFlagged] = useState(false);
@@ -70,13 +72,22 @@ export default function QuestionCard({ item, onAnswered, onNext, nextLabel = "Ne
 
       {!answered ? (
         <div className="space-y-3">
-          <button
-            onClick={submit}
-            disabled={selected === null}
-            className="px-4 py-2 rounded-lg bg-sky-600 text-white font-medium disabled:opacity-40 hover:bg-sky-700"
-          >
-            Check answer
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={submit}
+              disabled={selected === null}
+              className="px-4 py-2 rounded-lg bg-sky-600 text-white font-medium disabled:opacity-40 hover:bg-sky-700"
+            >
+              Check answer
+            </button>
+            <button
+              onClick={onSkip ?? onNext}
+              className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 font-medium text-slate-600 dark:text-slate-300 hover:border-sky-400"
+              title="Move on without answering — this won't count against your rating"
+            >
+              Skip
+            </button>
+          </div>
           <TutorChat item={item} answered={false} />
         </div>
       ) : (
