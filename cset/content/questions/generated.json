@@ -1,0 +1,4740 @@
+[
+ {
+  "id": "s1-complex-mult-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1100,
+  "stem": "Which of the following equals $(3 + 2i)(2 + 2i)$?",
+  "choices": [
+   "$10 + 10i$",
+   "$10 + 2i$",
+   "$2 + 2i$",
+   "$2 + 10i$"
+  ],
+  "key": 3,
+  "workedSolution": "Expand: $(3 + 2i)(2 + 2i) = 6 + (6)i + (4)i + (4)i^2$. Since $i^2 = -1$, the real part is $6 - (4) = 2$ and the imaginary part is $6 + 4 = 10$, giving $2 + 10i$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-mult",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-complex-mult-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1100,
+  "stem": "Which of the following equals $(2 + 4i)(-4 - 5i)$?",
+  "choices": [
+   "$-28 - 26i$",
+   "$12 - 26i$",
+   "$12 + 6i$",
+   "$-28 + 6i$"
+  ],
+  "key": 1,
+  "workedSolution": "Expand: $(2 + 4i)(-4 - 5i) = -8 + (-10)i + (-16)i + (-20)i^2$. Since $i^2 = -1$, the real part is $-8 - (-20) = 12$ and the imaginary part is $-10 + -16 = -26$, giving $12 - 26i$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-mult",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-complex-mult-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1100,
+  "stem": "Which of the following equals $(1 - 4i)(5 - 3i)$?",
+  "choices": [
+   "$17 + 17i$",
+   "$-7 - 23i$",
+   "$17 - 23i$",
+   "$-7 + 17i$"
+  ],
+  "key": 1,
+  "workedSolution": "Expand: $(1 - 4i)(5 - 3i) = 5 + (-3)i + (-20)i + (12)i^2$. Since $i^2 = -1$, the real part is $5 - (12) = -7$ and the imaginary part is $-3 + -20 = -23$, giving $-7 - 23i$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-mult",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-complex-mult-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1100,
+  "stem": "Which of the following equals $(-2 - i)(-4 - 4i)$?",
+  "choices": [
+   "$4 + 4i$",
+   "$12 + 12i$",
+   "$12 + 4i$",
+   "$4 + 12i$"
+  ],
+  "key": 3,
+  "workedSolution": "Expand: $(-2 - i)(-4 - 4i) = 8 + (8)i + (4)i + (4)i^2$. Since $i^2 = -1$, the real part is $8 - (4) = 4$ and the imaginary part is $8 + 4 = 12$, giving $4 + 12i$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-mult",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-complex-mult-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1100,
+  "stem": "Which of the following equals $(-1 - 4i)(4 - 3i)$?",
+  "choices": [
+   "$-16 - 13i$",
+   "$8 - 13i$",
+   "$-16 + 19i$",
+   "$8 + 19i$"
+  ],
+  "key": 0,
+  "workedSolution": "Expand: $(-1 - 4i)(4 - 3i) = -4 + (3)i + (-16)i + (12)i^2$. Since $i^2 = -1$, the real part is $-4 - (12) = -16$ and the imaginary part is $3 + -16 = -13$, giving $-16 - 13i$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-mult",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-complex-mult-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1100,
+  "stem": "Which of the following equals $(-1 - i)(3 - 2i)$?",
+  "choices": [
+   "$-1 + 5i$",
+   "$-5 + 5i$",
+   "$-1 - i$",
+   "$-5 - i$"
+  ],
+  "key": 3,
+  "workedSolution": "Expand: $(-1 - i)(3 - 2i) = -3 + (2)i + (-3)i + (2)i^2$. Since $i^2 = -1$, the real part is $-3 - (2) = -5$ and the imaginary part is $2 + -3 = -1$, giving $-5 - i$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-mult",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-complex-mult-6",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1100,
+  "stem": "Which of the following equals $(3 + 3i)(4 + 5i)$?",
+  "choices": [
+   "$-3 + 3i$",
+   "$-3 + 27i$",
+   "$27 + 27i$",
+   "$27 + 3i$"
+  ],
+  "key": 1,
+  "workedSolution": "Expand: $(3 + 3i)(4 + 5i) = 12 + (15)i + (12)i + (15)i^2$. Since $i^2 = -1$, the real part is $12 - (15) = -3$ and the imaginary part is $15 + 12 = 27$, giving $-3 + 27i$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-mult",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s1-complex-modulus-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1050,
+  "stem": "What is the modulus of the complex number $z = -1 - 8i$?",
+  "choices": [
+   "$9$",
+   "$\\sqrt{65}$",
+   "$3\\sqrt{7}$",
+   "$65$"
+  ],
+  "key": 1,
+  "workedSolution": "$|a + bi| = \\sqrt{a^2 + b^2}$, so $|z| = \\sqrt{(-1)^2 + (-8)^2} = \\sqrt{65} = \\sqrt{65}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-modulus",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-complex-modulus-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1050,
+  "stem": "What is the modulus of the complex number $z = 2 + 6i$?",
+  "choices": [
+   "$40$",
+   "$8$",
+   "$2\\sqrt{10}$",
+   "$4\\sqrt{2}$"
+  ],
+  "key": 2,
+  "workedSolution": "$|a + bi| = \\sqrt{a^2 + b^2}$, so $|z| = \\sqrt{(2)^2 + (6)^2} = \\sqrt{40} = 2\\sqrt{10}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-modulus",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-complex-modulus-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1050,
+  "stem": "What is the modulus of the complex number $z = -5 + 8i$?",
+  "choices": [
+   "$\\sqrt{39}$",
+   "$89$",
+   "$\\sqrt{89}$",
+   "$13$"
+  ],
+  "key": 2,
+  "workedSolution": "$|a + bi| = \\sqrt{a^2 + b^2}$, so $|z| = \\sqrt{(-5)^2 + (8)^2} = \\sqrt{89} = \\sqrt{89}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-modulus",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-complex-modulus-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1050,
+  "stem": "What is the modulus of the complex number $z = 6 + i$?",
+  "choices": [
+   "$\\sqrt{37}$",
+   "$\\sqrt{35}$",
+   "$7$",
+   "$37$"
+  ],
+  "key": 0,
+  "workedSolution": "$|a + bi| = \\sqrt{a^2 + b^2}$, so $|z| = \\sqrt{(6)^2 + (1)^2} = \\sqrt{37} = \\sqrt{37}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-modulus",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-complex-modulus-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1050,
+  "stem": "What is the modulus of the complex number $z = 7 + 2i$?",
+  "choices": [
+   "$\\sqrt{53}$",
+   "$3\\sqrt{5}$",
+   "$9$",
+   "$53$"
+  ],
+  "key": 0,
+  "workedSolution": "$|a + bi| = \\sqrt{a^2 + b^2}$, so $|z| = \\sqrt{(7)^2 + (2)^2} = \\sqrt{53} = \\sqrt{53}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-modulus",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-complex-modulus-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1050,
+  "stem": "What is the modulus of the complex number $z = 4 + 2i$?",
+  "choices": [
+   "$2\\sqrt{5}$",
+   "$20$",
+   "$2\\sqrt{3}$",
+   "$6$"
+  ],
+  "key": 0,
+  "workedSolution": "$|a + bi| = \\sqrt{a^2 + b^2}$, so $|z| = \\sqrt{(4)^2 + (2)^2} = \\sqrt{20} = 2\\sqrt{5}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-complex-modulus",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-demoivre-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1300,
+  "stem": "Let $z = 3\\left(\\cos 120^\\circ + i\\sin 120^\\circ\\right)$. Using DeMoivre's theorem, which of the following equals $z^{2}$?",
+  "choices": [
+   "$9\\left(\\cos 240^\\circ + i\\sin 240^\\circ\\right)$",
+   "$3\\left(\\cos 240^\\circ + i\\sin 240^\\circ\\right)$",
+   "$6\\left(\\cos 240^\\circ + i\\sin 240^\\circ\\right)$",
+   "$9\\left(\\cos 120^\\circ + i\\sin 120^\\circ\\right)$"
+  ],
+  "key": 0,
+  "workedSolution": "DeMoivre: $[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$. Here $r^{2} = 3^{2} = 9$ and $n\\theta = 2 \\cdot 120^\\circ = 240^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-demoivre-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1300,
+  "stem": "Let $z = 3\\left(\\cos 45^\\circ + i\\sin 45^\\circ\\right)$. Using DeMoivre's theorem, which of the following equals $z^{3}$?",
+  "choices": [
+   "$3\\left(\\cos 135^\\circ + i\\sin 135^\\circ\\right)$",
+   "$27\\left(\\cos 45^\\circ + i\\sin 45^\\circ\\right)$",
+   "$9\\left(\\cos 135^\\circ + i\\sin 135^\\circ\\right)$",
+   "$27\\left(\\cos 135^\\circ + i\\sin 135^\\circ\\right)$"
+  ],
+  "key": 3,
+  "workedSolution": "DeMoivre: $[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$. Here $r^{3} = 3^{3} = 27$ and $n\\theta = 3 \\cdot 45^\\circ = 135^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-demoivre-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1300,
+  "stem": "Let $z = 2\\left(\\cos 45^\\circ + i\\sin 45^\\circ\\right)$. Using DeMoivre's theorem, which of the following equals $z^{3}$?",
+  "choices": [
+   "$6\\left(\\cos 135^\\circ + i\\sin 135^\\circ\\right)$",
+   "$2\\left(\\cos 135^\\circ + i\\sin 135^\\circ\\right)$",
+   "$8\\left(\\cos 45^\\circ + i\\sin 45^\\circ\\right)$",
+   "$8\\left(\\cos 135^\\circ + i\\sin 135^\\circ\\right)$"
+  ],
+  "key": 3,
+  "workedSolution": "DeMoivre: $[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$. Here $r^{3} = 2^{3} = 8$ and $n\\theta = 3 \\cdot 45^\\circ = 135^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-demoivre-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1300,
+  "stem": "Let $z = 3\\left(\\cos 60^\\circ + i\\sin 60^\\circ\\right)$. Using DeMoivre's theorem, which of the following equals $z^{4}$?",
+  "choices": [
+   "$12\\left(\\cos 240^\\circ + i\\sin 240^\\circ\\right)$",
+   "$81\\left(\\cos 60^\\circ + i\\sin 60^\\circ\\right)$",
+   "$81\\left(\\cos 240^\\circ + i\\sin 240^\\circ\\right)$",
+   "$3\\left(\\cos 240^\\circ + i\\sin 240^\\circ\\right)$"
+  ],
+  "key": 2,
+  "workedSolution": "DeMoivre: $[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$. Here $r^{4} = 3^{4} = 81$ and $n\\theta = 4 \\cdot 60^\\circ = 240^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-demoivre-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1300,
+  "stem": "Let $z = 3\\left(\\cos 120^\\circ + i\\sin 120^\\circ\\right)$. Using DeMoivre's theorem, which of the following equals $z^{3}$?",
+  "choices": [
+   "$27\\left(\\cos 0^\\circ + i\\sin 0^\\circ\\right)$",
+   "$3\\left(\\cos 0^\\circ + i\\sin 0^\\circ\\right)$",
+   "$27\\left(\\cos 120^\\circ + i\\sin 120^\\circ\\right)$",
+   "$9\\left(\\cos 0^\\circ + i\\sin 0^\\circ\\right)$"
+  ],
+  "key": 0,
+  "workedSolution": "DeMoivre: $[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$. Here $r^{3} = 3^{3} = 27$ and $n\\theta = 3 \\cdot 120^\\circ = 360^\\circ$, which is coterminal with $0^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-demoivre-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1300,
+  "stem": "Let $z = 3\\left(\\cos 150^\\circ + i\\sin 150^\\circ\\right)$. Using DeMoivre's theorem, which of the following equals $z^{2}$?",
+  "choices": [
+   "$6\\left(\\cos 300^\\circ + i\\sin 300^\\circ\\right)$",
+   "$9\\left(\\cos 150^\\circ + i\\sin 150^\\circ\\right)$",
+   "$9\\left(\\cos 300^\\circ + i\\sin 300^\\circ\\right)$",
+   "$3\\left(\\cos 300^\\circ + i\\sin 300^\\circ\\right)$"
+  ],
+  "key": 2,
+  "workedSolution": "DeMoivre: $[r(\\cos\\theta + i\\sin\\theta)]^n = r^n(\\cos n\\theta + i\\sin n\\theta)$. Here $r^{2} = 3^{2} = 9$ and $n\\theta = 2 \\cdot 150^\\circ = 300^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-simplify-radical-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1000,
+  "stem": "Which of the following is $\\sqrt{108}$ in simplest radical form?",
+  "choices": [
+   "$6\\sqrt{18}$",
+   "$6\\sqrt{3}$",
+   "$18$",
+   "$3\\sqrt{6}$"
+  ],
+  "key": 1,
+  "workedSolution": "$108 = 6^2 \\cdot 3$, so $\\sqrt{108} = \\sqrt{6^2}\\cdot\\sqrt{3} = 6\\sqrt{3}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-simplify-radical",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-simplify-radical-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1000,
+  "stem": "Which of the following is $\\sqrt{80}$ in simplest radical form?",
+  "choices": [
+   "$4\\sqrt{20}$",
+   "$4\\sqrt{5}$",
+   "$20$",
+   "$5\\sqrt{4}$"
+  ],
+  "key": 1,
+  "workedSolution": "$80 = 4^2 \\cdot 5$, so $\\sqrt{80} = \\sqrt{4^2}\\cdot\\sqrt{5} = 4\\sqrt{5}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-simplify-radical",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-simplify-radical-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1000,
+  "stem": "Which of the following is $\\sqrt{490}$ in simplest radical form?",
+  "choices": [
+   "$10\\sqrt{7}$",
+   "$7\\sqrt{70}$",
+   "$7\\sqrt{10}$",
+   "$70$"
+  ],
+  "key": 2,
+  "workedSolution": "$490 = 7^2 \\cdot 10$, so $\\sqrt{490} = \\sqrt{7^2}\\cdot\\sqrt{10} = 7\\sqrt{10}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-simplify-radical",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-simplify-radical-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1000,
+  "stem": "Which of the following is $\\sqrt{108}$ in simplest radical form?",
+  "choices": [
+   "$3\\sqrt{6}$",
+   "$6\\sqrt{3}$",
+   "$6\\sqrt{18}$",
+   "$18$"
+  ],
+  "key": 1,
+  "workedSolution": "$108 = 6^2 \\cdot 3$, so $\\sqrt{108} = \\sqrt{6^2}\\cdot\\sqrt{3} = 6\\sqrt{3}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-simplify-radical",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-simplify-radical-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1000,
+  "stem": "Which of the following is $\\sqrt{468}$ in simplest radical form?",
+  "choices": [
+   "$13\\sqrt{6}$",
+   "$78$",
+   "$6\\sqrt{13}$",
+   "$6\\sqrt{78}$"
+  ],
+  "key": 2,
+  "workedSolution": "$468 = 6^2 \\cdot 13$, so $\\sqrt{468} = \\sqrt{6^2}\\cdot\\sqrt{13} = 6\\sqrt{13}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-simplify-radical",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-simplify-radical-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1000,
+  "stem": "Which of the following is $\\sqrt{468}$ in simplest radical form?",
+  "choices": [
+   "$6\\sqrt{13}$",
+   "$6\\sqrt{78}$",
+   "$78$",
+   "$13\\sqrt{6}$"
+  ],
+  "key": 0,
+  "workedSolution": "$468 = 6^2 \\cdot 13$, so $\\sqrt{468} = \\sqrt{6^2}\\cdot\\sqrt{13} = 6\\sqrt{13}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-simplify-radical",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-mod-exp-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1250,
+  "stem": "What is the remainder when $3^{5}$ is divided by $7$?",
+  "choices": [
+   "$5$",
+   "$6$",
+   "$1$",
+   "$0$"
+  ],
+  "key": 0,
+  "workedSolution": "Work modulo $7$ by repeated squaring or by finding the cycle of powers of $3$: the powers of $3$ repeat with a period dividing $\\varphi(7)$. Computing, $3^{5} \\equiv 5 \\pmod{7}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-exp",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-mod-exp-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1250,
+  "stem": "What is the remainder when $4^{10}$ is divided by $5$?",
+  "choices": [
+   "$1$",
+   "$4$",
+   "$0$",
+   "$2$"
+  ],
+  "key": 0,
+  "workedSolution": "Work modulo $5$ by repeated squaring or by finding the cycle of powers of $4$: the powers of $4$ repeat with a period dividing $\\varphi(5)$. Computing, $4^{10} \\equiv 1 \\pmod{5}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-exp",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-mod-exp-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1250,
+  "stem": "What is the remainder when $3^{5}$ is divided by $11$?",
+  "choices": [
+   "$1$",
+   "$8$",
+   "$4$",
+   "$2$"
+  ],
+  "key": 0,
+  "workedSolution": "Work modulo $11$ by repeated squaring or by finding the cycle of powers of $3$: the powers of $3$ repeat with a period dividing $\\varphi(11)$. Computing, $3^{5} \\equiv 1 \\pmod{11}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-exp",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-mod-exp-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1250,
+  "stem": "What is the remainder when $5^{11}$ is divided by $13$?",
+  "choices": [
+   "$8$",
+   "$10$",
+   "$9$",
+   "$3$"
+  ],
+  "key": 0,
+  "workedSolution": "Work modulo $13$ by repeated squaring or by finding the cycle of powers of $5$: the powers of $5$ repeat with a period dividing $\\varphi(13)$. Computing, $5^{11} \\equiv 8 \\pmod{13}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-exp",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-mod-exp-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1250,
+  "stem": "What is the remainder when $6^{9}$ is divided by $9$?",
+  "choices": [
+   "$2$",
+   "$1$",
+   "$6$",
+   "$0$"
+  ],
+  "key": 3,
+  "workedSolution": "Work modulo $9$ by repeated squaring or by finding the cycle of powers of $6$: the powers of $6$ repeat with a period dividing $\\varphi(9)$. Computing, $6^{9} \\equiv 0 \\pmod{9}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-exp",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-mod-exp-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1250,
+  "stem": "What is the remainder when $7^{9}$ is divided by $11$?",
+  "choices": [
+   "$9$",
+   "$8$",
+   "$5$",
+   "$10$"
+  ],
+  "key": 1,
+  "workedSolution": "Work modulo $11$ by repeated squaring or by finding the cycle of powers of $7$: the powers of $7$ repeat with a period dividing $\\varphi(11)$. Computing, $7^{9} \\equiv 8 \\pmod{11}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-exp",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-mod-exp-6",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1250,
+  "stem": "What is the remainder when $3^{6}$ is divided by $5$?",
+  "choices": [
+   "$0$",
+   "$1$",
+   "$3$",
+   "$4$"
+  ],
+  "key": 3,
+  "workedSolution": "Work modulo $5$ by repeated squaring or by finding the cycle of powers of $3$: the powers of $3$ repeat with a period dividing $\\varphi(5)$. Computing, $3^{6} \\equiv 4 \\pmod{5}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-exp",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s1-gcd-lcm-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1100,
+  "stem": "What is the least common multiple of $36$ and $126$?",
+  "choices": [
+   "$4536$",
+   "$252$",
+   "$18$",
+   "$14$"
+  ],
+  "key": 1,
+  "workedSolution": "$36 = 18 \\cdot 2$ and $126 = 18 \\cdot 7$ with $\\gcd(2, 7) = 1$, so $\\gcd(36, 126) = 18$ and $\\operatorname{lcm}(36, 126) = \\frac{36 \\cdot 126}{\\gcd} = 252$. The answer is $252$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-gcd-lcm",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-gcd-lcm-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1100,
+  "stem": "What is the greatest common divisor of $36$ and $48$?",
+  "choices": [
+   "$12$",
+   "$24$",
+   "$36$",
+   "$144$"
+  ],
+  "key": 0,
+  "workedSolution": "$36 = 12 \\cdot 3$ and $48 = 12 \\cdot 4$ with $\\gcd(3, 4) = 1$, so $\\gcd(36, 48) = 12$ and $\\operatorname{lcm}(36, 48) = \\frac{36 \\cdot 48}{\\gcd} = 144$. The answer is $12$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-gcd-lcm",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-gcd-lcm-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1100,
+  "stem": "What is the greatest common divisor of $36$ and $54$?",
+  "choices": [
+   "$108$",
+   "$6$",
+   "$18$",
+   "$36$"
+  ],
+  "key": 2,
+  "workedSolution": "$36 = 18 \\cdot 2$ and $54 = 18 \\cdot 3$ with $\\gcd(2, 3) = 1$, so $\\gcd(36, 54) = 18$ and $\\operatorname{lcm}(36, 54) = \\frac{36 \\cdot 54}{\\gcd} = 108$. The answer is $18$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-gcd-lcm",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-gcd-lcm-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1100,
+  "stem": "What is the least common multiple of $12$ and $20$?",
+  "choices": [
+   "$4$",
+   "$60$",
+   "$15$",
+   "$240$"
+  ],
+  "key": 1,
+  "workedSolution": "$12 = 4 \\cdot 3$ and $20 = 4 \\cdot 5$ with $\\gcd(3, 5) = 1$, so $\\gcd(12, 20) = 4$ and $\\operatorname{lcm}(12, 20) = \\frac{12 \\cdot 20}{\\gcd} = 60$. The answer is $60$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-gcd-lcm",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-gcd-lcm-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1100,
+  "stem": "What is the greatest common divisor of $24$ and $36$?",
+  "choices": [
+   "$6$",
+   "$12$",
+   "$72$",
+   "$24$"
+  ],
+  "key": 1,
+  "workedSolution": "$24 = 12 \\cdot 2$ and $36 = 12 \\cdot 3$ with $\\gcd(2, 3) = 1$, so $\\gcd(24, 36) = 12$ and $\\operatorname{lcm}(24, 36) = \\frac{24 \\cdot 36}{\\gcd} = 72$. The answer is $12$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-gcd-lcm",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-gcd-lcm-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1100,
+  "stem": "What is the greatest common divisor of $40$ and $50$?",
+  "choices": [
+   "$10$",
+   "$40$",
+   "$200$",
+   "$20$"
+  ],
+  "key": 0,
+  "workedSolution": "$40 = 10 \\cdot 4$ and $50 = 10 \\cdot 5$ with $\\gcd(4, 5) = 1$, so $\\gcd(40, 50) = 10$ and $\\operatorname{lcm}(40, 50) = \\frac{40 \\cdot 50}{\\gcd} = 200$. The answer is $10$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-gcd-lcm",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-field-pick-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1250,
+  "stem": "With the usual addition and multiplication, which of the following is a field?",
+  "choices": [
+   "$\\mathbb{N}$",
+   "$\\mathbb{Z}_{12}$",
+   "$\\mathbb{Z}_9$",
+   "$\\mathbb{C}$"
+  ],
+  "key": 3,
+  "workedSolution": "$\\mathbb{C}$ is a field: every nonzero complex number is invertible. $\\mathbb{N}$ is not a field (it lacks additive inverses); $\\mathbb{Z}_{12}$ is not a field (12 is composite: $3 \\cdot 4 \\equiv 0$ gives zero divisors); $\\mathbb{Z}_9$ is not a field (9 is composite: $3 \\cdot 3 \\equiv 0$ gives zero divisors).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-field-pick",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-field-pick-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1250,
+  "stem": "With the usual addition and multiplication, which of the following is a field?",
+  "choices": [
+   "$\\mathbb{Z}_9$",
+   "$\\mathbb{Q}$",
+   "$\\mathbb{Z}_6$",
+   "$\\mathbb{N}$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\mathbb{Q}$ is a field: every nonzero rational has a rational reciprocal. $\\mathbb{Z}_9$ is not a field (9 is composite: $3 \\cdot 3 \\equiv 0$ gives zero divisors); $\\mathbb{Z}_6$ is not a field ($2 \\cdot 3 \\equiv 0$, so it has zero divisors and 2 has no inverse); $\\mathbb{N}$ is not a field (it lacks additive inverses).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-field-pick",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-field-pick-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1250,
+  "stem": "With the usual addition and multiplication, which of the following is NOT a field?",
+  "choices": [
+   "$2\\mathbb{Z} \\text{ (the even integers)}$",
+   "$\\mathbb{Q}$",
+   "$\\mathbb{Z}_5$",
+   "$\\mathbb{Z}_{11}$"
+  ],
+  "key": 0,
+  "workedSolution": "$2\\mathbb{Z} \\text{ (the even integers)}$ is not a field: it has no multiplicative identity. $\\mathbb{Z}_5$ is a field (5 is prime, so every nonzero class is invertible mod 5); $\\mathbb{Q}$ is a field (every nonzero rational has a rational reciprocal); $\\mathbb{Z}_{11}$ is a field (11 is prime, so every nonzero class is invertible mod 11).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-field-pick",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-field-pick-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1250,
+  "stem": "With the usual addition and multiplication, which of the following is a field?",
+  "choices": [
+   "$\\mathbb{Z}$",
+   "$\\mathbb{C}$",
+   "$2\\mathbb{Z} \\text{ (the even integers)}$",
+   "$\\mathbb{Z}_9$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\mathbb{C}$ is a field: every nonzero complex number is invertible. $\\mathbb{Z}$ is not a field (most nonzero integers (e.g. 2) have no integer multiplicative inverse); $2\\mathbb{Z} \\text{ (the even integers)}$ is not a field (it has no multiplicative identity); $\\mathbb{Z}_9$ is not a field (9 is composite: $3 \\cdot 3 \\equiv 0$ gives zero divisors).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-field-pick",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-field-pick-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1250,
+  "stem": "With the usual addition and multiplication, which of the following is NOT a field?",
+  "choices": [
+   "$\\mathbb{N}$",
+   "$\\mathbb{C}$",
+   "$\\mathbb{Z}_7$",
+   "$\\mathbb{Z}_{11}$"
+  ],
+  "key": 0,
+  "workedSolution": "$\\mathbb{N}$ is not a field: it lacks additive inverses. $\\mathbb{Z}_{11}$ is a field (11 is prime, so every nonzero class is invertible mod 11); $\\mathbb{C}$ is a field (every nonzero complex number is invertible); $\\mathbb{Z}_7$ is a field (7 is prime, so every nonzero class is invertible mod 7).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-field-pick",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-field-pick-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1250,
+  "stem": "With the usual addition and multiplication, which of the following is a field?",
+  "choices": [
+   "$\\mathbb{Z}_6$",
+   "$\\mathbb{Z}_8$",
+   "$\\mathbb{Z}_{11}$",
+   "$\\mathbb{Z}_9$"
+  ],
+  "key": 2,
+  "workedSolution": "$\\mathbb{Z}_{11}$ is a field: 11 is prime, so every nonzero class is invertible mod 11. $\\mathbb{Z}_9$ is not a field (9 is composite: $3 \\cdot 3 \\equiv 0$ gives zero divisors); $\\mathbb{Z}_8$ is not a field (8 is composite: $2 \\cdot 4 \\equiv 0$ gives zero divisors); $\\mathbb{Z}_6$ is not a field ($2 \\cdot 3 \\equiv 0$, so it has zero divisors and 2 has no inverse).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-field-pick",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-quad-sum-product-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the sum of the roots (counted with multiplicity, over $\\mathbb{C}$) of $3x^{2} - 4x + 8 = 0$?",
+  "choices": [
+   "$-\\frac{4}{3}$",
+   "$\\frac{4}{3}$",
+   "$\\frac{8}{3}$",
+   "$-\\frac{8}{3}$"
+  ],
+  "key": 1,
+  "workedSolution": "For $ax^2 + bx + c = 0$, Vieta's formulas give sum $= -\\frac{b}{a}$ and product $= \\frac{c}{a}$. Here the sum is $-\\frac{-4}{3} = \\frac{4}{3}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-quad-sum-product",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-quad-sum-product-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the sum of the roots (counted with multiplicity, over $\\mathbb{C}$) of $3x^{2} + 4x - 3 = 0$?",
+  "choices": [
+   "$1$",
+   "$-\\frac{4}{3}$",
+   "$\\frac{4}{3}$",
+   "$-1$"
+  ],
+  "key": 1,
+  "workedSolution": "For $ax^2 + bx + c = 0$, Vieta's formulas give sum $= -\\frac{b}{a}$ and product $= \\frac{c}{a}$. Here the sum is $-\\frac{4}{3} = -\\frac{4}{3}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-quad-sum-product",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-quad-sum-product-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the sum of the roots (counted with multiplicity, over $\\mathbb{C}$) of $4x^{2} + 9x + 6 = 0$?",
+  "choices": [
+   "$-\\frac{3}{2}$",
+   "$-\\frac{9}{4}$",
+   "$\\frac{9}{4}$",
+   "$\\frac{3}{2}$"
+  ],
+  "key": 1,
+  "workedSolution": "For $ax^2 + bx + c = 0$, Vieta's formulas give sum $= -\\frac{b}{a}$ and product $= \\frac{c}{a}$. Here the sum is $-\\frac{9}{4} = -\\frac{9}{4}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-quad-sum-product",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-quad-sum-product-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the product of the roots (counted with multiplicity, over $\\mathbb{C}$) of $6x^{2} + 4x + 9 = 0$?",
+  "choices": [
+   "$-\\frac{3}{2}$",
+   "$\\frac{2}{3}$",
+   "$-\\frac{2}{3}$",
+   "$\\frac{3}{2}$"
+  ],
+  "key": 3,
+  "workedSolution": "For $ax^2 + bx + c = 0$, Vieta's formulas give sum $= -\\frac{b}{a}$ and product $= \\frac{c}{a}$. Here the product is $\\frac{9}{6} = \\frac{3}{2}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-quad-sum-product",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-quad-sum-product-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the sum of the roots (counted with multiplicity, over $\\mathbb{C}$) of $2x^{2} - 9x + 6 = 0$?",
+  "choices": [
+   "$3$",
+   "$-\\frac{9}{2}$",
+   "$\\frac{9}{2}$",
+   "$-3$"
+  ],
+  "key": 2,
+  "workedSolution": "For $ax^2 + bx + c = 0$, Vieta's formulas give sum $= -\\frac{b}{a}$ and product $= \\frac{c}{a}$. Here the sum is $-\\frac{-9}{2} = \\frac{9}{2}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-quad-sum-product",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-quad-sum-product-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the product of the roots (counted with multiplicity, over $\\mathbb{C}$) of $4x^{2} - 9x - 6 = 0$?",
+  "choices": [
+   "$-\\frac{9}{4}$",
+   "$\\frac{3}{2}$",
+   "$-\\frac{3}{2}$",
+   "$\\frac{9}{4}$"
+  ],
+  "key": 2,
+  "workedSolution": "For $ax^2 + bx + c = 0$, Vieta's formulas give sum $= -\\frac{b}{a}$ and product $= \\frac{c}{a}$. Here the product is $\\frac{-6}{4} = -\\frac{3}{2}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-quad-sum-product",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-quad-sum-product-6",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the sum of the roots (counted with multiplicity, over $\\mathbb{C}$) of $3x^{2} - 3x + 5 = 0$?",
+  "choices": [
+   "$1$",
+   "$-\\frac{5}{3}$",
+   "$-1$",
+   "$\\frac{5}{3}$"
+  ],
+  "key": 0,
+  "workedSolution": "For $ax^2 + bx + c = 0$, Vieta's formulas give sum $= -\\frac{b}{a}$ and product $= \\frac{c}{a}$. Here the sum is $-\\frac{-3}{3} = 1$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-quad-sum-product",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s1-rational-root-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1250,
+  "stem": "Consider $p(x) = 3x^{3} + x^{2} + x + 4$. According to the Rational Root Theorem, which of the following could be a rational root of $p(x) = 0$?",
+  "choices": [
+   "$\\frac{1}{5}$",
+   "$\\frac{4}{3}$",
+   "$\\frac{3}{2}$",
+   "$\\frac{2}{5}$"
+  ],
+  "key": 1,
+  "workedSolution": "Any rational root $\\frac{p}{q}$ in lowest terms must have $p$ dividing the constant term $4$ and $q$ dividing the leading coefficient $3$. For $\\frac{4}{3}$: $4 \\mid 4$ and $3 \\mid 3$, so it is a possible root. Each other choice fails one of the two divisibility conditions.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-rational-root",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-rational-root-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1250,
+  "stem": "Consider $p(x) = 6x^{3} - 5x^{2} - 6x + 9$. According to the Rational Root Theorem, which of the following could be a rational root of $p(x) = 0$?",
+  "choices": [
+   "$\\frac{2}{5}$",
+   "$\\frac{1}{8}$",
+   "$\\frac{3}{7}$",
+   "$\\frac{1}{3}$"
+  ],
+  "key": 3,
+  "workedSolution": "Any rational root $\\frac{p}{q}$ in lowest terms must have $p$ dividing the constant term $9$ and $q$ dividing the leading coefficient $6$. For $\\frac{1}{3}$: $1 \\mid 9$ and $3 \\mid 6$, so it is a possible root. Each other choice fails one of the two divisibility conditions.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-rational-root",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-rational-root-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1250,
+  "stem": "Consider $p(x) = 4x^{3} - 3x^{2} + 5x + 9$. According to the Rational Root Theorem, which of the following could be a rational root of $p(x) = 0$?",
+  "choices": [
+   "$\\frac{9}{4}$",
+   "$\\frac{4}{5}$",
+   "$\\frac{1}{5}$",
+   "$\\frac{1}{7}$"
+  ],
+  "key": 0,
+  "workedSolution": "Any rational root $\\frac{p}{q}$ in lowest terms must have $p$ dividing the constant term $9$ and $q$ dividing the leading coefficient $4$. For $\\frac{9}{4}$: $9 \\mid 9$ and $4 \\mid 4$, so it is a possible root. Each other choice fails one of the two divisibility conditions.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-rational-root",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-rational-root-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1250,
+  "stem": "Consider $p(x) = 4x^{3} - 7x^{2} - 2x + 8$. According to the Rational Root Theorem, which of the following could be a rational root of $p(x) = 0$?",
+  "choices": [
+   "$\\frac{2}{5}$",
+   "$\\frac{1}{4}$",
+   "$\\frac{3}{2}$",
+   "$\\frac{4}{7}$"
+  ],
+  "key": 1,
+  "workedSolution": "Any rational root $\\frac{p}{q}$ in lowest terms must have $p$ dividing the constant term $8$ and $q$ dividing the leading coefficient $4$. For $\\frac{1}{4}$: $1 \\mid 8$ and $4 \\mid 4$, so it is a possible root. Each other choice fails one of the two divisibility conditions.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-rational-root",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-rational-root-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1250,
+  "stem": "Consider $p(x) = 6x^{3} - 2x^{2} + 2x + 10$. According to the Rational Root Theorem, which of the following could be a rational root of $p(x) = 0$?",
+  "choices": [
+   "$\\frac{1}{3}$",
+   "$\\frac{3}{5}$",
+   "$\\frac{1}{7}$",
+   "$\\frac{3}{7}$"
+  ],
+  "key": 0,
+  "workedSolution": "Any rational root $\\frac{p}{q}$ in lowest terms must have $p$ dividing the constant term $10$ and $q$ dividing the leading coefficient $6$. For $\\frac{1}{3}$: $1 \\mid 10$ and $3 \\mid 6$, so it is a possible root. Each other choice fails one of the two divisibility conditions.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-rational-root",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-rational-root-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1250,
+  "stem": "Consider $p(x) = 6x^{3} - 7x^{2} + 5x + 8$. According to the Rational Root Theorem, which of the following could be a rational root of $p(x) = 0$?",
+  "choices": [
+   "$\\frac{8}{3}$",
+   "$\\frac{1}{5}$",
+   "$\\frac{3}{5}$",
+   "$\\frac{3}{8}$"
+  ],
+  "key": 0,
+  "workedSolution": "Any rational root $\\frac{p}{q}$ in lowest terms must have $p$ dividing the constant term $8$ and $q$ dividing the leading coefficient $6$. For $\\frac{8}{3}$: $8 \\mid 8$ and $3 \\mid 6$, so it is a possible root. Each other choice fails one of the two divisibility conditions.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-rational-root",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-remainder-thm-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the remainder when $p(x) = x^{3} - 5x^{2} - 6x + 1$ is divided by $x + 2$?",
+  "choices": [
+   "$-23$",
+   "$-15$",
+   "$1$",
+   "$-9$"
+  ],
+  "key": 1,
+  "workedSolution": "By the Remainder Theorem, the remainder on dividing by $x + 2$ is $p(-2)$. Evaluating: $p(-2) = -15$. (A common error is evaluating $p(2)$, which corresponds to dividing by $x - 2$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-remainder-thm",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-remainder-thm-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the remainder when $p(x) = 3x^{3} - x^{2} + 3x + 3$ is divided by $x + 1$?",
+  "choices": [
+   "$3$",
+   "$8$",
+   "$-6$",
+   "$-4$"
+  ],
+  "key": 3,
+  "workedSolution": "By the Remainder Theorem, the remainder on dividing by $x + 1$ is $p(-1)$. Evaluating: $p(-1) = -4$. (A common error is evaluating $p(1)$, which corresponds to dividing by $x - 1$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-remainder-thm",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-remainder-thm-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the remainder when $p(x) = 2x^{3} - 2x^{2} + 6x - 6$ is divided by $x - 3$?",
+  "choices": [
+   "$-6$",
+   "$-96$",
+   "$48$",
+   "$0$"
+  ],
+  "key": 2,
+  "workedSolution": "By the Remainder Theorem, the remainder on dividing by $x - 3$ is $p(3)$. Evaluating: $p(3) = 48$. (A common error is evaluating $p(-3)$, which corresponds to dividing by $x + 3$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-remainder-thm",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-remainder-thm-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the remainder when $p(x) = 2x^{3} - 3x^{2} + 4x + 1$ is divided by $x - 2$?",
+  "choices": [
+   "$13$",
+   "$-35$",
+   "$1$",
+   "$4$"
+  ],
+  "key": 0,
+  "workedSolution": "By the Remainder Theorem, the remainder on dividing by $x - 2$ is $p(2)$. Evaluating: $p(2) = 13$. (A common error is evaluating $p(-2)$, which corresponds to dividing by $x + 2$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-remainder-thm",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-remainder-thm-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the remainder when $p(x) = x^{3} - 2x^{2} - x + 3$ is divided by $x - 2$?",
+  "choices": [
+   "$3$",
+   "$-11$",
+   "$5$",
+   "$1$"
+  ],
+  "key": 3,
+  "workedSolution": "By the Remainder Theorem, the remainder on dividing by $x - 2$ is $p(2)$. Evaluating: $p(2) = 1$. (A common error is evaluating $p(-2)$, which corresponds to dividing by $x + 2$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-remainder-thm",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-remainder-thm-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the remainder when $p(x) = x^{3} - 3x^{2} + x - 2$ is divided by $x - 3$?",
+  "choices": [
+   "$-2$",
+   "$-3$",
+   "$-59$",
+   "$1$"
+  ],
+  "key": 3,
+  "workedSolution": "By the Remainder Theorem, the remainder on dividing by $x - 3$ is $p(3)$. Evaluating: $p(3) = 1$. (A common error is evaluating $p(-3)$, which corresponds to dividing by $x + 3$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-remainder-thm",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-remainder-thm-6",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1150,
+  "stem": "What is the remainder when $p(x) = x^{3} + 6x^{2} - x - 5$ is divided by $x + 3$?",
+  "choices": [
+   "$1$",
+   "$-5$",
+   "$25$",
+   "$73$"
+  ],
+  "key": 2,
+  "workedSolution": "By the Remainder Theorem, the remainder on dividing by $x + 3$ is $p(-3)$. Evaluating: $p(-3) = 25$. (A common error is evaluating $p(3)$, which corresponds to dividing by $x - 3$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-remainder-thm",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s1-compose-eval-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "Let $f(x) = 5x + 6$ and $g(x) = x^{2} + 1$. What is $(f \\circ g)(1)$?",
+  "choices": [
+   "$16$",
+   "$12$",
+   "$122$",
+   "$13$"
+  ],
+  "key": 0,
+  "workedSolution": "$(f \\circ g)(1) = f(g(1))$. First $g(1) = (1)^2 + 1 = 2$, then $f(2) = 5(2) + 6 = 16$. (Computing $g(f(1))$ instead gives $122$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-compose-eval",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-compose-eval-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "Let $f(x) = -5x + 6$ and $g(x) = x^{2} + 6$. What is $(f \\circ g)(-3)$?",
+  "choices": [
+   "$447$",
+   "$36$",
+   "$-33$",
+   "$-69$"
+  ],
+  "key": 3,
+  "workedSolution": "$(f \\circ g)(-3) = f(g(-3))$. First $g(-3) = (-3)^2 + 6 = 15$, then $f(15) = -5(15) + 6 = -69$. (Computing $g(f(-3))$ instead gives $447$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-compose-eval",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-compose-eval-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "Let $f(x) = -2x + 4$ and $g(x) = x^{2} - 1$. What is $(f \\circ g)(4)$?",
+  "choices": [
+   "$-26$",
+   "$11$",
+   "$15$",
+   "$-29$"
+  ],
+  "key": 0,
+  "workedSolution": "$(f \\circ g)(4) = f(g(4))$. First $g(4) = (4)^2 - 1 = 15$, then $f(15) = -2(15) + 4 = -26$. (Computing $g(f(4))$ instead gives $15$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-compose-eval",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-compose-eval-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "Let $f(x) = 5x + 1$ and $g(x) = x^{2} + 1$. What is $(f \\circ g)(-3)$?",
+  "choices": [
+   "$197$",
+   "$51$",
+   "$-4$",
+   "$47$"
+  ],
+  "key": 1,
+  "workedSolution": "$(f \\circ g)(-3) = f(g(-3))$. First $g(-3) = (-3)^2 + 1 = 10$, then $f(10) = 5(10) + 1 = 51$. (Computing $g(f(-3))$ instead gives $197$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-compose-eval",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-compose-eval-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "Let $f(x) = -x - 6$ and $g(x) = x^{2} - 2$. What is $(f \\circ g)(-1)$?",
+  "choices": [
+   "$-5$",
+   "$-6$",
+   "$-9$",
+   "$23$"
+  ],
+  "key": 0,
+  "workedSolution": "$(f \\circ g)(-1) = f(g(-1))$. First $g(-1) = (-1)^2 - 2 = -1$, then $f(-1) = -1(-1) - 6 = -5$. (Computing $g(f(-1))$ instead gives $23$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-compose-eval",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-compose-eval-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "Let $f(x) = -x - 7$ and $g(x) = x^{2} - 2$. What is $(f \\circ g)(2)$?",
+  "choices": [
+   "$-13$",
+   "$-7$",
+   "$-9$",
+   "$79$"
+  ],
+  "key": 2,
+  "workedSolution": "$(f \\circ g)(2) = f(g(2))$. First $g(2) = (2)^2 - 2 = 2$, then $f(2) = -1(2) - 7 = -9$. (Computing $g(f(2))$ instead gives $79$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-compose-eval",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-compose-eval-6",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "Let $f(x) = -4x + 3$ and $g(x) = x^{2} - 3$. What is $(f \\circ g)(-1)$?",
+  "choices": [
+   "$5$",
+   "$46$",
+   "$-4$",
+   "$11$"
+  ],
+  "key": 3,
+  "workedSolution": "$(f \\circ g)(-1) = f(g(-1))$. First $g(-1) = (-1)^2 - 3 = -2$, then $f(-2) = -4(-2) + 3 = 11$. (Computing $g(f(-1))$ instead gives $46$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-compose-eval",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s1-inverse-linear-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1100,
+  "stem": "If $f(x) = 7x - 3$, what is $f^{-1}(x)$?",
+  "choices": [
+   "$f^{-1}(x) = \\dfrac{x - 3}{7}$",
+   "$f^{-1}(x) = \\dfrac{x + 3}{7}$",
+   "$f^{-1}(x) = \\dfrac{1}{7x - 3}$",
+   "$f^{-1}(x) = 7x + 3$"
+  ],
+  "key": 1,
+  "workedSolution": "Set $y = 7x - 3$ and solve for $x$: $x = \\dfrac{y + 3}{7}$. Swapping variables, $f^{-1}(x) = \\dfrac{x + 3}{7}$. Note $f^{-1}$ is the inverse under composition, not the reciprocal $\\frac{1}{f(x)}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-inverse-linear",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-inverse-linear-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1100,
+  "stem": "If $f(x) = 7x - 6$, what is $f^{-1}(x)$?",
+  "choices": [
+   "$f^{-1}(x) = \\dfrac{x - 6}{7}$",
+   "$f^{-1}(x) = \\dfrac{1}{7x - 6}$",
+   "$f^{-1}(x) = 7x + 6$",
+   "$f^{-1}(x) = \\dfrac{x + 6}{7}$"
+  ],
+  "key": 3,
+  "workedSolution": "Set $y = 7x - 6$ and solve for $x$: $x = \\dfrac{y + 6}{7}$. Swapping variables, $f^{-1}(x) = \\dfrac{x + 6}{7}$. Note $f^{-1}$ is the inverse under composition, not the reciprocal $\\frac{1}{f(x)}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-inverse-linear",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-inverse-linear-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1100,
+  "stem": "If $f(x) = 4x - 1$, what is $f^{-1}(x)$?",
+  "choices": [
+   "$f^{-1}(x) = \\dfrac{x + 1}{4}$",
+   "$f^{-1}(x) = \\dfrac{1}{4x - 1}$",
+   "$f^{-1}(x) = 4x + 1$",
+   "$f^{-1}(x) = \\dfrac{x - 1}{4}$"
+  ],
+  "key": 0,
+  "workedSolution": "Set $y = 4x - 1$ and solve for $x$: $x = \\dfrac{y + 1}{4}$. Swapping variables, $f^{-1}(x) = \\dfrac{x + 1}{4}$. Note $f^{-1}$ is the inverse under composition, not the reciprocal $\\frac{1}{f(x)}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-inverse-linear",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-inverse-linear-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1100,
+  "stem": "If $f(x) = 4x - 5$, what is $f^{-1}(x)$?",
+  "choices": [
+   "$f^{-1}(x) = \\dfrac{x - 5}{4}$",
+   "$f^{-1}(x) = \\dfrac{1}{4x - 5}$",
+   "$f^{-1}(x) = 4x + 5$",
+   "$f^{-1}(x) = \\dfrac{x + 5}{4}$"
+  ],
+  "key": 3,
+  "workedSolution": "Set $y = 4x - 5$ and solve for $x$: $x = \\dfrac{y + 5}{4}$. Swapping variables, $f^{-1}(x) = \\dfrac{x + 5}{4}$. Note $f^{-1}$ is the inverse under composition, not the reciprocal $\\frac{1}{f(x)}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-inverse-linear",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-inverse-linear-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1100,
+  "stem": "If $f(x) = 3x + 3$, what is $f^{-1}(x)$?",
+  "choices": [
+   "$f^{-1}(x) = \\dfrac{1}{3x + 3}$",
+   "$f^{-1}(x) = \\dfrac{x - 3}{3}$",
+   "$f^{-1}(x) = 3x - 3$",
+   "$f^{-1}(x) = \\dfrac{x + 3}{3}$"
+  ],
+  "key": 1,
+  "workedSolution": "Set $y = 3x + 3$ and solve for $x$: $x = \\dfrac{y - 3}{3}$. Swapping variables, $f^{-1}(x) = \\dfrac{x - 3}{3}$. Note $f^{-1}$ is the inverse under composition, not the reciprocal $\\frac{1}{f(x)}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-inverse-linear",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-inverse-linear-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1100,
+  "stem": "If $f(x) = 2x - 8$, what is $f^{-1}(x)$?",
+  "choices": [
+   "$f^{-1}(x) = 2x + 8$",
+   "$f^{-1}(x) = \\dfrac{1}{2x - 8}$",
+   "$f^{-1}(x) = \\dfrac{x - 8}{2}$",
+   "$f^{-1}(x) = \\dfrac{x + 8}{2}$"
+  ],
+  "key": 3,
+  "workedSolution": "Set $y = 2x - 8$ and solve for $x$: $x = \\dfrac{y + 8}{2}$. Swapping variables, $f^{-1}(x) = \\dfrac{x + 8}{2}$. Note $f^{-1}$ is the inverse under composition, not the reciprocal $\\frac{1}{f(x)}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-inverse-linear",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-log-solve-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "If $\\log_{5} x = 3$, what is $x$?",
+  "choices": [
+   "$15$",
+   "$243$",
+   "$8$",
+   "$125$"
+  ],
+  "key": 3,
+  "workedSolution": "$\\log_{5} x = 3$ means $x = 5^{3} = 125$ by the definition of the logarithm.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-solve",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-log-solve-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "If $\\log_{4} x = 4$, what is $x$?",
+  "choices": [
+   "$64$",
+   "$8$",
+   "$256$",
+   "$16$"
+  ],
+  "key": 2,
+  "workedSolution": "$\\log_{4} x = 4$ means $x = 4^{4} = 256$ by the definition of the logarithm.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-solve",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-log-solve-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "If $\\log_{10} x = 2$, what is $x$?",
+  "choices": [
+   "$12$",
+   "$1024$",
+   "$20$",
+   "$100$"
+  ],
+  "key": 3,
+  "workedSolution": "$\\log_{10} x = 2$ means $x = 10^{2} = 100$ by the definition of the logarithm.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-solve",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-log-solve-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "If $\\log_{5} x = 3$, what is $x$?",
+  "choices": [
+   "$8$",
+   "$125$",
+   "$243$",
+   "$15$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\log_{5} x = 3$ means $x = 5^{3} = 125$ by the definition of the logarithm.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-solve",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-log-solve-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "If $\\log_{2} x = 3$, what is $x$?",
+  "choices": [
+   "$9$",
+   "$5$",
+   "$6$",
+   "$8$"
+  ],
+  "key": 3,
+  "workedSolution": "$\\log_{2} x = 3$ means $x = 2^{3} = 8$ by the definition of the logarithm.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-solve",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-log-solve-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1050,
+  "stem": "If $\\log_{5} x = 2$, what is $x$?",
+  "choices": [
+   "$7$",
+   "$25$",
+   "$32$",
+   "$10$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\log_{5} x = 2$ means $x = 5^{2} = 25$ by the definition of the logarithm.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-solve",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-geo-series-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1200,
+  "stem": "What is the sum of the infinite geometric series with first term $9$ and common ratio $r = -\\frac{1}{5}$?",
+  "choices": [
+   "$\\frac{54}{5}$",
+   "$\\frac{3}{2}$",
+   "$\\frac{15}{2}$",
+   "$\\frac{45}{4}$"
+  ],
+  "key": 2,
+  "workedSolution": "For $|r| < 1$, $S = \\dfrac{a}{1 - r} = \\dfrac{9}{1 - \\left(-\\frac{1}{5}\\right)} = \\dfrac{9}{\\frac{6}{5}} = \\frac{15}{2}$. Watch the sign in $1 - r$ when $r$ is negative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-geo-series",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-geo-series-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1200,
+  "stem": "What is the sum of the infinite geometric series with first term $9$ and common ratio $r = \\frac{1}{4}$?",
+  "choices": [
+   "$\\frac{27}{4}$",
+   "$\\frac{36}{5}$",
+   "$3$",
+   "$12$"
+  ],
+  "key": 3,
+  "workedSolution": "For $|r| < 1$, $S = \\dfrac{a}{1 - r} = \\dfrac{9}{1 - \\left(\\frac{1}{4}\\right)} = \\dfrac{9}{\\frac{3}{4}} = 12$. Watch the sign in $1 - r$ when $r$ is negative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-geo-series",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-geo-series-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1200,
+  "stem": "What is the sum of the infinite geometric series with first term $3$ and common ratio $r = \\frac{1}{5}$?",
+  "choices": [
+   "$\\frac{5}{2}$",
+   "$\\frac{15}{4}$",
+   "$\\frac{3}{4}$",
+   "$\\frac{12}{5}$"
+  ],
+  "key": 1,
+  "workedSolution": "For $|r| < 1$, $S = \\dfrac{a}{1 - r} = \\dfrac{3}{1 - \\left(\\frac{1}{5}\\right)} = \\dfrac{3}{\\frac{4}{5}} = \\frac{15}{4}$. Watch the sign in $1 - r$ when $r$ is negative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-geo-series",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-geo-series-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1200,
+  "stem": "What is the sum of the infinite geometric series with first term $7$ and common ratio $r = \\frac{1}{5}$?",
+  "choices": [
+   "$\\frac{7}{4}$",
+   "$\\frac{28}{5}$",
+   "$\\frac{35}{6}$",
+   "$\\frac{35}{4}$"
+  ],
+  "key": 3,
+  "workedSolution": "For $|r| < 1$, $S = \\dfrac{a}{1 - r} = \\dfrac{7}{1 - \\left(\\frac{1}{5}\\right)} = \\dfrac{7}{\\frac{4}{5}} = \\frac{35}{4}$. Watch the sign in $1 - r$ when $r$ is negative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-geo-series",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-geo-series-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1200,
+  "stem": "What is the sum of the infinite geometric series with first term $2$ and common ratio $r = -\\frac{1}{4}$?",
+  "choices": [
+   "$\\frac{8}{3}$",
+   "$\\frac{2}{5}$",
+   "$\\frac{8}{5}$",
+   "$\\frac{5}{2}$"
+  ],
+  "key": 2,
+  "workedSolution": "For $|r| < 1$, $S = \\dfrac{a}{1 - r} = \\dfrac{2}{1 - \\left(-\\frac{1}{4}\\right)} = \\dfrac{2}{\\frac{5}{4}} = \\frac{8}{5}$. Watch the sign in $1 - r$ when $r$ is negative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-geo-series",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-geo-series-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1200,
+  "stem": "What is the sum of the infinite geometric series with first term $8$ and common ratio $r = \\frac{1}{4}$?",
+  "choices": [
+   "$\\frac{32}{5}$",
+   "$\\frac{8}{3}$",
+   "$6$",
+   "$\\frac{32}{3}$"
+  ],
+  "key": 3,
+  "workedSolution": "For $|r| < 1$, $S = \\dfrac{a}{1 - r} = \\dfrac{8}{1 - \\left(\\frac{1}{4}\\right)} = \\dfrac{8}{\\frac{3}{4}} = \\frac{32}{3}$. Watch the sign in $1 - r$ when $r$ is negative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-geo-series",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-det-2x2-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1050,
+  "stem": "What is the determinant of $\\begin{pmatrix} -3 & 3 \\\\ 6 & -1 \\end{pmatrix}$?",
+  "choices": [
+   "$15$",
+   "$-15$",
+   "$-14$",
+   "$21$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\det = ad - bc = (-3)(-1) - (3)(6) = 3 - (18) = -15$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-det-2x2",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-det-2x2-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1050,
+  "stem": "What is the determinant of $\\begin{pmatrix} -4 & -3 \\\\ -2 & 4 \\end{pmatrix}$?",
+  "choices": [
+   "$20$",
+   "$-10$",
+   "$-22$",
+   "$22$"
+  ],
+  "key": 2,
+  "workedSolution": "$\\det = ad - bc = (-4)(4) - (-3)(-2) = -16 - (6) = -22$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-det-2x2",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-det-2x2-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1050,
+  "stem": "What is the determinant of $\\begin{pmatrix} 3 & -6 \\\\ 2 & -5 \\end{pmatrix}$?",
+  "choices": [
+   "$-3$",
+   "$-27$",
+   "$-24$",
+   "$3$"
+  ],
+  "key": 0,
+  "workedSolution": "$\\det = ad - bc = (3)(-5) - (-6)(2) = -15 - (-12) = -3$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-det-2x2",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-det-2x2-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1050,
+  "stem": "What is the determinant of $\\begin{pmatrix} 4 & 1 \\\\ -6 & -5 \\end{pmatrix}$?",
+  "choices": [
+   "$-26$",
+   "$-14$",
+   "$-19$",
+   "$14$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\det = ad - bc = (4)(-5) - (1)(-6) = -20 - (-6) = -14$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-det-2x2",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-det-2x2-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1050,
+  "stem": "What is the determinant of $\\begin{pmatrix} 5 & 5 \\\\ -2 & 6 \\end{pmatrix}$?",
+  "choices": [
+   "$-40$",
+   "$41$",
+   "$20$",
+   "$40$"
+  ],
+  "key": 3,
+  "workedSolution": "$\\det = ad - bc = (5)(6) - (5)(-2) = 30 - (-10) = 40$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-det-2x2",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-det-2x2-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1050,
+  "stem": "What is the determinant of $\\begin{pmatrix} 4 & 1 \\\\ 1 & 2 \\end{pmatrix}$?",
+  "choices": [
+   "$7$",
+   "$-7$",
+   "$2$",
+   "$9$"
+  ],
+  "key": 0,
+  "workedSolution": "$\\det = ad - bc = (4)(2) - (1)(1) = 8 - (1) = 7$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-det-2x2",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-dot-product-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1100,
+  "stem": "Let $\\mathbf{u} = \\langle -1, -4 \\rangle$ and $\\mathbf{v} = \\langle -5, -3 \\rangle$. What is $\\mathbf{u} \\cdot \\mathbf{v}$?",
+  "choices": [
+   "$-7$",
+   "$17$",
+   "$-13$",
+   "$23$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2 = (-1)(-5) + (-4)(-3) = 5 + (12) = 17$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-dot-product",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-dot-product-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1100,
+  "stem": "Let $\\mathbf{u} = \\langle -5, -1 \\rangle$ and $\\mathbf{v} = \\langle -6, -6 \\rangle$. What is $\\mathbf{u} \\cdot \\mathbf{v}$?",
+  "choices": [
+   "$36$",
+   "$24$",
+   "$-18$",
+   "$37$"
+  ],
+  "key": 0,
+  "workedSolution": "$\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2 = (-5)(-6) + (-1)(-6) = 30 + (6) = 36$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-dot-product",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-dot-product-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1100,
+  "stem": "Let $\\mathbf{u} = \\langle -2, 2 \\rangle$ and $\\mathbf{v} = \\langle -4, 2 \\rangle$. What is $\\mathbf{u} \\cdot \\mathbf{v}$?",
+  "choices": [
+   "$-12$",
+   "$12$",
+   "$4$",
+   "$-2$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2 = (-2)(-4) + (2)(2) = 8 + (4) = 12$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-dot-product",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-dot-product-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1100,
+  "stem": "Let $\\mathbf{u} = \\langle 4, -2 \\rangle$ and $\\mathbf{v} = \\langle -2, 5 \\rangle$. What is $\\mathbf{u} \\cdot \\mathbf{v}$?",
+  "choices": [
+   "$-18$",
+   "$2$",
+   "$5$",
+   "$24$"
+  ],
+  "key": 0,
+  "workedSolution": "$\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2 = (4)(-2) + (-2)(5) = -8 + (-10) = -18$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-dot-product",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-dot-product-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1100,
+  "stem": "Let $\\mathbf{u} = \\langle -5, 3 \\rangle$ and $\\mathbf{v} = \\langle -1, -1 \\rangle$. What is $\\mathbf{u} \\cdot \\mathbf{v}$?",
+  "choices": [
+   "$2$",
+   "$8$",
+   "$3$",
+   "$-4$"
+  ],
+  "key": 0,
+  "workedSolution": "$\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2 = (-5)(-1) + (3)(-1) = 5 + (-3) = 2$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-dot-product",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-dot-product-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1100,
+  "stem": "Let $\\mathbf{u} = \\langle -4, -1 \\rangle$ and $\\mathbf{v} = \\langle -5, 4 \\rangle$. What is $\\mathbf{u} \\cdot \\mathbf{v}$?",
+  "choices": [
+   "$-11$",
+   "$16$",
+   "$-6$",
+   "$24$"
+  ],
+  "key": 1,
+  "workedSolution": "$\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2 = (-4)(-5) + (-1)(4) = 20 + (-4) = 16$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-dot-product",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-triangle-exterior-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1000,
+  "stem": "In triangle $ABC$, $\\angle A = 44^\\circ$ and $\\angle B = 27^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "choices": [
+   "$289^\\circ$",
+   "$71^\\circ$",
+   "$136^\\circ$",
+   "$109^\\circ$"
+  ],
+  "key": 1,
+  "workedSolution": "The exterior angle at a vertex equals the sum of the two remote interior angles: $44^\\circ + 27^\\circ = 71^\\circ$. (Equivalently, $\\angle C = 180^\\circ - 44^\\circ - 27^\\circ = 109^\\circ$, and the exterior angle is $180^\\circ - \\angle C$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-triangle-exterior",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-triangle-exterior-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1000,
+  "stem": "In triangle $ABC$, $\\angle A = 25^\\circ$ and $\\angle B = 64^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "choices": [
+   "$89^\\circ$",
+   "$271^\\circ$",
+   "$91^\\circ$",
+   "$155^\\circ$"
+  ],
+  "key": 0,
+  "workedSolution": "The exterior angle at a vertex equals the sum of the two remote interior angles: $25^\\circ + 64^\\circ = 89^\\circ$. (Equivalently, $\\angle C = 180^\\circ - 25^\\circ - 64^\\circ = 91^\\circ$, and the exterior angle is $180^\\circ - \\angle C$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-triangle-exterior",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-triangle-exterior-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1000,
+  "stem": "In triangle $ABC$, $\\angle A = 55^\\circ$ and $\\angle B = 50^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "choices": [
+   "$105^\\circ$",
+   "$75^\\circ$",
+   "$125^\\circ$",
+   "$255^\\circ$"
+  ],
+  "key": 0,
+  "workedSolution": "The exterior angle at a vertex equals the sum of the two remote interior angles: $55^\\circ + 50^\\circ = 105^\\circ$. (Equivalently, $\\angle C = 180^\\circ - 55^\\circ - 50^\\circ = 75^\\circ$, and the exterior angle is $180^\\circ - \\angle C$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-triangle-exterior",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-triangle-exterior-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1000,
+  "stem": "In triangle $ABC$, $\\angle A = 28^\\circ$ and $\\angle B = 60^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "choices": [
+   "$88^\\circ$",
+   "$92^\\circ$",
+   "$152^\\circ$",
+   "$272^\\circ$"
+  ],
+  "key": 0,
+  "workedSolution": "The exterior angle at a vertex equals the sum of the two remote interior angles: $28^\\circ + 60^\\circ = 88^\\circ$. (Equivalently, $\\angle C = 180^\\circ - 28^\\circ - 60^\\circ = 92^\\circ$, and the exterior angle is $180^\\circ - \\angle C$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-triangle-exterior",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-triangle-exterior-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1000,
+  "stem": "In triangle $ABC$, $\\angle A = 74^\\circ$ and $\\angle B = 51^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "choices": [
+   "$55^\\circ$",
+   "$235^\\circ$",
+   "$106^\\circ$",
+   "$125^\\circ$"
+  ],
+  "key": 3,
+  "workedSolution": "The exterior angle at a vertex equals the sum of the two remote interior angles: $74^\\circ + 51^\\circ = 125^\\circ$. (Equivalently, $\\angle C = 180^\\circ - 74^\\circ - 51^\\circ = 55^\\circ$, and the exterior angle is $180^\\circ - \\angle C$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-triangle-exterior",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-triangle-exterior-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1000,
+  "stem": "In triangle $ABC$, $\\angle A = 68^\\circ$ and $\\angle B = 27^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "choices": [
+   "$112^\\circ$",
+   "$95^\\circ$",
+   "$85^\\circ$",
+   "$265^\\circ$"
+  ],
+  "key": 1,
+  "workedSolution": "The exterior angle at a vertex equals the sum of the two remote interior angles: $68^\\circ + 27^\\circ = 95^\\circ$. (Equivalently, $\\angle C = 180^\\circ - 68^\\circ - 27^\\circ = 85^\\circ$, and the exterior angle is $180^\\circ - \\angle C$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-triangle-exterior",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-inscribed-angle-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a circle, a central angle measuring $102^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "choices": [
+   "$78^\\circ$",
+   "$102^\\circ$",
+   "$51^\\circ$",
+   "$204^\\circ$"
+  ],
+  "key": 2,
+  "workedSolution": "The Inscribed Angle Theorem: an inscribed angle is half the central angle that intercepts the same arc, so the inscribed angle is $\\frac{102^\\circ}{2} = 51^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-inscribed-angle",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-inscribed-angle-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a circle, a central angle measuring $88^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "choices": [
+   "$44^\\circ$",
+   "$92^\\circ$",
+   "$176^\\circ$",
+   "$88^\\circ$"
+  ],
+  "key": 0,
+  "workedSolution": "The Inscribed Angle Theorem: an inscribed angle is half the central angle that intercepts the same arc, so the inscribed angle is $\\frac{88^\\circ}{2} = 44^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-inscribed-angle",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-inscribed-angle-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a circle, a central angle measuring $52^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "choices": [
+   "$104^\\circ$",
+   "$26^\\circ$",
+   "$128^\\circ$",
+   "$52^\\circ$"
+  ],
+  "key": 1,
+  "workedSolution": "The Inscribed Angle Theorem: an inscribed angle is half the central angle that intercepts the same arc, so the inscribed angle is $\\frac{52^\\circ}{2} = 26^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-inscribed-angle",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-inscribed-angle-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a circle, a central angle measuring $116^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "choices": [
+   "$116^\\circ$",
+   "$64^\\circ$",
+   "$58^\\circ$",
+   "$232^\\circ$"
+  ],
+  "key": 2,
+  "workedSolution": "The Inscribed Angle Theorem: an inscribed angle is half the central angle that intercepts the same arc, so the inscribed angle is $\\frac{116^\\circ}{2} = 58^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-inscribed-angle",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-inscribed-angle-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a circle, a central angle measuring $154^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "choices": [
+   "$26^\\circ$",
+   "$154^\\circ$",
+   "$77^\\circ$",
+   "$308^\\circ$"
+  ],
+  "key": 2,
+  "workedSolution": "The Inscribed Angle Theorem: an inscribed angle is half the central angle that intercepts the same arc, so the inscribed angle is $\\frac{154^\\circ}{2} = 77^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-inscribed-angle",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-inscribed-angle-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a circle, a central angle measuring $60^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "choices": [
+   "$60^\\circ$",
+   "$150^\\circ$",
+   "$30^\\circ$",
+   "$120^\\circ$"
+  ],
+  "key": 2,
+  "workedSolution": "The Inscribed Angle Theorem: an inscribed angle is half the central angle that intercepts the same arc, so the inscribed angle is $\\frac{60^\\circ}{2} = 30^\\circ$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-inscribed-angle",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-special-right-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $7$. What is the length of the hypotenuse?",
+  "choices": [
+   "$7\\sqrt{2}$",
+   "$7\\sqrt{3}$",
+   "$14$",
+   "$21$"
+  ],
+  "key": 2,
+  "workedSolution": "The sides of a $30$–$60$–$90$ triangle are in ratio $1 : \\sqrt{3} : 2$. The hypotenuse is twice the short leg: $2 \\cdot 7 = 14$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-special-right",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-special-right-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $3$. What is the length of the hypotenuse?",
+  "choices": [
+   "$9$",
+   "$3\\sqrt{3}$",
+   "$6$",
+   "$3\\sqrt{2}$"
+  ],
+  "key": 2,
+  "workedSolution": "The sides of a $30$–$60$–$90$ triangle are in ratio $1 : \\sqrt{3} : 2$. The hypotenuse is twice the short leg: $2 \\cdot 3 = 6$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-special-right",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-special-right-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "An isosceles right triangle ($45^\\circ$–$45^\\circ$–$90^\\circ$) has legs of length $3$. What is the length of the hypotenuse?",
+  "choices": [
+   "$3\\sqrt{2}$",
+   "$\\dfrac{3\\sqrt{2}}{2}$",
+   "$3\\sqrt{3}$",
+   "$6$"
+  ],
+  "key": 0,
+  "workedSolution": "In a $45$–$45$–$90$ triangle the hypotenuse is $\\sqrt{2}$ times a leg: $3\\sqrt{2}$. (By the Pythagorean theorem, $\\sqrt{3^2 + 3^2} = 3\\sqrt{2}$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-special-right",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-special-right-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $4$. What is the length of the hypotenuse?",
+  "choices": [
+   "$12$",
+   "$8$",
+   "$4\\sqrt{2}$",
+   "$4\\sqrt{3}$"
+  ],
+  "key": 1,
+  "workedSolution": "The sides of a $30$–$60$–$90$ triangle are in ratio $1 : \\sqrt{3} : 2$. The hypotenuse is twice the short leg: $2 \\cdot 4 = 8$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-special-right",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-special-right-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $3$. What is the length of the side opposite the $60^\\circ$ angle?",
+  "choices": [
+   "$3\\sqrt{2}$",
+   "$3\\sqrt{3}$",
+   "$\\dfrac{3\\sqrt{3}}{2}$",
+   "$6$"
+  ],
+  "key": 1,
+  "workedSolution": "The sides of a $30$–$60$–$90$ triangle are in ratio $1 : \\sqrt{3} : 2$ (opposite $30^\\circ$, $60^\\circ$, $90^\\circ$). With the short leg $3$, the side opposite $60^\\circ$ is $3\\sqrt{3}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-special-right",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-special-right-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1100,
+  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $6$. What is the length of the hypotenuse?",
+  "choices": [
+   "$6\\sqrt{2}$",
+   "$12$",
+   "$6\\sqrt{3}$",
+   "$18$"
+  ],
+  "key": 1,
+  "workedSolution": "The sides of a $30$–$60$–$90$ triangle are in ratio $1 : \\sqrt{3} : 2$. The hypotenuse is twice the short leg: $2 \\cdot 6 = 12$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-special-right",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-polygon-interior-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1050,
+  "stem": "What is the measure of each interior angle of a regular 8-gon?",
+  "choices": [
+   "$1080^\\circ$",
+   "$135^\\circ$",
+   "$157.5^\\circ$",
+   "$45^\\circ$"
+  ],
+  "key": 1,
+  "workedSolution": "The interior angles of an $n$-gon sum to $(n-2) \\cdot 180^\\circ = 1080^\\circ$. In a regular 8-gon each angle is $\\frac{1080^\\circ}{8} = 135^\\circ$. (Equivalently $180^\\circ$ minus the exterior angle $\\frac{360^\\circ}{8}$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-polygon-interior",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-polygon-interior-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1050,
+  "stem": "What is the measure of each interior angle of a regular 6-gon?",
+  "choices": [
+   "$150^\\circ$",
+   "$60^\\circ$",
+   "$720^\\circ$",
+   "$120^\\circ$"
+  ],
+  "key": 3,
+  "workedSolution": "The interior angles of an $n$-gon sum to $(n-2) \\cdot 180^\\circ = 720^\\circ$. In a regular 6-gon each angle is $\\frac{720^\\circ}{6} = 120^\\circ$. (Equivalently $180^\\circ$ minus the exterior angle $\\frac{360^\\circ}{6}$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-polygon-interior",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-polygon-interior-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1050,
+  "stem": "What is the measure of each interior angle of a regular 9-gon?",
+  "choices": [
+   "$1260^\\circ$",
+   "$140^\\circ$",
+   "$160^\\circ$",
+   "$40^\\circ$"
+  ],
+  "key": 1,
+  "workedSolution": "The interior angles of an $n$-gon sum to $(n-2) \\cdot 180^\\circ = 1260^\\circ$. In a regular 9-gon each angle is $\\frac{1260^\\circ}{9} = 140^\\circ$. (Equivalently $180^\\circ$ minus the exterior angle $\\frac{360^\\circ}{9}$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-polygon-interior",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-polygon-interior-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1050,
+  "stem": "What is the measure of each interior angle of a regular 9-gon?",
+  "choices": [
+   "$140^\\circ$",
+   "$40^\\circ$",
+   "$1260^\\circ$",
+   "$160^\\circ$"
+  ],
+  "key": 0,
+  "workedSolution": "The interior angles of an $n$-gon sum to $(n-2) \\cdot 180^\\circ = 1260^\\circ$. In a regular 9-gon each angle is $\\frac{1260^\\circ}{9} = 140^\\circ$. (Equivalently $180^\\circ$ minus the exterior angle $\\frac{360^\\circ}{9}$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-polygon-interior",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-polygon-interior-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1050,
+  "stem": "What is the measure of each interior angle of a regular 12-gon?",
+  "choices": [
+   "$1800^\\circ$",
+   "$150^\\circ$",
+   "$165^\\circ$",
+   "$30^\\circ$"
+  ],
+  "key": 1,
+  "workedSolution": "The interior angles of an $n$-gon sum to $(n-2) \\cdot 180^\\circ = 1800^\\circ$. In a regular 12-gon each angle is $\\frac{1800^\\circ}{12} = 150^\\circ$. (Equivalently $180^\\circ$ minus the exterior angle $\\frac{360^\\circ}{12}$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-polygon-interior",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-polygon-interior-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1050,
+  "stem": "What is the measure of each interior angle of a regular 5-gon?",
+  "choices": [
+   "$72^\\circ$",
+   "$540^\\circ$",
+   "$144^\\circ$",
+   "$108^\\circ$"
+  ],
+  "key": 3,
+  "workedSolution": "The interior angles of an $n$-gon sum to $(n-2) \\cdot 180^\\circ = 540^\\circ$. In a regular 5-gon each angle is $\\frac{540^\\circ}{5} = 108^\\circ$. (Equivalently $180^\\circ$ minus the exterior angle $\\frac{360^\\circ}{5}$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-polygon-interior",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-distance-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1000,
+  "stem": "What is the distance between the points $(3, 0)$ and $(0, -4)$?",
+  "choices": [
+   "$5$",
+   "$7$",
+   "$25$",
+   "$6$"
+  ],
+  "key": 0,
+  "workedSolution": "$d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2} = \\sqrt{(-3)^2 + (-4)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-distance",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-distance-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1000,
+  "stem": "What is the distance between the points $(-5, 2)$ and $(3, -13)$?",
+  "choices": [
+   "$23$",
+   "$289$",
+   "$17$",
+   "$18$"
+  ],
+  "key": 2,
+  "workedSolution": "$d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2} = \\sqrt{(8)^2 + (-15)^2} = \\sqrt{64 + 225} = \\sqrt{289} = 17$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-distance",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-distance-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1000,
+  "stem": "What is the distance between the points $(-2, -5)$ and $(-7, 7)$?",
+  "choices": [
+   "$17$",
+   "$14$",
+   "$13$",
+   "$169$"
+  ],
+  "key": 2,
+  "workedSolution": "$d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2} = \\sqrt{(-5)^2 + (12)^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-distance",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-distance-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1000,
+  "stem": "What is the distance between the points $(1, -3)$ and $(9, -18)$?",
+  "choices": [
+   "$18$",
+   "$17$",
+   "$23$",
+   "$289$"
+  ],
+  "key": 1,
+  "workedSolution": "$d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2} = \\sqrt{(8)^2 + (-15)^2} = \\sqrt{64 + 225} = \\sqrt{289} = 17$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-distance",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-distance-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1000,
+  "stem": "What is the distance between the points $(5, 1)$ and $(8, -3)$?",
+  "choices": [
+   "$7$",
+   "$5$",
+   "$6$",
+   "$25$"
+  ],
+  "key": 1,
+  "workedSolution": "$d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2} = \\sqrt{(3)^2 + (-4)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-distance",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-distance-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1000,
+  "stem": "What is the distance between the points $(2, -2)$ and $(-5, -26)$?",
+  "choices": [
+   "$26$",
+   "$625$",
+   "$25$",
+   "$31$"
+  ],
+  "key": 2,
+  "workedSolution": "$d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2} = \\sqrt{(-7)^2 + (-24)^2} = \\sqrt{49 + 576} = \\sqrt{625} = 25$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-distance",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-circle-equation-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1100,
+  "stem": "Which of the following is an equation of the circle with center $(4, 2)$ and radius $9$?",
+  "choices": [
+   "$(x - 2)^2 + (y - 4)^2 = 81$",
+   "$(x - 4)^2 + (y - 2)^2 = 81$",
+   "$(x - 4)^2 + (y - 2)^2 = 9$",
+   "$(x + 4)^2 + (y + 2)^2 = 81$"
+  ],
+  "key": 1,
+  "workedSolution": "A circle with center $(h, k)$ and radius $r$ has equation $(x - h)^2 + (y - k)^2 = r^2$. With $h = 4$, $k = 2$, $r = 9$: $(x - 4)^2 + (y - 2)^2 = 81$. Watch the signs: subtracting a negative coordinate produces a $+$ inside the parentheses.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-circle-equation",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-circle-equation-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1100,
+  "stem": "Which of the following is an equation of the circle with center $(4, 2)$ and radius $3$?",
+  "choices": [
+   "$(x - 4)^2 + (y - 2)^2 = 3$",
+   "$(x - 4)^2 + (y - 2)^2 = 9$",
+   "$(x + 4)^2 + (y + 2)^2 = 9$",
+   "$(x - 2)^2 + (y - 4)^2 = 9$"
+  ],
+  "key": 1,
+  "workedSolution": "A circle with center $(h, k)$ and radius $r$ has equation $(x - h)^2 + (y - k)^2 = r^2$. With $h = 4$, $k = 2$, $r = 3$: $(x - 4)^2 + (y - 2)^2 = 9$. Watch the signs: subtracting a negative coordinate produces a $+$ inside the parentheses.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-circle-equation",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-circle-equation-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1100,
+  "stem": "Which of the following is an equation of the circle with center $(-1, -3)$ and radius $2$?",
+  "choices": [
+   "$(x + 1)^2 + (y + 3)^2 = 4$",
+   "$(x - 1)^2 + (y - 3)^2 = 4$",
+   "$(x + 3)^2 + (y + 1)^2 = 4$",
+   "$(x + 1)^2 + (y + 3)^2 = 2$"
+  ],
+  "key": 0,
+  "workedSolution": "A circle with center $(h, k)$ and radius $r$ has equation $(x - h)^2 + (y - k)^2 = r^2$. With $h = -1$, $k = -3$, $r = 2$: $(x + 1)^2 + (y + 3)^2 = 4$. Watch the signs: subtracting a negative coordinate produces a $+$ inside the parentheses.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-circle-equation",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-circle-equation-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1100,
+  "stem": "Which of the following is an equation of the circle with center $(-5, -3)$ and radius $6$?",
+  "choices": [
+   "$(x + 5)^2 + (y + 3)^2 = 6$",
+   "$(x + 5)^2 + (y + 3)^2 = 36$",
+   "$(x + 3)^2 + (y + 5)^2 = 36$",
+   "$(x - 5)^2 + (y - 3)^2 = 36$"
+  ],
+  "key": 1,
+  "workedSolution": "A circle with center $(h, k)$ and radius $r$ has equation $(x - h)^2 + (y - k)^2 = r^2$. With $h = -5$, $k = -3$, $r = 6$: $(x + 5)^2 + (y + 3)^2 = 36$. Watch the signs: subtracting a negative coordinate produces a $+$ inside the parentheses.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-circle-equation",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-circle-equation-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1100,
+  "stem": "Which of the following is an equation of the circle with center $(-1, 3)$ and radius $3$?",
+  "choices": [
+   "$(x + 1)^2 + (y - 3)^2 = 3$",
+   "$(x + 1)^2 + (y - 3)^2 = 9$",
+   "$(x - 3)^2 + (y + 1)^2 = 9$",
+   "$(x - 1)^2 + (y + 3)^2 = 9$"
+  ],
+  "key": 1,
+  "workedSolution": "A circle with center $(h, k)$ and radius $r$ has equation $(x - h)^2 + (y - k)^2 = r^2$. With $h = -1$, $k = 3$, $r = 3$: $(x + 1)^2 + (y - 3)^2 = 9$. Watch the signs: subtracting a negative coordinate produces a $+$ inside the parentheses.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-circle-equation",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-circle-equation-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1100,
+  "stem": "Which of the following is an equation of the circle with center $(-1, 2)$ and radius $2$?",
+  "choices": [
+   "$(x + 1)^2 + (y - 2)^2 = 4$",
+   "$(x + 1)^2 + (y - 2)^2 = 2$",
+   "$(x - 1)^2 + (y + 2)^2 = 4$",
+   "$(x - 2)^2 + (y + 1)^2 = 4$"
+  ],
+  "key": 0,
+  "workedSolution": "A circle with center $(h, k)$ and radius $r$ has equation $(x - h)^2 + (y - k)^2 = r^2$. With $h = -1$, $k = 2$, $r = 2$: $(x + 1)^2 + (y - 2)^2 = 4$. Watch the signs: subtracting a negative coordinate produces a $+$ inside the parentheses.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-circle-equation",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-conic-identify-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1200,
+  "stem": "The graph of $4x^2 + 4y^2 = 16$ is which type of conic section?",
+  "choices": [
+   "Circle",
+   "Hyperbola",
+   "Ellipse",
+   "Parabola"
+  ],
+  "key": 0,
+  "workedSolution": "In $4x^2 + 4y^2 = 16$, the $x^2$ and $y^2$ coefficients are equal and positive, so this is a circle (radius $2$ after dividing by $4$).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-conic-identify",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-conic-identify-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1200,
+  "stem": "The graph of $2x^2 - y^2 = 15$ is which type of conic section?",
+  "choices": [
+   "Ellipse",
+   "Parabola",
+   "Circle",
+   "Hyperbola"
+  ],
+  "key": 3,
+  "workedSolution": "In $2x^2 - y^2 = 15$, the $x^2$ and $y^2$ terms have opposite signs, so this is a hyperbola.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-conic-identify",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-conic-identify-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1200,
+  "stem": "The graph of $3x^2 + 3y^2 = 108$ is which type of conic section?",
+  "choices": [
+   "Parabola",
+   "Ellipse",
+   "Circle",
+   "Hyperbola"
+  ],
+  "key": 2,
+  "workedSolution": "In $3x^2 + 3y^2 = 108$, the $x^2$ and $y^2$ coefficients are equal and positive, so this is a circle (radius $6$ after dividing by $3$).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-conic-identify",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-conic-identify-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1200,
+  "stem": "The graph of $3x^2 + 6y^2 = 72$ is which type of conic section?",
+  "choices": [
+   "Hyperbola",
+   "Ellipse",
+   "Circle",
+   "Parabola"
+  ],
+  "key": 1,
+  "workedSolution": "In $3x^2 + 6y^2 = 72$, both squared terms are positive but with different coefficients ($3 \\ne 6$), so this is an ellipse.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-conic-identify",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-conic-identify-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1200,
+  "stem": "The graph of $x^2 - 5y^2 = 30$ is which type of conic section?",
+  "choices": [
+   "Hyperbola",
+   "Ellipse",
+   "Parabola",
+   "Circle"
+  ],
+  "key": 0,
+  "workedSolution": "In $x^2 - 5y^2 = 30$, the $x^2$ and $y^2$ terms have opposite signs, so this is a hyperbola.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-conic-identify",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-conic-identify-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1200,
+  "stem": "The graph of $y = -x^2 + 4$ is which type of conic section?",
+  "choices": [
+   "Circle",
+   "Parabola",
+   "Hyperbola",
+   "Ellipse"
+  ],
+  "key": 1,
+  "workedSolution": "In $y = -x^2 + 4$, only one variable is squared, so this is a parabola.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-conic-identify",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-volume-solid-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1100,
+  "stem": "What is the volume of a right circular cylinder with radius $5$ and height $9$?",
+  "choices": [
+   "$90\\pi$",
+   "$225\\pi$",
+   "$405\\pi$",
+   "$75\\pi$"
+  ],
+  "key": 1,
+  "workedSolution": "$V = \\pi r^2 h = \\pi (5)^2 (9) = 225\\pi$. ($90\\pi$ is the lateral surface area $2\\pi r h$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-volume-solid",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-volume-solid-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1100,
+  "stem": "What is the volume of a right circular cylinder with radius $5$ and height $9$?",
+  "choices": [
+   "$75\\pi$",
+   "$90\\pi$",
+   "$225\\pi$",
+   "$405\\pi$"
+  ],
+  "key": 2,
+  "workedSolution": "$V = \\pi r^2 h = \\pi (5)^2 (9) = 225\\pi$. ($90\\pi$ is the lateral surface area $2\\pi r h$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-volume-solid",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-volume-solid-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1100,
+  "stem": "A pyramid has a square base with side length $3$ and height $8$. What is its volume?",
+  "choices": [
+   "$72$",
+   "$48$",
+   "$216$",
+   "$24$"
+  ],
+  "key": 3,
+  "workedSolution": "$V = \\frac{1}{3}(\\text{base area})(\\text{height}) = \\frac{1}{3}(3^2)(8) = 24$. Omitting the $\\frac{1}{3}$ gives the volume of the prism, $72$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-volume-solid",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-volume-solid-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1100,
+  "stem": "What is the volume of a right circular cylinder with radius $4$ and height $9$?",
+  "choices": [
+   "$48\\pi$",
+   "$324\\pi$",
+   "$144\\pi$",
+   "$72\\pi$"
+  ],
+  "key": 2,
+  "workedSolution": "$V = \\pi r^2 h = \\pi (4)^2 (9) = 144\\pi$. ($72\\pi$ is the lateral surface area $2\\pi r h$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-volume-solid",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-volume-solid-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1100,
+  "stem": "What is the volume of a right circular cone with radius $4$ and height $9$?",
+  "choices": [
+   "$144\\pi$",
+   "$108\\pi$",
+   "$72\\pi$",
+   "$48\\pi$"
+  ],
+  "key": 3,
+  "workedSolution": "$V = \\frac{1}{3}\\pi r^2 h = \\frac{1}{3}\\pi (4)^2 (9) = 48\\pi$. A cone is one third of the cylinder with the same base and height ($144\\pi$).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-volume-solid",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-volume-solid-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1100,
+  "stem": "What is the volume of a right circular cone with radius $5$ and height $3$?",
+  "choices": [
+   "$75\\pi$",
+   "$15\\pi$",
+   "$\\frac{75}{2}\\pi$",
+   "$25\\pi$"
+  ],
+  "key": 3,
+  "workedSolution": "$V = \\frac{1}{3}\\pi r^2 h = \\frac{1}{3}\\pi (5)^2 (3) = 25\\pi$. A cone is one third of the cylinder with the same base and height ($75\\pi$).",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-volume-solid",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-volume-solid-6",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1100,
+  "stem": "A pyramid has a square base with side length $3$ and height $8$. What is its volume?",
+  "choices": [
+   "$72$",
+   "$24$",
+   "$48$",
+   "$216$"
+  ],
+  "key": 1,
+  "workedSolution": "$V = \\frac{1}{3}(\\text{base area})(\\text{height}) = \\frac{1}{3}(3^2)(8) = 24$. Omitting the $\\frac{1}{3}$ gives the volume of the prism, $72$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-volume-solid",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s2-scaling-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1200,
+  "stem": "Two similar figures have a scale factor of $2$. The smaller figure has area $5$. What is the area of the larger figure?",
+  "choices": [
+   "$10$",
+   "$20$",
+   "$40$",
+   "$9$"
+  ],
+  "key": 1,
+  "workedSolution": "Area scales as the square of the scale factor: $A_{\\text{large}} = 2^2 \\cdot 5 = 20$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-scaling",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-scaling-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1200,
+  "stem": "Two similar solids have a scale factor of $2$ (each length of the larger is $2$ times the corresponding length of the smaller). The smaller solid has volume $12$. What is the volume of the larger solid?",
+  "choices": [
+   "$24$",
+   "$72$",
+   "$96$",
+   "$48$"
+  ],
+  "key": 2,
+  "workedSolution": "Volume scales as the cube of the scale factor: $V_{\\text{large}} = 2^3 \\cdot 12 = 8 \\cdot 12 = 96$. (Lengths scale by $k$, areas by $k^2$, volumes by $k^3$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-scaling",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-scaling-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1200,
+  "stem": "Two similar solids have a scale factor of $2$ (each length of the larger is $2$ times the corresponding length of the smaller). The smaller solid has volume $8$. What is the volume of the larger solid?",
+  "choices": [
+   "$48$",
+   "$16$",
+   "$32$",
+   "$64$"
+  ],
+  "key": 3,
+  "workedSolution": "Volume scales as the cube of the scale factor: $V_{\\text{large}} = 2^3 \\cdot 8 = 8 \\cdot 8 = 64$. (Lengths scale by $k$, areas by $k^2$, volumes by $k^3$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-scaling",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-scaling-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1200,
+  "stem": "Two similar figures have a scale factor of $4$. The smaller figure has area $12$. What is the area of the larger figure?",
+  "choices": [
+   "$28$",
+   "$768$",
+   "$48$",
+   "$192$"
+  ],
+  "key": 3,
+  "workedSolution": "Area scales as the square of the scale factor: $A_{\\text{large}} = 4^2 \\cdot 12 = 192$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-scaling",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-scaling-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1200,
+  "stem": "Two similar figures have a scale factor of $4$. The smaller figure has area $8$. What is the area of the larger figure?",
+  "choices": [
+   "$512$",
+   "$24$",
+   "$128$",
+   "$32$"
+  ],
+  "key": 2,
+  "workedSolution": "Area scales as the square of the scale factor: $A_{\\text{large}} = 4^2 \\cdot 8 = 128$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-scaling",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-scaling-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1200,
+  "stem": "Two similar solids have a scale factor of $2$ (each length of the larger is $2$ times the corresponding length of the smaller). The smaller solid has volume $10$. What is the volume of the larger solid?",
+  "choices": [
+   "$80$",
+   "$40$",
+   "$20$",
+   "$60$"
+  ],
+  "key": 0,
+  "workedSolution": "Volume scales as the cube of the scale factor: $V_{\\text{large}} = 2^3 \\cdot 10 = 8 \\cdot 10 = 80$. (Lengths scale by $k$, areas by $k^2$, volumes by $k^3$.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-scaling",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-transform-point-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1100,
+  "stem": "What is the image of the point $(-4, -1)$ under a reflection across the line $y = x$?",
+  "choices": [
+   "$(4, 1)$",
+   "$(-1, -4)$",
+   "$(-1, 4)$",
+   "$(1, -4)$"
+  ],
+  "key": 1,
+  "workedSolution": "A reflection across the line $y = x$ maps $(x, y) \\mapsto (y, x)$, so $(-4, -1) \\mapsto (-1, -4)$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-transform-point",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-transform-point-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1100,
+  "stem": "What is the image of the point $(1, 3)$ under a reflection across the $x$-axis?",
+  "choices": [
+   "$(3, -1)$",
+   "$(-1, -3)$",
+   "$(1, -3)$",
+   "$(-3, 1)$"
+  ],
+  "key": 2,
+  "workedSolution": "A reflection across the $x$-axis maps $(x, y) \\mapsto (x, -y)$, so $(1, 3) \\mapsto (1, -3)$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-transform-point",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-transform-point-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1100,
+  "stem": "What is the image of the point $(-3, 1)$ under a rotation of $180^\\circ$ about the origin?",
+  "choices": [
+   "$(-3, -1)$",
+   "$(-1, -3)$",
+   "$(3, -1)$",
+   "$(1, 3)$"
+  ],
+  "key": 2,
+  "workedSolution": "A rotation of $180^\\circ$ about the origin maps $(x, y) \\mapsto (-x, -y)$, so $(-3, 1) \\mapsto (3, -1)$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-transform-point",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-transform-point-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1100,
+  "stem": "What is the image of the point $(-3, 2)$ under a reflection across the line $y = x$?",
+  "choices": [
+   "$(3, -2)$",
+   "$(2, 3)$",
+   "$(2, -3)$",
+   "$(-2, -3)$"
+  ],
+  "key": 2,
+  "workedSolution": "A reflection across the line $y = x$ maps $(x, y) \\mapsto (y, x)$, so $(-3, 2) \\mapsto (2, -3)$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-transform-point",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-transform-point-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1100,
+  "stem": "What is the image of the point $(2, -4)$ under a reflection across the line $y = x$?",
+  "choices": [
+   "$(-2, 4)$",
+   "$(-4, -2)$",
+   "$(-4, 2)$",
+   "$(4, 2)$"
+  ],
+  "key": 2,
+  "workedSolution": "A reflection across the line $y = x$ maps $(x, y) \\mapsto (y, x)$, so $(2, -4) \\mapsto (-4, 2)$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-transform-point",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-transform-point-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1100,
+  "stem": "What is the image of the point $(1, 2)$ under a reflection across the $x$-axis?",
+  "choices": [
+   "$(2, -1)$",
+   "$(1, -2)$",
+   "$(-1, -2)$",
+   "$(-2, 1)$"
+  ],
+  "key": 1,
+  "workedSolution": "A reflection across the $x$-axis maps $(x, y) \\mapsto (x, -y)$, so $(1, 2) \\mapsto (1, -2)$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-transform-point",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-transform-point-6",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1100,
+  "stem": "What is the image of the point $(-3, 4)$ under a rotation of $180^\\circ$ about the origin?",
+  "choices": [
+   "$(-4, -3)$",
+   "$(-3, -4)$",
+   "$(3, -4)$",
+   "$(4, 3)$"
+  ],
+  "key": 2,
+  "workedSolution": "A rotation of $180^\\circ$ about the origin maps $(x, y) \\mapsto (-x, -y)$, so $(-3, 4) \\mapsto (3, -4)$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-transform-point",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s2-reflections-compose-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1300,
+  "stem": "A figure in the plane is reflected across the line $x = -1$, and the image is then reflected across the line $x = 1$. The composition of these two reflections is equivalent to which single transformation?",
+  "choices": [
+   "A translation $2$ units to the right",
+   "A reflection across the line $x = 0$",
+   "A translation $4$ units to the right",
+   "A translation $4$ units to the left"
+  ],
+  "key": 2,
+  "workedSolution": "Reflecting across two parallel lines is a translation perpendicular to the lines by twice the distance between them, in the direction from the first line toward the second. The distance is $1 - (-1) = 2$, so the composition is a translation of $2 \\cdot 2 = 4$ units in the $+x$ direction. It cannot be a single reflection: each reflection reverses orientation, so their composition preserves it.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-reflections-compose",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-reflections-compose-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1300,
+  "stem": "A figure in the plane is reflected across the line $x = 2$, and the image is then reflected across the line $x = 7$. The composition of these two reflections is equivalent to which single transformation?",
+  "choices": [
+   "A translation $10$ units to the right",
+   "A translation $5$ units to the right",
+   "A translation $10$ units to the left",
+   "A reflection across the line $x = \\frac{9}{2}$"
+  ],
+  "key": 0,
+  "workedSolution": "Reflecting across two parallel lines is a translation perpendicular to the lines by twice the distance between them, in the direction from the first line toward the second. The distance is $7 - (2) = 5$, so the composition is a translation of $2 \\cdot 5 = 10$ units in the $+x$ direction. It cannot be a single reflection: each reflection reverses orientation, so their composition preserves it.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-reflections-compose",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-reflections-compose-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1300,
+  "stem": "A figure in the plane is reflected across the line $x = 0$, and the image is then reflected across the line $x = 3$. The composition of these two reflections is equivalent to which single transformation?",
+  "choices": [
+   "A reflection across the line $x = \\frac{3}{2}$",
+   "A translation $6$ units to the right",
+   "A translation $3$ units to the right",
+   "A translation $6$ units to the left"
+  ],
+  "key": 1,
+  "workedSolution": "Reflecting across two parallel lines is a translation perpendicular to the lines by twice the distance between them, in the direction from the first line toward the second. The distance is $3 - (0) = 3$, so the composition is a translation of $2 \\cdot 3 = 6$ units in the $+x$ direction. It cannot be a single reflection: each reflection reverses orientation, so their composition preserves it.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-reflections-compose",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-reflections-compose-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1300,
+  "stem": "A figure in the plane is reflected across the line $x = -3$, and the image is then reflected across the line $x = 0$. The composition of these two reflections is equivalent to which single transformation?",
+  "choices": [
+   "A translation $6$ units to the right",
+   "A reflection across the line $x = -\\frac{3}{2}$",
+   "A translation $6$ units to the left",
+   "A translation $3$ units to the right"
+  ],
+  "key": 0,
+  "workedSolution": "Reflecting across two parallel lines is a translation perpendicular to the lines by twice the distance between them, in the direction from the first line toward the second. The distance is $0 - (-3) = 3$, so the composition is a translation of $2 \\cdot 3 = 6$ units in the $+x$ direction. It cannot be a single reflection: each reflection reverses orientation, so their composition preserves it.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-reflections-compose",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-reflections-compose-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1300,
+  "stem": "A figure in the plane is reflected across the line $x = 2$, and the image is then reflected across the line $x = 6$. The composition of these two reflections is equivalent to which single transformation?",
+  "choices": [
+   "A translation $4$ units to the right",
+   "A reflection across the line $x = 4$",
+   "A translation $8$ units to the right",
+   "A translation $8$ units to the left"
+  ],
+  "key": 2,
+  "workedSolution": "Reflecting across two parallel lines is a translation perpendicular to the lines by twice the distance between them, in the direction from the first line toward the second. The distance is $6 - (2) = 4$, so the composition is a translation of $2 \\cdot 4 = 8$ units in the $+x$ direction. It cannot be a single reflection: each reflection reverses orientation, so their composition preserves it.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-reflections-compose",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-reflections-compose-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.4",
+  "difficulty": 1300,
+  "stem": "A figure in the plane is reflected across the line $x = 1$, and the image is then reflected across the line $x = 5$. The composition of these two reflections is equivalent to which single transformation?",
+  "choices": [
+   "A translation $8$ units to the left",
+   "A reflection across the line $x = 3$",
+   "A translation $4$ units to the right",
+   "A translation $8$ units to the right"
+  ],
+  "key": 3,
+  "workedSolution": "Reflecting across two parallel lines is a translation perpendicular to the lines by twice the distance between them, in the direction from the first line toward the second. The distance is $5 - (1) = 4$, so the composition is a translation of $2 \\cdot 4 = 8$ units in the $+x$ direction. It cannot be a single reflection: each reflection reverses orientation, so their composition preserves it.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-reflections-compose",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-prob-no-replacement-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A bag contains $6$ red and $3$ blue marbles. Two marbles are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$\\frac{10}{27}$",
+   "$\\frac{5}{12}$",
+   "$\\frac{4}{9}$",
+   "$\\frac{4}{3}$"
+  ],
+  "key": 1,
+  "workedSolution": "$P(\\text{both red}) = \\frac{6}{9} \\cdot \\frac{5}{8} = \\frac{5}{12}$. Because the first marble is not replaced, the second factor uses $5$ red out of $8$ remaining — squaring $\\frac{6}{9}$ would wrongly assume independence.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-prob-no-replacement",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-prob-no-replacement-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A bag contains $6$ red and $6$ blue marbles. Two marbles are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$1$",
+   "$\\frac{5}{24}$",
+   "$\\frac{5}{22}$",
+   "$\\frac{1}{4}$"
+  ],
+  "key": 2,
+  "workedSolution": "$P(\\text{both red}) = \\frac{6}{12} \\cdot \\frac{5}{11} = \\frac{5}{22}$. Because the first marble is not replaced, the second factor uses $5$ red out of $11$ remaining — squaring $\\frac{6}{12}$ would wrongly assume independence.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-prob-no-replacement",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-prob-no-replacement-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A bag contains $5$ red and $6$ blue marbles. Two marbles are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$\\frac{20}{121}$",
+   "$\\frac{2}{11}$",
+   "$\\frac{10}{11}$",
+   "$\\frac{25}{121}$"
+  ],
+  "key": 1,
+  "workedSolution": "$P(\\text{both red}) = \\frac{5}{11} \\cdot \\frac{4}{10} = \\frac{2}{11}$. Because the first marble is not replaced, the second factor uses $4$ red out of $10$ remaining — squaring $\\frac{5}{11}$ would wrongly assume independence.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-prob-no-replacement",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-prob-no-replacement-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A bag contains $6$ red and $6$ blue marbles. Two marbles are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$\\frac{1}{4}$",
+   "$1$",
+   "$\\frac{5}{24}$",
+   "$\\frac{5}{22}$"
+  ],
+  "key": 3,
+  "workedSolution": "$P(\\text{both red}) = \\frac{6}{12} \\cdot \\frac{5}{11} = \\frac{5}{22}$. Because the first marble is not replaced, the second factor uses $5$ red out of $11$ remaining — squaring $\\frac{6}{12}$ would wrongly assume independence.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-prob-no-replacement",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-prob-no-replacement-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A bag contains $5$ red and $3$ blue marbles. Two marbles are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$\\frac{5}{16}$",
+   "$\\frac{5}{4}$",
+   "$\\frac{5}{14}$",
+   "$\\frac{25}{64}$"
+  ],
+  "key": 2,
+  "workedSolution": "$P(\\text{both red}) = \\frac{5}{8} \\cdot \\frac{4}{7} = \\frac{5}{14}$. Because the first marble is not replaced, the second factor uses $4$ red out of $7$ remaining — squaring $\\frac{5}{8}$ would wrongly assume independence.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-prob-no-replacement",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-prob-no-replacement-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A bag contains $4$ red and $6$ blue marbles. Two marbles are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$\\frac{4}{25}$",
+   "$\\frac{3}{25}$",
+   "$\\frac{4}{5}$",
+   "$\\frac{2}{15}$"
+  ],
+  "key": 3,
+  "workedSolution": "$P(\\text{both red}) = \\frac{4}{10} \\cdot \\frac{3}{9} = \\frac{2}{15}$. Because the first marble is not replaced, the second factor uses $3$ red out of $9$ remaining — squaring $\\frac{4}{10}$ would wrongly assume independence.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-prob-no-replacement",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-prob-no-replacement-6",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A bag contains $4$ red and $5$ blue marbles. Two marbles are drawn at random without replacement. What is the probability that both are red?",
+  "choices": [
+   "$\\frac{8}{9}$",
+   "$\\frac{16}{81}$",
+   "$\\frac{4}{27}$",
+   "$\\frac{1}{6}$"
+  ],
+  "key": 3,
+  "workedSolution": "$P(\\text{both red}) = \\frac{4}{9} \\cdot \\frac{3}{8} = \\frac{1}{6}$. Because the first marble is not replaced, the second factor uses $3$ red out of $8$ remaining — squaring $\\frac{4}{9}$ would wrongly assume independence.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-prob-no-replacement",
+   "seed": 6
+  }
+ },
+ {
+  "id": "s2-committee-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A committee of $3$ people is to be chosen from a group of $10$ people. How many different committees are possible?",
+  "choices": [
+   "$30$",
+   "$45$",
+   "$120$",
+   "$720$"
+  ],
+  "key": 2,
+  "workedSolution": "Order doesn't matter in a committee, so use combinations: $\\binom{10}{3} = \\frac{10!}{3!\\,7!} = 120$. Using permutations $P(10, 3) = 720$ would count each committee $3!$ times.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-committee",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-committee-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A committee of $2$ people is to be chosen from a group of $9$ people. How many different committees are possible?",
+  "choices": [
+   "$18$",
+   "$9$",
+   "$36$",
+   "$72$"
+  ],
+  "key": 2,
+  "workedSolution": "Order doesn't matter in a committee, so use combinations: $\\binom{9}{2} = \\frac{9!}{2!\\,7!} = 36$. Using permutations $P(9, 2) = 72$ would count each committee $2!$ times.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-committee",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-committee-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A committee of $4$ people is to be chosen from a group of $8$ people. How many different committees are possible?",
+  "choices": [
+   "$70$",
+   "$32$",
+   "$1680$",
+   "$56$"
+  ],
+  "key": 0,
+  "workedSolution": "Order doesn't matter in a committee, so use combinations: $\\binom{8}{4} = \\frac{8!}{4!\\,4!} = 70$. Using permutations $P(8, 4) = 1680$ would count each committee $4!$ times.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-committee",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-committee-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A committee of $4$ people is to be chosen from a group of $6$ people. How many different committees are possible?",
+  "choices": [
+   "$24$",
+   "$360$",
+   "$15$",
+   "$20$"
+  ],
+  "key": 2,
+  "workedSolution": "Order doesn't matter in a committee, so use combinations: $\\binom{6}{4} = \\frac{6!}{4!\\,2!} = 15$. Using permutations $P(6, 4) = 360$ would count each committee $4!$ times.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-committee",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-committee-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A committee of $3$ people is to be chosen from a group of $8$ people. How many different committees are possible?",
+  "choices": [
+   "$24$",
+   "$28$",
+   "$336$",
+   "$56$"
+  ],
+  "key": 3,
+  "workedSolution": "Order doesn't matter in a committee, so use combinations: $\\binom{8}{3} = \\frac{8!}{3!\\,5!} = 56$. Using permutations $P(8, 3) = 336$ would count each committee $3!$ times.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-committee",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-committee-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1150,
+  "stem": "A committee of $4$ people is to be chosen from a group of $7$ people. How many different committees are possible?",
+  "choices": [
+   "$35$",
+   "$28$",
+   "$840$",
+   "$15$"
+  ],
+  "key": 0,
+  "workedSolution": "Order doesn't matter in a committee, so use combinations: $\\binom{7}{4} = \\frac{7!}{4!\\,3!} = 35$. Using permutations $P(7, 4) = 840$ would count each committee $4!$ times.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-committee",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-expected-value-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1250,
+  "stem": "A game uses one fair six-sided die. You win $3$ dollars if the roll is at least $5$, and you lose $5$ dollars otherwise. What is the expected value of the game, in dollars?",
+  "choices": [
+   "$\\frac{1}{3}$",
+   "$-1$",
+   "$\\frac{13}{3}$",
+   "$-\\frac{7}{3}$"
+  ],
+  "key": 3,
+  "workedSolution": "$P(\\text{win}) = \\frac{2}{6}$ (rolls $5$ through $6$) and $P(\\text{lose}) = \\frac{4}{6}$. So $E = 3 \\cdot \\frac{2}{6} + (-5) \\cdot \\frac{4}{6} = \\frac{6 - 20}{6} = -\\frac{7}{3}$ dollars.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-expected-value",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-expected-value-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1250,
+  "stem": "A game uses one fair six-sided die. You win $5$ dollars if the roll is at least $5$, and you lose $4$ dollars otherwise. What is the expected value of the game, in dollars?",
+  "choices": [
+   "$\\frac{13}{3}$",
+   "$-1$",
+   "$2$",
+   "$\\frac{1}{2}$"
+  ],
+  "key": 1,
+  "workedSolution": "$P(\\text{win}) = \\frac{2}{6}$ (rolls $5$ through $6$) and $P(\\text{lose}) = \\frac{4}{6}$. So $E = 5 \\cdot \\frac{2}{6} + (-4) \\cdot \\frac{4}{6} = \\frac{10 - 16}{6} = -1$ dollars.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-expected-value",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-expected-value-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1250,
+  "stem": "A game uses one fair six-sided die. You win $6$ dollars if the roll is at least $3$, and you lose $3$ dollars otherwise. What is the expected value of the game, in dollars?",
+  "choices": [
+   "$3$",
+   "$5$",
+   "$\\frac{3}{2}$",
+   "$0$"
+  ],
+  "key": 0,
+  "workedSolution": "$P(\\text{win}) = \\frac{4}{6}$ (rolls $3$ through $6$) and $P(\\text{lose}) = \\frac{2}{6}$. So $E = 6 \\cdot \\frac{4}{6} + (-3) \\cdot \\frac{2}{6} = \\frac{24 - 6}{6} = 3$ dollars.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-expected-value",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-expected-value-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1250,
+  "stem": "A game uses one fair six-sided die. You win $5$ dollars if the roll is at least $5$, and you lose $3$ dollars otherwise. What is the expected value of the game, in dollars?",
+  "choices": [
+   "$-\\frac{1}{3}$",
+   "$1$",
+   "$\\frac{11}{3}$",
+   "$\\frac{7}{3}$"
+  ],
+  "key": 0,
+  "workedSolution": "$P(\\text{win}) = \\frac{2}{6}$ (rolls $5$ through $6$) and $P(\\text{lose}) = \\frac{4}{6}$. So $E = 5 \\cdot \\frac{2}{6} + (-3) \\cdot \\frac{4}{6} = \\frac{10 - 12}{6} = -\\frac{1}{3}$ dollars.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-expected-value",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-expected-value-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1250,
+  "stem": "A game uses one fair six-sided die. You win $7$ dollars if the roll is at least $3$, and you lose $1$ dollars otherwise. What is the expected value of the game, in dollars?",
+  "choices": [
+   "$5$",
+   "$\\frac{13}{3}$",
+   "$\\frac{5}{3}$",
+   "$3$"
+  ],
+  "key": 1,
+  "workedSolution": "$P(\\text{win}) = \\frac{4}{6}$ (rolls $3$ through $6$) and $P(\\text{lose}) = \\frac{2}{6}$. So $E = 7 \\cdot \\frac{4}{6} + (-1) \\cdot \\frac{2}{6} = \\frac{28 - 2}{6} = \\frac{13}{3}$ dollars.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-expected-value",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-expected-value-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1250,
+  "stem": "A game uses one fair six-sided die. You win $8$ dollars if the roll is at least $3$, and you lose $2$ dollars otherwise. What is the expected value of the game, in dollars?",
+  "choices": [
+   "$\\frac{14}{3}$",
+   "$3$",
+   "$6$",
+   "$\\frac{4}{3}$"
+  ],
+  "key": 0,
+  "workedSolution": "$P(\\text{win}) = \\frac{4}{6}$ (rolls $3$ through $6$) and $P(\\text{lose}) = \\frac{2}{6}$. So $E = 8 \\cdot \\frac{4}{6} + (-2) \\cdot \\frac{2}{6} = \\frac{32 - 4}{6} = \\frac{14}{3}$ dollars.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-expected-value",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-stats-transform-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1250,
+  "stem": "A data set has mean $38$ and standard deviation $8$. Every value is multiplied by $4$, and then $3$ is added to each result. What are the mean and standard deviation of the new data set?",
+  "choices": [
+   "mean $152$, standard deviation $32$",
+   "mean $155$, standard deviation $35$",
+   "mean $155$, standard deviation $32$",
+   "mean $41$, standard deviation $11$"
+  ],
+  "key": 2,
+  "workedSolution": "Multiplying by $4$ scales both mean and standard deviation by $4$; adding $3$ shifts the mean by $3$ but leaves spread unchanged. New mean $= 4 \\cdot 38 + 3 = 155$; new standard deviation $= 4 \\cdot 8 = 32$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-stats-transform",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-stats-transform-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1250,
+  "stem": "A data set has mean $30$ and standard deviation $2$. Every value is multiplied by $3$, and then $10$ is added to each result. What are the mean and standard deviation of the new data set?",
+  "choices": [
+   "mean $100$, standard deviation $6$",
+   "mean $100$, standard deviation $16$",
+   "mean $90$, standard deviation $6$",
+   "mean $40$, standard deviation $12$"
+  ],
+  "key": 0,
+  "workedSolution": "Multiplying by $3$ scales both mean and standard deviation by $3$; adding $10$ shifts the mean by $10$ but leaves spread unchanged. New mean $= 3 \\cdot 30 + 10 = 100$; new standard deviation $= 3 \\cdot 2 = 6$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-stats-transform",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-stats-transform-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1250,
+  "stem": "A data set has mean $17$ and standard deviation $3$. Every value is multiplied by $3$, and then $10$ is added to each result. What are the mean and standard deviation of the new data set?",
+  "choices": [
+   "mean $61$, standard deviation $9$",
+   "mean $61$, standard deviation $19$",
+   "mean $51$, standard deviation $9$",
+   "mean $27$, standard deviation $13$"
+  ],
+  "key": 0,
+  "workedSolution": "Multiplying by $3$ scales both mean and standard deviation by $3$; adding $10$ shifts the mean by $10$ but leaves spread unchanged. New mean $= 3 \\cdot 17 + 10 = 61$; new standard deviation $= 3 \\cdot 3 = 9$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-stats-transform",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-stats-transform-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1250,
+  "stem": "A data set has mean $37$ and standard deviation $7$. Every value is multiplied by $4$, and then $9$ is added to each result. What are the mean and standard deviation of the new data set?",
+  "choices": [
+   "mean $157$, standard deviation $37$",
+   "mean $157$, standard deviation $28$",
+   "mean $46$, standard deviation $16$",
+   "mean $148$, standard deviation $28$"
+  ],
+  "key": 1,
+  "workedSolution": "Multiplying by $4$ scales both mean and standard deviation by $4$; adding $9$ shifts the mean by $9$ but leaves spread unchanged. New mean $= 4 \\cdot 37 + 9 = 157$; new standard deviation $= 4 \\cdot 7 = 28$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-stats-transform",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-stats-transform-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1250,
+  "stem": "A data set has mean $17$ and standard deviation $4$. Every value is multiplied by $2$, and then $3$ is added to each result. What are the mean and standard deviation of the new data set?",
+  "choices": [
+   "mean $37$, standard deviation $8$",
+   "mean $34$, standard deviation $8$",
+   "mean $20$, standard deviation $7$",
+   "mean $37$, standard deviation $11$"
+  ],
+  "key": 0,
+  "workedSolution": "Multiplying by $2$ scales both mean and standard deviation by $2$; adding $3$ shifts the mean by $3$ but leaves spread unchanged. New mean $= 2 \\cdot 17 + 3 = 37$; new standard deviation $= 2 \\cdot 4 = 8$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-stats-transform",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-stats-transform-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1250,
+  "stem": "A data set has mean $17$ and standard deviation $2$. Every value is multiplied by $2$, and then $3$ is added to each result. What are the mean and standard deviation of the new data set?",
+  "choices": [
+   "mean $34$, standard deviation $4$",
+   "mean $37$, standard deviation $4$",
+   "mean $20$, standard deviation $5$",
+   "mean $37$, standard deviation $7$"
+  ],
+  "key": 1,
+  "workedSolution": "Multiplying by $2$ scales both mean and standard deviation by $2$; adding $3$ shifts the mean by $3$ but leaves spread unchanged. New mean $= 2 \\cdot 17 + 3 = 37$; new standard deviation $= 2 \\cdot 2 = 4$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-stats-transform",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-empirical-rule-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1150,
+  "stem": "Scores on an exam are approximately normally distributed with mean $65$ and standard deviation $4$. According to the empirical rule, approximately what percent of scores fall between $61$ and $69$?",
+  "choices": [
+   "About $95\\%$",
+   "About $50\\%$",
+   "About $99.7\\%$",
+   "About $68\\%$"
+  ],
+  "key": 3,
+  "workedSolution": "$61$ and $69$ are exactly $1$ standard deviation from the mean ($65 \\pm 1 \\cdot 4$). The empirical rule: about $68\\%$ of values lie within 1 SD, $95\\%$ within 2 SD, and $99.7\\%$ within 3 SD. So the answer is about $68\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-empirical-rule",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-empirical-rule-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1150,
+  "stem": "Scores on an exam are approximately normally distributed with mean $69$ and standard deviation $6$. According to the empirical rule, approximately what percent of scores fall between $63$ and $75$?",
+  "choices": [
+   "About $68\\%$",
+   "About $50\\%$",
+   "About $95\\%$",
+   "About $99.7\\%$"
+  ],
+  "key": 0,
+  "workedSolution": "$63$ and $75$ are exactly $1$ standard deviation from the mean ($69 \\pm 1 \\cdot 6$). The empirical rule: about $68\\%$ of values lie within 1 SD, $95\\%$ within 2 SD, and $99.7\\%$ within 3 SD. So the answer is about $68\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-empirical-rule",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-empirical-rule-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1150,
+  "stem": "Scores on an exam are approximately normally distributed with mean $85$ and standard deviation $5$. According to the empirical rule, approximately what percent of scores fall between $80$ and $90$?",
+  "choices": [
+   "About $68\\%$",
+   "About $99.7\\%$",
+   "About $50\\%$",
+   "About $95\\%$"
+  ],
+  "key": 0,
+  "workedSolution": "$80$ and $90$ are exactly $1$ standard deviation from the mean ($85 \\pm 1 \\cdot 5$). The empirical rule: about $68\\%$ of values lie within 1 SD, $95\\%$ within 2 SD, and $99.7\\%$ within 3 SD. So the answer is about $68\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-empirical-rule",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-empirical-rule-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1150,
+  "stem": "Scores on an exam are approximately normally distributed with mean $43$ and standard deviation $5$. According to the empirical rule, approximately what percent of scores fall between $38$ and $48$?",
+  "choices": [
+   "About $50\\%$",
+   "About $99.7\\%$",
+   "About $68\\%$",
+   "About $95\\%$"
+  ],
+  "key": 2,
+  "workedSolution": "$38$ and $48$ are exactly $1$ standard deviation from the mean ($43 \\pm 1 \\cdot 5$). The empirical rule: about $68\\%$ of values lie within 1 SD, $95\\%$ within 2 SD, and $99.7\\%$ within 3 SD. So the answer is about $68\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-empirical-rule",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-empirical-rule-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1150,
+  "stem": "Scores on an exam are approximately normally distributed with mean $83$ and standard deviation $4$. According to the empirical rule, approximately what percent of scores fall between $79$ and $87$?",
+  "choices": [
+   "About $95\\%$",
+   "About $50\\%$",
+   "About $99.7\\%$",
+   "About $68\\%$"
+  ],
+  "key": 3,
+  "workedSolution": "$79$ and $87$ are exactly $1$ standard deviation from the mean ($83 \\pm 1 \\cdot 4$). The empirical rule: about $68\\%$ of values lie within 1 SD, $95\\%$ within 2 SD, and $99.7\\%$ within 3 SD. So the answer is about $68\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-empirical-rule",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-empirical-rule-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1150,
+  "stem": "Scores on an exam are approximately normally distributed with mean $40$ and standard deviation $5$. According to the empirical rule, approximately what percent of scores fall between $30$ and $50$?",
+  "choices": [
+   "About $68\\%$",
+   "About $50\\%$",
+   "About $99.7\\%$",
+   "About $95\\%$"
+  ],
+  "key": 3,
+  "workedSolution": "$30$ and $50$ are exactly $2$ standard deviations from the mean ($40 \\pm 2 \\cdot 5$). The empirical rule: about $68\\%$ of values lie within 1 SD, $95\\%$ within 2 SD, and $99.7\\%$ within 3 SD. So the answer is about $95\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-empirical-rule",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-mean-median-outlier-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1200,
+  "stem": "Consider the data set $\\{12,\\ 13,\\ 14,\\ 15,\\ 16,\\ 72\\}$. Which statement correctly compares its mean and median?",
+  "choices": [
+   "The median is greater than the mean, because the median counts every value.",
+   "The mean is less than the median, because the high outlier pulls the median upward.",
+   "The mean and median are equal, because the data set is symmetric.",
+   "The mean is greater than the median, because the high outlier pulls the mean upward."
+  ],
+  "key": 3,
+  "workedSolution": "Sorted, the middle two values are $14$ and $15$, so the median is $14.5$. The mean is $\\frac{12 + 13 + 14 + 15 + 16 + 72}{6} = 23.67$. The outlier ($72$) affects the mean but barely moves the median, so the mean is greater than the median.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-mean-median-outlier",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-mean-median-outlier-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1200,
+  "stem": "Consider the data set $\\{16,\\ 17,\\ 18,\\ 19,\\ 20,\\ 62\\}$. Which statement correctly compares its mean and median?",
+  "choices": [
+   "The mean is less than the median, because the high outlier pulls the median upward.",
+   "The median is greater than the mean, because the median counts every value.",
+   "The mean and median are equal, because the data set is symmetric.",
+   "The mean is greater than the median, because the high outlier pulls the mean upward."
+  ],
+  "key": 3,
+  "workedSolution": "Sorted, the middle two values are $18$ and $19$, so the median is $18.5$. The mean is $\\frac{16 + 17 + 18 + 19 + 20 + 62}{6} = 25.33$. The outlier ($62$) affects the mean but barely moves the median, so the mean is greater than the median.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-mean-median-outlier",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-mean-median-outlier-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1200,
+  "stem": "Consider the data set $\\{0,\\ 20,\\ 21,\\ 22,\\ 23,\\ 24\\}$. Which statement correctly compares its mean and median?",
+  "choices": [
+   "The median is less than the mean, because the median counts every value.",
+   "The mean is greater than the median, because the low outlier pulls the median downward.",
+   "The mean and median are equal, because the data set is symmetric.",
+   "The mean is less than the median, because the low outlier pulls the mean downward."
+  ],
+  "key": 3,
+  "workedSolution": "Sorted, the middle two values are $21$ and $22$, so the median is $21.5$. The mean is $\\frac{0 + 20 + 21 + 22 + 23 + 24}{6} = 18.33$. The outlier ($0$) affects the mean but barely moves the median, so the mean is less than the median.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-mean-median-outlier",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-mean-median-outlier-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1200,
+  "stem": "Consider the data set $\\{11,\\ 12,\\ 13,\\ 14,\\ 15,\\ 57\\}$. Which statement correctly compares its mean and median?",
+  "choices": [
+   "The mean and median are equal, because the data set is symmetric.",
+   "The mean is greater than the median, because the high outlier pulls the mean upward.",
+   "The median is greater than the mean, because the median counts every value.",
+   "The mean is less than the median, because the high outlier pulls the median upward."
+  ],
+  "key": 1,
+  "workedSolution": "Sorted, the middle two values are $13$ and $14$, so the median is $13.5$. The mean is $\\frac{11 + 12 + 13 + 14 + 15 + 57}{6} = 20.33$. The outlier ($57$) affects the mean but barely moves the median, so the mean is greater than the median.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-mean-median-outlier",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-mean-median-outlier-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1200,
+  "stem": "Consider the data set $\\{0,\\ 15,\\ 16,\\ 17,\\ 18,\\ 19\\}$. Which statement correctly compares its mean and median?",
+  "choices": [
+   "The mean is less than the median, because the low outlier pulls the mean downward.",
+   "The mean and median are equal, because the data set is symmetric.",
+   "The median is less than the mean, because the median counts every value.",
+   "The mean is greater than the median, because the low outlier pulls the median downward."
+  ],
+  "key": 0,
+  "workedSolution": "Sorted, the middle two values are $16$ and $17$, so the median is $16.5$. The mean is $\\frac{0 + 15 + 16 + 17 + 18 + 19}{6} = 14.17$. The outlier ($0$) affects the mean but barely moves the median, so the mean is less than the median.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-mean-median-outlier",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-mean-median-outlier-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1200,
+  "stem": "Consider the data set $\\{0,\\ 16,\\ 17,\\ 18,\\ 19,\\ 20\\}$. Which statement correctly compares its mean and median?",
+  "choices": [
+   "The mean is less than the median, because the low outlier pulls the mean downward.",
+   "The median is less than the mean, because the median counts every value.",
+   "The mean and median are equal, because the data set is symmetric.",
+   "The mean is greater than the median, because the low outlier pulls the median downward."
+  ],
+  "key": 0,
+  "workedSolution": "Sorted, the middle two values are $17$ and $18$, so the median is $17.5$. The mean is $\\frac{0 + 16 + 17 + 18 + 19 + 20}{6} = 15$. The outlier ($0$) affects the mean but barely moves the median, so the mean is less than the median.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-mean-median-outlier",
+   "seed": 5
+  }
+ }
+]
