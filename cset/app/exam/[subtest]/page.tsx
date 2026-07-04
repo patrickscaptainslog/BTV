@@ -14,6 +14,7 @@ import ChoiceList from "@/components/ChoiceList";
 import ExamTimer from "@/components/ExamTimer";
 import Figure from "@/components/Figure";
 import MathText from "@/components/MathText";
+import TutorChat from "@/components/TutorChat";
 
 type Phase = "intro" | "mc" | "cr" | "report";
 
@@ -391,6 +392,7 @@ export default function ExamSimPage() {
                 <div className="rounded-lg bg-slate-50 dark:bg-slate-800/60 p-3">
                   <MathText text={item.workedSolution} className="text-sm" />
                 </div>
+                <TutorChat item={item} answered userAnswer={mcAnswers[i] ?? undefined} />
               </div>
             </details>
           )
