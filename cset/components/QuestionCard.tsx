@@ -7,7 +7,7 @@ import { addFlag } from "@/lib/storage";
 import ChoiceList from "./ChoiceList";
 import Figure from "./Figure";
 import MathText from "./MathText";
-import TutorPanel from "./TutorPanel";
+import TutorChat from "./TutorChat";
 
 interface Props {
   item: MCItem;
@@ -69,7 +69,7 @@ export default function QuestionCard({ item, onAnswered, onNext, nextLabel = "Ne
       />
 
       {!answered ? (
-        <div className="flex gap-3">
+        <div className="space-y-3">
           <button
             onClick={submit}
             disabled={selected === null}
@@ -77,7 +77,7 @@ export default function QuestionCard({ item, onAnswered, onNext, nextLabel = "Ne
           >
             Check answer
           </button>
-          <TutorPanel item={item} mode="hint" />
+          <TutorChat item={item} answered={false} />
         </div>
       ) : (
         <div className="space-y-3">
@@ -88,15 +88,13 @@ export default function QuestionCard({ item, onAnswered, onNext, nextLabel = "Ne
             <div className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">Worked solution</div>
             <MathText text={item.workedSolution} className="text-sm" />
           </div>
-          <div className="flex gap-3 items-center">
-            <button
-              onClick={onNext}
-              className="px-4 py-2 rounded-lg bg-sky-600 text-white font-medium hover:bg-sky-700"
-            >
-              {nextLabel}
-            </button>
-            <TutorPanel item={item} mode="explain" userAnswer={selected ?? undefined} />
-          </div>
+          <button
+            onClick={onNext}
+            className="px-4 py-2 rounded-lg bg-sky-600 text-white font-medium hover:bg-sky-700"
+          >
+            {nextLabel}
+          </button>
+          <TutorChat item={item} answered userAnswer={selected ?? undefined} />
         </div>
       )}
     </div>
