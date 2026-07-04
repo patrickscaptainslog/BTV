@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 import { MC_BANK } from "@/lib/bank";
@@ -13,8 +14,11 @@ import QuestionCard from "@/components/QuestionCard";
 
 function DrillInner() {
   const params = useSearchParams();
+  const initialSubdomain = (params.get("subdomain") ?? "") as SubdomainCode | "";
   const [subtest, setSubtest] = useState<Subtest>(Number(params.get("subtest")) === 2 ? 2 : 1);
-  const [subdomain, setSubdomain] = useState<SubdomainCode | "">("");
+  const [subdomain, setSubdomain] = useState<SubdomainCode | "">(
+    initialSubdomain && SUBDOMAINS[initialSubdomain as SubdomainCode] ? initialSubdomain : ""
+  );
   const [item, setItem] = useState<MCItem | null>(null);
   const [streak, setStreak] = useState({ right: 0, total: 0 });
 
@@ -86,6 +90,14 @@ function DrillInner() {
       </div>
       <p className="text-xs text-slate-500 dark:text-slate-400">
         Session: {streak.right}/{streak.total} correct. Questions adapt to your rating — expect to miss ~40%.
+        {subdomain && (
+          <>
+            {" · "}
+            <Link href={`/lessons/${subdomain}`} className="text-sky-600 underline">
+              Review the {subdomain} lesson
+            </Link>
+          </>
+        )}
       </p>
       {item ? (
         <QuestionCard item={item} onAnswered={onAnswered} onNext={() => pick(subtest, subdomain)} />

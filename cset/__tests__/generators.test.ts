@@ -1,10 +1,11 @@
 import { describe, expect, test } from "@jest/globals";
 import { emitItems } from "@/generators/framework";
+import { ADVANCED_GENERATORS } from "@/generators/advanced";
 import { SUBTEST1_GENERATORS } from "@/generators/subtest1";
 import { SUBTEST2_GENERATORS } from "@/generators/subtest2";
 import { DOMAINS, SUBDOMAINS } from "@/content/smr";
 
-const ALL = [...SUBTEST1_GENERATORS, ...SUBTEST2_GENERATORS];
+const ALL = [...SUBTEST1_GENERATORS, ...SUBTEST2_GENERATORS, ...ADVANCED_GENERATORS];
 
 describe("generator invariants", () => {
   test.each(ALL.map((d) => [d.id, d] as const))("%s emits valid, deterministic items", (_id, def) => {

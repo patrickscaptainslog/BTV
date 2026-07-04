@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from "fs";
 import { join } from "path";
 import { emitItems } from "./framework";
+import { ADVANCED_GENERATORS } from "./advanced";
 import { SUBTEST1_GENERATORS } from "./subtest1";
 import { SUBTEST2_GENERATORS } from "./subtest2";
 import type { MCItem } from "@/lib/types";
@@ -14,7 +15,7 @@ import type { MCItem } from "@/lib/types";
 function main() {
   const all: MCItem[] = [];
   const counts: Record<string, number> = {};
-  for (const def of [...SUBTEST1_GENERATORS, ...SUBTEST2_GENERATORS]) {
+  for (const def of [...SUBTEST1_GENERATORS, ...SUBTEST2_GENERATORS, ...ADVANCED_GENERATORS]) {
     const items = emitItems(def);
     counts[def.id] = items.length;
     all.push(...items);

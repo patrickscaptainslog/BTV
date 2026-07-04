@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import "katex/dist/katex.min.css";
 import "./globals.css";
+import SyncIndicator from "@/components/SyncIndicator";
 
 export const metadata: Metadata = {
   title: "CSET Math Prep",
@@ -11,8 +12,10 @@ export const metadata: Metadata = {
 const NAV = [
   { href: "/", label: "Overview" },
   { href: "/drill", label: "Drill" },
+  { href: "/writing", label: "Writing" },
   { href: "/exam", label: "Exam Sim" },
   { href: "/review", label: "Review" },
+  { href: "/lessons", label: "Lessons" },
   { href: "/flags", label: "Flags" },
   { href: "/login", label: "Login" },
 ];
@@ -35,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {n.label}
               </Link>
             ))}
+            <SyncIndicator />
           </nav>
         </header>
         <main className="max-w-4xl mx-auto px-4 py-6">{children}</main>

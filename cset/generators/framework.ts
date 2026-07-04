@@ -17,6 +17,8 @@ export interface RawVariant {
   solution: string;
   /** added to the generator's base difficulty */
   difficultyOffset?: number;
+  /** optional inline SVG diagram */
+  figure?: string;
 }
 
 export interface GeneratorDef {
@@ -55,6 +57,7 @@ export function emitItems(def: GeneratorDef): MCItem[] {
         subdomain: def.subdomain,
         difficulty: def.baseDifficulty + (v.difficultyOffset ?? 0),
         stem: v.stem,
+        ...(v.figure ? { figure: v.figure } : {}),
         choices,
         key: choices.indexOf(all[0]),
         workedSolution: v.solution,

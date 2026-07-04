@@ -2,6 +2,7 @@ import type { CRItem, Item, MCItem, Subtest } from "./types";
 import generated from "@/content/questions/generated.json";
 import curatedS1 from "@/content/questions/curated-s1.json";
 import curatedS2 from "@/content/questions/curated-s2.json";
+import curatedHard from "@/content/questions/curated-hard.json";
 import crS1 from "@/content/cr/cr-s1.json";
 import crS2 from "@/content/cr/cr-s2.json";
 
@@ -9,6 +10,7 @@ export const MC_BANK: MCItem[] = [
   ...(generated as MCItem[]),
   ...(curatedS1 as MCItem[]),
   ...(curatedS2 as MCItem[]),
+  ...(curatedHard as MCItem[]),
 ];
 
 export const CR_BANK: CRItem[] = [...(crS1 as CRItem[]), ...(crS2 as CRItem[])];

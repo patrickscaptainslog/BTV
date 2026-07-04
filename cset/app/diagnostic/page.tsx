@@ -10,6 +10,7 @@ import { addAttempt, getRatings, markDiagnosticDone, setRatings } from "@/lib/st
 import { SUBDOMAINS } from "@/content/smr";
 import type { Subtest } from "@/lib/types";
 import ChoiceList from "@/components/ChoiceList";
+import Figure from "@/components/Figure";
 import MathText from "@/components/MathText";
 
 function DiagnosticInner() {
@@ -102,6 +103,7 @@ function DiagnosticInner() {
       </p>
       <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4">
         <MathText text={item.stem} />
+        <Figure svg={item.figure} />
         <ChoiceList
           choices={item.choices}
           selected={answers[idx]}
