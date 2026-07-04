@@ -33,7 +33,7 @@ function renderInlineMath(text: string): string {
       break;
     }
     out += escapeHtml(rest.slice(0, start));
-    out += tex(rest.slice(start + 1, end), false);
+    out += `<span class="katex-inline">${tex(rest.slice(start + 1, end), false)}</span>`;
     rest = rest.slice(end + 1);
   }
   return out;
