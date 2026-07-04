@@ -18,6 +18,21 @@ body {
 
 .katex {
   font-size: 1.05em;
+  /* Keep an inline expression on one line: never break mid-equation at a
+     binary operator or relation. Surrounding prose still wraps normally
+     between words and between text and math. */
+  white-space: nowrap;
+}
+
+/* If a single inline expression is wider than the column (e.g. a matrix on
+   a narrow phone), let that one expression scroll instead of overflowing
+   the page. */
+.katex-inline {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: middle;
 }
 
 .katex-display {
