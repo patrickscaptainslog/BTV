@@ -1,5 +1,6 @@
 import type { GeneratorDef } from "./framework";
 import { fracTex, nCk, nPk } from "./framework";
+import { inscribedAngleFigure, pointsGridFigure, specialRightFigure, triangleExteriorFigure } from "./figures";
 import { choice, randInt, randNonZero, type RNG } from "@/lib/rng";
 
 /** Subtest II generators: Geometry (3.x) and Probability & Statistics (4.x). */
@@ -23,7 +24,8 @@ const triangleExterior: GeneratorDef = {
       if (distractors.length === 3) break;
     }
     return {
-      stem: `In triangle $ABC$, $\\angle A = ${A}^\\circ$ and $\\angle B = ${B}^\\circ$. What is the measure of the exterior angle at vertex $C$?`,
+      stem: `In the figure, triangle $ABC$ has $\\angle A = ${A}^\\circ$ and $\\angle B = ${B}^\\circ$, and side $AC$ is extended through $C$. What is the measure of the marked exterior angle at vertex $C$?`,
+      figure: triangleExteriorFigure(A, B),
       correct: `$${ext}^\\circ$`,
       distractors: distractors.map((d) => `$${d}^\\circ$`),
       solution: `The exterior angle at a vertex equals the sum of the two remote interior angles: $${A}^\\circ + ${B}^\\circ = ${ext}^\\circ$. (Equivalently, $\\angle C = 180^\\circ - ${A}^\\circ - ${B}^\\circ = ${180 - A - B}^\\circ$, and the exterior angle is $180^\\circ - \\angle C$.)`,
@@ -48,7 +50,8 @@ const inscribedAngle: GeneratorDef = {
       if (distractors.length === 3) break;
     }
     return {
-      stem: `In a circle, a central angle measuring $${central}^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?`,
+      stem: `In the circle with center $O$ shown, the central angle measures $${central}^\\circ$, and the inscribed angle at $V$ intercepts the same arc. What is the measure of the inscribed angle?`,
+      figure: inscribedAngleFigure(central),
       correct: `$${inscribed}^\\circ$`,
       distractors: distractors.map((d) => `$${d}^\\circ$`),
       solution: `The Inscribed Angle Theorem: an inscribed angle is half the central angle that intercepts the same arc, so the inscribed angle is $\\frac{${central}^\\circ}{2} = ${inscribed}^\\circ$.`,
@@ -68,7 +71,8 @@ const specialRight: GeneratorDef = {
     const kind = choice(rng, ["30-60-90-long", "30-60-90-hyp", "45-45-90"] as const);
     if (kind === "45-45-90") {
       return {
-        stem: `An isosceles right triangle ($45^\\circ$–$45^\\circ$–$90^\\circ$) has legs of length $${s}$. What is the length of the hypotenuse?`,
+        stem: `An isosceles right triangle ($45^\\circ$–$45^\\circ$–$90^\\circ$) has legs of length $${s}$, as shown. What is the length of the hypotenuse (marked $?$)?`,
+        figure: specialRightFigure("45-45-90", `${s}`, "?"),
         correct: `$${s}\\sqrt{2}$`,
         distractors: [`$${2 * s}$`, `$${s}\\sqrt{3}$`, `$\\dfrac{${s}\\sqrt{2}}{2}$`],
         solution: `In a $45$–$45$–$90$ triangle the hypotenuse is $\\sqrt{2}$ times a leg: $${s}\\sqrt{2}$. (By the Pythagorean theorem, $\\sqrt{${s}^2 + ${s}^2} = ${s}\\sqrt{2}$.)`,
@@ -76,14 +80,16 @@ const specialRight: GeneratorDef = {
     }
     if (kind === "30-60-90-long") {
       return {
-        stem: `In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $${s}$. What is the length of the side opposite the $60^\\circ$ angle?`,
+        stem: `In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle shown, the side opposite the $30^\\circ$ angle has length $${s}$. What is the length of the side opposite the $60^\\circ$ angle (marked $?$)?`,
+        figure: specialRightFigure("30-60-90-long", `${s}`, "?"),
         correct: `$${s}\\sqrt{3}$`,
         distractors: [`$${2 * s}$`, `$${s}\\sqrt{2}$`, `$\\dfrac{${s}\\sqrt{3}}{2}$`],
         solution: `The sides of a $30$–$60$–$90$ triangle are in ratio $1 : \\sqrt{3} : 2$ (opposite $30^\\circ$, $60^\\circ$, $90^\\circ$). With the short leg $${s}$, the side opposite $60^\\circ$ is $${s}\\sqrt{3}$.`,
       };
     }
     return {
-      stem: `In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $${s}$. What is the length of the hypotenuse?`,
+      stem: `In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle shown, the side opposite the $30^\\circ$ angle has length $${s}$. What is the length of the hypotenuse (marked $?$)?`,
+      figure: specialRightFigure("30-60-90-hyp", `${s}`, "?"),
       correct: `$${2 * s}$`,
       distractors: [`$${s}\\sqrt{3}$`, `$${s}\\sqrt{2}$`, `$${3 * s}$`],
       solution: `The sides of a $30$–$60$–$90$ triangle are in ratio $1 : \\sqrt{3} : 2$. The hypotenuse is twice the short leg: $2 \\cdot ${s} = ${2 * s}$.`,
@@ -152,7 +158,14 @@ const distancePoints: GeneratorDef = {
       if (distractors.length === 3) break;
     }
     return {
-      stem: `What is the distance between the points $(${x1}, ${y1})$ and $(${x2}, ${y2})$?`,
+      stem: `What is the distance between the points $P(${x1}, ${y1})$ and $Q(${x2}, ${y2})$ shown on the grid?`,
+      figure: pointsGridFigure(
+        [
+          { x: x1, y: y1, label: "P" },
+          { x: x2, y: y2, label: "Q" },
+        ],
+        true
+      ),
       correct: `$${dist}$`,
       distractors: distractors.map((d) => `$${d}$`),
       solution: `$d = \\sqrt{(\\Delta x)^2 + (\\Delta y)^2} = \\sqrt{(${dx})^2 + (${dy})^2} = \\sqrt{${dx * dx} + ${dy * dy}} = \\sqrt{${dist * dist}} = ${dist}$.`,
@@ -347,7 +360,8 @@ const transformPoint: GeneratorDef = {
       if (distractors.length === 3) break;
     }
     return {
-      stem: `What is the image of the point $(${x}, ${y})$ under ${t.name}?`,
+      stem: `The point $P(${x}, ${y})$ is shown on the grid. What is the image of $P$ under ${t.name}?`,
+      figure: pointsGridFigure([{ x, y, label: "P" }]),
       correct: `$(${ix}, ${iy})$`,
       distractors,
       solution: `${t.name.charAt(0).toUpperCase() + t.name.slice(1)} maps $${t.rule}$, so $(${x}, ${y}) \\mapsto (${ix}, ${iy})$.`,

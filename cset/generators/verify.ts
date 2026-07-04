@@ -29,6 +29,7 @@ const mc: MCItem[] = [
   ...loadJson<MCItem[]>("content/questions/generated.json"),
   ...loadJson<MCItem[]>("content/questions/curated-s1.json"),
   ...loadJson<MCItem[]>("content/questions/curated-s2.json"),
+  ...loadJson<MCItem[]>("content/questions/curated-hard.json"),
 ];
 const cr: CRItem[] = [...loadJson<CRItem[]>("content/cr/cr-s1.json"), ...loadJson<CRItem[]>("content/cr/cr-s2.json")];
 

@@ -35,7 +35,13 @@ export default function HomePage() {
 
   if (!ratings) return null;
 
-  const attemptedSubdomains = new Set(getAttempts().map((a) => a.subdomain));
+  const allAttempts = getAttempts();
+  const attemptedSubdomains = new Set(allAttempts.map((a) => a.subdomain));
+  const avgSeconds = (sd: string): number | null => {
+    const timed = allAttempts.filter((a) => a.subdomain === sd && a.elapsed > 0);
+    if (timed.length < 3) return null;
+    return Math.round(timed.reduce((s, a) => s + a.elapsed, 0) / timed.length / 1000);
+  };
 
   return (
     <div className="space-y-8">
@@ -84,13 +90,18 @@ export default function HomePage() {
                   {DOMAINS[d].subdomains.map((sd) => {
                     const r = userRating(sd, ratings);
                     const attempted = attemptedSubdomains.has(sd);
+                    const avg = avgSeconds(sd);
+                    const detail = attempted
+                      ? `rating ${Math.round(r)}${avg !== null ? ` · ${avg}s/q${avg > 150 ? " ⚠" : ""}` : ""}`
+                      : "not started";
                     return (
-                      <DomainBar
-                        key={sd}
-                        label={`${sd} ${SUBDOMAINS[sd].name}`}
-                        percent={attempted ? masteryPercent(r) : 0}
-                        detail={attempted ? `rating ${Math.round(r)}` : "not started"}
-                      />
+                      <Link key={sd} href={`/lessons/${sd}`} className="block hover:opacity-80" title={`Open the ${sd} lesson`}>
+                        <DomainBar
+                          label={`${sd} ${SUBDOMAINS[sd].name}`}
+                          percent={attempted ? masteryPercent(r) : 0}
+                          detail={detail}
+                        />
+                      </Link>
                     );
                   })}
                 </div>

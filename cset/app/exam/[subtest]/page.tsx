@@ -12,6 +12,7 @@ import { DOMAINS, SUBTEST_INFO } from "@/content/smr";
 import type { CRGrade, Subtest } from "@/lib/types";
 import ChoiceList from "@/components/ChoiceList";
 import ExamTimer from "@/components/ExamTimer";
+import Figure from "@/components/Figure";
 import MathText from "@/components/MathText";
 
 type Phase = "intro" | "mc" | "cr" | "report";
@@ -43,14 +44,35 @@ export default function ExamSimPage() {
     const now = Date.now();
     setStartedAt(now);
     setEndsAt(now + info.minutes * 60000);
+    lastTickRef.current = now;
     setPhase("mc");
   };
 
   const submittedRef = useRef(false);
+  // Per-MC-question time accumulator: charge elapsed time to the question
+  // being viewed whenever navigation happens.
+  const timeSpentRef = useRef<number[]>(form.mc.map(() => 0));
+  const lastTickRef = useRef(0);
+  const viewedIdxRef = useRef(0);
+
+  const chargeTime = () => {
+    const now = Date.now();
+    if (lastTickRef.current > 0) {
+      timeSpentRef.current[viewedIdxRef.current] += now - lastTickRef.current;
+    }
+    lastTickRef.current = now;
+  };
+
+  const goToMc = (i: number) => {
+    chargeTime();
+    viewedIdxRef.current = i;
+    setIdx(i);
+  };
 
   const submitExam = async () => {
     if (submittedRef.current) return; // timer expiry and submit click can race
     submittedRef.current = true;
+    chargeTime();
     // Record MC attempts + ratings + review scheduling.
     let ratings = getRatings();
     const now = Date.now();
@@ -66,7 +88,7 @@ export default function ExamSimPage() {
         subdomain: item.subdomain,
         correct,
         chosen: chosen ?? -1,
-        elapsed: 0,
+        elapsed: timeSpentRef.current[i] ?? 0,
         at: now,
         mode: "exam",
       });
@@ -165,7 +187,7 @@ export default function ExamSimPage() {
           {form.mc.map((_, i) => (
             <button
               key={i}
-              onClick={() => setIdx(i)}
+              onClick={() => goToMc(i)}
               className={`w-8 h-8 rounded text-xs font-medium border ${
                 i === idx
                   ? "border-sky-500 bg-sky-100 dark:bg-sky-900"
@@ -180,6 +202,7 @@ export default function ExamSimPage() {
         </div>
         <div className="rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 space-y-4">
           <MathText text={item.stem} />
+          <Figure svg={item.figure} />
           <ChoiceList
             choices={item.choices}
             selected={mcAnswers[idx]}
@@ -192,18 +215,25 @@ export default function ExamSimPage() {
         </div>
         <div className="flex justify-between">
           <button
-            onClick={() => setIdx(Math.max(0, idx - 1))}
+            onClick={() => goToMc(Math.max(0, idx - 1))}
             disabled={idx === 0}
             className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700 disabled:opacity-40"
           >
             Back
           </button>
           {idx < form.mc.length - 1 ? (
-            <button onClick={() => setIdx(idx + 1)} className="px-4 py-2 rounded-lg bg-sky-600 text-white font-medium hover:bg-sky-700">
+            <button onClick={() => goToMc(idx + 1)} className="px-4 py-2 rounded-lg bg-sky-600 text-white font-medium hover:bg-sky-700">
               Next
             </button>
           ) : (
-            <button onClick={() => setPhase("cr")} className="px-4 py-2 rounded-lg bg-amber-600 text-white font-medium hover:bg-amber-700">
+            <button
+              onClick={() => {
+                chargeTime();
+                lastTickRef.current = 0; // stop charging MC time during the CR section
+                setPhase("cr");
+              }}
+              className="px-4 py-2 rounded-lg bg-amber-600 text-white font-medium hover:bg-amber-700"
+            >
               Continue to constructed response →
             </button>
           )}
@@ -238,7 +268,14 @@ export default function ExamSimPage() {
         </div>
         <div className="flex justify-between">
           <button
-            onClick={() => (crIdx === 0 ? setPhase("mc") : setCrIdx(crIdx - 1))}
+            onClick={() => {
+              if (crIdx === 0) {
+                lastTickRef.current = Date.now(); // resume charging MC time
+                setPhase("mc");
+              } else {
+                setCrIdx(crIdx - 1);
+              }
+            }}
             className="px-4 py-2 rounded-lg border border-slate-300 dark:border-slate-700"
           >
             Back
@@ -259,13 +296,17 @@ export default function ExamSimPage() {
 
   // report
   const mcCorrect = form.mc.filter((item, i) => mcAnswers[i] === item.key).length;
-  const byDomain = new Map<string, { right: number; total: number }>();
+  const byDomain = new Map<string, { right: number; total: number; ms: number }>();
   form.mc.forEach((item, i) => {
-    const cur = byDomain.get(item.domain) ?? { right: 0, total: 0 };
+    const cur = byDomain.get(item.domain) ?? { right: 0, total: 0, ms: 0 };
     cur.total++;
+    cur.ms += timeSpentRef.current[i] ?? 0;
     if (mcAnswers[i] === item.key) cur.right++;
     byDomain.set(item.domain, cur);
   });
+  const totalMcMs = timeSpentRef.current.reduce((a, b) => a + b, 0);
+  // 150 min for 35 MC + 3 CR; budgeting ~30 min for CRs leaves ~2 min/MC with slack.
+  const MC_BUDGET_S = 150;
 
   return (
     <div className="space-y-6">
@@ -275,14 +316,28 @@ export default function ExamSimPage() {
           Multiple choice: <span className="font-bold">{mcCorrect} / {form.mc.length}</span>{" "}
           ({Math.round((100 * mcCorrect) / form.mc.length)}%)
         </div>
-        {[...byDomain.entries()].map(([d, v]) => (
-          <div key={d} className="flex justify-between text-sm">
-            <span>{DOMAINS[d as keyof typeof DOMAINS].name}</span>
-            <span>
-              {v.right}/{v.total}
-            </span>
+        {[...byDomain.entries()].map(([d, v]) => {
+          const avgS = v.total > 0 ? Math.round(v.ms / v.total / 1000) : 0;
+          return (
+            <div key={d} className="flex justify-between text-sm">
+              <span>{DOMAINS[d as keyof typeof DOMAINS].name}</span>
+              <span>
+                {v.right}/{v.total}
+                {avgS > 0 && (
+                  <span className={`ml-2 text-xs ${avgS > MC_BUDGET_S ? "text-amber-600 font-semibold" : "text-slate-500"}`}>
+                    avg {avgS}s/q{avgS > MC_BUDGET_S ? " ⚠ over pace" : ""}
+                  </span>
+                )}
+              </span>
+            </div>
+          );
+        })}
+        {totalMcMs > 0 && (
+          <div className="text-xs text-slate-500">
+            Multiple-choice time: {Math.round(totalMcMs / 60000)} min total, {Math.round(totalMcMs / form.mc.length / 1000)}s
+            per question. Pace target: ≈{MC_BUDGET_S}s per MC leaves ~30 min for the three constructed responses.
           </div>
-        ))}
+        )}
         {estimated > 0 && (
           <div className="pt-2 border-t border-slate-200 dark:border-slate-800 text-sm">
             Estimated scaled score:{" "}
@@ -332,6 +387,7 @@ export default function ExamSimPage() {
               </summary>
               <div className="mt-3 space-y-2">
                 <MathText text={item.stem} className="text-sm" />
+                <Figure svg={item.figure} />
                 <div className="rounded-lg bg-slate-50 dark:bg-slate-800/60 p-3">
                   <MathText text={item.workedSolution} className="text-sm" />
                 </div>

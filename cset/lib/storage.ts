@@ -1,23 +1,34 @@
 "use client";
 
-import type { Attempt, ExamResult, FlagEntry, RatingState, ReviewState } from "./types";
+import type {
+  Attempt,
+  CRPracticeAttempt,
+  CRPracticeState,
+  ExamResult,
+  FlagEntry,
+  RatingState,
+  ReviewState,
+} from "./types";
 import { emptyRatingState } from "./elo";
 
 /**
  * All progress lives in localStorage under one namespace, behind this
- * module, so a server-backed store can replace it without touching callers.
- * Everything is exportable/importable as a single JSON blob.
+ * module. Every save stamps `updatedAt` and notifies listeners, which the
+ * sync layer uses to push the store to the server (last-write-wins across
+ * devices). Everything is exportable/importable as a single JSON blob.
  */
 
 const NS = "cset-math-prep:v1";
 
-interface Store {
+export interface Store {
   ratings: RatingState;
   attempts: Attempt[];
   review: Record<string, ReviewState>;
   flags: FlagEntry[];
   exams: ExamResult[];
   diagnosticDone: { 1: boolean; 2: boolean };
+  crPractice: Record<string, CRPracticeState>;
+  updatedAt: number;
 }
 
 function emptyStore(): Store {
@@ -28,7 +39,18 @@ function emptyStore(): Store {
     flags: [],
     exams: [],
     diagnosticDone: { 1: false, 2: false },
+    crPractice: {},
+    updatedAt: 0,
   };
+}
+
+type Listener = () => void;
+const listeners = new Set<Listener>();
+
+/** Subscribe to local mutations (used by the sync layer). Returns unsubscribe. */
+export function onStoreChange(fn: Listener): () => void {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
 }
 
 function load(): Store {
@@ -44,8 +66,24 @@ function load(): Store {
 
 function save(store: Store) {
   if (typeof window === "undefined") return;
+  store.updatedAt = Date.now();
   window.localStorage.setItem(NS, JSON.stringify(store));
+  listeners.forEach((fn) => fn());
 }
+
+// ---- sync-layer access (whole-store) ----
+
+export function getStoreSnapshot(): Store {
+  return load();
+}
+
+/** Replace the local store with a server copy WITHOUT re-stamping updatedAt. */
+export function replaceStore(store: Store) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(NS, JSON.stringify({ ...emptyStore(), ...store }));
+}
+
+// ---- typed accessors ----
 
 export function getRatings(): RatingState {
   return load().ratings;
@@ -118,6 +156,17 @@ export function isDiagnosticDone(subtest: 1 | 2): boolean {
 export function markDiagnosticDone(subtest: 1 | 2) {
   const s = load();
   s.diagnosticDone[subtest] = true;
+  save(s);
+}
+
+export function getCRPractice(): Record<string, CRPracticeState> {
+  return load().crPractice;
+}
+
+export function addCRPracticeAttempt(itemId: string, attempt: CRPracticeAttempt) {
+  const s = load();
+  if (!s.crPractice[itemId]) s.crPractice[itemId] = { attempts: [] };
+  s.crPractice[itemId].attempts.push(attempt);
   save(s);
 }
 

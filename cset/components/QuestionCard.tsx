@@ -5,6 +5,7 @@ import type { MCItem } from "@/lib/types";
 import { SUBDOMAINS } from "@/content/smr";
 import { addFlag } from "@/lib/storage";
 import ChoiceList from "./ChoiceList";
+import Figure from "./Figure";
 import MathText from "./MathText";
 import TutorPanel from "./TutorPanel";
 
@@ -58,6 +59,7 @@ export default function QuestionCard({ item, onAnswered, onNext, nextLabel = "Ne
       </div>
 
       <MathText text={item.stem} className="text-base" />
+      <Figure svg={item.figure} />
 
       <ChoiceList
         choices={item.choices}

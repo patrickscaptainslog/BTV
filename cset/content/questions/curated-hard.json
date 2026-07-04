@@ -1,0 +1,154 @@
+[
+ {
+  "id": "s1-h-001",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.1",
+  "difficulty": 1400,
+  "stem": "The function $\\varphi : (\\mathbb{R}^+, \\times) \\to (\\mathbb{R}, +)$ defined by $\\varphi(x) = \\ln x$ is a bijection satisfying $\\varphi(xy) = \\varphi(x) + \\varphi(y)$. What does this establish about the two structures?",
+  "choices": [
+   "They are isomorphic: $\\varphi$ is a structure-preserving bijection, so the positive reals under multiplication and the reals under addition have identical algebraic structure",
+   "They are equal as sets, since $\\varphi$ matches each element to itself",
+   "They are both fields, since $\\varphi$ preserves both operations of a field",
+   "Nothing — a single function cannot relate two different operations"
+  ],
+  "key": 0,
+  "workedSolution": "A bijection that carries one structure's operation to the other's ($\\varphi(xy) = \\varphi(x) + \\varphi(y)$) is precisely an isomorphism; it shows $(\\mathbb{R}^+, \\times) \\cong (\\mathbb{R}, +)$ as groups. This is the deep reason logarithms turn multiplication problems into addition problems (the principle behind slide rules). The sets are different ($\\mathbb{R}^+ \\ne \\mathbb{R}$), and each structure here carries only ONE operation, so \"field\" doesn't apply.",
+  "tags": ["isomorphism", "structures", "logarithm"],
+  "source": { "kind": "curated" }
+ },
+ {
+  "id": "s1-h-002",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1400,
+  "stem": "Euclid's lemma states: if $p$ is PRIME and $p \\mid ab$, then $p \\mid a$ or $p \\mid b$. Which of the following demonstrates that the statement can fail when $p$ is composite?",
+  "choices": [
+   "$6 \\mid 4 \\cdot 9$, yet $6 \\nmid 4$ and $6 \\nmid 9$",
+   "$5 \\mid 10 \\cdot 3$, and $5 \\mid 10$",
+   "$6 \\mid 12 \\cdot 5$, and $6 \\mid 12$",
+   "$6 \\nmid 4 \\cdot 5$, and $6 \\nmid 4$ and $6 \\nmid 5$"
+  ],
+  "key": 0,
+  "workedSolution": "A counterexample needs the hypothesis true ($p \\mid ab$) and the conclusion false ($p$ divides neither factor). $4 \\cdot 9 = 36 = 6 \\cdot 6$, so $6 \\mid 36$; but $6 \\nmid 4$ and $6 \\nmid 9$ — the composite 6 splits as $2 \\cdot 3$ with the 2 hiding in 4 and the 3 hiding in 9. The second and third options are consistent with the conclusion (the divisor divides one factor), and in the last option the hypothesis $p \\mid ab$ fails, so nothing is tested. Euclid's lemma is the engine of unique prime factorization.",
+  "tags": ["euclids-lemma", "counterexample", "primes"],
+  "source": { "kind": "curated" }
+ },
+ {
+  "id": "s1-h-003",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1400,
+  "stem": "Suppose $f$ and $g$ are both one-to-one functions from $\\mathbb{R}$ to $\\mathbb{R}$. Which of the following functions MUST also be one-to-one?",
+  "choices": [
+   "$f \\circ g$",
+   "$f + g$",
+   "$f \\cdot g$",
+   "$f^2$ (the product $f \\cdot f$)"
+  ],
+  "key": 0,
+  "workedSolution": "If $(f \\circ g)(x_1) = (f \\circ g)(x_2)$, then $f(g(x_1)) = f(g(x_2))$; injectivity of $f$ forces $g(x_1) = g(x_2)$, and injectivity of $g$ forces $x_1 = x_2$ — so compositions of one-to-one functions are one-to-one. Counterexamples for the rest: $f(x) = x$, $g(x) = -x$ are each injective but $f + g = 0$ is constant; $f(x) = g(x) = x$ gives $f \\cdot g = x^2$, which fails the horizontal line test, and the same example kills $f^2$.",
+  "tags": ["injective", "composition", "counterexample"],
+  "source": { "kind": "curated" }
+ },
+ {
+  "id": "s1-h-004",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1450,
+  "stem": "A polynomial $p(x)$ with real coefficients satisfies $p(1) = -2$ and $p(3) = 5$. Which of the following MUST be true?",
+  "choices": [
+   "$p$ has at least one real zero strictly between $1$ and $3$",
+   "$p$ has exactly one real zero strictly between $1$ and $3$",
+   "$p(2) = 0$",
+   "$p$ has no real zeros outside the interval $(1, 3)$"
+  ],
+  "key": 0,
+  "workedSolution": "Polynomials are continuous everywhere, and $p$ changes sign from $-2$ to $5$ across $[1, 3]$; the Intermediate Value Theorem forces at least one zero in between. Nothing stronger follows: $p$ could wiggle and cross zero three times in $(1, 3)$ (so \"exactly one\" fails), the crossing needn't happen at $x = 2$, and $p$ can certainly have other zeros elsewhere — e.g. a high-degree $p$ with zeros at $x = -10$. \"At least one\" is exactly what IVT buys, no more.",
+  "tags": ["intermediate-value-theorem", "continuity", "zeros"],
+  "source": { "kind": "curated" }
+ },
+ {
+  "id": "s2-h-001",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1400,
+  "stem": "In the classical proof that the angles of a triangle sum to $180^\\circ$, one draws the line through vertex $C$ parallel to side $\\overline{AB}$ and observes that the three angles at $C$ form a straight angle. Which fact justifies transferring $\\angle A$ and $\\angle B$ up to vertex $C$?",
+  "choices": [
+   "Alternate interior angles formed by a transversal cutting parallel lines are congruent",
+   "Corresponding parts of congruent triangles are congruent",
+   "The base angles of an isosceles triangle are congruent",
+   "An exterior angle equals the sum of the remote interior angles"
+  ],
+  "key": 0,
+  "workedSolution": "Sides $\\overline{CA}$ and $\\overline{CB}$ are transversals cutting the parallel pair ($\\overline{AB}$ and the line through $C$). Alternate interior angles give copies of $\\angle A$ and $\\angle B$ at $C$, where together with $\\angle C$ they fill a straight angle: $\\angle A + \\angle B + \\angle C = 180^\\circ$. (Note the logical order: the exterior angle theorem in choice D is usually DERIVED from the angle sum — using it here would be circular.)",
+  "tags": ["proof", "parallel-lines", "angle-sum"],
+  "source": { "kind": "curated" }
+ },
+ {
+  "id": "s2-h-002",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.2",
+  "difficulty": 1400,
+  "stem": "Points $A(1, 2)$ and $B(7, 2)$ are given. Which of the following points lies on the perpendicular bisector of $\\overline{AB}$?",
+  "choices": [
+   "$(4, -3)$",
+   "$(3, 2)$",
+   "$(5, 0)$",
+   "$(2, 5)$"
+  ],
+  "key": 0,
+  "workedSolution": "$\\overline{AB}$ is horizontal with midpoint $(4, 2)$, so its perpendicular bisector is the vertical line $x = 4$ — and a point is on the perpendicular bisector exactly when it is EQUIDISTANT from $A$ and $B$. Check $(4, -3)$: distance to each of $A$ and $B$ is $\\sqrt{3^2 + 5^2} = \\sqrt{34}$. ✓ The others are lopsided: $(3,2)$ is $2$ from $A$ but $4$ from $B$; $(5, 0)$ is $\\sqrt{20}$ from $A$ but $\\sqrt{8}$ from $B$; $(2, 5)$ is $\\sqrt{10}$ from $A$ but $\\sqrt{34}$ from $B$.",
+  "tags": ["perpendicular-bisector", "equidistant"],
+  "source": { "kind": "curated" }
+ },
+ {
+  "id": "s2-h-003",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1400,
+  "stem": "A carnival game costs $5$ dollars to play. With probability $\\frac{1}{5}$ you win a prize worth $20$ dollars; otherwise you win nothing. Over many plays, what happens on average?",
+  "choices": [
+   "You lose $1$ dollar per play",
+   "You gain $4$ dollars per play",
+   "You break even",
+   "You lose $5$ dollars per play"
+  ],
+  "key": 0,
+  "workedSolution": "Expected winnings per play: $20 \\cdot \\frac{1}{5} = 4$ dollars — but each play costs $5$, so the expected NET is $4 - 5 = -1$ dollar per play. The classic error is reporting the $+4$ expected payout and forgetting the entry fee. (Equivalently: net outcomes are $+15$ with probability $\\frac{1}{5}$ and $-5$ with probability $\\frac{4}{5}$: $15 \\cdot \\frac{1}{5} - 5 \\cdot \\frac{4}{5} = 3 - 4 = -1$.)",
+  "tags": ["expected-value", "net-vs-gross"],
+  "source": { "kind": "curated" }
+ },
+ {
+  "id": "s2-h-004",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1450,
+  "stem": "A data set has at least two distinct values. Which of the following changes MUST increase its standard deviation?",
+  "choices": [
+   "Appending a new value $100$ units greater than the current maximum",
+   "Appending a new value exactly equal to the current mean",
+   "Adding $100$ to every value in the data set",
+   "Removing the largest value"
+  ],
+  "key": 0,
+  "workedSolution": "Standard deviation measures spread about the mean. A new point far beyond the maximum both widens the spread and drags the mean toward itself, strictly increasing the SD. Appending a value AT the mean adds a zero deviation while increasing $n$ — it strictly DECREASES the SD. Adding a constant shifts every value and the mean together, leaving all deviations (and the SD) unchanged. Removing the largest value usually shrinks spread, and can never be guaranteed to increase it.",
+  "tags": ["standard-deviation", "spread", "must-vs-can"],
+  "source": { "kind": "curated" }
+ }
+]

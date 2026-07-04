@@ -23,6 +23,8 @@ export interface MCItem {
   choices: string[];
   /** Index into choices */
   key: number;
+  /** Optional inline SVG diagram shown above the stem */
+  figure?: string;
   workedSolution: string;
   tags: string[];
   source: { kind: "generated"; generatorId: string; seed: number } | { kind: "curated" };
@@ -97,4 +99,16 @@ export interface CRGrade {
   score: 1 | 2 | 3 | 4;
   justification: string;
   feedback: string;
+}
+
+export interface CRPracticeAttempt {
+  response: string;
+  score: number;
+  justification: string;
+  feedback: string;
+  at: number;
+}
+
+export interface CRPracticeState {
+  attempts: CRPracticeAttempt[];
 }

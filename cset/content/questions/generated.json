@@ -2329,7 +2329,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1000,
-  "stem": "In triangle $ABC$, $\\angle A = 44^\\circ$ and $\\angle B = 27^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "stem": "In the figure, triangle $ABC$ has $\\angle A = 44^\\circ$ and $\\angle B = 27^\\circ$, and side $AC$ is extended through $C$. What is the measure of the marked exterior angle at vertex $C$?",
+  "figure": "<svg viewBox=\"0 0 340 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"30.0\" y1=\"190.0\" x2=\"290.0\" y2=\"190.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"30.0\" y1=\"190.0\" x2=\"119.8\" y2=\"103.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"290.0\" y1=\"190.0\" x2=\"119.8\" y2=\"103.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"119.8\" y1=\"103.3\" x2=\"159.4\" y2=\"65.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><path d=\"M 48.7 171.9 A 26 26 0 0 1 56.0 190.0\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 264.0 190.0 A 26 26 0 0 1 266.8 178.2\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 132.7 90.8 A 18 18 0 0 1 135.8 111.5\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><text x=\"22.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >A</text><text x=\"298.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >B</text><text x=\"119.8\" y=\"91.3\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >C</text><text x=\"74.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >44°</text><text x=\"248.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >27°</text><text x=\"149.5\" y=\"102.8\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$289^\\circ$",
    "$71^\\circ$",
@@ -2352,7 +2353,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1000,
-  "stem": "In triangle $ABC$, $\\angle A = 25^\\circ$ and $\\angle B = 64^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "stem": "In the figure, triangle $ABC$ has $\\angle A = 25^\\circ$ and $\\angle B = 64^\\circ$, and side $AC$ is extended through $C$. What is the measure of the marked exterior angle at vertex $C$?",
+  "figure": "<svg viewBox=\"0 0 340 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"30.0\" y1=\"190.0\" x2=\"290.0\" y2=\"190.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"30.0\" y1=\"190.0\" x2=\"241.8\" y2=\"91.2\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"290.0\" y1=\"190.0\" x2=\"241.8\" y2=\"91.2\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"241.8\" y1=\"91.2\" x2=\"291.7\" y2=\"68.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><path d=\"M 53.6 179.0 A 26 26 0 0 1 56.0 190.0\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 264.0 190.0 A 26 26 0 0 1 278.6 166.6\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 258.1 83.6 A 18 18 0 0 1 249.7 107.4\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><text x=\"22.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >A</text><text x=\"298.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >B</text><text x=\"241.8\" y=\"79.2\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >C</text><text x=\"74.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >25°</text><text x=\"248.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >64°</text><text x=\"270.1\" y=\"105.2\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$89^\\circ$",
    "$271^\\circ$",
@@ -2375,7 +2377,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1000,
-  "stem": "In triangle $ABC$, $\\angle A = 55^\\circ$ and $\\angle B = 50^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "stem": "In the figure, triangle $ABC$ has $\\angle A = 55^\\circ$ and $\\angle B = 50^\\circ$, and side $AC$ is extended through $C$. What is the measure of the marked exterior angle at vertex $C$?",
+  "figure": "<svg viewBox=\"0 0 340 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"30.0\" y1=\"190.0\" x2=\"290.0\" y2=\"190.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"30.0\" y1=\"190.0\" x2=\"148.3\" y2=\"21.1\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"290.0\" y1=\"190.0\" x2=\"148.3\" y2=\"21.1\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"148.3\" y1=\"21.1\" x2=\"179.8\" y2=\"-24.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><path d=\"M 44.9 168.7 A 26 26 0 0 1 56.0 190.0\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 264.0 190.0 A 26 26 0 0 1 273.3 170.1\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 158.6 6.3 A 18 18 0 0 1 159.8 34.9\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><text x=\"22.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >A</text><text x=\"298.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >B</text><text x=\"148.3\" y=\"9.1\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >C</text><text x=\"74.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >55°</text><text x=\"248.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >50°</text><text x=\"178.2\" y=\"23.8\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$105^\\circ$",
    "$75^\\circ$",
@@ -2398,7 +2401,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1000,
-  "stem": "In triangle $ABC$, $\\angle A = 28^\\circ$ and $\\angle B = 60^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "stem": "In the figure, triangle $ABC$ has $\\angle A = 28^\\circ$ and $\\angle B = 60^\\circ$, and side $AC$ is extended through $C$. What is the measure of the marked exterior angle at vertex $C$?",
+  "figure": "<svg viewBox=\"0 0 340 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"30.0\" y1=\"190.0\" x2=\"290.0\" y2=\"190.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"30.0\" y1=\"190.0\" x2=\"228.9\" y2=\"84.2\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"290.0\" y1=\"190.0\" x2=\"228.9\" y2=\"84.2\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"228.9\" y1=\"84.2\" x2=\"277.5\" y2=\"58.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><path d=\"M 53.0 177.8 A 26 26 0 0 1 56.0 190.0\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 264.0 190.0 A 26 26 0 0 1 277.0 167.5\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 244.8 75.8 A 18 18 0 0 1 237.9 99.8\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><text x=\"22.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >A</text><text x=\"298.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >B</text><text x=\"228.9\" y=\"72.2\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >C</text><text x=\"74.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >28°</text><text x=\"248.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >60°</text><text x=\"257.8\" y=\"96.5\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$88^\\circ$",
    "$92^\\circ$",
@@ -2421,7 +2425,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1000,
-  "stem": "In triangle $ABC$, $\\angle A = 74^\\circ$ and $\\angle B = 51^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "stem": "In the figure, triangle $ABC$ has $\\angle A = 74^\\circ$ and $\\angle B = 51^\\circ$, and side $AC$ is extended through $C$. What is the measure of the marked exterior angle at vertex $C$?",
+  "figure": "<svg viewBox=\"0 0 340 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"30.0\" y1=\"190.0\" x2=\"290.0\" y2=\"190.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"30.0\" y1=\"190.0\" x2=\"98.0\" y2=\"-47.1\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"290.0\" y1=\"190.0\" x2=\"98.0\" y2=\"-47.1\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"98.0\" y1=\"-47.1\" x2=\"113.2\" y2=\"-100.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><path d=\"M 37.2 165.0 A 26 26 0 0 1 56.0 190.0\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 264.0 190.0 A 26 26 0 0 1 273.6 169.8\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 103.0 -64.4 A 18 18 0 0 1 109.3 -33.1\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><text x=\"22.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >A</text><text x=\"298.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >B</text><text x=\"98.0\" y=\"-59.1\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >C</text><text x=\"74.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >74°</text><text x=\"248.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >51°</text><text x=\"127.4\" y=\"-49.1\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$55^\\circ$",
    "$235^\\circ$",
@@ -2444,7 +2449,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1000,
-  "stem": "In triangle $ABC$, $\\angle A = 68^\\circ$ and $\\angle B = 27^\\circ$. What is the measure of the exterior angle at vertex $C$?",
+  "stem": "In the figure, triangle $ABC$ has $\\angle A = 68^\\circ$ and $\\angle B = 27^\\circ$, and side $AC$ is extended through $C$. What is the measure of the marked exterior angle at vertex $C$?",
+  "figure": "<svg viewBox=\"0 0 340 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"30.0\" y1=\"190.0\" x2=\"290.0\" y2=\"190.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"30.0\" y1=\"190.0\" x2=\"74.4\" y2=\"80.1\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"290.0\" y1=\"190.0\" x2=\"74.4\" y2=\"80.1\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"74.4\" y1=\"80.1\" x2=\"95.0\" y2=\"29.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><path d=\"M 39.7 165.9 A 26 26 0 0 1 56.0 190.0\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 264.0 190.0 A 26 26 0 0 1 266.8 178.2\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 81.1 63.5 A 18 18 0 0 1 90.4 88.3\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><text x=\"22.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >A</text><text x=\"298.0\" y=\"206.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >B</text><text x=\"74.4\" y=\"68.1\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >C</text><text x=\"74.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >68°</text><text x=\"248.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >27°</text><text x=\"102.5\" y=\"73.6\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$112^\\circ$",
    "$95^\\circ$",
@@ -2467,7 +2473,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a circle, a central angle measuring $102^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "stem": "In the circle with center $O$ shown, the central angle measures $102^\\circ$, and the inscribed angle at $V$ intercepts the same arc. What is the measure of the inscribed angle?",
+  "figure": "<svg viewBox=\"0 0 340 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"170\" cy=\"130\" r=\"95\" stroke=\"currentColor\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"130.0\" x2=\"243.8\" y2=\"189.8\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"130.0\" x2=\"96.2\" y2=\"189.8\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"35.0\" x2=\"243.8\" y2=\"189.8\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"35.0\" x2=\"96.2\" y2=\"189.8\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><path d=\"M 185.5 142.6 A 20 20 0 0 1 154.5 142.6\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 179.5 54.9 A 22 22 0 0 1 160.5 54.9\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><circle cx=\"170\" cy=\"130\" r=\"2.5\" fill=\"currentColor\"/><text x=\"182.0\" y=\"124.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >O</text><text x=\"170.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >102°</text><text x=\"170.0\" y=\"79.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text><text x=\"170.0\" y=\"25.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >V</text></svg>",
   "choices": [
    "$78^\\circ$",
    "$102^\\circ$",
@@ -2490,7 +2497,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a circle, a central angle measuring $88^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "stem": "In the circle with center $O$ shown, the central angle measures $88^\\circ$, and the inscribed angle at $V$ intercepts the same arc. What is the measure of the inscribed angle?",
+  "figure": "<svg viewBox=\"0 0 340 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"170\" cy=\"130\" r=\"95\" stroke=\"currentColor\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"130.0\" x2=\"236.0\" y2=\"198.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"130.0\" x2=\"104.0\" y2=\"198.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"35.0\" x2=\"236.0\" y2=\"198.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"35.0\" x2=\"104.0\" y2=\"198.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><path d=\"M 183.9 144.4 A 20 20 0 0 1 156.1 144.4\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 178.2 55.4 A 22 22 0 0 1 161.8 55.4\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><circle cx=\"170\" cy=\"130\" r=\"2.5\" fill=\"currentColor\"/><text x=\"182.0\" y=\"124.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >O</text><text x=\"170.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >88°</text><text x=\"170.0\" y=\"79.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text><text x=\"170.0\" y=\"25.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >V</text></svg>",
   "choices": [
    "$44^\\circ$",
    "$92^\\circ$",
@@ -2513,7 +2521,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a circle, a central angle measuring $52^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "stem": "In the circle with center $O$ shown, the central angle measures $52^\\circ$, and the inscribed angle at $V$ intercepts the same arc. What is the measure of the inscribed angle?",
+  "figure": "<svg viewBox=\"0 0 340 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"170\" cy=\"130\" r=\"95\" stroke=\"currentColor\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"130.0\" x2=\"211.6\" y2=\"215.4\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"130.0\" x2=\"128.4\" y2=\"215.4\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"35.0\" x2=\"211.6\" y2=\"215.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"35.0\" x2=\"128.4\" y2=\"215.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><path d=\"M 178.8 148.0 A 20 20 0 0 1 161.2 148.0\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 174.9 56.4 A 22 22 0 0 1 165.1 56.4\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><circle cx=\"170\" cy=\"130\" r=\"2.5\" fill=\"currentColor\"/><text x=\"182.0\" y=\"124.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >O</text><text x=\"170.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >52°</text><text x=\"170.0\" y=\"79.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text><text x=\"170.0\" y=\"25.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >V</text></svg>",
   "choices": [
    "$104^\\circ$",
    "$26^\\circ$",
@@ -2536,7 +2545,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a circle, a central angle measuring $116^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "stem": "In the circle with center $O$ shown, the central angle measures $116^\\circ$, and the inscribed angle at $V$ intercepts the same arc. What is the measure of the inscribed angle?",
+  "figure": "<svg viewBox=\"0 0 340 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"170\" cy=\"130\" r=\"95\" stroke=\"currentColor\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"130.0\" x2=\"250.6\" y2=\"180.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"130.0\" x2=\"89.4\" y2=\"180.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"35.0\" x2=\"250.6\" y2=\"180.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"35.0\" x2=\"89.4\" y2=\"180.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><path d=\"M 187.0 140.6 A 20 20 0 0 1 153.0 140.6\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 180.7 54.2 A 22 22 0 0 1 159.3 54.2\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><circle cx=\"170\" cy=\"130\" r=\"2.5\" fill=\"currentColor\"/><text x=\"182.0\" y=\"124.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >O</text><text x=\"170.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >116°</text><text x=\"170.0\" y=\"79.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text><text x=\"170.0\" y=\"25.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >V</text></svg>",
   "choices": [
    "$116^\\circ$",
    "$64^\\circ$",
@@ -2559,7 +2569,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a circle, a central angle measuring $154^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "stem": "In the circle with center $O$ shown, the central angle measures $154^\\circ$, and the inscribed angle at $V$ intercepts the same arc. What is the measure of the inscribed angle?",
+  "figure": "<svg viewBox=\"0 0 340 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"170\" cy=\"130\" r=\"95\" stroke=\"currentColor\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"130.0\" x2=\"262.6\" y2=\"151.4\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"130.0\" x2=\"77.4\" y2=\"151.4\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"35.0\" x2=\"262.6\" y2=\"151.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"35.0\" x2=\"77.4\" y2=\"151.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><path d=\"M 189.5 134.5 A 20 20 0 0 1 150.5 134.5\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 183.7 52.2 A 22 22 0 0 1 156.3 52.2\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><circle cx=\"170\" cy=\"130\" r=\"2.5\" fill=\"currentColor\"/><text x=\"182.0\" y=\"124.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >O</text><text x=\"170.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >154°</text><text x=\"170.0\" y=\"79.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text><text x=\"170.0\" y=\"25.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >V</text></svg>",
   "choices": [
    "$26^\\circ$",
    "$154^\\circ$",
@@ -2582,7 +2593,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a circle, a central angle measuring $60^\\circ$ and an inscribed angle intercept the same arc. What is the measure of the inscribed angle?",
+  "stem": "In the circle with center $O$ shown, the central angle measures $60^\\circ$, and the inscribed angle at $V$ intercepts the same arc. What is the measure of the inscribed angle?",
+  "figure": "<svg viewBox=\"0 0 340 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"170\" cy=\"130\" r=\"95\" stroke=\"currentColor\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"130.0\" x2=\"217.5\" y2=\"212.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"130.0\" x2=\"122.5\" y2=\"212.3\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"170.0\" y1=\"35.0\" x2=\"217.5\" y2=\"212.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><line x1=\"170.0\" y1=\"35.0\" x2=\"122.5\" y2=\"212.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\"/><path d=\"M 180.0 147.3 A 20 20 0 0 1 160.0 147.3\" stroke=\"currentColor\" stroke-width=\"1.4\"/><path d=\"M 175.7 56.3 A 22 22 0 0 1 164.3 56.3\" stroke=\"#0ea5e9\" stroke-width=\"2\"/><circle cx=\"170\" cy=\"130\" r=\"2.5\" fill=\"currentColor\"/><text x=\"182.0\" y=\"124.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >O</text><text x=\"170.0\" y=\"182.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >60°</text><text x=\"170.0\" y=\"79.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text><text x=\"170.0\" y=\"25.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >V</text></svg>",
   "choices": [
    "$60^\\circ$",
    "$150^\\circ$",
@@ -2605,7 +2617,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $7$. What is the length of the hypotenuse?",
+  "stem": "In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle shown, the side opposite the $30^\\circ$ angle has length $7$. What is the length of the hypotenuse (marked $?$)?",
+  "figure": "<svg viewBox=\"0 0 300 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60.0\" y1=\"200.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"200.0\" x2=\"60.0\" y2=\"79.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"79.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><path d=\"M 74 200 L 74 186 L 60 186\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"238.0\" y=\"190.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >30°</text><text x=\"74.0\" y=\"107.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >60°</text><text x=\"44.0\" y=\"143.5\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >7</text><text x=\"191.0\" y=\"129.5\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$7\\sqrt{2}$",
    "$7\\sqrt{3}$",
@@ -2628,7 +2641,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $3$. What is the length of the hypotenuse?",
+  "stem": "In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle shown, the side opposite the $30^\\circ$ angle has length $3$. What is the length of the hypotenuse (marked $?$)?",
+  "figure": "<svg viewBox=\"0 0 300 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60.0\" y1=\"200.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"200.0\" x2=\"60.0\" y2=\"79.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"79.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><path d=\"M 74 200 L 74 186 L 60 186\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"238.0\" y=\"190.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >30°</text><text x=\"74.0\" y=\"107.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >60°</text><text x=\"44.0\" y=\"143.5\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >3</text><text x=\"191.0\" y=\"129.5\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$9$",
    "$3\\sqrt{3}$",
@@ -2651,7 +2665,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "An isosceles right triangle ($45^\\circ$–$45^\\circ$–$90^\\circ$) has legs of length $3$. What is the length of the hypotenuse?",
+  "stem": "An isosceles right triangle ($45^\\circ$–$45^\\circ$–$90^\\circ$) has legs of length $3$, as shown. What is the length of the hypotenuse (marked $?$)?",
+  "figure": "<svg viewBox=\"0 0 300 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60.0\" y1=\"200.0\" x2=\"210.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"200.0\" x2=\"60.0\" y2=\"50.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"50.0\" x2=\"210.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><path d=\"M 74 200 L 74 186 L 60 186\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"182.0\" y=\"190.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >45°</text><text x=\"72.0\" y=\"76.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >45°</text><text x=\"135.0\" y=\"220.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >3</text><text x=\"42.0\" y=\"125.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >3</text><text x=\"153.0\" y=\"117.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$3\\sqrt{2}$",
    "$\\dfrac{3\\sqrt{2}}{2}$",
@@ -2674,7 +2689,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $4$. What is the length of the hypotenuse?",
+  "stem": "In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle shown, the side opposite the $30^\\circ$ angle has length $4$. What is the length of the hypotenuse (marked $?$)?",
+  "figure": "<svg viewBox=\"0 0 300 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60.0\" y1=\"200.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"200.0\" x2=\"60.0\" y2=\"79.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"79.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><path d=\"M 74 200 L 74 186 L 60 186\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"238.0\" y=\"190.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >30°</text><text x=\"74.0\" y=\"107.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >60°</text><text x=\"44.0\" y=\"143.5\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >4</text><text x=\"191.0\" y=\"129.5\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$12$",
    "$8$",
@@ -2697,7 +2713,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $3$. What is the length of the side opposite the $60^\\circ$ angle?",
+  "stem": "In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle shown, the side opposite the $30^\\circ$ angle has length $3$. What is the length of the side opposite the $60^\\circ$ angle (marked $?$)?",
+  "figure": "<svg viewBox=\"0 0 300 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60.0\" y1=\"200.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"200.0\" x2=\"60.0\" y2=\"79.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"79.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><path d=\"M 74 200 L 74 186 L 60 186\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"238.0\" y=\"190.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >30°</text><text x=\"74.0\" y=\"107.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >60°</text><text x=\"44.0\" y=\"143.5\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >3</text><text x=\"165.0\" y=\"220.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$3\\sqrt{2}$",
    "$3\\sqrt{3}$",
@@ -2720,7 +2737,8 @@
   "domain": "3",
   "subdomain": "3.1",
   "difficulty": 1100,
-  "stem": "In a $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle, the side opposite the $30^\\circ$ angle has length $6$. What is the length of the hypotenuse?",
+  "stem": "In the $30^\\circ$–$60^\\circ$–$90^\\circ$ triangle shown, the side opposite the $30^\\circ$ angle has length $6$. What is the length of the hypotenuse (marked $?$)?",
+  "figure": "<svg viewBox=\"0 0 300 230\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"60.0\" y1=\"200.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"200.0\" x2=\"60.0\" y2=\"79.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><line x1=\"60.0\" y1=\"79.0\" x2=\"270.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" /><path d=\"M 74 200 L 74 186 L 60 186\" stroke=\"currentColor\" stroke-width=\"1.4\"/><text x=\"238.0\" y=\"190.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >30°</text><text x=\"74.0\" y=\"107.0\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >60°</text><text x=\"44.0\" y=\"143.5\" fill=\"currentColor\" font-size=\"14\" font-family=\"sans-serif\" text-anchor=\"middle\" >6</text><text x=\"191.0\" y=\"129.5\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">?</text></svg>",
   "choices": [
    "$6\\sqrt{2}$",
    "$12$",
@@ -2881,7 +2899,8 @@
   "domain": "3",
   "subdomain": "3.2",
   "difficulty": 1000,
-  "stem": "What is the distance between the points $(3, 0)$ and $(0, -4)$?",
+  "stem": "What is the distance between the points $P(3, 0)$ and $Q(0, -4)$ shown on the grid?",
+  "figure": "<svg viewBox=\"0 0 224 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"56.7\" y1=\"240.0\" x2=\"56.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"93.3\" y1=\"240.0\" x2=\"93.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"130.0\" y1=\"240.0\" x2=\"130.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"166.7\" y1=\"240.0\" x2=\"166.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"203.3\" y1=\"240.0\" x2=\"203.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"203.3\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"203.3\" x2=\"203.3\" y2=\"203.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"166.7\" x2=\"203.3\" y2=\"166.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"203.3\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"93.3\" x2=\"203.3\" y2=\"93.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"56.7\" x2=\"203.3\" y2=\"56.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"203.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"56.7\" y1=\"240.0\" x2=\"56.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"56.7\" x2=\"203.3\" y2=\"56.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"166.7\" y1=\"56.7\" x2=\"56.7\" y2=\"203.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><circle cx=\"166.7\" cy=\"56.7\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"166.7\" y=\"46.7\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text><circle cx=\"56.7\" cy=\"203.3\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"56.7\" y=\"193.3\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Q</text></svg>",
   "choices": [
    "$5$",
    "$7$",
@@ -2904,7 +2923,8 @@
   "domain": "3",
   "subdomain": "3.2",
   "difficulty": 1000,
-  "stem": "What is the distance between the points $(-5, 2)$ and $(3, -13)$?",
+  "stem": "What is the distance between the points $P(-5, 2)$ and $Q(3, -13)$ shown on the grid?",
+  "figure": "<svg viewBox=\"0 0 170 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"32.9\" y1=\"240.0\" x2=\"32.9\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"45.9\" y1=\"240.0\" x2=\"45.9\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"58.8\" y1=\"240.0\" x2=\"58.8\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"71.8\" y1=\"240.0\" x2=\"71.8\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"84.7\" y1=\"240.0\" x2=\"84.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"97.6\" y1=\"240.0\" x2=\"97.6\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"110.6\" y1=\"240.0\" x2=\"110.6\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"123.5\" y1=\"240.0\" x2=\"123.5\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"136.5\" y1=\"240.0\" x2=\"136.5\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"149.4\" y1=\"240.0\" x2=\"149.4\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"149.4\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"227.1\" x2=\"149.4\" y2=\"227.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"214.1\" x2=\"149.4\" y2=\"214.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"201.2\" x2=\"149.4\" y2=\"201.2\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"188.2\" x2=\"149.4\" y2=\"188.2\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"175.3\" x2=\"149.4\" y2=\"175.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"162.4\" x2=\"149.4\" y2=\"162.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"149.4\" x2=\"149.4\" y2=\"149.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"136.5\" x2=\"149.4\" y2=\"136.5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"123.5\" x2=\"149.4\" y2=\"123.5\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"110.6\" x2=\"149.4\" y2=\"110.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"97.6\" x2=\"149.4\" y2=\"97.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"84.7\" x2=\"149.4\" y2=\"84.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"71.8\" x2=\"149.4\" y2=\"71.8\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"58.8\" x2=\"149.4\" y2=\"58.8\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"45.9\" x2=\"149.4\" y2=\"45.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"32.9\" x2=\"149.4\" y2=\"32.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"149.4\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"97.6\" y1=\"240.0\" x2=\"97.6\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"58.8\" x2=\"149.4\" y2=\"58.8\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"32.9\" y1=\"32.9\" x2=\"136.5\" y2=\"227.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><circle cx=\"32.9\" cy=\"32.9\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"32.9\" y=\"22.9\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text><circle cx=\"136.5\" cy=\"227.1\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"136.5\" y=\"217.1\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Q</text></svg>",
   "choices": [
    "$23$",
    "$289$",
@@ -2927,7 +2947,8 @@
   "domain": "3",
   "subdomain": "3.2",
   "difficulty": 1000,
-  "stem": "What is the distance between the points $(-2, -5)$ and $(-7, 7)$?",
+  "stem": "What is the distance between the points $P(-2, -5)$ and $Q(-7, 7)$ shown on the grid?",
+  "figure": "<svg viewBox=\"0 0 182 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"35.7\" y1=\"240.0\" x2=\"35.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"51.4\" y1=\"240.0\" x2=\"51.4\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"67.1\" y1=\"240.0\" x2=\"67.1\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"82.9\" y1=\"240.0\" x2=\"82.9\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"98.6\" y1=\"240.0\" x2=\"98.6\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"114.3\" y1=\"240.0\" x2=\"114.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"130.0\" y1=\"240.0\" x2=\"130.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"145.7\" y1=\"240.0\" x2=\"145.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"161.4\" y1=\"240.0\" x2=\"161.4\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"161.4\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"224.3\" x2=\"161.4\" y2=\"224.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"208.6\" x2=\"161.4\" y2=\"208.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"192.9\" x2=\"161.4\" y2=\"192.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"177.1\" x2=\"161.4\" y2=\"177.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"161.4\" x2=\"161.4\" y2=\"161.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"145.7\" x2=\"161.4\" y2=\"145.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"161.4\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"114.3\" x2=\"161.4\" y2=\"114.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"98.6\" x2=\"161.4\" y2=\"98.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"82.9\" x2=\"161.4\" y2=\"82.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"67.1\" x2=\"161.4\" y2=\"67.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"51.4\" x2=\"161.4\" y2=\"51.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"35.7\" x2=\"161.4\" y2=\"35.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"161.4\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"145.7\" y1=\"240.0\" x2=\"145.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"145.7\" x2=\"161.4\" y2=\"145.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"114.3\" y1=\"224.3\" x2=\"35.7\" y2=\"35.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><circle cx=\"114.3\" cy=\"224.3\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"114.3\" y=\"214.3\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text><circle cx=\"35.7\" cy=\"35.7\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"35.7\" y=\"25.7\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Q</text></svg>",
   "choices": [
    "$17$",
    "$14$",
@@ -2950,7 +2971,8 @@
   "domain": "3",
   "subdomain": "3.2",
   "difficulty": 1000,
-  "stem": "What is the distance between the points $(1, -3)$ and $(9, -18)$?",
+  "stem": "What is the distance between the points $P(1, -3)$ and $Q(9, -18)$ shown on the grid?",
+  "figure": "<svg viewBox=\"0 0 161 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"31.0\" y1=\"240.0\" x2=\"31.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"42.0\" y1=\"240.0\" x2=\"42.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"53.0\" y1=\"240.0\" x2=\"53.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"64.0\" y1=\"240.0\" x2=\"64.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"75.0\" y1=\"240.0\" x2=\"75.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"86.0\" y1=\"240.0\" x2=\"86.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"97.0\" y1=\"240.0\" x2=\"97.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"108.0\" y1=\"240.0\" x2=\"108.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"119.0\" y1=\"240.0\" x2=\"119.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"130.0\" y1=\"240.0\" x2=\"130.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"141.0\" y1=\"240.0\" x2=\"141.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"141.0\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"229.0\" x2=\"141.0\" y2=\"229.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"218.0\" x2=\"141.0\" y2=\"218.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"207.0\" x2=\"141.0\" y2=\"207.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"196.0\" x2=\"141.0\" y2=\"196.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"185.0\" x2=\"141.0\" y2=\"185.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"174.0\" x2=\"141.0\" y2=\"174.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"163.0\" x2=\"141.0\" y2=\"163.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"152.0\" x2=\"141.0\" y2=\"152.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"141.0\" x2=\"141.0\" y2=\"141.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"141.0\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"119.0\" x2=\"141.0\" y2=\"119.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"108.0\" x2=\"141.0\" y2=\"108.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"97.0\" x2=\"141.0\" y2=\"97.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"86.0\" x2=\"141.0\" y2=\"86.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"75.0\" x2=\"141.0\" y2=\"75.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"64.0\" x2=\"141.0\" y2=\"64.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"53.0\" x2=\"141.0\" y2=\"53.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"42.0\" x2=\"141.0\" y2=\"42.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"31.0\" x2=\"141.0\" y2=\"31.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"141.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"31.0\" y1=\"240.0\" x2=\"31.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"31.0\" x2=\"141.0\" y2=\"31.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"42.0\" y1=\"64.0\" x2=\"130.0\" y2=\"229.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><circle cx=\"42.0\" cy=\"64.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"42.0\" y=\"54.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text><circle cx=\"130.0\" cy=\"229.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"130.0\" y=\"219.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Q</text></svg>",
   "choices": [
    "$18$",
    "$17$",
@@ -2973,7 +2995,8 @@
   "domain": "3",
   "subdomain": "3.2",
   "difficulty": 1000,
-  "stem": "What is the distance between the points $(5, 1)$ and $(8, -3)$?",
+  "stem": "What is the distance between the points $P(5, 1)$ and $Q(8, -3)$ shown on the grid?",
+  "figure": "<svg viewBox=\"0 0 340 220\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"200.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"50.0\" y1=\"200.0\" x2=\"50.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"80.0\" y1=\"200.0\" x2=\"80.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"110.0\" y1=\"200.0\" x2=\"110.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"140.0\" y1=\"200.0\" x2=\"140.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"170.0\" y1=\"200.0\" x2=\"170.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"200.0\" y1=\"200.0\" x2=\"200.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"230.0\" y1=\"200.0\" x2=\"230.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"260.0\" y1=\"200.0\" x2=\"260.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"290.0\" y1=\"200.0\" x2=\"290.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"320.0\" y1=\"200.0\" x2=\"320.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"200.0\" x2=\"320.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"170.0\" x2=\"320.0\" y2=\"170.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"140.0\" x2=\"320.0\" y2=\"140.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"110.0\" x2=\"320.0\" y2=\"110.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"80.0\" x2=\"320.0\" y2=\"80.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"50.0\" x2=\"320.0\" y2=\"50.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"320.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"50.0\" y1=\"200.0\" x2=\"50.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"80.0\" x2=\"320.0\" y2=\"80.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"200.0\" y1=\"50.0\" x2=\"290.0\" y2=\"170.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><circle cx=\"200.0\" cy=\"50.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"200.0\" y=\"40.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text><circle cx=\"290.0\" cy=\"170.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"290.0\" y=\"160.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Q</text></svg>",
   "choices": [
    "$7$",
    "$5$",
@@ -2996,7 +3019,8 @@
   "domain": "3",
   "subdomain": "3.2",
   "difficulty": 1000,
-  "stem": "What is the distance between the points $(2, -2)$ and $(-5, -26)$?",
+  "stem": "What is the distance between the points $P(2, -2)$ and $Q(-5, -26)$ shown on the grid?",
+  "figure": "<svg viewBox=\"0 0 111 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"27.9\" y1=\"240.0\" x2=\"27.9\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"35.7\" y1=\"240.0\" x2=\"35.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"43.6\" y1=\"240.0\" x2=\"43.6\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"51.4\" y1=\"240.0\" x2=\"51.4\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"59.3\" y1=\"240.0\" x2=\"59.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"67.1\" y1=\"240.0\" x2=\"67.1\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"75.0\" y1=\"240.0\" x2=\"75.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"82.9\" y1=\"240.0\" x2=\"82.9\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"90.7\" y1=\"240.0\" x2=\"90.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"90.7\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"232.1\" x2=\"90.7\" y2=\"232.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"224.3\" x2=\"90.7\" y2=\"224.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"216.4\" x2=\"90.7\" y2=\"216.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"208.6\" x2=\"90.7\" y2=\"208.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"200.7\" x2=\"90.7\" y2=\"200.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"192.9\" x2=\"90.7\" y2=\"192.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"185.0\" x2=\"90.7\" y2=\"185.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"177.1\" x2=\"90.7\" y2=\"177.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"169.3\" x2=\"90.7\" y2=\"169.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"161.4\" x2=\"90.7\" y2=\"161.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"153.6\" x2=\"90.7\" y2=\"153.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"145.7\" x2=\"90.7\" y2=\"145.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"137.9\" x2=\"90.7\" y2=\"137.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"90.7\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"122.1\" x2=\"90.7\" y2=\"122.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"114.3\" x2=\"90.7\" y2=\"114.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"106.4\" x2=\"90.7\" y2=\"106.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"98.6\" x2=\"90.7\" y2=\"98.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"90.7\" x2=\"90.7\" y2=\"90.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"82.9\" x2=\"90.7\" y2=\"82.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"75.0\" x2=\"90.7\" y2=\"75.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"67.1\" x2=\"90.7\" y2=\"67.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"59.3\" x2=\"90.7\" y2=\"59.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"51.4\" x2=\"90.7\" y2=\"51.4\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"43.6\" x2=\"90.7\" y2=\"43.6\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"35.7\" x2=\"90.7\" y2=\"35.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"27.9\" x2=\"90.7\" y2=\"27.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"90.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"67.1\" y1=\"240.0\" x2=\"67.1\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"27.9\" x2=\"90.7\" y2=\"27.9\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"82.9\" y1=\"43.6\" x2=\"27.9\" y2=\"232.1\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke=\"#0ea5e9\" stroke-width=\"1.8\" stroke-dasharray=\"5 4\"/><circle cx=\"82.9\" cy=\"43.6\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"82.9\" y=\"33.6\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text><circle cx=\"27.9\" cy=\"232.1\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"27.9\" y=\"222.1\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">Q</text></svg>",
   "choices": [
    "$26$",
    "$625$",
@@ -3594,7 +3618,8 @@
   "domain": "3",
   "subdomain": "3.4",
   "difficulty": 1100,
-  "stem": "What is the image of the point $(-4, -1)$ under a reflection across the line $y = x$?",
+  "stem": "The point $P(-4, -1)$ is shown on the grid. What is the image of $P$ under a reflection across the line $y = x$?",
+  "figure": "<svg viewBox=\"0 0 340 190\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"170.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"70.0\" y1=\"170.0\" x2=\"70.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"120.0\" y1=\"170.0\" x2=\"120.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"170.0\" y1=\"170.0\" x2=\"170.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"220.0\" y1=\"170.0\" x2=\"220.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"270.0\" y1=\"170.0\" x2=\"270.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"320.0\" y1=\"170.0\" x2=\"320.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"170.0\" x2=\"320.0\" y2=\"170.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"120.0\" x2=\"320.0\" y2=\"120.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"70.0\" x2=\"320.0\" y2=\"70.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"320.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"270.0\" y1=\"170.0\" x2=\"270.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"70.0\" x2=\"320.0\" y2=\"70.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><circle cx=\"70.0\" cy=\"120.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"70.0\" y=\"110.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text></svg>",
   "choices": [
    "$(4, 1)$",
    "$(-1, -4)$",
@@ -3617,7 +3642,8 @@
   "domain": "3",
   "subdomain": "3.4",
   "difficulty": 1100,
-  "stem": "What is the image of the point $(1, 3)$ under a reflection across the $x$-axis?",
+  "stem": "The point $P(1, 3)$ is shown on the grid. What is the image of $P$ under a reflection across the $x$-axis?",
+  "figure": "<svg viewBox=\"0 0 172 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"64.0\" y1=\"240.0\" x2=\"64.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"108.0\" y1=\"240.0\" x2=\"108.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"152.0\" y1=\"240.0\" x2=\"152.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"152.0\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"196.0\" x2=\"152.0\" y2=\"196.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"152.0\" x2=\"152.0\" y2=\"152.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"108.0\" x2=\"152.0\" y2=\"108.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"64.0\" x2=\"152.0\" y2=\"64.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"152.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"64.0\" y1=\"240.0\" x2=\"64.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"196.0\" x2=\"152.0\" y2=\"196.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><circle cx=\"108.0\" cy=\"64.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"108.0\" y=\"54.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text></svg>",
   "choices": [
    "$(3, -1)$",
    "$(-1, -3)$",
@@ -3640,7 +3666,8 @@
   "domain": "3",
   "subdomain": "3.4",
   "difficulty": 1100,
-  "stem": "What is the image of the point $(-3, 1)$ under a rotation of $180^\\circ$ about the origin?",
+  "stem": "The point $P(-3, 1)$ is shown on the grid. What is the image of $P$ under a rotation of $180^\\circ$ about the origin?",
+  "figure": "<svg viewBox=\"0 0 340 220\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"200.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"80.0\" y1=\"200.0\" x2=\"80.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"140.0\" y1=\"200.0\" x2=\"140.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"200.0\" y1=\"200.0\" x2=\"200.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"260.0\" y1=\"200.0\" x2=\"260.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"320.0\" y1=\"200.0\" x2=\"320.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"200.0\" x2=\"320.0\" y2=\"200.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"140.0\" x2=\"320.0\" y2=\"140.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"80.0\" x2=\"320.0\" y2=\"80.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"320.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"260.0\" y1=\"200.0\" x2=\"260.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"140.0\" x2=\"320.0\" y2=\"140.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><circle cx=\"80.0\" cy=\"80.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"80.0\" y=\"70.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text></svg>",
   "choices": [
    "$(-3, -1)$",
    "$(-1, -3)$",
@@ -3663,7 +3690,8 @@
   "domain": "3",
   "subdomain": "3.4",
   "difficulty": 1100,
-  "stem": "What is the image of the point $(-3, 2)$ under a reflection across the line $y = x$?",
+  "stem": "The point $P(-3, 2)$ is shown on the grid. What is the image of $P$ under a reflection across the line $y = x$?",
+  "figure": "<svg viewBox=\"0 0 315 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"75.0\" y1=\"240.0\" x2=\"75.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"130.0\" y1=\"240.0\" x2=\"130.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"185.0\" y1=\"240.0\" x2=\"185.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"240.0\" y1=\"240.0\" x2=\"240.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"295.0\" y1=\"240.0\" x2=\"295.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"295.0\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"185.0\" x2=\"295.0\" y2=\"185.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"295.0\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"75.0\" x2=\"295.0\" y2=\"75.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"295.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"240.0\" y1=\"240.0\" x2=\"240.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"185.0\" x2=\"295.0\" y2=\"185.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><circle cx=\"75.0\" cy=\"75.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"75.0\" y=\"65.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text></svg>",
   "choices": [
    "$(3, -2)$",
    "$(2, 3)$",
@@ -3686,7 +3714,8 @@
   "domain": "3",
   "subdomain": "3.4",
   "difficulty": 1100,
-  "stem": "What is the image of the point $(2, -4)$ under a reflection across the line $y = x$?",
+  "stem": "The point $P(2, -4)$ is shown on the grid. What is the image of $P$ under a reflection across the line $y = x$?",
+  "figure": "<svg viewBox=\"0 0 187 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"56.7\" y1=\"240.0\" x2=\"56.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"93.3\" y1=\"240.0\" x2=\"93.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"130.0\" y1=\"240.0\" x2=\"130.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"166.7\" y1=\"240.0\" x2=\"166.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"166.7\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"203.3\" x2=\"166.7\" y2=\"203.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"166.7\" x2=\"166.7\" y2=\"166.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"166.7\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"93.3\" x2=\"166.7\" y2=\"93.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"56.7\" x2=\"166.7\" y2=\"56.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"166.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"56.7\" y1=\"240.0\" x2=\"56.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"56.7\" x2=\"166.7\" y2=\"56.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><circle cx=\"130.0\" cy=\"203.3\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"130.0\" y=\"193.3\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text></svg>",
   "choices": [
    "$(-2, 4)$",
    "$(-4, -2)$",
@@ -3709,7 +3738,8 @@
   "domain": "3",
   "subdomain": "3.4",
   "difficulty": 1100,
-  "stem": "What is the image of the point $(1, 2)$ under a reflection across the $x$-axis?",
+  "stem": "The point $P(1, 2)$ is shown on the grid. What is the image of $P$ under a reflection across the $x$-axis?",
+  "figure": "<svg viewBox=\"0 0 205 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"75.0\" y1=\"240.0\" x2=\"75.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"130.0\" y1=\"240.0\" x2=\"130.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"185.0\" y1=\"240.0\" x2=\"185.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"185.0\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"185.0\" x2=\"185.0\" y2=\"185.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"185.0\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"75.0\" x2=\"185.0\" y2=\"75.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"185.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"75.0\" y1=\"240.0\" x2=\"75.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"185.0\" x2=\"185.0\" y2=\"185.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><circle cx=\"130.0\" cy=\"75.0\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"130.0\" y=\"65.0\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text></svg>",
   "choices": [
    "$(2, -1)$",
    "$(1, -2)$",
@@ -3732,7 +3762,8 @@
   "domain": "3",
   "subdomain": "3.4",
   "difficulty": 1100,
-  "stem": "What is the image of the point $(-3, 4)$ under a rotation of $180^\\circ$ about the origin?",
+  "stem": "The point $P(-3, 4)$ is shown on the grid. What is the image of $P$ under a rotation of $180^\\circ$ about the origin?",
+  "figure": "<svg viewBox=\"0 0 224 260\" role=\"img\" style=\"max-width:340px;width:100%;height:auto\" fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"20.0\" y1=\"240.0\" x2=\"20.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"56.7\" y1=\"240.0\" x2=\"56.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"93.3\" y1=\"240.0\" x2=\"93.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"130.0\" y1=\"240.0\" x2=\"130.0\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"166.7\" y1=\"240.0\" x2=\"166.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"203.3\" y1=\"240.0\" x2=\"203.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"240.0\" x2=\"203.3\" y2=\"240.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"203.3\" x2=\"203.3\" y2=\"203.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"166.7\" x2=\"203.3\" y2=\"166.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"130.0\" x2=\"203.3\" y2=\"130.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"93.3\" x2=\"203.3\" y2=\"93.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"56.7\" x2=\"203.3\" y2=\"56.7\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"20.0\" y1=\"20.0\" x2=\"203.3\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"0.4\" opacity=\"0.35\"/><line x1=\"166.7\" y1=\"240.0\" x2=\"166.7\" y2=\"20.0\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><line x1=\"20.0\" y1=\"203.3\" x2=\"203.3\" y2=\"203.3\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-width=\"1.4\"/><circle cx=\"56.7\" cy=\"56.7\" r=\"4\" fill=\"#0ea5e9\"/><text x=\"56.7\" y=\"46.7\" fill=\"#0ea5e9\" font-size=\"14\" font-weight=\"bold\" font-family=\"sans-serif\" text-anchor=\"middle\">P</text></svg>",
   "choices": [
    "$(-4, -3)$",
    "$(-3, -4)$",
@@ -4734,6 +4765,1386 @@
   "source": {
    "kind": "generated",
    "generatorId": "s2-mean-median-outlier",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-mod-inverse-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1350,
+  "stem": "What is the multiplicative inverse of $2$ in $\\mathbb{Z}_{9}$ (that is, the $x$ with $2x \\equiv 1 \\pmod{9}$)?",
+  "choices": [
+   "$6$",
+   "$5$",
+   "$4$",
+   "$2$"
+  ],
+  "key": 1,
+  "workedSolution": "Search for $x$ with $2x \\equiv 1 \\pmod{9}$: $2 \\cdot 5 = 10 = 1 \\cdot 9 + 1$, so $x = 5$. The inverse exists because $\\gcd(2, 9) = 1$. (Note $4$ is the inverse of $-2$, i.e. the additive-style sign error.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-inverse",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-mod-inverse-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1350,
+  "stem": "What is the multiplicative inverse of $4$ in $\\mathbb{Z}_{11}$ (that is, the $x$ with $4x \\equiv 1 \\pmod{11}$)?",
+  "choices": [
+   "$5$",
+   "$8$",
+   "$3$",
+   "$4$"
+  ],
+  "key": 2,
+  "workedSolution": "Search for $x$ with $4x \\equiv 1 \\pmod{11}$: $4 \\cdot 3 = 12 = 1 \\cdot 11 + 1$, so $x = 3$. The inverse exists because $\\gcd(4, 11) = 1$. (Note $8$ is the inverse of $-4$, i.e. the additive-style sign error.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-inverse",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-mod-inverse-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1350,
+  "stem": "What is the multiplicative inverse of $6$ in $\\mathbb{Z}_{13}$ (that is, the $x$ with $6x \\equiv 1 \\pmod{13}$)?",
+  "choices": [
+   "$2$",
+   "$11$",
+   "$12$",
+   "$6$"
+  ],
+  "key": 1,
+  "workedSolution": "Search for $x$ with $6x \\equiv 1 \\pmod{13}$: $6 \\cdot 11 = 66 = 5 \\cdot 13 + 1$, so $x = 11$. The inverse exists because $\\gcd(6, 13) = 1$. (Note $2$ is the inverse of $-6$, i.e. the additive-style sign error.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-inverse",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-mod-inverse-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1350,
+  "stem": "What is the multiplicative inverse of $6$ in $\\mathbb{Z}_{11}$ (that is, the $x$ with $6x \\equiv 1 \\pmod{11}$)?",
+  "choices": [
+   "$6$",
+   "$3$",
+   "$2$",
+   "$9$"
+  ],
+  "key": 2,
+  "workedSolution": "Search for $x$ with $6x \\equiv 1 \\pmod{11}$: $6 \\cdot 2 = 12 = 1 \\cdot 11 + 1$, so $x = 2$. The inverse exists because $\\gcd(6, 11) = 1$. (Note $9$ is the inverse of $-6$, i.e. the additive-style sign error.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-inverse",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-mod-inverse-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1350,
+  "stem": "What is the multiplicative inverse of $7$ in $\\mathbb{Z}_{13}$ (that is, the $x$ with $7x \\equiv 1 \\pmod{13}$)?",
+  "choices": [
+   "$11$",
+   "$7$",
+   "$3$",
+   "$2$"
+  ],
+  "key": 3,
+  "workedSolution": "Search for $x$ with $7x \\equiv 1 \\pmod{13}$: $7 \\cdot 2 = 14 = 1 \\cdot 13 + 1$, so $x = 2$. The inverse exists because $\\gcd(7, 13) = 1$. (Note $11$ is the inverse of $-7$, i.e. the additive-style sign error.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-inverse",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-mod-inverse-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.2",
+  "difficulty": 1350,
+  "stem": "What is the multiplicative inverse of $4$ in $\\mathbb{Z}_{11}$ (that is, the $x$ with $4x \\equiv 1 \\pmod{11}$)?",
+  "choices": [
+   "$3$",
+   "$5$",
+   "$4$",
+   "$8$"
+  ],
+  "key": 0,
+  "workedSolution": "Search for $x$ with $4x \\equiv 1 \\pmod{11}$: $4 \\cdot 3 = 12 = 1 \\cdot 11 + 1$, so $x = 3$. The inverse exists because $\\gcd(4, 11) = 1$. (Note $8$ is the inverse of $-4$, i.e. the additive-style sign error.)",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-mod-inverse",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-demoivre-root-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1400,
+  "stem": "Let $z = 27\\left(\\cos 30^\\circ + i\\sin 30^\\circ\\right)$. Which of the following is a cube root of $z$?",
+  "choices": [
+   "$3\\left(\\cos 90^\\circ + i\\sin 90^\\circ\\right)$",
+   "$27\\left(\\cos 10^\\circ + i\\sin 10^\\circ\\right)$",
+   "$3\\left(\\cos 70^\\circ + i\\sin 70^\\circ\\right)$",
+   "$3\\left(\\cos 10^\\circ + i\\sin 10^\\circ\\right)$"
+  ],
+  "key": 3,
+  "workedSolution": "The cube roots of $r(\\cos\\theta + i\\sin\\theta)$ are $\\sqrt[3]{r}\\left(\\cos\\frac{\\theta + 360^\\circ k}{3} + i\\sin\\frac{\\theta + 360^\\circ k}{3}\\right)$ for $k = 0, 1, 2$. Here $\\sqrt[3]{27} = 3$ and the angles are $10^\\circ, 130^\\circ, 250^\\circ$ — spaced $120^\\circ$ apart. The choice with modulus $3$ and angle $10^\\circ$ (the $k = 0$ root) is correct. Verify: cubing it gives modulus $3^3 = 27$ and angle $3 \\cdot 10^\\circ \\equiv 30^\\circ \\pmod{360^\\circ}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre-root",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-demoivre-root-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1400,
+  "stem": "Let $z = 27\\left(\\cos 120^\\circ + i\\sin 120^\\circ\\right)$. Which of the following is a cube root of $z$?",
+  "choices": [
+   "$27\\left(\\cos 40^\\circ + i\\sin 40^\\circ\\right)$",
+   "$3\\left(\\cos 0^\\circ + i\\sin 0^\\circ\\right)$",
+   "$3\\left(\\cos 40^\\circ + i\\sin 40^\\circ\\right)$",
+   "$3\\left(\\cos 100^\\circ + i\\sin 100^\\circ\\right)$"
+  ],
+  "key": 2,
+  "workedSolution": "The cube roots of $r(\\cos\\theta + i\\sin\\theta)$ are $\\sqrt[3]{r}\\left(\\cos\\frac{\\theta + 360^\\circ k}{3} + i\\sin\\frac{\\theta + 360^\\circ k}{3}\\right)$ for $k = 0, 1, 2$. Here $\\sqrt[3]{27} = 3$ and the angles are $40^\\circ, 160^\\circ, 280^\\circ$ — spaced $120^\\circ$ apart. The choice with modulus $3$ and angle $40^\\circ$ (the $k = 0$ root) is correct. Verify: cubing it gives modulus $3^3 = 27$ and angle $3 \\cdot 40^\\circ \\equiv 120^\\circ \\pmod{360^\\circ}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre-root",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-demoivre-root-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1400,
+  "stem": "Let $z = 27\\left(\\cos 120^\\circ + i\\sin 120^\\circ\\right)$. Which of the following is a cube root of $z$?",
+  "choices": [
+   "$27\\left(\\cos 40^\\circ + i\\sin 40^\\circ\\right)$",
+   "$3\\left(\\cos 0^\\circ + i\\sin 0^\\circ\\right)$",
+   "$3\\left(\\cos 100^\\circ + i\\sin 100^\\circ\\right)$",
+   "$3\\left(\\cos 280^\\circ + i\\sin 280^\\circ\\right)$"
+  ],
+  "key": 3,
+  "workedSolution": "The cube roots of $r(\\cos\\theta + i\\sin\\theta)$ are $\\sqrt[3]{r}\\left(\\cos\\frac{\\theta + 360^\\circ k}{3} + i\\sin\\frac{\\theta + 360^\\circ k}{3}\\right)$ for $k = 0, 1, 2$. Here $\\sqrt[3]{27} = 3$ and the angles are $40^\\circ, 160^\\circ, 280^\\circ$ — spaced $120^\\circ$ apart. The choice with modulus $3$ and angle $280^\\circ$ (the $k = 2$ root) is correct. Verify: cubing it gives modulus $3^3 = 27$ and angle $3 \\cdot 280^\\circ \\equiv 120^\\circ \\pmod{360^\\circ}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre-root",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-demoivre-root-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1400,
+  "stem": "Let $z = 27\\left(\\cos 120^\\circ + i\\sin 120^\\circ\\right)$. Which of the following is a cube root of $z$?",
+  "choices": [
+   "$3\\left(\\cos 0^\\circ + i\\sin 0^\\circ\\right)$",
+   "$3\\left(\\cos 100^\\circ + i\\sin 100^\\circ\\right)$",
+   "$27\\left(\\cos 40^\\circ + i\\sin 40^\\circ\\right)$",
+   "$3\\left(\\cos 40^\\circ + i\\sin 40^\\circ\\right)$"
+  ],
+  "key": 3,
+  "workedSolution": "The cube roots of $r(\\cos\\theta + i\\sin\\theta)$ are $\\sqrt[3]{r}\\left(\\cos\\frac{\\theta + 360^\\circ k}{3} + i\\sin\\frac{\\theta + 360^\\circ k}{3}\\right)$ for $k = 0, 1, 2$. Here $\\sqrt[3]{27} = 3$ and the angles are $40^\\circ, 160^\\circ, 280^\\circ$ — spaced $120^\\circ$ apart. The choice with modulus $3$ and angle $40^\\circ$ (the $k = 0$ root) is correct. Verify: cubing it gives modulus $3^3 = 27$ and angle $3 \\cdot 40^\\circ \\equiv 120^\\circ \\pmod{360^\\circ}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre-root",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-demoivre-root-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1400,
+  "stem": "Let $z = 8\\left(\\cos 90^\\circ + i\\sin 90^\\circ\\right)$. Which of the following is a cube root of $z$?",
+  "choices": [
+   "$2\\left(\\cos 90^\\circ + i\\sin 90^\\circ\\right)$",
+   "$8\\left(\\cos 30^\\circ + i\\sin 30^\\circ\\right)$",
+   "$2\\left(\\cos 270^\\circ + i\\sin 270^\\circ\\right)$",
+   "$2\\left(\\cos 30^\\circ + i\\sin 30^\\circ\\right)$"
+  ],
+  "key": 3,
+  "workedSolution": "The cube roots of $r(\\cos\\theta + i\\sin\\theta)$ are $\\sqrt[3]{r}\\left(\\cos\\frac{\\theta + 360^\\circ k}{3} + i\\sin\\frac{\\theta + 360^\\circ k}{3}\\right)$ for $k = 0, 1, 2$. Here $\\sqrt[3]{8} = 2$ and the angles are $30^\\circ, 150^\\circ, 270^\\circ$ — spaced $120^\\circ$ apart. The choice with modulus $2$ and angle $30^\\circ$ (the $k = 0$ root) is correct. Verify: cubing it gives modulus $2^3 = 8$ and angle $3 \\cdot 30^\\circ \\equiv 90^\\circ \\pmod{360^\\circ}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre-root",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-demoivre-root-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "1",
+  "subdomain": "1.1",
+  "difficulty": 1400,
+  "stem": "Let $z = 27\\left(\\cos 30^\\circ + i\\sin 30^\\circ\\right)$. Which of the following is a cube root of $z$?",
+  "choices": [
+   "$27\\left(\\cos 10^\\circ + i\\sin 10^\\circ\\right)$",
+   "$3\\left(\\cos 250^\\circ + i\\sin 250^\\circ\\right)$",
+   "$3\\left(\\cos 90^\\circ + i\\sin 90^\\circ\\right)$",
+   "$3\\left(\\cos 70^\\circ + i\\sin 70^\\circ\\right)$"
+  ],
+  "key": 1,
+  "workedSolution": "The cube roots of $r(\\cos\\theta + i\\sin\\theta)$ are $\\sqrt[3]{r}\\left(\\cos\\frac{\\theta + 360^\\circ k}{3} + i\\sin\\frac{\\theta + 360^\\circ k}{3}\\right)$ for $k = 0, 1, 2$. Here $\\sqrt[3]{27} = 3$ and the angles are $10^\\circ, 130^\\circ, 250^\\circ$ — spaced $120^\\circ$ apart. The choice with modulus $3$ and angle $250^\\circ$ (the $k = 2$ root) is correct. Verify: cubing it gives modulus $3^3 = 27$ and angle $3 \\cdot 250^\\circ \\equiv 30^\\circ \\pmod{360^\\circ}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-demoivre-root",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-vieta-cubic-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1350,
+  "stem": "Over $\\mathbb{C}$, counted with multiplicity, what is the sum of the roots of $2x^{3} - 4x^{2} - 4x - 5 = 0$?",
+  "choices": [
+   "$\\frac{5}{2}$",
+   "$2$",
+   "$-\\frac{5}{2}$",
+   "$-2$"
+  ],
+  "key": 1,
+  "workedSolution": "For $ax^3 + bx^2 + cx + d = 0$, Vieta's formulas give: sum of roots $= -\\frac{b}{a}$, sum of pairwise products $= \\frac{c}{a}$, product of roots $= -\\frac{d}{a}$ (the sign alternates with degree — for cubics the product carries a minus). Here the sum is $2$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-vieta-cubic",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-vieta-cubic-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1350,
+  "stem": "Over $\\mathbb{C}$, counted with multiplicity, what is the sum of the roots of $3x^{3} - 6x^{2} + 5x - 7 = 0$?",
+  "choices": [
+   "$\\frac{5}{3}$",
+   "$-2$",
+   "$\\frac{7}{3}$",
+   "$2$"
+  ],
+  "key": 3,
+  "workedSolution": "For $ax^3 + bx^2 + cx + d = 0$, Vieta's formulas give: sum of roots $= -\\frac{b}{a}$, sum of pairwise products $= \\frac{c}{a}$, product of roots $= -\\frac{d}{a}$ (the sign alternates with degree — for cubics the product carries a minus). Here the sum is $2$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-vieta-cubic",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-vieta-cubic-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1350,
+  "stem": "Over $\\mathbb{C}$, counted with multiplicity, what is the product of the roots of $4x^{3} + 8x^{2} - 5x + 6 = 0$?",
+  "choices": [
+   "$-2$",
+   "$-\\frac{3}{2}$",
+   "$-\\frac{5}{4}$",
+   "$\\frac{3}{2}$"
+  ],
+  "key": 1,
+  "workedSolution": "For $ax^3 + bx^2 + cx + d = 0$, Vieta's formulas give: sum of roots $= -\\frac{b}{a}$, sum of pairwise products $= \\frac{c}{a}$, product of roots $= -\\frac{d}{a}$ (the sign alternates with degree — for cubics the product carries a minus). Here the product is $-\\frac{3}{2}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-vieta-cubic",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-vieta-cubic-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1350,
+  "stem": "Over $\\mathbb{C}$, counted with multiplicity, what is the sum of the roots of $4x^{3} - 3x^{2} - 9x - 5 = 0$?",
+  "choices": [
+   "$\\frac{5}{4}$",
+   "$\\frac{3}{4}$",
+   "$-\\frac{3}{4}$",
+   "$-\\frac{9}{4}$"
+  ],
+  "key": 1,
+  "workedSolution": "For $ax^3 + bx^2 + cx + d = 0$, Vieta's formulas give: sum of roots $= -\\frac{b}{a}$, sum of pairwise products $= \\frac{c}{a}$, product of roots $= -\\frac{d}{a}$ (the sign alternates with degree — for cubics the product carries a minus). Here the sum is $\\frac{3}{4}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-vieta-cubic",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-vieta-cubic-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1350,
+  "stem": "Over $\\mathbb{C}$, counted with multiplicity, what is the product of the roots of $2x^{3} - 8x^{2} + 3x - 7 = 0$?",
+  "choices": [
+   "$\\frac{7}{2}$",
+   "$4$",
+   "$-\\frac{7}{2}$",
+   "$\\frac{3}{2}$"
+  ],
+  "key": 0,
+  "workedSolution": "For $ax^3 + bx^2 + cx + d = 0$, Vieta's formulas give: sum of roots $= -\\frac{b}{a}$, sum of pairwise products $= \\frac{c}{a}$, product of roots $= -\\frac{d}{a}$ (the sign alternates with degree — for cubics the product carries a minus). Here the product is $\\frac{7}{2}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-vieta-cubic",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-vieta-cubic-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.2",
+  "difficulty": 1350,
+  "stem": "Over $\\mathbb{C}$, counted with multiplicity, what is the sum of the roots of $2x^{3} - 3x^{2} - 5x - 6 = 0$?",
+  "choices": [
+   "$-\\frac{5}{2}$",
+   "$\\frac{3}{2}$",
+   "$-\\frac{3}{2}$",
+   "$3$"
+  ],
+  "key": 1,
+  "workedSolution": "For $ax^3 + bx^2 + cx + d = 0$, Vieta's formulas give: sum of roots $= -\\frac{b}{a}$, sum of pairwise products $= \\frac{c}{a}$, product of roots $= -\\frac{d}{a}$ (the sign alternates with degree — for cubics the product carries a minus). Here the sum is $\\frac{3}{2}$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-vieta-cubic",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-log-equation-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1400,
+  "stem": "Consider the equation $\\log_{2}(x) + \\log_{2}(x - 6) = 4$. What is its solution set?",
+  "choices": [
+   "$\\{8,\\ -2\\}$",
+   "$\\{-2\\}$",
+   "$\\{8\\}$",
+   "$\\{16\\}$"
+  ],
+  "key": 2,
+  "workedSolution": "Combine: $\\log_{2}[x(x - 6)] = 4$, so $x(x - 6) = 2^{4} = 16$, giving $x^2 - 6x - 16 = 0 = (x - 8)(x + 2)$. The candidates are $x = 8$ and $x = -2$. But the original equation requires $x > 0$ AND $x > 6$ (both log arguments positive); $x = -2$ makes $\\log_{2}(x)$ undefined, so it is extraneous. The solution set is $\\{8\\}$. Check: $\\log_{2}8 + \\log_{2}2 = \\log_{2}(8 \\cdot 2) = \\log_{2}16 = 4$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-equation",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-log-equation-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1400,
+  "stem": "Consider the equation $\\log_{2}(x) + \\log_{2}(x - 2) = 3$. What is its solution set?",
+  "choices": [
+   "$\\{4,\\ -2\\}$",
+   "$\\{8\\}$",
+   "$\\{-2\\}$",
+   "$\\{4\\}$"
+  ],
+  "key": 3,
+  "workedSolution": "Combine: $\\log_{2}[x(x - 2)] = 3$, so $x(x - 2) = 2^{3} = 8$, giving $x^2 - 2x - 8 = 0 = (x - 4)(x + 2)$. The candidates are $x = 4$ and $x = -2$. But the original equation requires $x > 0$ AND $x > 2$ (both log arguments positive); $x = -2$ makes $\\log_{2}(x)$ undefined, so it is extraneous. The solution set is $\\{4\\}$. Check: $\\log_{2}4 + \\log_{2}2 = \\log_{2}(4 \\cdot 2) = \\log_{2}8 = 3$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-equation",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-log-equation-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1400,
+  "stem": "Consider the equation $\\log_{2}(x) + \\log_{2}(x - 6) = 4$. What is its solution set?",
+  "choices": [
+   "$\\{-2\\}$",
+   "$\\{16\\}$",
+   "$\\{8,\\ -2\\}$",
+   "$\\{8\\}$"
+  ],
+  "key": 3,
+  "workedSolution": "Combine: $\\log_{2}[x(x - 6)] = 4$, so $x(x - 6) = 2^{4} = 16$, giving $x^2 - 6x - 16 = 0 = (x - 8)(x + 2)$. The candidates are $x = 8$ and $x = -2$. But the original equation requires $x > 0$ AND $x > 6$ (both log arguments positive); $x = -2$ makes $\\log_{2}(x)$ undefined, so it is extraneous. The solution set is $\\{8\\}$. Check: $\\log_{2}8 + \\log_{2}2 = \\log_{2}(8 \\cdot 2) = \\log_{2}16 = 4$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-equation",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-log-equation-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1400,
+  "stem": "Consider the equation $\\log_{2}(x) + \\log_{2}(x - 2) = 3$. What is its solution set?",
+  "choices": [
+   "$\\{4\\}$",
+   "$\\{-2\\}$",
+   "$\\{8\\}$",
+   "$\\{4,\\ -2\\}$"
+  ],
+  "key": 0,
+  "workedSolution": "Combine: $\\log_{2}[x(x - 2)] = 3$, so $x(x - 2) = 2^{3} = 8$, giving $x^2 - 2x - 8 = 0 = (x - 4)(x + 2)$. The candidates are $x = 4$ and $x = -2$. But the original equation requires $x > 0$ AND $x > 2$ (both log arguments positive); $x = -2$ makes $\\log_{2}(x)$ undefined, so it is extraneous. The solution set is $\\{4\\}$. Check: $\\log_{2}4 + \\log_{2}2 = \\log_{2}(4 \\cdot 2) = \\log_{2}8 = 3$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-equation",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-log-equation-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1400,
+  "stem": "Consider the equation $\\log_{3}(x) + \\log_{3}(x - 6) = 3$. What is its solution set?",
+  "choices": [
+   "$\\{27\\}$",
+   "$\\{9,\\ -3\\}$",
+   "$\\{-3\\}$",
+   "$\\{9\\}$"
+  ],
+  "key": 3,
+  "workedSolution": "Combine: $\\log_{3}[x(x - 6)] = 3$, so $x(x - 6) = 3^{3} = 27$, giving $x^2 - 6x - 27 = 0 = (x - 9)(x + 3)$. The candidates are $x = 9$ and $x = -3$. But the original equation requires $x > 0$ AND $x > 6$ (both log arguments positive); $x = -3$ makes $\\log_{3}(x)$ undefined, so it is extraneous. The solution set is $\\{9\\}$. Check: $\\log_{3}9 + \\log_{3}3 = \\log_{3}(9 \\cdot 3) = \\log_{3}27 = 3$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-equation",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-log-equation-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.3",
+  "difficulty": 1400,
+  "stem": "Consider the equation $\\log_{2}(x) + \\log_{2}(x - 2) = 3$. What is its solution set?",
+  "choices": [
+   "$\\{4\\}$",
+   "$\\{8\\}$",
+   "$\\{-2\\}$",
+   "$\\{4,\\ -2\\}$"
+  ],
+  "key": 0,
+  "workedSolution": "Combine: $\\log_{2}[x(x - 2)] = 3$, so $x(x - 2) = 2^{3} = 8$, giving $x^2 - 2x - 8 = 0 = (x - 4)(x + 2)$. The candidates are $x = 4$ and $x = -2$. But the original equation requires $x > 0$ AND $x > 2$ (both log arguments positive); $x = -2$ makes $\\log_{2}(x)$ undefined, so it is extraneous. The solution set is $\\{4\\}$. Check: $\\log_{2}4 + \\log_{2}2 = \\log_{2}(4 \\cdot 2) = \\log_{2}8 = 3$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-log-equation",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s1-matrix-compose-0",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1400,
+  "stem": "A figure in the plane undergoes rotation by $90^\\circ$ clockwise, followed by reflection across the $x$-axis. Which single matrix represents the composite transformation (acting on column vectors)?",
+  "choices": [
+   "$\\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$"
+  ],
+  "key": 3,
+  "workedSolution": "Applying $T_1$ then $T_2$ to a column vector $\\mathbf{v}$ gives $T_2(T_1\\mathbf{v}) = (M_{2}M_{1})\\mathbf{v}$ — the matrix applied FIRST sits on the RIGHT. With $M_1 = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$ and $M_2 = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$, the product $M_2 M_1 = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$. Multiplying in the wrong order gives $\\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$, a different transformation — matrix multiplication is not commutative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-matrix-compose",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s1-matrix-compose-1",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1400,
+  "stem": "A figure in the plane undergoes reflection across the line $y = x$, followed by rotation by $90^\\circ$ counterclockwise. Which single matrix represents the composite transformation (acting on column vectors)?",
+  "choices": [
+   "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} -1 & 0 \\\\ 0 & 1 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$"
+  ],
+  "key": 1,
+  "workedSolution": "Applying $T_1$ then $T_2$ to a column vector $\\mathbf{v}$ gives $T_2(T_1\\mathbf{v}) = (M_{2}M_{1})\\mathbf{v}$ — the matrix applied FIRST sits on the RIGHT. With $M_1 = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$ and $M_2 = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$, the product $M_2 M_1 = \\begin{pmatrix} -1 & 0 \\\\ 0 & 1 \\end{pmatrix}$. Multiplying in the wrong order gives $\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$, a different transformation — matrix multiplication is not commutative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-matrix-compose",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s1-matrix-compose-2",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1400,
+  "stem": "A figure in the plane undergoes rotation by $90^\\circ$ counterclockwise, followed by reflection across the $x$-axis. Which single matrix represents the composite transformation (acting on column vectors)?",
+  "choices": [
+   "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$"
+  ],
+  "key": 2,
+  "workedSolution": "Applying $T_1$ then $T_2$ to a column vector $\\mathbf{v}$ gives $T_2(T_1\\mathbf{v}) = (M_{2}M_{1})\\mathbf{v}$ — the matrix applied FIRST sits on the RIGHT. With $M_1 = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$ and $M_2 = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$, the product $M_2 M_1 = \\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$. Multiplying in the wrong order gives $\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$, a different transformation — matrix multiplication is not commutative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-matrix-compose",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s1-matrix-compose-3",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1400,
+  "stem": "A figure in the plane undergoes reflection across the line $y = x$, followed by reflection across the $x$-axis. Which single matrix represents the composite transformation (acting on column vectors)?",
+  "choices": [
+   "$\\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$"
+  ],
+  "key": 0,
+  "workedSolution": "Applying $T_1$ then $T_2$ to a column vector $\\mathbf{v}$ gives $T_2(T_1\\mathbf{v}) = (M_{2}M_{1})\\mathbf{v}$ — the matrix applied FIRST sits on the RIGHT. With $M_1 = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$ and $M_2 = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$, the product $M_2 M_1 = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$. Multiplying in the wrong order gives $\\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$, a different transformation — matrix multiplication is not commutative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-matrix-compose",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s1-matrix-compose-4",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1400,
+  "stem": "A figure in the plane undergoes reflection across the $x$-axis, followed by rotation by $90^\\circ$ clockwise. Which single matrix represents the composite transformation (acting on column vectors)?",
+  "choices": [
+   "$\\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$"
+  ],
+  "key": 3,
+  "workedSolution": "Applying $T_1$ then $T_2$ to a column vector $\\mathbf{v}$ gives $T_2(T_1\\mathbf{v}) = (M_{2}M_{1})\\mathbf{v}$ — the matrix applied FIRST sits on the RIGHT. With $M_1 = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$ and $M_2 = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$, the product $M_2 M_1 = \\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$. Multiplying in the wrong order gives $\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$, a different transformation — matrix multiplication is not commutative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-matrix-compose",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s1-matrix-compose-5",
+  "type": "mc",
+  "subtest": 1,
+  "domain": "2",
+  "subdomain": "2.4",
+  "difficulty": 1400,
+  "stem": "A figure in the plane undergoes reflection across the $x$-axis, followed by rotation by $90^\\circ$ clockwise. Which single matrix represents the composite transformation (acting on column vectors)?",
+  "choices": [
+   "$\\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$",
+   "$\\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$"
+  ],
+  "key": 0,
+  "workedSolution": "Applying $T_1$ then $T_2$ to a column vector $\\mathbf{v}$ gives $T_2(T_1\\mathbf{v}) = (M_{2}M_{1})\\mathbf{v}$ — the matrix applied FIRST sits on the RIGHT. With $M_1 = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$ and $M_2 = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$, the product $M_2 M_1 = \\begin{pmatrix} 0 & -1 \\\\ -1 & 0 \\end{pmatrix}$. Multiplying in the wrong order gives $\\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$, a different transformation — matrix multiplication is not commutative.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s1-matrix-compose",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-arc-sector-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "A circle has radius $6$. What is the area of the sector determined by a central angle of $90^\\circ$?",
+  "choices": [
+   "$9\\pi$",
+   "$36\\pi$",
+   "$18\\pi$",
+   "$3\\pi$"
+  ],
+  "key": 0,
+  "workedSolution": "A sector is the fraction $\\frac{90}{360}$ of the full circle's area: $\\frac{90}{360} \\cdot \\pi (6)^2 = \\frac{90}{360} \\cdot 36\\pi = 9\\pi$. Don't confuse this with the ARC LENGTH $\\frac{90}{360} \\cdot 2\\pi r = 3\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-arc-sector",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-arc-sector-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "A circle has radius $6$. What is the area of the sector determined by a central angle of $45^\\circ$?",
+  "choices": [
+   "$9\\pi$",
+   "$\\frac{3}{2}\\pi$",
+   "$36\\pi$",
+   "$\\frac{9}{2}\\pi$"
+  ],
+  "key": 3,
+  "workedSolution": "A sector is the fraction $\\frac{45}{360}$ of the full circle's area: $\\frac{45}{360} \\cdot \\pi (6)^2 = \\frac{45}{360} \\cdot 36\\pi = \\frac{9}{2}\\pi$. Don't confuse this with the ARC LENGTH $\\frac{45}{360} \\cdot 2\\pi r = \\frac{3}{2}\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-arc-sector",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-arc-sector-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "A circle has radius $6$. What is the area of the sector determined by a central angle of $45^\\circ$?",
+  "choices": [
+   "$36\\pi$",
+   "$\\frac{3}{2}\\pi$",
+   "$9\\pi$",
+   "$\\frac{9}{2}\\pi$"
+  ],
+  "key": 3,
+  "workedSolution": "A sector is the fraction $\\frac{45}{360}$ of the full circle's area: $\\frac{45}{360} \\cdot \\pi (6)^2 = \\frac{45}{360} \\cdot 36\\pi = \\frac{9}{2}\\pi$. Don't confuse this with the ARC LENGTH $\\frac{45}{360} \\cdot 2\\pi r = \\frac{3}{2}\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-arc-sector",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-arc-sector-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "A circle has radius $12$. What is the area of the sector determined by a central angle of $90^\\circ$?",
+  "choices": [
+   "$144\\pi$",
+   "$36\\pi$",
+   "$6\\pi$",
+   "$72\\pi$"
+  ],
+  "key": 1,
+  "workedSolution": "A sector is the fraction $\\frac{90}{360}$ of the full circle's area: $\\frac{90}{360} \\cdot \\pi (12)^2 = \\frac{90}{360} \\cdot 144\\pi = 36\\pi$. Don't confuse this with the ARC LENGTH $\\frac{90}{360} \\cdot 2\\pi r = 6\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-arc-sector",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-arc-sector-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "A circle has radius $6$. What is the area of the sector determined by a central angle of $60^\\circ$?",
+  "choices": [
+   "$12\\pi$",
+   "$2\\pi$",
+   "$6\\pi$",
+   "$36\\pi$"
+  ],
+  "key": 2,
+  "workedSolution": "A sector is the fraction $\\frac{60}{360}$ of the full circle's area: $\\frac{60}{360} \\cdot \\pi (6)^2 = \\frac{60}{360} \\cdot 36\\pi = 6\\pi$. Don't confuse this with the ARC LENGTH $\\frac{60}{360} \\cdot 2\\pi r = 2\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-arc-sector",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-arc-sector-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "A circle has radius $4$. What is the area of the sector determined by a central angle of $30^\\circ$?",
+  "choices": [
+   "$\\frac{2}{3}\\pi$",
+   "$\\frac{8}{3}\\pi$",
+   "$\\frac{4}{3}\\pi$",
+   "$16\\pi$"
+  ],
+  "key": 2,
+  "workedSolution": "A sector is the fraction $\\frac{30}{360}$ of the full circle's area: $\\frac{30}{360} \\cdot \\pi (4)^2 = \\frac{30}{360} \\cdot 16\\pi = \\frac{4}{3}\\pi$. Don't confuse this with the ARC LENGTH $\\frac{30}{360} \\cdot 2\\pi r = \\frac{2}{3}\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-arc-sector",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-similar-proportion-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "In triangle $ABC$, points $D$ and $E$ lie on sides $AB$ and $AC$ respectively, with $\\overline{DE} \\parallel \\overline{BC}$. If $AD = 4$, $DB = 6$, and $AE = 12$, what is $EC$?",
+  "choices": [
+   "$6$",
+   "$8$",
+   "$12$",
+   "$18$"
+  ],
+  "key": 3,
+  "workedSolution": "Because $DE \\parallel BC$, the Triangle Proportionality (Basic Proportionality) Theorem gives $\\frac{AD}{DB} = \\frac{AE}{EC}$. So $EC = AE \\cdot \\frac{DB}{AD} = 12 \\cdot \\frac{6}{4} = 18$. Check the ratio: $\\frac{4}{6} = \\frac{12}{18}$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-similar-proportion",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-similar-proportion-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "In triangle $ABC$, points $D$ and $E$ lie on sides $AB$ and $AC$ respectively, with $\\overline{DE} \\parallel \\overline{BC}$. If $AD = 2$, $DB = 5$, and $AE = 6$, what is $EC$?",
+  "choices": [
+   "$11$",
+   "$15$",
+   "$\\frac{12}{5}$",
+   "$5$"
+  ],
+  "key": 1,
+  "workedSolution": "Because $DE \\parallel BC$, the Triangle Proportionality (Basic Proportionality) Theorem gives $\\frac{AD}{DB} = \\frac{AE}{EC}$. So $EC = AE \\cdot \\frac{DB}{AD} = 6 \\cdot \\frac{5}{2} = 15$. Check the ratio: $\\frac{2}{5} = \\frac{6}{15}$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-similar-proportion",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-similar-proportion-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "In triangle $ABC$, points $D$ and $E$ lie on sides $AB$ and $AC$ respectively, with $\\overline{DE} \\parallel \\overline{BC}$. If $AD = 2$, $DB = 5$, and $AE = 8$, what is $EC$?",
+  "choices": [
+   "$20$",
+   "$\\frac{16}{5}$",
+   "$5$",
+   "$13$"
+  ],
+  "key": 0,
+  "workedSolution": "Because $DE \\parallel BC$, the Triangle Proportionality (Basic Proportionality) Theorem gives $\\frac{AD}{DB} = \\frac{AE}{EC}$. So $EC = AE \\cdot \\frac{DB}{AD} = 8 \\cdot \\frac{5}{2} = 20$. Check the ratio: $\\frac{2}{5} = \\frac{8}{20}$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-similar-proportion",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-similar-proportion-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "In triangle $ABC$, points $D$ and $E$ lie on sides $AB$ and $AC$ respectively, with $\\overline{DE} \\parallel \\overline{BC}$. If $AD = 4$, $DB = 5$, and $AE = 8$, what is $EC$?",
+  "choices": [
+   "$13$",
+   "$5$",
+   "$\\frac{32}{5}$",
+   "$10$"
+  ],
+  "key": 3,
+  "workedSolution": "Because $DE \\parallel BC$, the Triangle Proportionality (Basic Proportionality) Theorem gives $\\frac{AD}{DB} = \\frac{AE}{EC}$. So $EC = AE \\cdot \\frac{DB}{AD} = 8 \\cdot \\frac{5}{4} = 10$. Check the ratio: $\\frac{4}{5} = \\frac{8}{10}$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-similar-proportion",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-similar-proportion-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "In triangle $ABC$, points $D$ and $E$ lie on sides $AB$ and $AC$ respectively, with $\\overline{DE} \\parallel \\overline{BC}$. If $AD = 5$, $DB = 3$, and $AE = 15$, what is $EC$?",
+  "choices": [
+   "$25$",
+   "$3$",
+   "$9$",
+   "$18$"
+  ],
+  "key": 2,
+  "workedSolution": "Because $DE \\parallel BC$, the Triangle Proportionality (Basic Proportionality) Theorem gives $\\frac{AD}{DB} = \\frac{AE}{EC}$. So $EC = AE \\cdot \\frac{DB}{AD} = 15 \\cdot \\frac{3}{5} = 9$. Check the ratio: $\\frac{5}{3} = \\frac{15}{9}$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-similar-proportion",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-similar-proportion-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.1",
+  "difficulty": 1300,
+  "stem": "In triangle $ABC$, points $D$ and $E$ lie on sides $AB$ and $AC$ respectively, with $\\overline{DE} \\parallel \\overline{BC}$. If $AD = 5$, $DB = 6$, and $AE = 20$, what is $EC$?",
+  "choices": [
+   "$24$",
+   "$26$",
+   "$\\frac{50}{3}$",
+   "$6$"
+  ],
+  "key": 0,
+  "workedSolution": "Because $DE \\parallel BC$, the Triangle Proportionality (Basic Proportionality) Theorem gives $\\frac{AD}{DB} = \\frac{AE}{EC}$. So $EC = AE \\cdot \\frac{DB}{AD} = 20 \\cdot \\frac{6}{5} = 24$. Check the ratio: $\\frac{5}{6} = \\frac{20}{24}$. ✓",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-similar-proportion",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-cond-prob-table-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1400,
+  "stem": "A survey of $85$ adults produced the following results.\n\n$$\\begin{array}{c|cc} & \\text{Supports} & \\text{Opposes} \\\\ \\hline \\text{Men} & 15 & 20 \\\\ \\text{Women} & 30 & 20 \\end{array}$$\n\nIf one surveyed person is selected at random and is known to be a woman, what is the probability that she supports the measure?",
+  "choices": [
+   "$\\frac{6}{17}$",
+   "$\\frac{10}{17}$",
+   "$\\frac{3}{5}$",
+   "$\\frac{2}{3}$"
+  ],
+  "key": 2,
+  "workedSolution": "This is conditional probability: restrict the sample space to the $50$ women. $P(\\text{supports} \\mid \\text{woman}) = \\frac{30}{30 + 20} = \\frac{3}{5}$. Using the whole table's total $85$ instead gives the JOINT probability $P(\\text{woman and supports}) = \\frac{6}{17}$ — a different question.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-cond-prob-table",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-cond-prob-table-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1400,
+  "stem": "A survey of $125$ adults produced the following results.\n\n$$\\begin{array}{c|cc} & \\text{Supports} & \\text{Opposes} \\\\ \\hline \\text{Men} & 25 & 40 \\\\ \\text{Women} & 25 & 35 \\end{array}$$\n\nIf one surveyed person is selected at random and is known to be a woman, what is the probability that she supports the measure?",
+  "choices": [
+   "$\\frac{1}{5}$",
+   "$\\frac{1}{2}$",
+   "$\\frac{5}{12}$",
+   "$\\frac{12}{25}$"
+  ],
+  "key": 2,
+  "workedSolution": "This is conditional probability: restrict the sample space to the $60$ women. $P(\\text{supports} \\mid \\text{woman}) = \\frac{25}{25 + 35} = \\frac{5}{12}$. Using the whole table's total $125$ instead gives the JOINT probability $P(\\text{woman and supports}) = \\frac{1}{5}$ — a different question.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-cond-prob-table",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-cond-prob-table-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1400,
+  "stem": "A survey of $125$ adults produced the following results.\n\n$$\\begin{array}{c|cc} & \\text{Supports} & \\text{Opposes} \\\\ \\hline \\text{Men} & 40 & 40 \\\\ \\text{Women} & 30 & 15 \\end{array}$$\n\nIf one surveyed person is selected at random and is known to be a woman, what is the probability that she supports the measure?",
+  "choices": [
+   "$\\frac{3}{7}$",
+   "$\\frac{6}{25}$",
+   "$\\frac{2}{3}$",
+   "$\\frac{9}{25}$"
+  ],
+  "key": 2,
+  "workedSolution": "This is conditional probability: restrict the sample space to the $45$ women. $P(\\text{supports} \\mid \\text{woman}) = \\frac{30}{30 + 15} = \\frac{2}{3}$. Using the whole table's total $125$ instead gives the JOINT probability $P(\\text{woman and supports}) = \\frac{6}{25}$ — a different question.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-cond-prob-table",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-cond-prob-table-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1400,
+  "stem": "A survey of $110$ adults produced the following results.\n\n$$\\begin{array}{c|cc} & \\text{Supports} & \\text{Opposes} \\\\ \\hline \\text{Men} & 40 & 30 \\\\ \\text{Women} & 20 & 20 \\end{array}$$\n\nIf one surveyed person is selected at random and is known to be a woman, what is the probability that she supports the measure?",
+  "choices": [
+   "$\\frac{1}{2}$",
+   "$\\frac{2}{11}$",
+   "$\\frac{1}{3}$",
+   "$\\frac{4}{11}$"
+  ],
+  "key": 0,
+  "workedSolution": "This is conditional probability: restrict the sample space to the $40$ women. $P(\\text{supports} \\mid \\text{woman}) = \\frac{20}{20 + 20} = \\frac{1}{2}$. Using the whole table's total $110$ instead gives the JOINT probability $P(\\text{woman and supports}) = \\frac{2}{11}$ — a different question.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-cond-prob-table",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-cond-prob-table-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1400,
+  "stem": "A survey of $85$ adults produced the following results.\n\n$$\\begin{array}{c|cc} & \\text{Supports} & \\text{Opposes} \\\\ \\hline \\text{Men} & 25 & 15 \\\\ \\text{Women} & 30 & 15 \\end{array}$$\n\nIf one surveyed person is selected at random and is known to be a woman, what is the probability that she supports the measure?",
+  "choices": [
+   "$\\frac{6}{17}$",
+   "$\\frac{2}{3}$",
+   "$\\frac{9}{17}$",
+   "$\\frac{6}{11}$"
+  ],
+  "key": 1,
+  "workedSolution": "This is conditional probability: restrict the sample space to the $45$ women. $P(\\text{supports} \\mid \\text{woman}) = \\frac{30}{30 + 15} = \\frac{2}{3}$. Using the whole table's total $85$ instead gives the JOINT probability $P(\\text{woman and supports}) = \\frac{6}{17}$ — a different question.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-cond-prob-table",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-cond-prob-table-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.1",
+  "difficulty": 1400,
+  "stem": "A survey of $65$ adults produced the following results.\n\n$$\\begin{array}{c|cc} & \\text{Supports} & \\text{Opposes} \\\\ \\hline \\text{Men} & 15 & 30 \\\\ \\text{Women} & 10 & 10 \\end{array}$$\n\nIf one surveyed person is selected at random and is known to be a woman, what is the probability that she supports the measure?",
+  "choices": [
+   "$\\frac{1}{2}$",
+   "$\\frac{4}{13}$",
+   "$\\frac{2}{13}$",
+   "$\\frac{2}{5}$"
+  ],
+  "key": 0,
+  "workedSolution": "This is conditional probability: restrict the sample space to the $20$ women. $P(\\text{supports} \\mid \\text{woman}) = \\frac{10}{10 + 10} = \\frac{1}{2}$. Using the whole table's total $65$ instead gives the JOINT probability $P(\\text{woman and supports}) = \\frac{2}{13}$ — a different question.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-cond-prob-table",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-normal-slices-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1350,
+  "stem": "A quantity is approximately normally distributed with mean $80$ and standard deviation $15$. Using the empirical rule (68–95–99.7), approximately what percent of values are less than $50$?",
+  "choices": [
+   "About $81.5\\%$",
+   "About $2.5\\%$",
+   "About $16\\%$",
+   "About $5\\%$"
+  ],
+  "key": 1,
+  "workedSolution": "Convert the bounds to standard deviations from the mean, then slice the empirical-rule percentages symmetrically: $68\\%$ lies within $1\\sigma$ (so $34\\%$ per side), $95\\%$ within $2\\sigma$ (so $47.5\\%$ per side), and each tail beyond $2\\sigma$ holds $\\frac{100 - 95}{2} = 2.5\\%$. Assembling the requested region gives about $2.5\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-normal-slices",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-normal-slices-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1350,
+  "stem": "A quantity is approximately normally distributed with mean $80$ and standard deviation $15$. Using the empirical rule (68–95–99.7), approximately what percent of values are between $65$ and $110$?",
+  "choices": [
+   "About $34\\%$",
+   "About $2.5\\%$",
+   "About $81.5\\%$",
+   "About $68\\%$"
+  ],
+  "key": 2,
+  "workedSolution": "Convert the bounds to standard deviations from the mean, then slice the empirical-rule percentages symmetrically: $68\\%$ lies within $1\\sigma$ (so $34\\%$ per side), $95\\%$ within $2\\sigma$ (so $47.5\\%$ per side), and each tail beyond $2\\sigma$ holds $\\frac{100 - 95}{2} = 2.5\\%$. Assembling the requested region gives about $81.5\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-normal-slices",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-normal-slices-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1350,
+  "stem": "A quantity is approximately normally distributed with mean $50$ and standard deviation $15$. Using the empirical rule (68–95–99.7), approximately what percent of values are greater than $65$?",
+  "choices": [
+   "About $16\\%$",
+   "About $95\\%$",
+   "About $13.5\\%$",
+   "About $34\\%$"
+  ],
+  "key": 0,
+  "workedSolution": "Convert the bounds to standard deviations from the mean, then slice the empirical-rule percentages symmetrically: $68\\%$ lies within $1\\sigma$ (so $34\\%$ per side), $95\\%$ within $2\\sigma$ (so $47.5\\%$ per side), and each tail beyond $2\\sigma$ holds $\\frac{100 - 95}{2} = 2.5\\%$. Assembling the requested region gives about $16\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-normal-slices",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-normal-slices-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1350,
+  "stem": "A quantity is approximately normally distributed with mean $90$ and standard deviation $15$. Using the empirical rule (68–95–99.7), approximately what percent of values are less than $60$?",
+  "choices": [
+   "About $13.5\\%$",
+   "About $84\\%$",
+   "About $2.5\\%$",
+   "About $34\\%$"
+  ],
+  "key": 2,
+  "workedSolution": "Convert the bounds to standard deviations from the mean, then slice the empirical-rule percentages symmetrically: $68\\%$ lies within $1\\sigma$ (so $34\\%$ per side), $95\\%$ within $2\\sigma$ (so $47.5\\%$ per side), and each tail beyond $2\\sigma$ holds $\\frac{100 - 95}{2} = 2.5\\%$. Assembling the requested region gives about $2.5\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-normal-slices",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-normal-slices-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1350,
+  "stem": "A quantity is approximately normally distributed with mean $90$ and standard deviation $10$. Using the empirical rule (68–95–99.7), approximately what percent of values are between $80$ and $110$?",
+  "choices": [
+   "About $81.5\\%$",
+   "About $16\\%$",
+   "About $95\\%$",
+   "About $13.5\\%$"
+  ],
+  "key": 0,
+  "workedSolution": "Convert the bounds to standard deviations from the mean, then slice the empirical-rule percentages symmetrically: $68\\%$ lies within $1\\sigma$ (so $34\\%$ per side), $95\\%$ within $2\\sigma$ (so $47.5\\%$ per side), and each tail beyond $2\\sigma$ holds $\\frac{100 - 95}{2} = 2.5\\%$. Assembling the requested region gives about $81.5\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-normal-slices",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-normal-slices-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "4",
+  "subdomain": "4.2",
+  "difficulty": 1350,
+  "stem": "A quantity is approximately normally distributed with mean $90$ and standard deviation $15$. Using the empirical rule (68–95–99.7), approximately what percent of values are between $90$ and $120$?",
+  "choices": [
+   "About $47.5\\%$",
+   "About $68\\%$",
+   "About $5\\%$",
+   "About $95\\%$"
+  ],
+  "key": 0,
+  "workedSolution": "Convert the bounds to standard deviations from the mean, then slice the empirical-rule percentages symmetrically: $68\\%$ lies within $1\\sigma$ (so $34\\%$ per side), $95\\%$ within $2\\sigma$ (so $47.5\\%$ per side), and each tail beyond $2\\sigma$ holds $\\frac{100 - 95}{2} = 2.5\\%$. Assembling the requested region gives about $47.5\\%$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-normal-slices",
+   "seed": 5
+  }
+ },
+ {
+  "id": "s2-composite-solid-0",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1350,
+  "stem": "A grain silo is shaped like a right circular cylinder of radius $6$ and height $6$, topped by a hemisphere of the same radius. What is the total volume of the silo?",
+  "choices": [
+   "$216\\pi$",
+   "$288\\pi$",
+   "$504\\pi$",
+   "$360\\pi$"
+  ],
+  "key": 3,
+  "workedSolution": "Volume $=$ cylinder $+$ hemisphere $= \\pi r^2 h + \\frac{1}{2} \\cdot \\frac{4}{3}\\pi r^3 = \\pi (6)^2 (6) + \\frac{2}{3}\\pi (6)^3 = 216\\pi + 144\\pi = 360\\pi$. Adding a FULL sphere by mistake gives $504\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-composite-solid",
+   "seed": 0
+  }
+ },
+ {
+  "id": "s2-composite-solid-1",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1350,
+  "stem": "A grain silo is shaped like a right circular cylinder of radius $6$ and height $8$, topped by a hemisphere of the same radius. What is the total volume of the silo?",
+  "choices": [
+   "$432\\pi$",
+   "$576\\pi$",
+   "$360\\pi$",
+   "$288\\pi$"
+  ],
+  "key": 0,
+  "workedSolution": "Volume $=$ cylinder $+$ hemisphere $= \\pi r^2 h + \\frac{1}{2} \\cdot \\frac{4}{3}\\pi r^3 = \\pi (6)^2 (8) + \\frac{2}{3}\\pi (6)^3 = 288\\pi + 144\\pi = 432\\pi$. Adding a FULL sphere by mistake gives $576\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-composite-solid",
+   "seed": 1
+  }
+ },
+ {
+  "id": "s2-composite-solid-2",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1350,
+  "stem": "A grain silo is shaped like a right circular cylinder of radius $6$ and height $7$, topped by a hemisphere of the same radius. What is the total volume of the silo?",
+  "choices": [
+   "$324\\pi$",
+   "$540\\pi$",
+   "$252\\pi$",
+   "$396\\pi$"
+  ],
+  "key": 3,
+  "workedSolution": "Volume $=$ cylinder $+$ hemisphere $= \\pi r^2 h + \\frac{1}{2} \\cdot \\frac{4}{3}\\pi r^3 = \\pi (6)^2 (7) + \\frac{2}{3}\\pi (6)^3 = 252\\pi + 144\\pi = 396\\pi$. Adding a FULL sphere by mistake gives $540\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-composite-solid",
+   "seed": 2
+  }
+ },
+ {
+  "id": "s2-composite-solid-3",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1350,
+  "stem": "A grain silo is shaped like a right circular cylinder of radius $6$ and height $4$, topped by a hemisphere of the same radius. What is the total volume of the silo?",
+  "choices": [
+   "$144\\pi$",
+   "$288\\pi$",
+   "$432\\pi$",
+   "$216\\pi$"
+  ],
+  "key": 1,
+  "workedSolution": "Volume $=$ cylinder $+$ hemisphere $= \\pi r^2 h + \\frac{1}{2} \\cdot \\frac{4}{3}\\pi r^3 = \\pi (6)^2 (4) + \\frac{2}{3}\\pi (6)^3 = 144\\pi + 144\\pi = 288\\pi$. Adding a FULL sphere by mistake gives $432\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-composite-solid",
+   "seed": 3
+  }
+ },
+ {
+  "id": "s2-composite-solid-4",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1350,
+  "stem": "A grain silo is shaped like a right circular cylinder of radius $3$ and height $8$, topped by a hemisphere of the same radius. What is the total volume of the silo?",
+  "choices": [
+   "$108\\pi$",
+   "$72\\pi$",
+   "$90\\pi$",
+   "$81\\pi$"
+  ],
+  "key": 2,
+  "workedSolution": "Volume $=$ cylinder $+$ hemisphere $= \\pi r^2 h + \\frac{1}{2} \\cdot \\frac{4}{3}\\pi r^3 = \\pi (3)^2 (8) + \\frac{2}{3}\\pi (3)^3 = 72\\pi + 18\\pi = 90\\pi$. Adding a FULL sphere by mistake gives $108\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-composite-solid",
+   "seed": 4
+  }
+ },
+ {
+  "id": "s2-composite-solid-5",
+  "type": "mc",
+  "subtest": 2,
+  "domain": "3",
+  "subdomain": "3.3",
+  "difficulty": 1350,
+  "stem": "A grain silo is shaped like a right circular cylinder of radius $6$ and height $7$, topped by a hemisphere of the same radius. What is the total volume of the silo?",
+  "choices": [
+   "$396\\pi$",
+   "$324\\pi$",
+   "$540\\pi$",
+   "$252\\pi$"
+  ],
+  "key": 0,
+  "workedSolution": "Volume $=$ cylinder $+$ hemisphere $= \\pi r^2 h + \\frac{1}{2} \\cdot \\frac{4}{3}\\pi r^3 = \\pi (6)^2 (7) + \\frac{2}{3}\\pi (6)^3 = 252\\pi + 144\\pi = 396\\pi$. Adding a FULL sphere by mistake gives $540\\pi$.",
+  "tags": [],
+  "source": {
+   "kind": "generated",
+   "generatorId": "s2-composite-solid",
    "seed": 5
   }
  }
