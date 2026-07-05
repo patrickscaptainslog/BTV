@@ -9,7 +9,7 @@ const src = join(root, 'node_modules', 'three-globe', 'example', 'img');
 const dest = join(root, 'public', 'textures');
 
 mkdirSync(dest, { recursive: true });
-for (const file of ['earth-night.jpg', 'earth-topology.png']) {
+for (const file of ['earth-topology.png']) {
   copyFileSync(join(src, file), join(dest, file));
 }
 console.log(`copied globe textures to ${dest}`);

@@ -68,6 +68,12 @@ salience ≥ 0.75 arriving over SSE preempts the tour with a fast "BREAKING" cut
 Tune the feel via the constants at the top of `lib/director.ts` (domain weights, revisit window,
 breather cadence) — no other code needs to change.
 
+## Texture credit
+
+The 8K night-lights globe texture (`public/textures/earth-night-8k.jpg`) is from
+[Solar System Scope](https://www.solarsystemscope.com/textures/), licensed CC-BY 4.0, based on
+NASA imagery. The elevation bump map is copied from the `three-globe` package at build time.
+
 ## Development
 
 ```bash

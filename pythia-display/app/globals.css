@@ -83,6 +83,17 @@ body {
   gap: 7px;
   font-weight: 600;
   letter-spacing: 0.12em;
+  background: none;
+  border: none;
+  font-size: inherit;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+
+.status:active {
+  background: rgba(140, 170, 255, 0.15);
 }
 
 .status-dot {
@@ -131,6 +142,28 @@ body {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   animation: card-in 0.6s ease both;
+}
+
+.hint-card {
+  border-color: rgba(255, 159, 67, 0.45);
+}
+
+.hint-summary {
+  -webkit-line-clamp: 6;
+}
+
+.setup-warning {
+  font-size: 13px !important;
+  line-height: 1.5;
+  color: #ffd166 !important;
+  background: rgba(255, 159, 67, 0.08);
+  border: 1px solid rgba(255, 159, 67, 0.3);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.setup-warning code {
+  color: #ffe6a8;
 }
 
 .event-card-breaking {
