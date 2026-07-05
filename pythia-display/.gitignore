@@ -4,4 +4,5 @@ out/
 *.tsbuildinfo
 next-env.d.ts
 .vercel
-public/textures/
+public/textures/*
+!public/textures/earth-night-8k.jpg

@@ -57,8 +57,11 @@ export default function Display() {
 
   const [status, setStatus] = useState<ConnectionStatus>('connecting');
   const [engineUrl, setEngineUrl] = useState<string | null>(null);
-  const [configured, setConfigured] = useState(false);
+  const [configLoaded, setConfigLoaded] = useState(false);
+  const [showSetup, setShowSetup] = useState(false);
   const [setupInput, setSetupInput] = useState('http://192.168.1.100:8088');
+  const [everLive, setEverLive] = useState(false);
+  const [lastError, setLastError] = useState<string | null>(null);
   const [activeEvent, setActiveEvent] = useState<WorldEvent | null>(null);
   const [breaking, setBreaking] = useState(false);
   const [summary, setSummary] = useState<string>('');
@@ -93,8 +96,24 @@ export default function Display() {
       const GlobeFactory = (await import('globe.gl')).default;
       if (disposed || !containerRef.current) return;
       const globe = new GlobeFactory(containerRef.current)
-        .globeImageUrl('/textures/earth-night.jpg')
+        .globeImageUrl('/textures/earth-night-8k.jpg')
         .bumpImageUrl('/textures/earth-topology.png')
+        .onGlobeReady(() => {
+          // three.js defaults to anisotropy 1, which blurs the texture badly
+          // at glancing angles; crank it to the GPU max for a sharp globe
+          try {
+            const mat: any = globe.globeMaterial();
+            const maxAniso = globe.renderer().capabilities.getMaxAnisotropy();
+            for (const tex of [mat?.map, mat?.bumpMap]) {
+              if (tex) {
+                tex.anisotropy = maxAniso;
+                tex.needsUpdate = true;
+              }
+            }
+          } catch {
+            // cosmetic only — never block the display on it
+          }
+        })
         .backgroundColor('#04060f')
         .atmosphereColor('#3a70ff')
         .atmosphereAltitude(0.22)
@@ -189,28 +208,35 @@ export default function Display() {
     if (fromQuery) {
       localStorage.setItem('pythia-engine-url', fromQuery);
       setEngineUrl(fromQuery);
-      setConfigured(true);
     } else if (demo) {
       setEngineUrl(null);
-      setConfigured(true);
-      setStatus('demo');
     } else if (stored) {
       setEngineUrl(stored);
-      setConfigured(true);
+      setSetupInput(stored);
     } else {
-      setStatus('demo');
+      setShowSetup(true);
     }
+    setConfigLoaded(true);
   }, []);
 
   useEffect(() => {
-    if (!configured && status !== 'demo') return;
+    if (!configLoaded) return;
+
+    // fresh world when switching between demo and engine (or engines)
+    eventsRef.current = new Map();
+    knownIdsRef.current = new Set();
+    historyRef.current = [];
+    setActiveEvent(null);
+    setEverLive(false);
+    setLastError(null);
+    refreshLayers();
 
     let cleanupStream: (() => void) | null = null;
     let pollTimer: ReturnType<typeof setInterval> | null = null;
     let demoTimer: ReturnType<typeof setTimeout> | null = null;
     let cancelled = false;
 
-    const startDemo = () => {
+    if (!engineUrl) {
       const world = demoWorld();
       setSummary(world.summary ?? '');
       setPredictions(world.predictions);
@@ -222,21 +248,22 @@ export default function Display() {
         demoTimer = setTimeout(tick, 20000 + Math.random() * 25000);
       };
       demoTimer = setTimeout(tick, 15000);
-    };
-
-    if (!engineUrl) {
-      startDemo();
     } else {
       const poll = async () => {
         try {
           const world = await fetchWorld(engineUrl);
           if (cancelled) return;
           setStatus('live');
+          setEverLive(true);
+          setLastError(null);
           setSummary(world.summary ?? '');
           if (world.predictions.length) setPredictions(world.predictions);
           mergeEvents(world.events, false);
-        } catch {
-          if (!cancelled) setStatus('error');
+        } catch (err) {
+          if (!cancelled) {
+            setStatus('error');
+            setLastError(err instanceof Error ? err.message : String(err));
+          }
         }
       };
       setStatus('connecting');
@@ -249,21 +276,25 @@ export default function Display() {
       );
     }
 
-    if (!startedRef.current) {
-      startedRef.current = true;
-      shotTimerRef.current = setTimeout(() => runShot(), 3500);
-    }
-
     return () => {
       cancelled = true;
       cleanupStream?.();
       if (pollTimer) clearInterval(pollTimer);
       if (demoTimer) clearTimeout(demoTimer);
+    };
+  }, [configLoaded, engineUrl, mergeEvents, refreshLayers]);
+
+  // director loop lives independently of the data source
+  useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
+    shotTimerRef.current = setTimeout(() => runShot(), 3500);
+    return () => {
+      startedRef.current = false;
       if (shotTimerRef.current) clearTimeout(shotTimerRef.current);
       if (revealTimerRef.current) clearTimeout(revealTimerRef.current);
-      startedRef.current = false;
     };
-  }, [configured, engineUrl, mergeEvents, runShot, status]);
+  }, [runShot]);
 
   // -------------------------------------------------- tablet / kiosk chrome
   useEffect(() => {
@@ -305,19 +336,26 @@ export default function Display() {
 
   const connect = (url: string | null) => {
     if (url) {
-      localStorage.setItem('pythia-engine-url', url);
-      setEngineUrl(url);
+      let clean = url.trim().replace(/\/+$/, '');
+      if (!/^https?:\/\//i.test(clean)) clean = `http://${clean}`;
+      localStorage.setItem('pythia-engine-url', clean);
+      setEngineUrl(clean);
+      setSetupInput(clean);
     } else {
       localStorage.removeItem('pythia-engine-url');
       setEngineUrl(null);
-      setStatus('demo');
     }
-    setConfigured(true);
+    setShowSetup(false);
   };
+
+  // https pages cannot call plain-http LAN engines (mixed content)
+  const isMixedContent = (url: string | null | undefined) =>
+    Boolean(url && window.location.protocol === 'https:' && /^http:\/\//i.test(url.trim()) && !/^http:\/\/localhost/i.test(url.trim()));
 
   const prediction = predictions.length ? predictions[predictionIdx % predictions.length] : null;
   const statusLabel =
-    status === 'live' ? 'LIVE' : status === 'demo' ? 'DEMO' : status === 'error' ? 'RECONNECTING' : 'CONNECTING';
+    status === 'live' ? 'LIVE' : status === 'demo' ? 'DEMO' : status === 'error' ? (everLive ? 'RECONNECTING' : 'UNREACHABLE') : 'CONNECTING';
+  const showEngineHint = Boolean(engineUrl) && !everLive && (status === 'error' || status === 'connecting');
 
   return (
     <div className="stage">
@@ -330,10 +368,17 @@ export default function Display() {
             <span className="brand-sub">live world state</span>
           </div>
           <div className="topbar-right">
-            <span className={`status status-${status}`}>
+            <button
+              className={`status status-${status}`}
+              onClick={() => {
+                setSetupInput(engineUrl ?? setupInput);
+                setShowSetup(true);
+              }}
+              title="Change engine"
+            >
               <span className="status-dot" />
               {statusLabel}
-            </span>
+            </button>
             <span className="meta">{eventCount} events</span>
             <span className="clock">{clock}</span>
             <button
@@ -349,7 +394,22 @@ export default function Display() {
           </div>
         </header>
 
-        {activeEvent ? (
+        {showEngineHint ? (
+          <div className="event-card hint-card">
+            <div className="event-domain" style={{ color: '#ff9f43' }}>
+              ● ENGINE {status === 'connecting' ? 'CONNECTING' : 'UNREACHABLE'}
+            </div>
+            <div className="event-title">{engineUrl}</div>
+            <div className="event-summary hint-summary">
+              {isMixedContent(engineUrl)
+                ? 'This page is served over https, so the browser blocks plain-http engine URLs (mixed content). Fix: give the engine an https address — e.g. run `tailscale serve --bg 8088` on the engine machine and use the https://….ts.net URL here — or allow "insecure content" for this site in the browser settings.'
+                : `Can't reach the engine. Check: is Pythia running? Same network as this device? Try opening ${engineUrl}/health directly in this browser — it should return JSON. Also check the engine machine's firewall allows port 8088.`}
+            </div>
+            <div className="event-meta">
+              {lastError ? `${lastError} · ` : ''}tap the status pill (top right) to change the engine or switch to demo mode
+            </div>
+          </div>
+        ) : activeEvent ? (
           <div className={`event-card ${breaking ? 'event-card-breaking' : ''}`} key={activeEvent.id}>
             {breaking ? <div className="breaking-tag">BREAKING</div> : null}
             <div className="event-domain" style={{ color: domainColor(activeEvent.category) }}>
@@ -380,7 +440,7 @@ export default function Display() {
         ) : null}
       </div>
 
-      {!configured ? (
+      {showSetup ? (
         <div className="setup">
           <div className="setup-panel">
             <h1>PYTHIA display</h1>
@@ -394,16 +454,24 @@ export default function Display() {
               placeholder="http://192.168.1.100:8088"
               inputMode="url"
             />
+            {isMixedContent(setupInput) ? (
+              <p className="setup-warning">
+                ⚠ This page is https, so the browser will block this http:// address. Use an https tunnel
+                URL instead — on the engine machine run <code>tailscale serve --bg 8088</code> and enter the
+                https://….ts.net address it prints — or allow &quot;insecure content&quot; for this site in
+                the browser settings.
+              </p>
+            ) : null}
             <div className="setup-actions">
-              <button className="primary" onClick={() => connect(setupInput.trim())}>
+              <button className="primary" onClick={() => connect(setupInput)}>
                 Connect
               </button>
               <button onClick={() => connect(null)}>Run demo mode</button>
+              <button onClick={() => setShowSetup(false)}>Close</button>
             </div>
             <p className="setup-hint">
-              Tip: you can also open <code>?engine=http://host:8088</code> or <code>?demo=1</code>. If this
-              page is served over https, browsers block plain-http LAN calls — use a Tailscale/Cloudflare
-              tunnel URL, or allow &quot;insecure content&quot; for this site in the tablet browser.
+              Tip: you can also open <code>?engine=http://host:8088</code> or <code>?demo=1</code>. Tap the
+              status pill in the top-right corner any time to reopen this panel.
             </p>
           </div>
         </div>
