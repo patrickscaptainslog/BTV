@@ -105,8 +105,7 @@ def main():
     args = ap.parse_args()
 
     data = json.loads(args.cutlist.read_text())
-    src = Path(data["source"])
-    clips = data["clips"]
+    clips = data["clips"]  # each clip may carry its own "source"; falls back to top-level
     args.workdir.mkdir(parents=True, exist_ok=True)
     args.out.parent.mkdir(parents=True, exist_ok=True)
 
@@ -118,8 +117,9 @@ def main():
     parts.append(intro)
 
     for i, c in enumerate(clips, 1):
+        src = Path(c.get("source") or data["source"])
         p = args.workdir / f"{i:02d}_clip.mp4"
-        print(f"clip {i}/{len(clips)}  {c['start']:.1f}-{c['end']:.1f}s", flush=True)
+        print(f"clip {i}/{len(clips)}  {src.name} {c['start']:.1f}-{c['end']:.1f}s", flush=True)
         cut_clip(src, c["start"], c["end"], p)
         parts.append(p)
         if id(c) in replay_ids:
