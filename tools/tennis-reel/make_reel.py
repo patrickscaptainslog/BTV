@@ -13,7 +13,7 @@ import json
 import subprocess
 from pathlib import Path
 
-W, H, FPS = 1920, 1080, 30
+W, H, FPS = 1080, 1920, 30
 XFADE = 0.4
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 VOUT = ["-c:v", "libx264", "-preset", "fast", "-crf", "19", "-pix_fmt", "yuv420p"]
@@ -35,9 +35,9 @@ def esc(t: str) -> str:
 
 
 def title_card(path: Path, main: str, sub: str, secs: float = 2.5):
-    vf = (f"drawtext=fontfile={FONT}:text='{esc(main)}':fontcolor=white:fontsize=110:"
+    vf = (f"drawtext=fontfile={FONT}:text='{esc(main)}':fontcolor=white:fontsize=88:"
           f"x=(w-text_w)/2:y=(h-text_h)/2-60:alpha='min(1,t/0.8)',"
-          f"drawtext=fontfile={FONT}:text='{esc(sub)}':fontcolor=0xBBBBBB:fontsize=44:"
+          f"drawtext=fontfile={FONT}:text='{esc(sub)}':fontcolor=0xBBBBBB:fontsize=40:"
           f"x=(w-text_w)/2:y=(h-text_h)/2+80:alpha='min(1,max(0,(t-0.5)/0.8))'")
     run(["ffmpeg", "-y", "-f", "lavfi", "-i", f"color=c=0x101418:s={W}x{H}:r={FPS}:d={secs}",
          "-f", "lavfi", "-i", f"anullsrc=r=48000:cl=stereo:d={secs}",

@@ -132,6 +132,8 @@ def main():
     ap.add_argument("--target-secs", type=float, default=130.0)
     ap.add_argument("--out", type=Path, default=Path("highlights.json"))
     ap.add_argument("--skip-motion-check", action="store_true")
+    ap.add_argument("--dump-strikes", type=Path, default=None,
+                    help="write all detected strike times/strengths to this JSON")
     args = ap.parse_args()
 
     with tempfile.TemporaryDirectory() as td:
@@ -145,6 +147,11 @@ def main():
     times, flux, band_energy = spectral_flux_onsets(x)
     peaks = pick_strikes(times, flux)
     print(f"  {len(peaks)} strike candidates", flush=True)
+    if args.dump_strikes:
+        args.dump_strikes.write_text(json.dumps(
+            {"source": str(args.video),
+             "times": [round(float(times[p]), 2) for p in peaks],
+             "flux": [round(float(flux[p]), 4) for p in peaks]}))
 
     rallies = cluster_rallies(times, peaks, flux, band_energy)
     print(f"  {len(rallies)} rallies (>= {MIN_SHOTS} shots, >= {MIN_RALLY_SECS}s)", flush=True)
