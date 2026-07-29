@@ -1,0 +1,31 @@
+# Lifemap
+
+Vite + React shell for the Lifemap prototype, with a small Express backend
+that proxies Anthropic API calls so the API key never reaches the browser.
+
+## Setup
+
+```bash
+cd lifemap
+npm install
+cp .env.example .env   # then paste your key into .env
+npm run dev            # starts API (:3001) + Vite (:5173) together
+```
+
+Open http://localhost:5173.
+
+## Dropping in the prototype
+
+1. Save the prototype as `src/LifemapCinematic.jsx`.
+2. In its `classify()` function, replace the direct
+   `https://api.anthropic.com/v1/messages` fetch with a call to
+   `POST /api/classify` (or import the helper from `src/lib/classify.js`).
+   Remove any `x-api-key` / `anthropic-*` headers — the backend adds them.
+3. In `src/App.jsx`, render `<LifemapCinematic />` instead of the placeholder.
+
+## Notes
+
+- `three` is pinned to exactly `0.128.0`; `tone` is installed.
+- `.env` is gitignored. Never commit the key or expose it to the frontend.
+- The backend route is `server/index.mjs`. It accepts
+  `{ messages, system?, model?, max_tokens? }` and returns `{ text }`.
