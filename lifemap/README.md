@@ -14,6 +14,19 @@ npm run dev            # starts API (:3001) + Vite (:5173) together
 
 Open http://localhost:5173.
 
+## What is built
+
+- Galaxy engine (three ^0.185, ACES + UnrealBloom): category nebulae with GLSL
+  dust, stars sized by grown magnitude, diffraction spikes at mag ≥7, comet
+  on capture (camera does not hijack), embers, resolution threads, loose-end
+  filaments, custom orbit camera with idle drift and tap-to-fly.
+- Capture bar → POST /api/classify (Claude) with a local heuristic fallback
+  so the app runs keyless; auto-resolution with toast + Undo.
+- ⌘K search overlay; picking a result flies the camera to the star.
+- Layout toggle: category nebulae ⇄ time-spine spiral.
+- Tone.js ambient pad + chimes, off by default.
+- Persistence: localStorage adapter (Supabase replaces it next slice).
+
 ## Dropping in the prototype
 
 1. Save the prototype as `src/LifemapCinematic.jsx`.
