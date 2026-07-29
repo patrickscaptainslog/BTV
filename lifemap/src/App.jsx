@@ -53,6 +53,11 @@ export default function App() {
       },
     });
     scene.onRegion = setRegion;
+    scene.onListPick = (id) => {
+      setSelectedId(id);
+      scene.focusEntry(id);
+      playChime("select");
+    };
     scene.setPulses(DEMO_PULSES);
     sceneRef.current = scene;
     return () => scene.dispose();

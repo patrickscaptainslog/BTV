@@ -164,6 +164,9 @@ export class GalaxyScene {
     this.labelLayer.className = "label-layer";
     (canvas.parentElement ?? document.body).appendChild(this.labelLayer);
     this.labels = [];
+    this.catLists = new Map(); // category -> {el, pos, alpha}
+    this.onListPick = null;
+    this._mouse = null;
     this._proj = new THREE.Vector3();
 
     this._buildBackdrop();
@@ -606,20 +609,52 @@ export class GalaxyScene {
   _rebuildLabels() {
     this.labelLayer.innerHTML = "";
     this.labels = [];
+    for (const l of this.catLists.values()) l.el.remove();
+    this.catLists.clear();
     if (this.layout === "nebulae") {
       for (const cat of this.categories) {
+        const open = this.entries.filter(
+          (e) => e.category === cat && e.status === "open",
+        );
         const el = document.createElement("div");
         el.className = "cat-label";
-        el.textContent = cat;
         el.style.color = "#" + this.categoryColor(cat).getHexString();
+        const name = document.createElement("div");
+        name.className = "cat-name";
+        name.textContent = cat;
+        const sub = document.createElement("div");
+        sub.className = "cat-sub";
+        sub.textContent = open.length ? `${open.length} open` : "quiet";
+        el.append(name, sub);
         this.labelLayer.appendChild(el);
-        this.labels.push({
-          el,
-          pos: this._categoryCenter(cat).clone().add(new THREE.Vector3(0, 12, 0)),
-          kind: "cat",
-          vis: false,
-          lastA: -1,
-        });
+        const pos = this._categoryCenter(cat).clone().add(new THREE.Vector3(0, 12, 0));
+        this.labels.push({ el, pos, kind: "cat", cat, vis: false, lastA: -1 });
+
+        // district signage: this nebula's brightest open entries, tappable
+        const top = [...open]
+          .sort((a, b) => this.magnitude(b) - this.magnitude(a))
+          .slice(0, 4);
+        if (top.length) {
+          const list = document.createElement("div");
+          list.className = "cat-list";
+          for (const e of top) {
+            const row = document.createElement("div");
+            row.className = "cat-row";
+            const dot = document.createElement("span");
+            dot.className = "dot";
+            dot.style.background = "#" + this.categoryColor(cat).getHexString();
+            const t = document.createElement("span");
+            t.textContent = e.title;
+            row.append(dot, t);
+            row.addEventListener("click", (ev) => {
+              ev.stopPropagation();
+              this.onListPick?.(e.id);
+            });
+            list.appendChild(row);
+          }
+          this.labelLayer.appendChild(list);
+          this.catLists.set(cat, { el: list, pos, alpha: 0 });
+        }
       }
     }
     const named = this.entries
@@ -651,6 +686,37 @@ export class GalaxyScene {
     const w = this._viewW || this.canvas.clientWidth;
     const h = this._viewH || this.canvas.clientHeight;
     const placed = [];
+
+    // which nebula has the user's attention: camera proximity, else mouse hover
+    let focusCat = null;
+    if (this.layout === "nebulae") {
+      if (this.cam.radius < 78) {
+        let best = 26;
+        for (const cat of this.categories) {
+          const d = this._categoryCenter(cat).distanceTo(this.cam.target);
+          if (d < best) {
+            best = d;
+            focusCat = cat;
+          }
+        }
+      }
+      if (!focusCat && this._mouse && this.cam.radius >= 45) {
+        let best = 90; // px
+        for (const cat of this.categories) {
+          this._proj.copy(this._categoryCenter(cat)).project(this.camera);
+          if (this._proj.z > 1) continue;
+          const sx = (this._proj.x * 0.5 + 0.5) * w;
+          const sy = (-this._proj.y * 0.5 + 0.5) * h;
+          const d = Math.hypot(sx - this._mouse.x, sy - this._mouse.y);
+          if (d < best) {
+            best = d;
+            focusCat = cat;
+          }
+        }
+      }
+    }
+    this._focusCat = focusCat;
+
     for (const l of this.labels) {
       this._proj.copy(l.pos).project(this.camera);
       const v = this._proj;
@@ -668,6 +734,7 @@ export class GalaxyScene {
         l.kind === "cat"
           ? THREE.MathUtils.clamp((this.cam.radius - 40) / 24, 0, 0.85)
           : THREE.MathUtils.clamp((88 - this.cam.radius) / 32, 0, 0.9);
+      if (l.kind === "cat" && l.cat === this._focusCat) a = Math.max(a, 0.9);
       if (a > 0.02) {
         // hysteresis: labels that were visible tolerate 30% overlap before yielding
         const rx = x - l.w / 2;
@@ -694,6 +761,30 @@ export class GalaxyScene {
         l.kind === "cat"
           ? `translate(${x - l.w / 2}px, ${y - l.h / 2}px)`
           : `translate(${x - l.w / 2}px, ${y + l.offset}px)`;
+    }
+
+    // unfurl the focused nebula's list; everything else stays quiet
+    for (const [cat, lst] of this.catLists) {
+      const target = cat === this._focusCat ? 1 : 0;
+      lst.alpha += (target - lst.alpha) * 0.12;
+      if (lst.alpha < 0.015 && target === 0) {
+        if (lst.el.style.opacity !== "0") {
+          lst.el.style.opacity = "0";
+          lst.el.style.pointerEvents = "none";
+        }
+        continue;
+      }
+      this._proj.copy(lst.pos).project(this.camera);
+      if (this._proj.z > 1) {
+        lst.el.style.opacity = "0";
+        lst.el.style.pointerEvents = "none";
+        continue;
+      }
+      const x = (this._proj.x * 0.5 + 0.5) * w;
+      const y = (-this._proj.y * 0.5 + 0.5) * h;
+      lst.el.style.opacity = lst.alpha.toFixed(2);
+      lst.el.style.pointerEvents = lst.alpha > 0.5 ? "auto" : "none";
+      lst.el.style.transform = `translate(${x - lst.el.offsetWidth / 2}px, ${y + 26}px)`;
     }
   }
 
@@ -828,6 +919,9 @@ export class GalaxyScene {
     });
 
     el.addEventListener("pointermove", (e) => {
+      if (e.pointerType === "mouse" && pointers.size === 0) {
+        this._mouse = { x: e.clientX, y: e.clientY };
+      }
       const p = pointers.get(e.pointerId);
       if (!p) return;
       const dx = e.clientX - p.x;
