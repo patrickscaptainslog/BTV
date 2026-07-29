@@ -11,6 +11,9 @@
 html, body, #root {
   margin: 0;
   height: 100%;
+  overscroll-behavior: none;
+  -webkit-user-select: none;
+  user-select: none;
   background: var(--bg);
   color: var(--text);
   font-family: "Space Grotesk", system-ui, sans-serif;
@@ -32,7 +35,7 @@ html, body, #root {
 /* ---- top bar ---- */
 .topbar {
   position: fixed;
-  top: 18px;
+  top: calc(18px + env(safe-area-inset-top));
   left: 22px;
   right: 22px;
   display: flex;
@@ -68,7 +71,7 @@ html, body, #root {
 /* ---- capture ---- */
 .capture {
   position: fixed;
-  bottom: 26px;
+  bottom: calc(26px + env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
   width: min(560px, calc(100vw - 40px));
@@ -84,7 +87,7 @@ html, body, #root {
   outline: none;
   color: var(--text);
   font-family: inherit;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 300;
   padding: 12px 0;
 }
@@ -206,7 +209,7 @@ html, body, #root {
 /* ---- toast ---- */
 .toast {
   position: fixed;
-  bottom: 96px;
+  bottom: calc(96px + env(safe-area-inset-bottom));
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -231,11 +234,27 @@ html, body, #root {
 }
 .hint {
   position: fixed;
-  bottom: 30px;
+  bottom: calc(30px + env(safe-area-inset-bottom));
   right: 26px;
   font-size: 11px;
   color: var(--text-dim);
   letter-spacing: 0.08em;
   z-index: 5;
   pointer-events: none;
+}
+
+/* ---- small screens ---- */
+@media (max-width: 640px) {
+  .iconbtn { font-size: 11px; padding: 7px 11px; white-space: nowrap; }
+  .wordmark { font-size: 12px; }
+  .hint { display: none; }
+  .starpanel {
+    right: 14px;
+    left: 14px;
+    width: auto;
+    top: auto;
+    bottom: calc(104px + env(safe-area-inset-bottom));
+    transform: none;
+    animation: none;
+  }
 }

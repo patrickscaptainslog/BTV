@@ -36,9 +36,26 @@ Open http://localhost:5173.
    Remove any `x-api-key` / `anthropic-*` headers — the backend adds them.
 3. In `src/App.jsx`, render `<LifemapCinematic />` instead of the placeholder.
 
+## iPhone (installable PWA)
+
+The app is a PWA: manifest, service worker, home-screen icons, safe-area
+insets, standalone display. To get it on your phone:
+
+1. Deploy to Vercel (matches the other apps in this repo):
+   - `npm i -g vercel && cd lifemap && vercel` — or create a Vercel project
+     from the GitHub repo with **Root Directory = `lifemap`**.
+   - In the Vercel project settings, add env var `ANTHROPIC_API_KEY`.
+   - `/api/classify` runs as a serverless function (`api/classify.mjs`),
+     sharing the same handler as the local Express server.
+2. Open the deployed URL in Safari on the iPhone → Share → **Add to Home
+   Screen**. It launches full-screen with the galaxy icon.
+
+Note: entries live in localStorage, so phone and laptop have separate skies
+until Supabase persistence lands (next slice).
+
 ## Notes
 
-- `three` is pinned to exactly `0.128.0`; `tone` is installed.
+- `three` is `^0.185` (modern color pipeline + bloom); `tone` is installed.
 - `.env` is gitignored. Never commit the key or expose it to the frontend.
 - The backend route is `server/index.mjs`. It accepts
   `{ messages, system?, model?, max_tokens? }` and returns `{ text }`.
