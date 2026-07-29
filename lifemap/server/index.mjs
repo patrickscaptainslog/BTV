@@ -20,7 +20,11 @@ app.use(express.json({ limit: "1mb" }));
 // Contract is deliberately close to the artifact fetch shape so the
 // prototype's classify() only needs its URL swapped to /api/classify:
 //   body: { messages, system?, model?, max_tokens? }
-//   response: { text } — the first text block of the reply.
+//   response: { text } — the first text block, ```json fences stripped
+//   (per CLAUDE.md the reply is strict JSON).
+const stripFences = (s) =>
+  s.trim().replace(/^```(?:json)?\s*/i, "").replace(/\s*```$/, "");
+
 app.post("/api/classify", async (req, res) => {
   const { messages, system, model, max_tokens } = req.body ?? {};
   if (!Array.isArray(messages) || messages.length === 0) {
@@ -28,8 +32,8 @@ app.post("/api/classify", async (req, res) => {
   }
   try {
     const response = await client.messages.create({
-      model: model ?? "claude-opus-5",
-      max_tokens: max_tokens ?? 1024,
+      model: model ?? "claude-sonnet-4-6",
+      max_tokens: max_tokens ?? 1000,
       ...(system ? { system } : {}),
       messages,
     });
@@ -37,7 +41,7 @@ app.post("/api/classify", async (req, res) => {
       return res.status(422).json({ error: "Request was declined by the model." });
     }
     const text = response.content.find((b) => b.type === "text")?.text ?? "";
-    res.json({ text });
+    res.json({ text: stripFences(text) });
   } catch (err) {
     if (err instanceof Anthropic.RateLimitError) {
       return res.status(429).json({ error: "Rate limited, try again shortly." });
