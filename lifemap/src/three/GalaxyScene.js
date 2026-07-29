@@ -153,6 +153,8 @@ export class GalaxyScene {
     this.nebulaGroup = new THREE.Group();
     this.scene.add(this.nebulaGroup);
     this.starPoints = null;
+    this.pulsePoints = null;
+    this.pulses = [];
     this.threadLines = null;
     this.filamentLines = null;
     this.cometGroup = new THREE.Group();
@@ -263,6 +265,7 @@ export class GalaxyScene {
     const span = Math.max(
       1000 * 60 * 60 * 24 * 3,
       ...entries.map((e) => now - new Date(e.createdAt).getTime()),
+      ...(this.pulses ?? []).map((p) => now - new Date(p.t).getTime()),
     );
 
     this.positions.clear();
@@ -271,6 +274,7 @@ export class GalaxyScene {
     if (opts.cometFor) this.hidden.add(opts.cometFor);
 
     this._rebuildNebulae(now, span);
+    this._rebuildPulseDust(now, span);
     this._rebuildStars();
     this._rebuildThreads();
 
@@ -282,6 +286,79 @@ export class GalaxyScene {
     this.layout = mode;
     this.setEntries(this.entries);
     this.pullBack();
+  }
+
+  /** Pulse check-ins render as dust, never stars (see CLAUDE.md). */
+  setPulses(pulses) {
+    this.pulses = pulses ?? [];
+    if (this.entries.length) this.setEntries(this.entries);
+  }
+
+  _rebuildPulseDust(now, span) {
+    if (this.pulsePoints) {
+      this.pulsePoints.geometry.dispose();
+      this.scene.remove(this.pulsePoints);
+      this.pulsePoints = null;
+    }
+    if (!this.pulses?.length) return;
+    const warm = new THREE.Color("#ffd9a8");
+    const cold = new THREE.Color("#39415c");
+    const n = this.pulses.length;
+    const pos = new Float32Array(n * 3);
+    const col = new Float32Array(n * 3);
+    const size = new Float32Array(n);
+    const phase = new Float32Array(n);
+    this.pulses.forEach((p, i) => {
+      let v;
+      if (this.layout === "time") {
+        const t = Math.min(1, Math.max(0, now - new Date(p.t).getTime()) / span);
+        const angle = t * Math.PI * 3.1 + (rand01(p.id, "pa") - 0.5) * 0.5;
+        const r = 6 + t * 52 + (rand01(p.id, "pr") - 0.5) * 4;
+        v = new THREE.Vector3(
+          Math.cos(angle) * r,
+          (rand01(p.id, "py") - 0.5) * 6,
+          Math.sin(angle) * r,
+        );
+      } else {
+        const c = this._categoryCenterAny(p.category);
+        const a = rand01(p.id, "pa") * Math.PI * 2;
+        const r = 3 + rand01(p.id, "pr") * 13;
+        v = new THREE.Vector3(
+          c.x + Math.cos(a) * r,
+          c.y + (rand01(p.id, "py") - 0.5) * 6,
+          c.z + Math.sin(a) * r,
+        );
+      }
+      pos.set([v.x, v.y, v.z], i * 3);
+      // mood tints the mote: high mood glows warm, low mood goes cold and dim
+      const color = this.categoryColor(p.category).clone();
+      const m = p.mood ?? 5;
+      if (m >= 6) color.lerp(warm, 0.15 + (m - 6) * 0.08);
+      else if (m <= 4) color.lerp(cold, 0.3 + (4 - m) * 0.12);
+      const bright = 0.45 + m * 0.055;
+      col.set([color.r * bright, color.g * bright, color.b * bright], i * 3);
+      size[i] = 1.5 + (p.engagement ?? 5) * 0.16;
+      phase[i] = rand01(p.id, "tw");
+    });
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+    geo.setAttribute("aColor", new THREE.BufferAttribute(col, 3));
+    geo.setAttribute("aSize", new THREE.BufferAttribute(size, 1));
+    geo.setAttribute("aPhase", new THREE.BufferAttribute(phase, 1));
+    this.pulsePoints = new THREE.Points(geo, pointsMaterial(NEBULA_FRAG));
+    this.scene.add(this.pulsePoints);
+  }
+
+  // like _categoryCenter but tolerates categories that only exist in pulse data
+  _categoryCenterAny(cat) {
+    if (this.categories.includes(cat)) return this._categoryCenter(cat);
+    const all = [...this.categories, cat];
+    const angle = ((all.length - 1) / all.length) * Math.PI * 2 + 0.4;
+    return new THREE.Vector3(
+      Math.cos(angle) * CAT_RING_RADIUS,
+      (rand01(cat, "y") - 0.5) * 10,
+      Math.sin(angle) * CAT_RING_RADIUS,
+    );
   }
 
   _rebuildNebulae(now, span) {
@@ -685,7 +762,7 @@ export class GalaxyScene {
 
   _tick(dt) {
     const t = this.clock.elapsedTime;
-    for (const obj of [this.backdrop, this.starPoints, ...this.nebulaGroup.children]) {
+    for (const obj of [this.backdrop, this.starPoints, this.pulsePoints, ...this.nebulaGroup.children]) {
       if (obj?.material?.uniforms) obj.material.uniforms.uTime.value = t;
     }
     // nebula slow swirl about its own center

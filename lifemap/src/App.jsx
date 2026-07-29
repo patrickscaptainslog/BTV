@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { GalaxyScene } from "./three/GalaxyScene.js";
 import { entriesReducer, loadEntries, saveEntries } from "./state/entries.js";
+import { DEMO_PULSES } from "./state/demoData.js";
 import { classifyEntry } from "./lib/classifyEntry.js";
 import { setSoundEnabled, playChime } from "./audio/sound.js";
 import SearchOverlay from "./ui/SearchOverlay.jsx";
@@ -37,6 +38,7 @@ export default function App() {
         if (id) playChime("select");
       },
     });
+    scene.setPulses(DEMO_PULSES);
     sceneRef.current = scene;
     return () => scene.dispose();
   }, []);
