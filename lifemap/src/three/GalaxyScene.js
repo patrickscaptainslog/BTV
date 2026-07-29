@@ -149,6 +149,12 @@ export class GalaxyScene {
     this.glowTex = makeGlowTexture();
     this.spikeTex = makeSpikeTexture();
 
+    // DOM layer for semantic-zoom labels, projected from 3D each frame
+    this.labelLayer = document.createElement("div");
+    this.labelLayer.className = "label-layer";
+    (canvas.parentElement ?? document.body).appendChild(this.labelLayer);
+    this.labels = [];
+
     this._buildBackdrop();
     this.nebulaGroup = new THREE.Group();
     this.scene.add(this.nebulaGroup);
@@ -277,6 +283,7 @@ export class GalaxyScene {
     this._rebuildPulseDust(now, span);
     this._rebuildStars();
     this._rebuildThreads();
+    this._rebuildLabels();
 
     if (opts.cometFor) this._launchComet(opts.cometFor);
   }
@@ -566,6 +573,66 @@ export class GalaxyScene {
     }
   }
 
+  // ------------------------------------------------------------- labels
+  // Semantic zoom: category names read from afar, bright stars get captions
+  // as you approach, everything else stays quiet until selected.
+  _rebuildLabels() {
+    this.labelLayer.innerHTML = "";
+    this.labels = [];
+    if (this.layout === "nebulae") {
+      for (const cat of this.categories) {
+        const el = document.createElement("div");
+        el.className = "cat-label";
+        el.textContent = cat;
+        el.style.color = "#" + this.categoryColor(cat).getHexString();
+        this.labelLayer.appendChild(el);
+        this.labels.push({
+          el,
+          pos: this._categoryCenter(cat).clone().add(new THREE.Vector3(0, 12, 0)),
+          kind: "cat",
+        });
+      }
+    }
+    const named = this.entries
+      .filter(
+        (e) => e.status === "open" && this.magnitude(e) >= 7 && !this.hidden.has(e.id),
+      )
+      .sort((a, b) => this.magnitude(b) - this.magnitude(a))
+      .slice(0, 10);
+    for (const e of named) {
+      const p = this.positions.get(e.id);
+      if (!p) continue;
+      const el = document.createElement("div");
+      el.className = "star-label";
+      el.textContent = e.title;
+      this.labelLayer.appendChild(el);
+      this.labels.push({ el, pos: p.clone(), kind: "star" });
+    }
+  }
+
+  _updateLabels() {
+    const w = this.canvas.clientWidth;
+    const h = this.canvas.clientHeight;
+    for (const l of this.labels) {
+      const v = l.pos.clone().project(this.camera);
+      if (v.z > 1 || v.z < -1) {
+        l.el.style.opacity = "0";
+        continue;
+      }
+      const x = (v.x * 0.5 + 0.5) * w;
+      const y = (-v.y * 0.5 + 0.5) * h;
+      const a =
+        l.kind === "cat"
+          ? THREE.MathUtils.clamp((this.cam.radius - 40) / 24, 0, 0.85)
+          : THREE.MathUtils.clamp((88 - this.cam.radius) / 32, 0, 0.9);
+      l.el.style.opacity = a.toFixed(2);
+      l.el.style.transform =
+        l.kind === "cat"
+          ? `translate(${x}px, ${y}px) translate(-50%, -50%)`
+          : `translate(${x}px, ${y + 12}px) translate(-50%, 0)`;
+    }
+  }
+
   // ------------------------------------------------------------- comet
   _launchComet(id) {
     const end = this.positions.get(id);
@@ -842,6 +909,7 @@ export class GalaxyScene {
       target.z + radius * Math.sin(phi) * Math.sin(theta),
     );
     this.camera.lookAt(target);
+    this._updateLabels();
 
     this.composer.render();
   }
@@ -849,6 +917,7 @@ export class GalaxyScene {
   dispose() {
     this.disposed = true;
     this._resizeObs.disconnect();
+    this.labelLayer.remove();
     this.renderer.dispose();
   }
 }

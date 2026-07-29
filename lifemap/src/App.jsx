@@ -9,9 +9,11 @@ import { GalaxyScene } from "./three/GalaxyScene.js";
 import { entriesReducer, loadEntries, saveEntries } from "./state/entries.js";
 import { DEMO_PULSES } from "./state/demoData.js";
 import { classifyEntry } from "./lib/classifyEntry.js";
+import { fetchSkyBrief } from "./lib/skyBrief.js";
 import { setSoundEnabled, playChime } from "./audio/sound.js";
 import SearchOverlay from "./ui/SearchOverlay.jsx";
 import StarPanel from "./ui/StarPanel.jsx";
+import Drawer from "./ui/Drawer.jsx";
 import "./styles.css";
 
 let nextId = () => `e${Date.now().toString(36)}${Math.floor(Math.random() * 1e4)}`;
@@ -27,8 +29,11 @@ export default function App() {
   const [draft, setDraft] = useState("");
   const [toast, setToast] = useState(null);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [brief, setBrief] = useState(null); // null | "loading" | text
   const toastTimer = useRef(null);
   const cometRef = useRef(null); // id of entry to animate on next sync
+  const tourIdx = useRef(0);
 
   // --- scene lifecycle
   useEffect(() => {
@@ -62,7 +67,11 @@ export default function App() {
         e.preventDefault();
         setSearchOpen((v) => !v);
       }
-      if (e.key === "Escape") setSearchOpen(false);
+      if (e.key === "Escape") {
+        setSearchOpen(false);
+        setDrawerOpen(false);
+        setBrief(null);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -132,12 +141,40 @@ export default function App() {
     playChime("add");
   }, []);
 
-  const pickFromSearch = useCallback((id) => {
+  const flyTo = useCallback((id) => {
     setSearchOpen(false);
+    setDrawerOpen(false);
     setSelectedId(id);
     sceneRef.current?.focusEntry(id);
     playChime("select");
   }, []);
+
+  // --- loose ends: each tap orbits to the next open, weighty star
+  const looseEnds = entries
+    .filter((e) => e.status === "open" && (e.importance ?? 5) + (e.boost ?? 0) >= 6)
+    .sort(
+      (a, b) =>
+        (b.importance ?? 5) + (b.boost ?? 0) - ((a.importance ?? 5) + (a.boost ?? 0)),
+    );
+
+  const tourNext = useCallback(() => {
+    if (!looseEnds.length) return;
+    const target = looseEnds[tourIdx.current % looseEnds.length];
+    tourIdx.current += 1;
+    flyTo(target.id);
+  }, [looseEnds, flyTo]);
+
+  // --- sky brief: Claude narrates the recent sky
+  const runBrief = useCallback(async () => {
+    if (brief === "loading") return;
+    setBrief("loading");
+    try {
+      const text = await fetchSkyBrief(entries, DEMO_PULSES);
+      setBrief(text);
+    } catch {
+      setBrief("The sky is quiet — the narrator is unreachable right now.");
+    }
+  }, [brief, entries]);
 
   const toggleSound = useCallback(async () => {
     const next = !sound;
@@ -171,6 +208,43 @@ export default function App() {
           </button>
         </div>
       </header>
+
+      <div className="chips">
+        <button className="chip" onClick={runBrief}>
+          ✦ sky brief
+        </button>
+        {looseEnds.length > 0 && (
+          <button className="chip" onClick={tourNext}>
+            ◉ {looseEnds.length} loose end{looseEnds.length === 1 ? "" : "s"}
+          </button>
+        )}
+        <button className="chip" onClick={() => setDrawerOpen((v) => !v)}>
+          ☰ index
+        </button>
+      </div>
+
+      {brief && (
+        <div className="brief glass" onClick={() => brief !== "loading" && setBrief(null)}>
+          <div className="brief-head">tonight’s sky</div>
+          {brief === "loading" ? (
+            <div className="brief-loading">reading the stars…</div>
+          ) : (
+            <p>{brief}</p>
+          )}
+        </div>
+      )}
+
+      {searchOpen && (
+        <SearchOverlay
+          entries={entries}
+          onPick={flyTo}
+          onClose={() => setSearchOpen(false)}
+        />
+      )}
+
+      {drawerOpen && (
+        <Drawer entries={entries} onPick={flyTo} onClose={() => setDrawerOpen(false)} />
+      )}
 
       <StarPanel
         entry={selected}
