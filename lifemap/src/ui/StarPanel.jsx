@@ -1,7 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { categoryHue } from "../state/palette.js";
 
-export default function StarPanel({ entry, magnitude, onMarkDone, onReignite, onClose }) {
+function relativeDate(iso) {
+  const d = new Date(iso);
+  const days = Math.floor((Date.now() - d.getTime()) / 864e5);
+  const when = d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+  if (days <= 0) return `${when} · today`;
+  if (days === 1) return `${when} · yesterday`;
+  return `${when} · ${days} days ago`;
+}
+
+export default function StarPanel({
+  entry,
+  resolver,
+  magnitude,
+  onMarkDone,
+  onReignite,
+  onUnresolve,
+  onPullBack,
+  onClose,
+}) {
+  const [showRaw, setShowRaw] = useState(false);
   if (!entry) return null;
   const hue = categoryHue(entry.category);
   const isEmber = entry.status === "done";
@@ -11,9 +30,27 @@ export default function StarPanel({ entry, magnitude, onMarkDone, onReignite, on
         {entry.category}
       </span>
       <h2>{entry.title}</h2>
+      <div className="date">{relativeDate(entry.createdAt)}</div>
       <p className="summary">{entry.summary}</p>
+      {entry.raw && entry.raw !== entry.summary && (
+        <button className="rawtoggle" onClick={() => setShowRaw((v) => !v)}>
+          {showRaw ? "hide original" : "show original"}
+        </button>
+      )}
+      {showRaw && <p className="raw">“{entry.raw}”</p>}
       {isEmber ? (
-        <p className="ember-note">an ember — resolved, still part of the record</p>
+        <p className="ember-note">
+          {resolver ? (
+            <>
+              closed by “{resolver.title}”{" "}
+              <button className="linkbtn" onClick={() => onUnresolve(entry.id, resolver.id)}>
+                undo
+              </button>
+            </>
+          ) : (
+            "an ember — resolved, still part of the record"
+          )}
+        </p>
       ) : (
         <p className="mag">
           magnitude <b>{magnitude}</b>
@@ -28,6 +65,9 @@ export default function StarPanel({ entry, magnitude, onMarkDone, onReignite, on
         )}
         <button onClick={onClose}>Close</button>
       </div>
+      <button className="skyreturn" onClick={onPullBack}>
+        ↩ back to the whole sky
+      </button>
     </aside>
   );
 }

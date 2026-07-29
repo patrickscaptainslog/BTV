@@ -39,6 +39,7 @@ export default function SearchOverlay({ entries, onPick, onClose }) {
           onKeyDown={onKey}
         />
         <ul>
+          {results.length === 0 && <li className="empty">no stars match “{q}”</li>}
           {results.map((e, i) => (
             <li
               key={e.id}

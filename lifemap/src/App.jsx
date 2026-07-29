@@ -31,6 +31,7 @@ export default function App() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [brief, setBrief] = useState(null); // null | "loading" | text
+  const [region, setRegion] = useState(null); // nebula the camera is inside
   const toastTimer = useRef(null);
   const cometRef = useRef(null); // id of entry to animate on next sync
   const tourIdx = useRef(0);
@@ -39,10 +40,19 @@ export default function App() {
   useEffect(() => {
     const scene = new GalaxyScene(canvasRef.current, {
       onSelect: (id) => {
-        setSelectedId(id);
-        if (id) playChime("select");
+        if (id) {
+          setSelectedId(id);
+          playChime("select");
+        } else {
+          // empty-space tap: first closes the panel, second pulls back
+          setSelectedId((prev) => {
+            if (!prev) scene.pullBack();
+            return null;
+          });
+        }
       },
     });
+    scene.onRegion = setRegion;
     scene.setPulses(DEMO_PULSES);
     sceneRef.current = scene;
     return () => scene.dispose();
@@ -60,6 +70,26 @@ export default function App() {
     sceneRef.current?.setLayout(layout);
   }, [layout]);
 
+  useEffect(() => {
+    if (sceneRef.current) sceneRef.current.selectedFlag = Boolean(selectedId);
+  }, [selectedId]);
+
+  // iOS keyboard: lift the capture bar above it via visualViewport
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!vv) return;
+    const update = () => {
+      const kb = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      document.documentElement.style.setProperty("--kb", `${kb}px`);
+    };
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, []);
+
   // --- keyboard: cmd-k search
   useEffect(() => {
     const onKey = (e) => {
@@ -71,6 +101,7 @@ export default function App() {
         setSearchOpen(false);
         setDrawerOpen(false);
         setBrief(null);
+        setSelectedId(null);
       }
     };
     window.addEventListener("keydown", onKey);
@@ -80,7 +111,7 @@ export default function App() {
   const showToast = useCallback((msg, undoFn) => {
     clearTimeout(toastTimer.current);
     setToast({ msg, undoFn });
-    toastTimer.current = setTimeout(() => setToast(null), 8000);
+    toastTimer.current = setTimeout(() => setToast(null), 12000);
   }, []);
 
   // --- capture: classify, add star via comet, maybe auto-resolve
@@ -135,6 +166,11 @@ export default function App() {
     },
     [entries, showToast],
   );
+
+  const unresolve = useCallback((targetId, resolverId) => {
+    dispatch({ type: "unresolve", targetId, resolverId });
+    playChime("add");
+  }, []);
 
   const reignite = useCallback((id) => {
     dispatch({ type: "reignite", id });
@@ -191,10 +227,13 @@ export default function App() {
       </div>
 
       <header className="topbar">
-        <div className="wordmark">Lifemap</div>
+        <div>
+          <div className="wordmark">Lifemap</div>
+          {region && <div className="region-crumb">◦ {region}</div>}
+        </div>
         <div className="controls">
           <button className="iconbtn" onClick={() => setSearchOpen(true)}>
-            search ⌘K
+            search <span className="kbd">⌘K</span>
           </button>
           <button
             className={`iconbtn ${layout === "time" ? "active" : ""}`}
@@ -248,13 +287,23 @@ export default function App() {
 
       <StarPanel
         entry={selected}
+        resolver={
+          selected?.resolvedBy
+            ? entries.find((e) => e.id === selected.resolvedBy) ?? null
+            : null
+        }
         magnitude={selected ? sceneRef.current?.magnitude(selected) : 0}
         onMarkDone={markDone}
         onReignite={reignite}
-        onClose={() => {
+        onUnresolve={(targetId, resolverId) => {
+          unresolve(targetId, resolverId);
+          setSelectedId(null);
+        }}
+        onPullBack={() => {
           setSelectedId(null);
           sceneRef.current?.pullBack();
         }}
+        onClose={() => setSelectedId(null)}
       />
 
       <form
