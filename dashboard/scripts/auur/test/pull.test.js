@@ -24,15 +24,22 @@ const EXPECTED_AUTH = "Basic " + Buffer.from("test-id:test-secret").toString("ba
 
 function mockServer(opts = {}) {
   const seen = { calls: [], rateLimited: 0 };
+  // rent_roll rows show the tenant as "First Last"...
   const rr = (unit, tenant, status, extra = {}) => ({ property_name: "2072 Mission", unit_id: `u${unit}`, unit: `${unit} - ${unit}`, tenant, status, move_in: extra.move_in ?? "2025-01-01", move_out: extra.move_out ?? null, lease_from: extra.move_in ?? "2025-01-01", lease_to: extra.lease_to ?? null, rent: "1200.00", emails: "x@example.com", phone_numbers: "Mobile: 415-555-0100" });
+  // ...while tenant_directory rows show "Last, First" plus first_name / last_name columns (as the live API does).
+  const td = (unit, tenant, status, extra = {}) => {
+    const [first, last] = tenant.split(" ");
+    return { ...rr(unit, `${last}, ${first}`, status, extra), first_name: first, last_name: last, primary_tenant: extra.primary ?? "Yes" };
+  };
   const rentRollPage1 = [rr(1, "Ann One", "Current"), rr(2, "", "Vacant-Unrented"), rr(3, "Cal Three", "Notice-Unrented", { move_out: "2099-12-31" }),
     { property_name: "15th Street", unit_id: "z1", unit: "1", tenant: "Other Person", status: "Current", move_in: "2025-01-01" }];
   const rentRollPage2 = [rr(4, "Dee Four", "Current"), rr(5, "", "Vacant-Rented")];
   const dir = {
-    "0": [rr(1, "Ann One", "Current"), rr(3, "Cal Three", "Current", { move_out: "2099-12-31" }), rr(4, "Dee Four", "Current"), { property_name: "15th Street", unit_id: "z1", unit: "1", tenant: "Other Person", move_in: "2025-01-01" }],
-    "1": [rr(2, "Bo Past", "Past", { move_in: "2024-01-01", move_out: "2025-03-31" }), rr(4, "Old Four", "Past", { move_in: "2023-01-01", move_out: "2024-12-31" })],
-    "2": [rr(5, "Fay Future", "Future", { move_in: "2099-01-01" })],
-    "3": [rr(3, "Cal Three", "Current", { move_out: "2099-12-31" })], // duplicate of a status-0 row → de-duplicated
+    "0": [td(1, "Ann One", "Current"), td(4, "Dee Four", "Current"), td(1, "Ann One", "Current"), // same stay twice → de-duplicated
+      { property_name: "15th Street", unit_id: "z1", unit: "1", tenant: "Person, Other", move_in: "2025-01-01" }],
+    "1": [td(2, "Bo Past", "Past", { move_in: "2024-01-01", move_out: "2025-03-31" }), td(4, "Old Four", "Past", { move_in: "2023-01-01", move_out: "2024-12-31" })],
+    "2": [td(5, "Fay Future", "Future", { move_in: "2099-01-01" })],
+    "4": [td(3, "Cal Three", "Notice", { move_out: "2099-12-31" })], // notice tenants come ONLY from this code (verified live)
   };
   const server = http.createServer((req, res) => {
     let body = "";
@@ -50,7 +57,7 @@ function mockServer(opts = {}) {
       if (req.url === "/api/v2/reports/tenant_directory.json" && req.method === "POST") {
         const code = JSON.parse(body).tenant_statuses[0];
         if (code === "0" && seen.rateLimited === 0) { seen.rateLimited++; return send(429, { error: "rate limited" }); }
-        if (code === "3") return send(400, { error: "Invalid tenant_statuses" });
+        if (opts.failCode && code === opts.failCode) return send(400, { error: "Invalid tenant_statuses" });
         if (code === "1" && opts.pastEmpty) return send(200, { results: [] });
         if (code === "1" && opts.pastBroken) return send(500, { error: "boom" });
         return send(200, { results: dir[code] || [] });
@@ -83,17 +90,43 @@ test("pull-occupancy.js builds a snapshot from the mock API", async () => {
     assert.deepEqual(snap.property_names_seen, ["15th Street", "2072 Mission"]);
     assert.equal(snap.units.length, 5, "rent_roll paginated across both result shapes and filtered by property");
     assert.deepEqual(snap.units.map((u) => u.room), ["1", "2", "3", "4", "5"]);
-    assert.deepEqual(snap.rows_per_status, { "0": 3, "1": 2, "2": 1, "3": 0 });
-    assert.ok(snap.warnings.some((w) => w.includes('tenant_statuses=["3"]') && w.includes("HTTP 400")));
-    assert.deepEqual(snap.rejected_status_codes, ["3"]);
+    assert.deepEqual(snap.rows_per_status, { "0": 3, "1": 2, "2": 1, "4": 1 });
+    assert.deepEqual(snap.warnings, []);
+    assert.deepEqual(snap.rejected_status_codes, []);
     assert.ok(snap.status_checks.some((c) => c.startsWith("past: 2/2")));
     const names = snap.occupancies.map((o) => o.tenant).sort();
-    assert.deepEqual(names, ["Ann One", "Bo Past", "Cal Three", "Dee Four", "Fay Future", "Old Four"], "de-duplicated, other property excluded");
+    assert.deepEqual(names, ["Ann One", "Bo Past", "Cal Three", "Dee Four", "Fay Future", "Old Four"], "First Last names, de-duplicated, other property excluded");
+    assert.equal(snap.occupancies.find((o) => o.tenant === "Ann One").primary, true);
     assert.equal(seen.rateLimited, 1, "429 was retried");
     assert.deepEqual(snap.today_check.mismatches, []);
     assert.ok(stdout.includes("Preview"));
     const posts = seen.calls.filter((c) => c.method === "POST");
     assert.equal(posts.length, 1 + 4 + 1, "rent_roll + 4 status codes + 1 retry");
+  } finally {
+    server.close();
+    fs.rmSync(tmp, { recursive: true, force: true });
+  }
+});
+
+test("pull-occupancy.js turns an API-rejected notice code into a warning and a today-check mismatch", async () => {
+  const { server, base } = await mockServer({ failCode: "4" });
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "auur-"));
+  try {
+    const out = path.join(tmp, "snap.json");
+    const cfgPath = path.join(tmp, "cfg.json");
+    const cfg = JSON.parse(fs.readFileSync(path.join(__dirname, "..", "auur-2026.json"), "utf8"));
+    cfg.rooms = ["1", "2", "3", "4", "5"];
+    fs.writeFileSync(cfgPath, JSON.stringify(cfg));
+    const r = await run([SCRIPT, "--config", cfgPath, "--out", out],
+      { ...process.env, APPFOLIO_DATABASE: "mockdb", APPFOLIO_CLIENT_ID: "test-id", APPFOLIO_CLIENT_SECRET: "test-secret", AUUR_API_BASE: base, AUUR_PACE_MS: "5", AUUR_RETRY_MS: "5" });
+    assert.equal(r.code, 0, r.stderr);
+    const snap = JSON.parse(fs.readFileSync(out, "utf8"));
+    assert.equal(snap.rows_per_status["4"], 0);
+    assert.deepEqual(snap.rejected_status_codes, ["4"]);
+    assert.ok(snap.warnings.some((w) => w.includes('tenant_statuses=["4"]') && w.includes("HTTP 400")));
+    assert.equal(snap.today_check.mismatches.length, 1, "the notice tenant is missing, so room 3 disagrees with rent_roll");
+    assert.match(snap.today_check.mismatches[0], /room 3: rent_roll says "Notice-Unrented" \(Cal Three\)/);
+    assert.ok(r.stdout.includes("Today-check: 1 room(s)"));
   } finally {
     server.close();
     fs.rmSync(tmp, { recursive: true, force: true });

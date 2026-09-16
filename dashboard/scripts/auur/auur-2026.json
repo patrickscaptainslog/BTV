@@ -1,5 +1,5 @@
 {
-  "$comment": "Annual Unit Usage Report (AUUR) filing year 2026 for 2072 Mission St (block 3569 / lot 014). Dates = the twelve first-Fridays the DBI notice lists (Nov 2025 - Oct 2026) plus Oct 15, 2026, the Section 4/5 reference date whose Daily Log must be attached to the form. Edit here, never in the scripts.",
+  "$comment": "Annual Unit Usage Report (AUUR) filing year 2026 for 2072 Mission St (block 3569 / lot 014). Dates = the twelve first-Fridays the DBI notice lists (Nov 2025 - Oct 2026) plus Oct 15, 2026, the Section 4/5 reference date whose Daily Log must be attached to the form. Edit here, never in the scripts. tenantStatusCodes were verified against the live API on 2026-09-16 (0 Current, 1 Past, 2 Future, 4 Notice; 3 and 5-10 return nothing).",
   "filingYear": 2026,
   "property": {
     "match": "2072 Mission",
@@ -24,6 +24,6 @@
     "2026-10-02",
     "2026-10-15"
   ],
-  "tenantStatusCodes": { "0": "current", "1": "past", "2": "future", "3": "notice" },
+  "tenantStatusCodes": { "0": "current", "1": "past", "2": "future", "4": "notice" },
   "pdfOrder": "chronological"
 }

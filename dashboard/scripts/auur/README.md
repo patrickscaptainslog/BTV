@@ -29,7 +29,8 @@ Outputs land in `scripts/auur/out/` (gitignored — it contains tenant names):
 Needs Node 18+, AppFolio credentials in `dashboard/.env.local`
 (`APPFOLIO_DATABASE`, `APPFOLIO_CLIENT_ID`, `APPFOLIO_CLIENT_SECRET` — see
 `.env.example`), and a Chrome/Chromium for the PDF (`CHROME=/path/to/chrome` to
-override; Google Chrome in `/Applications` is found automatically on a Mac).
+override; Google Chrome in `/Applications` on a Mac, or under Program Files on
+Windows, is found automatically).
 
 **Dates after the pull date are left blank on purpose** — the city wants the
 exact status on the day, never a projection (that was the instruction from
@@ -61,8 +62,9 @@ build, review, and package the files.
 The Reports API has **no "rent roll as of date"** — every date parameter is
 ignored (verified, see the API notes). What it does have is `tenant_directory`,
 which returns `move_in` / `move_out` for **current, past, future and notice**
-tenants (`tenant_statuses` `"0"`, `"1"`, `"2"`, `"3"`; codes are in the config
-so they can be corrected without touching code). From those, room *N* on date
+tenants (`tenant_statuses` `"0"`, `"1"`, `"2"`, `"4"` — verified against the live
+API on 2026-09-16; `"3"` returns nothing; the codes are in the config so they can
+be corrected without touching code). From those, room *N* on date
 *D* is occupied by every tenant whose stay covers *D*:
 
 - start = `move_in` (fallback `lease_from`); end = `move_out`
@@ -71,7 +73,10 @@ so they can be corrected without touching code). From those, room *N* on date
   and a record with neither is skipped (and reported) rather than shown as
   occupying a room forever
 - a signed-but-not-yet-moved-in tenant (`Vacant-Rented`) does **not** count — the room shows *Vacant*
-- co-living rooms list every occupant, comma-separated; names are whitespace-cleaned, nothing else
+- co-living rooms list every occupant, comma-separated, primary tenant first
+- names are shown "First Last" as rent_roll and the AppFolio UI show them (rebuilt
+  from tenant_directory's `first_name` / `last_name`, since its `tenant` column is
+  "Last, First"); whitespace-cleaned, nothing else
 
 The pull **stops rather than guess**: a network or server error, an empty
 "past tenants" pull, or a status code whose rows do not look like their label
@@ -100,7 +105,7 @@ node --test scripts/auur/test/*.test.js
   difference — same as last year.
 - **Section 6.3 (average residential rent for October 2026)** is not computed here.
 - **Names.** The log shows the tenant name exactly as AppFolio has it (minus
-  double spaces). Notes like "(Coliving)" or "(Property Manager)" that appeared
-  in earlier logs were typed in by hand — add them in the workbook if wanted, the
-  PDF is generated from the same data so re-run after editing the snapshot, or
-  edit both.
+  double spaces). Notes like "(coliving)" or "(Property Manager)" are part of the
+  last name in AppFolio and come through as-is; to change one, fix it in AppFolio
+  and re-pull, or edit the snapshot and re-run the build (the PDF and the workbook
+  are generated from the same data).

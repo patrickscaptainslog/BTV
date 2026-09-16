@@ -159,7 +159,8 @@ function stripContacts(row) {
 }
 
 const str = (v) => (v == null ? "" : String(v));
-function fail(msg) { console.error(`\nERROR: ${msg}`); process.exit(1); }
+class Fatal extends Error {}
+function fail(msg) { throw new Fatal(msg); }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
@@ -216,7 +217,8 @@ async function main() {
     console.error(`\nNo rows matched property "${cfg.property.match}". Property names seen in AppFolio:`);
     for (const n of [...namesSeen].sort()) console.error(`  - ${n}`);
     console.error(`Fix "property.match" in ${cfg.configPath} and re-run.`);
-    process.exit(2);
+    process.exitCode = 2; // exit naturally: process.exit() with fetch sockets still open crashes Node on Windows
+    return;
   }
 
   // 3. Do the pulls look like what their labels say? (codes "1"/"3" were never
@@ -288,8 +290,12 @@ async function main() {
       mismatches.push(`room ${u.room}: rent_roll says "${u.status || "?"}"${u.tenant ? ` (${u.tenant})` : ""}; move-in/move-out dates say ${row.occupied ? `occupied by ${row.tenants.join(", ")}` : "vacant"}`);
     } else if (rrOccupied && u.tenant) {
       const rr = u.tenant.toLowerCase();
-      const extra = row.tenants.filter((n) => !rr.includes(n.toLowerCase()));
-      if (extra.length) mismatches.push(`room ${u.room}: dates also list ${extra.join(", ")} today, but rent_roll shows "${u.tenant}" — a record that should have ended?`);
+      if (!row.tenants.some((n) => rr.includes(n.toLowerCase()))) {
+        mismatches.push(`room ${u.room}: rent_roll names "${u.tenant}"; the tenant_directory records name ${row.tenants.map((t) => `"${t}"`).join(", ")}`);
+      } else {
+        const extra = row.tenants.filter((n) => !rr.includes(n.toLowerCase()));
+        if (extra.length) mismatches.push(`room ${u.room}: dates also list ${extra.join(", ")} today, but rent_roll shows "${u.tenant}" — a record that should have ended?`);
+      }
     }
   }
 
@@ -338,4 +344,5 @@ async function main() {
   console.log(`\nNext: node "${path.join(L.HERE, "build-daily-logs.js")}" "${outFile}"`);
 }
 
-main().catch((e) => { console.error(`\nERROR: ${e.message}${e.cause ? ` (${e.cause.code || e.cause.message})` : ""}`); process.exit(1); });
+// Exit naturally (exitCode, not process.exit): process.exit() with fetch sockets still open crashes Node on Windows.
+main().catch((e) => { console.error(`\nERROR: ${e.message}${e.cause ? ` (${e.cause.code || e.cause.message})` : ""}`); process.exitCode = 1; });
