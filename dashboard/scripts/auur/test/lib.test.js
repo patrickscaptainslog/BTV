@@ -93,6 +93,24 @@ test("daily log boundary days", () => {
   assert.equal(roomRow(sep4, "2").occupied, false, "future tenant not counted before move-in");
 });
 
+test("display name is First Last from first_name/last_name, tenant column as fallback", () => {
+  assert.equal(L.toOccupancy({ tenant: "Kristiani, Elly", first_name: "Elly", last_name: "Kristiani", primary_tenant: "Yes" }).tenant, "Elly Kristiani");
+  assert.equal(L.toOccupancy({ tenant: "(Coliving), Samarth Agrawal", first_name: "Samarth Agrawal", last_name: "(Coliving)" }).tenant, "Samarth Agrawal (Coliving)");
+  assert.equal(L.toOccupancy({ tenant: "St Luce  *, Ralph Casey", first_name: "Ralph Casey", last_name: "St Luce  *" }).tenant, "Ralph Casey St Luce *");
+  assert.equal(L.toOccupancy({ tenant: "Ann  One" }).tenant, "Ann One", "no name columns (e.g. rent_roll) → tenant as is");
+  assert.equal(L.toOccupancy({ tenant: "x", primary_tenant: "Yes" }).primary, true);
+  assert.equal(L.toOccupancy({ tenant: "x", primary_tenant: "No" }).primary, false);
+  assert.equal(L.toOccupancy({ tenant: "x" }).primary, null);
+});
+
+test("primary tenant is listed first in a shared room", () => {
+  const snap = { occupancies: [
+    { unit: "15", tenant: "Luke Bergstorm", primary: false, move_in: "2026-03-01", move_out: null },
+    { unit: "15", tenant: "Christian Bergstrom", primary: true, move_in: "2026-03-01", move_out: null },
+  ] };
+  assert.deepEqual(roomRow(L.dailyLog("2026-06-05", snap, cfg), "15").tenants, ["Christian Bergstrom", "Luke Bergstorm"]);
+});
+
 test("duplicate names in a room are collapsed and whitespace cleaned", () => {
   const snap = { occupancies: [
     { unit: "9", tenant: "Lee  Steady", move_in: "2025-01-01", move_out: null },

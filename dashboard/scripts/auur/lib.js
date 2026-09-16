@@ -18,7 +18,7 @@ function loadConfig(file) {
   cfg.rooms = cfg.rooms.map(String);
   cfg.dates = Array.from(new Set(cfg.dates)).sort();
   cfg.unitRoomOverrides = cfg.unitRoomOverrides || {};
-  cfg.tenantStatusCodes = cfg.tenantStatusCodes || { "0": "current", "1": "past", "2": "future", "3": "notice" };
+  cfg.tenantStatusCodes = cfg.tenantStatusCodes || { "0": "current", "1": "past", "2": "future", "4": "notice" };
   cfg.property = cfg.property || {};
   cfg.property.timeZone = cfg.property.timeZone || "America/Los_Angeles";
   cfg.configPath = p;
@@ -59,6 +59,18 @@ function todayIn(timeZone, now = new Date()) {
 // --- names / rooms ----------------------------------------------------------
 function cleanName(s) {
   return String(s == null ? "" : s).replace(/\s+/g, " ").trim();
+}
+
+/**
+ * The name to show on the log: "First Last", the form rent_roll and the AppFolio
+ * UI use. tenant_directory's `tenant` column is "Last, First" (with notes such
+ * as "(coliving)" kept inside the last name), so rebuild it from first_name /
+ * last_name when those are present; otherwise take `tenant` as it is.
+ */
+function displayName(row) {
+  const first = cleanName(row.first_name);
+  const last = cleanName(row.last_name);
+  return first || last ? cleanName(`${first} ${last}`) : cleanName(row.tenant);
 }
 
 /**
@@ -119,10 +131,12 @@ function dailyLog(iso, snapshot, cfg) {
     const room = o.room != null && o.room !== "" ? String(o.room) : roomFromUnit(o.unit, cfg.unitRoomOverrides);
     if (!byRoom.has(room)) { warnings.push(`unit "${o.unit}" maps to room "${room}", which is not in the room list`); continue; }
     const name = cleanName(o.tenant);
-    if (name && !byRoom.get(room).includes(name)) byRoom.get(room).push(name);
+    const list = byRoom.get(room);
+    if (name && !list.some((e) => e.name === name)) list.push({ name, primary: o.primary === true });
   }
   const rows = cfg.rooms.map((room) => {
-    const tenants = byRoom.get(room);
+    // primary tenant first, then the others in the order they were pulled
+    const tenants = [...byRoom.get(room)].sort((a, b) => (a.primary ? 0 : 1) - (b.primary ? 0 : 1)).map((e) => e.name);
     return { room, occupied: tenants.length > 0, tenants };
   });
   return {
@@ -141,7 +155,8 @@ function toOccupancy(row, extra = {}) {
     property_name: row.property_name == null ? "" : String(row.property_name),
     unit: row.unit == null ? "" : String(row.unit),
     room: null,
-    tenant: cleanName(row.tenant),
+    tenant: displayName(row),
+    primary: row.primary_tenant == null ? null : /^(y|true|1)/i.test(String(row.primary_tenant)),
     move_in: toIso(row.move_in),
     move_out: toIso(row.move_out),
     lease_from: toIso(row.lease_from),
@@ -157,5 +172,5 @@ function occupancyKey(o) {
 
 module.exports = {
   HERE, loadConfig, toIso, tabName, asOfLabel, longDate, todayIn,
-  cleanName, roomFromUnit, resolveSpan, spanCovers, dailyLog, toOccupancy, occupancyKey,
+  cleanName, displayName, roomFromUnit, resolveSpan, spanCovers, dailyLog, toOccupancy, occupancyKey,
 };

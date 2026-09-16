@@ -43,7 +43,15 @@ load well under 7.
 | Rent amounts for future tenants | `aged_receivables_detail` | `{"tenant_statuses": ["2"]}` | Only returns **billed** tenants (misses deposit-only ones) → use solely to overlay rent onto tenant_directory rows, matching `account_name == "Rent Income"` by `unit_id`. Old charges can produce spurious rows — never use it as the source of who is moving in. |
 | Vacancy detail | `unit_vacancy` | none | Fallback chain: `unit_vacancy_detail`, `unit_directory`, `vacant_unit_detail`. |
 
-Tenant-status codes for `tenant_directory`: `"0"` = current, `"2"` = future.
+Tenant-status codes for `tenant_directory` (all four verified live on
+2026-09-16): `"0"` = current, `"1"` = past, `"2"` = future, `"4"` = notice.
+`"3"` and `"5"`–`"10"` return empty result sets, and notice tenants are **not**
+included in `"0"` — a unit that rent_roll shows as `Notice-*` only appears under
+`"4"`. Names in this report: `tenant` is **"Last, First"** (rent_roll's is
+"First Last"), with notes such as "(coliving)" stored inside `last_name`; the
+`first_name` / `last_name` columns are separate, so rebuild the display name
+from them. `primary_tenant` (`Yes`/`No`) marks the lease holder among
+co-occupants.
 
 **What does NOT work**: passing date/as-of parameters to these reports. Probes
 with every documented date-param variant returned identical row sets — there is
@@ -55,7 +63,7 @@ done by saving exports over time.
 Needed for the city's AUUR Daily Logs (`scripts/auur/`). Since rent_roll cannot
 be asked for a past date, reconstruct it from **move-in / move-out dates**:
 
-- `tenant_directory` with `tenant_statuses: ["0"]`, `["1"]`, `["2"]`, `["3"]`
+- `tenant_directory` with `tenant_statuses: ["0"]`, `["1"]`, `["2"]`, `["4"]`
   (current / past / future / notice — one call per code, union the rows,
   de-dupe on unit_id + tenant + move_in + move_out) gives every stay with its
   `move_in` and `move_out`. A stay covers date D when `move_in <= D` and

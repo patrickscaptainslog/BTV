@@ -172,7 +172,8 @@ async function main() {
     console.error(`\nNo rows matched property "${cfg.property.match}". Property names seen in AppFolio:`);
     for (const n of [...namesSeen].sort()) console.error(`  - ${n}`);
     console.error(`Fix "property.match" in ${cfg.configPath} and re-run.`);
-    process.exit(2);
+    process.exitCode = 2; // exit naturally: process.exit() with fetch sockets still open crashes Node on Windows
+    return;
   }
 
   // 3. Units (from rent_roll) and their room numbers.
@@ -216,7 +217,8 @@ async function main() {
   }
   const occupancies = [...occ.values()];
 
-  // 5. Sanity check: derived occupancy for TODAY must agree with rent_roll's own status.
+  // 5. Sanity check: derived occupancy for TODAY must agree with rent_roll's own status
+  //    (occupied vs vacant, and the primary tenant's name).
   const today = L.todayIn(cfg.property.timeZone);
   const todayLog = L.dailyLog(today, { occupancies }, cfg);
   const mismatches = [];
@@ -226,6 +228,8 @@ async function main() {
     const rrOccupied = /^(current|notice)/i.test(u.status);
     if (rrOccupied !== row.occupied) {
       mismatches.push(`room ${u.room}: rent_roll says "${u.status || "?"}"${u.tenant ? ` (${u.tenant})` : ""}; move-in/move-out dates say ${row.occupied ? `occupied by ${row.tenants.join(", ")}` : "vacant"}`);
+    } else if (rrOccupied && u.tenant && !row.tenants.includes(u.tenant)) {
+      mismatches.push(`room ${u.room}: rent_roll names "${u.tenant}"; the tenant_directory records name ${row.tenants.map((t) => `"${t}"`).join(", ")}`);
     }
   }
 
