@@ -50,6 +50,25 @@ with every documented date-param variant returned identical row sets — there i
 no "rent roll as of date X" through this API. Historical comparison has to be
 done by saving exports over time.
 
+## Historical occupancy ("who was in unit X on date D")
+
+Needed for the city's AUUR Daily Logs (`scripts/auur/`). Since rent_roll cannot
+be asked for a past date, reconstruct it from **move-in / move-out dates**:
+
+- `tenant_directory` with `tenant_statuses: ["0"]`, `["1"]`, `["2"]`, `["3"]`
+  (current / past / future / notice — one call per code, union the rows,
+  de-dupe on unit_id + tenant + move_in + move_out) gives every stay with its
+  `move_in` and `move_out`. A stay covers date D when `move_in <= D` and
+  (`move_out` is null or `move_out >= D`), inclusive on both ends. Past tenants
+  missing `move_out` fall back to `lease_to`.
+- `rent_roll` supplies the unit list (vacant units never appear in
+  tenant_directory) and a same-day cross-check: derived occupancy for *today*
+  must agree with each unit's rent_roll status (`Current`/`Notice-*` =
+  occupied, `Vacant-*` = empty). `scripts/auur/pull-occupancy.js` prints any
+  disagreement.
+- Snapshots are saved (`out/occupancy-snapshot.json`, gitignored — tenant
+  names) so the logs can be rebuilt offline and re-pulled after later dates.
+
 ## Derived metrics (lib/leasing.ts)
 
 Two occupancy numbers, always shown together:
@@ -93,4 +112,6 @@ tracked but excluded from boss-facing PDF reports (explicit request).
 - `dashboard/lib/export.ts` + `app/api/export/route.ts` — the CSV export the
   PDF report scripts consume.
 - `dashboard/scripts/reports/` — offline PDF report generators (see its README).
+- `dashboard/scripts/auur/` — city AUUR Daily Logs: historical occupancy pull +
+  workbook/PDF build (see its README).
 - `dashboard/app/api/inspect/route.ts` — diagnostic dump of raw reports.
