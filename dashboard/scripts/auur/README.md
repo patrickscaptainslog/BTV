@@ -39,13 +39,17 @@ Anneke in the 9/16/2026 meeting). Run again after October 2 and after October
 ## The two steps, separately
 
 ```sh
-node scripts/auur/pull-occupancy.js --out out/occupancy-snapshot.json   # needs AppFolio access
-node scripts/auur/build-daily-logs.js out/occupancy-snapshot.json --out out/   # works offline
+node scripts/auur/pull-occupancy.js --out scripts/auur/out/occupancy-snapshot.json       # needs AppFolio access
+node scripts/auur/build-daily-logs.js scripts/auur/out/occupancy-snapshot.json --out scripts/auur/out   # works offline
 ```
 
-`build-daily-logs.js` options: `--pdf-order newest-first` (last year's PDF ran
-newest to oldest; default is chronological), `--no-pdf`, `--blank` (dated but
-empty tabs, no snapshot needed), `--config`, `--template`.
+(`--out` is relative to the current directory.) `build-daily-logs.js` options:
+`--pdf-order newest-first` (last year's PDF ran newest to oldest; default is
+chronological), `--no-pdf`, `--blank` (dated but empty tabs, no snapshot
+needed), `--config`, `--template`. `make-auur.sh` passes `--no-pdf` and
+`--pdf-order` through. Without a usable Chrome the workbook and summary are
+still written, `daily-logs.html` is kept for printing by hand, and the exit
+code is 3.
 
 A Claude Code web session cannot reach AppFolio (network policy — see
 `../../docs/APPFOLIO-API.md`), so the split matters: run the pull locally, then
@@ -69,8 +73,14 @@ so they can be corrected without touching code). From those, room *N* on date
 - a signed-but-not-yet-moved-in tenant (`Vacant-Rented`) does **not** count — the room shows *Vacant*
 - co-living rooms list every occupant, comma-separated; names are whitespace-cleaned, nothing else
 
-The pull also fetches `rent_roll` for the unit list and cross-checks the
-derivation for *today* against AppFolio's own unit statuses; any disagreement is
+The pull **stops rather than guess**: a network or server error, an empty
+"past tenants" pull, or a status code whose rows do not look like their label
+(past rows without a move-out on or before today, current rows that have not
+moved in) ends the run with no snapshot, because a snapshot missing move-outs
+would quietly mark rooms Vacant on earlier dates. `--allow-empty-past` is the
+override for a building where nobody has moved out. The pull also fetches
+`rent_roll` for the unit list and cross-checks the derivation for *today*
+against AppFolio's own unit statuses and tenant names; any disagreement is
 printed and written into the summary as a "today-check" line. Unit labels map to
 room numbers by their first integer (`"7"`, `"7 - 7"`, `"Room 7"` → 7); odd
 labels can be pinned in `unitRoomOverrides`.

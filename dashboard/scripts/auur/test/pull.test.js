@@ -22,7 +22,7 @@ function run(args, env) {
 const SCRIPT = path.join(__dirname, "..", "pull-occupancy.js");
 const EXPECTED_AUTH = "Basic " + Buffer.from("test-id:test-secret").toString("base64");
 
-function mockServer() {
+function mockServer(opts = {}) {
   const seen = { calls: [], rateLimited: 0 };
   const rr = (unit, tenant, status, extra = {}) => ({ property_name: "2072 Mission", unit_id: `u${unit}`, unit: `${unit} - ${unit}`, tenant, status, move_in: extra.move_in ?? "2025-01-01", move_out: extra.move_out ?? null, lease_from: extra.move_in ?? "2025-01-01", lease_to: extra.lease_to ?? null, rent: "1200.00", emails: "x@example.com", phone_numbers: "Mobile: 415-555-0100" });
   const rentRollPage1 = [rr(1, "Ann One", "Current"), rr(2, "", "Vacant-Unrented"), rr(3, "Cal Three", "Notice-Unrented", { move_out: "2099-12-31" }),
@@ -51,6 +51,8 @@ function mockServer() {
         const code = JSON.parse(body).tenant_statuses[0];
         if (code === "0" && seen.rateLimited === 0) { seen.rateLimited++; return send(429, { error: "rate limited" }); }
         if (code === "3") return send(400, { error: "Invalid tenant_statuses" });
+        if (code === "1" && opts.pastEmpty) return send(200, { results: [] });
+        if (code === "1" && opts.pastBroken) return send(500, { error: "boom" });
         return send(200, { results: dir[code] || [] });
       }
       send(404, { error: "not found" });
@@ -83,6 +85,8 @@ test("pull-occupancy.js builds a snapshot from the mock API", async () => {
     assert.deepEqual(snap.units.map((u) => u.room), ["1", "2", "3", "4", "5"]);
     assert.deepEqual(snap.rows_per_status, { "0": 3, "1": 2, "2": 1, "3": 0 });
     assert.ok(snap.warnings.some((w) => w.includes('tenant_statuses=["3"]') && w.includes("HTTP 400")));
+    assert.deepEqual(snap.rejected_status_codes, ["3"]);
+    assert.ok(snap.status_checks.some((c) => c.startsWith("past: 2/2")));
     const names = snap.occupancies.map((o) => o.tenant).sort();
     assert.deepEqual(names, ["Ann One", "Bo Past", "Cal Three", "Dee Four", "Fay Future", "Old Four"], "de-duplicated, other property excluded");
     assert.equal(seen.rateLimited, 1, "429 was retried");
@@ -116,4 +120,41 @@ test("pull-occupancy.js refuses to run without credentials", async () => {
   const r = await run([SCRIPT, "--out", "/nonexistent/x.json"], { PATH: process.env.PATH, HOME: "/nonexistent", AUUR_ENV_FILE: "/nonexistent/.env.local" });
   assert.equal(r.code, 1);
   assert.ok(r.stderr.includes("APPFOLIO_CLIENT_ID"));
+});
+
+const ENV = (base) => ({ ...process.env, APPFOLIO_DATABASE: "mockdb", APPFOLIO_CLIENT_ID: "test-id", APPFOLIO_CLIENT_SECRET: "test-secret", AUUR_API_BASE: base, AUUR_PACE_MS: "5", AUUR_RETRY_MS: "5" });
+
+test("an empty past-tenant pull is fatal unless --allow-empty-past", async () => {
+  const { server, base } = await mockServer({ pastEmpty: true });
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "auur-"));
+  try {
+    const out = path.join(tmp, "snap.json");
+    const r1 = await run([SCRIPT, "--out", out], ENV(base));
+    assert.equal(r1.code, 1);
+    assert.ok(r1.stderr.includes("past tenants") && r1.stderr.includes("--allow-empty-past"), r1.stderr);
+    assert.ok(!fs.existsSync(out), "no snapshot is written on failure");
+    // rooms in the default config don't all exist in the mock, that's fine here — we only care about exit codes
+    const r2 = await run([SCRIPT, "--out", out, "--allow-empty-past"], ENV(base));
+    assert.equal(r2.code, 0, r2.stderr);
+    assert.ok(JSON.parse(fs.readFileSync(out, "utf8")).warnings.some((w) => w.includes("past tenants")));
+  } finally { server.close(); fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
+test("a 5xx on a status pull is fatal (after retries), never a silent gap", async () => {
+  const { server, base, seen } = await mockServer({ pastBroken: true });
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "auur-"));
+  try {
+    const out = path.join(tmp, "snap.json");
+    const r = await run([SCRIPT, "--out", out], ENV(base));
+    assert.equal(r.code, 1);
+    assert.ok(r.stderr.includes("HTTP 500"), r.stderr);
+    assert.ok(!fs.existsSync(out));
+    assert.equal(seen.calls.filter((c) => c.body.includes('"1"')).length, 3, "retried twice");
+  } finally { server.close(); fs.rmSync(tmp, { recursive: true, force: true }); }
+});
+
+test("an unreachable API is fatal with a readable reason", async () => {
+  const r = await run([SCRIPT, "--out", "/tmp/never.json"], ENV("http://127.0.0.1:9"));
+  assert.equal(r.code, 1);
+  assert.ok(/network error/.test(r.stderr), r.stderr);
 });

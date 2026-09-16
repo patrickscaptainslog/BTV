@@ -21,7 +21,9 @@
  */
 const fs = require("fs");
 const path = require("path");
+const os = require("os");
 const { execFileSync } = require("child_process");
+const { pathToFileURL } = require("url");
 const ExcelJS = require("exceljs");
 const L = require("./lib");
 
@@ -50,7 +52,7 @@ function parseArgs(argv) {
 // --- workbook ---------------------------------------------------------------
 const FIRST_ROOM_ROW = 8; // template rows 8..27 hold the 20 rooms; row 28 is the total
 
-function cloneSheet(wb, src, name) {
+function cloneSheet(wb, src, name, lastRow) {
   const ws = wb.addWorksheet(name, {
     properties: { ...src.properties },
     pageSetup: { ...src.pageSetup, orientation: "portrait", fitToPage: true, fitToWidth: 1, fitToHeight: 1 },
@@ -58,6 +60,7 @@ function cloneSheet(wb, src, name) {
   });
   src.columns.forEach((c, i) => { if (c && c.width) ws.getColumn(i + 1).width = c.width; });
   src.eachRow({ includeEmpty: true }, (row, rn) => {
+    if (rn > lastRow) return; // the template carries ~1000 empty styled rows; keep the used range tight
     const nr = ws.getRow(rn);
     if (row.height) nr.height = row.height;
     row.eachCell({ includeEmpty: true }, (cell, cn) => {
@@ -67,6 +70,7 @@ function cloneSheet(wb, src, name) {
     });
   });
   for (const m of (src.model && src.model.merges) || []) ws.mergeCells(m);
+  ws.pageSetup.printArea = `A1:D${lastRow}`;
   return ws;
 }
 
@@ -82,7 +86,9 @@ function fillSheet(ws, log, cfg) {
     b.alignment = { ...(b.alignment || {}), horizontal: "center" };
     ws.getCell(`C${r}`).value = null;
     ws.getCell(`C${r}`).alignment = { horizontal: "center" };
-    ws.getCell(`D${r}`).value = row && row.occupied ? row.tenants.join(", ") : null;
+    const d = ws.getCell(`D${r}`);
+    d.value = row && row.occupied ? row.tenants.join(", ") : null;
+    d.alignment = { ...(d.alignment || {}), wrapText: true, vertical: "top" };
   });
   const totalRow = FIRST_ROOM_ROW + cfg.rooms.length;
   ws.getCell(`A${totalRow}`).value = `Total Units - ${cfg.rooms.length}`;
@@ -165,13 +171,24 @@ function findChrome() {
   return null;
 }
 
+function pdfPageCount(pdfPath) {
+  return (fs.readFileSync(pdfPath, "latin1").match(/\/Type\s*\/Page(?!s)/g) || []).length;
+}
+
 function renderPdf(htmlPath, pdfPath) {
   const chrome = findChrome();
-  if (!chrome) throw new Error("no Chrome/Chromium found — set CHROME=/path/to/chrome, or run with --no-pdf and print the HTML yourself");
-  execFileSync(chrome, [
-    "--headless", "--no-sandbox", "--disable-gpu", "--no-pdf-header-footer",
-    `--print-to-pdf=${pdfPath}`, `file://${htmlPath}`,
-  ], { stdio: "pipe", timeout: 180000 });
+  if (!chrome) throw new Error("no Chrome/Chromium found — set CHROME=/path/to/chrome or install Google Chrome");
+  if (fs.existsSync(pdfPath)) fs.unlinkSync(pdfPath);
+  const profile = fs.mkdtempSync(path.join(os.tmpdir(), "auur-chrome-")); // a fresh profile: a Chrome already open would otherwise swallow the request
+  try {
+    execFileSync(chrome, [
+      "--headless", "--no-sandbox", "--disable-gpu", "--no-pdf-header-footer", `--user-data-dir=${profile}`,
+      `--print-to-pdf=${pdfPath}`, pathToFileURL(htmlPath).href,
+    ], { stdio: "pipe", timeout: 180000 });
+  } finally {
+    fs.rmSync(profile, { recursive: true, force: true });
+  }
+  if (!fs.existsSync(pdfPath) || fs.statSync(pdfPath).size === 0) throw new Error(`${chrome} exited without writing ${pdfPath}`);
   return chrome;
 }
 
@@ -189,9 +206,17 @@ async function main() {
   if (!args.blank) {
     snapshot = JSON.parse(fs.readFileSync(args.snapshot, "utf8"));
     if (snapshot.schema !== "auur-occupancy-snapshot/1" || !Array.isArray(snapshot.occupancies)) throw new Error(`${args.snapshot} is not an occupancy snapshot from pull-occupancy.js`);
-    cutoff = snapshot.pulled_on || L.toIso(snapshot.pulled_at);
-    if (!cutoff) throw new Error("snapshot has no pulled_on / pulled_at date");
+    cutoff = /^\d{4}-\d{2}-\d{2}$/.test(snapshot.pulled_on || "") ? snapshot.pulled_on
+      : (snapshot.pulled_at ? L.todayIn(snapshot.time_zone || cfg.property.timeZone, new Date(snapshot.pulled_at)) : null);
+    if (!cutoff) throw new Error("snapshot has no usable pulled_on / pulled_at date");
   }
+
+  const label = cfg.property.match || "Daily Log";
+  const xlsxPath = path.join(outDir, `${label} Daily Log - ${cfg.filingYear}.xlsx`);
+  const pdfPathWanted = path.join(outDir, `${label} Daily Logs - AUUR ${cfg.filingYear}.pdf`);
+  const htmlPathWanted = path.join(outDir, "daily-logs.html");
+  const summaryPath = path.join(outDir, "daily-logs-summary.txt");
+  for (const f of [xlsxPath, pdfPathWanted, htmlPathWanted, summaryPath]) if (fs.existsSync(f)) fs.unlinkSync(f); // never leave a stale deliverable next to a fresh one
 
   const logs = cfg.dates.map((iso) => {
     if (!snapshot) return { date: iso, filled: false, reason: "blank workbook" };
@@ -204,26 +229,30 @@ async function main() {
   await wb.xlsx.readFile(templatePath);
   const master = wb.getWorksheet("Master Sheet") || wb.worksheets[0];
   for (const ws of [...wb.worksheets]) if (ws.id !== master.id) wb.removeWorksheet(ws.id);
-  for (const log of logs) fillSheet(cloneSheet(wb, master, L.tabName(log.date)), log, cfg);
+  const lastRow = FIRST_ROOM_ROW + cfg.rooms.length; // the total row
+  for (const log of logs) fillSheet(cloneSheet(wb, master, L.tabName(log.date), lastRow), log, cfg);
   wb.modified = new Date();
   wb.lastModifiedBy = "auur/build-daily-logs.js";
-  const label = cfg.property.match || "Daily Log";
-  const xlsxPath = path.join(outDir, `${label} Daily Log - ${cfg.filingYear}.xlsx`);
   await wb.xlsx.writeFile(xlsxPath);
 
   // PDF: one page per filled date.
   const filled = logs.filter((l) => l.filled);
   const order = args.pdfOrder || cfg.pdfOrder || "chronological";
   const pages = order === "newest-first" ? [...filled].reverse() : filled;
-  let pdfPath = null, htmlPath = null, chrome = null;
+  let pdfPath = null, htmlPath = null, chrome = null, pdfProblem = null, pdfPages = 0;
   if (filled.length) {
-    htmlPath = path.join(outDir, "daily-logs.html");
+    htmlPath = htmlPathWanted;
     fs.writeFileSync(htmlPath, documentHtml(pages, cfg));
     if (args.pdf) {
-      pdfPath = path.join(outDir, `${label} Daily Logs - AUUR ${cfg.filingYear}.pdf`);
-      chrome = renderPdf(htmlPath, pdfPath);
-      fs.unlinkSync(htmlPath);
-      htmlPath = null;
+      try {
+        chrome = renderPdf(htmlPath, pdfPathWanted);
+        pdfPath = pdfPathWanted;
+        pdfPages = pdfPageCount(pdfPath);
+        fs.unlinkSync(htmlPath);
+        htmlPath = null;
+      } catch (e) {
+        pdfProblem = e.message; // keep the HTML so it can be printed by hand; the summary says so
+      }
     }
   }
 
@@ -232,14 +261,15 @@ async function main() {
   lines.push(`Daily Logs — ${cfg.property.pdfLabel} — AUUR ${cfg.filingYear}`);
   lines.push(snapshot ? `Snapshot: ${path.resolve(args.snapshot)} (pulled ${snapshot.pulled_at}, AppFolio database "${snapshot.database}")` : "Blank workbook (no snapshot)");
   lines.push(`Workbook: ${xlsxPath}`);
-  if (pdfPath) lines.push(`PDF:      ${pdfPath}  (${pages.length} page${pages.length === 1 ? "" : "s"}, ${order})`);
-  if (htmlPath) lines.push(`HTML:     ${htmlPath}  (PDF skipped)`);
+  if (pdfPath) lines.push(`PDF:      ${pdfPath}  (${pdfPages} page${pdfPages === 1 ? "" : "s"}, ${order})`);
+  else if (filled.length) lines.push(`PDF:      not written${pdfProblem ? ` — ${pdfProblem}` : " (--no-pdf)"}`);
+  if (htmlPath) lines.push(`HTML:     ${htmlPath}  (open in a browser and print to PDF)`);
   lines.push("");
   lines.push("Tab        Date         Occupied  Vacant rooms");
   for (const log of logs) {
     const tab = L.tabName(log.date).padEnd(10);
     if (!log.filled) { lines.push(`${tab} ${log.date}   —         (left blank: ${log.reason})`); continue; }
-    lines.push(`${tab} ${log.date}   ${String(log.occupied).padStart(2)} / ${cfg.rooms.length}   ${log.vacantRooms.length ? log.vacantRooms.join(", ") : "none"}`);
+    lines.push(`${tab} ${log.date}   ${String(log.occupied).padStart(2)} / ${cfg.rooms.length}   ${log.vacantRooms.length ? log.vacantRooms.join(", ") : "none"}${log.date === cutoff ? "   (same-day pull — re-run after today to confirm)" : ""}`);
   }
   const warn = [];
   if (snapshot) {
@@ -248,12 +278,15 @@ async function main() {
     const seen = new Set();
     for (const log of filled) for (const w of log.warnings) if (!seen.has(w)) { seen.add(w); warn.push(w); }
     for (const log of filled) for (const r of log.rows) if (r.tenants.length > 2) warn.push(`${log.date}: room ${r.room} lists ${r.tenants.length} names (${r.tenants.join(", ")}) — co-living, or an overlapping record?`);
+    for (const log of filled) for (const r of log.rows) if (r.tenants.join(", ").length > 60) warn.push(`${log.date}: room ${r.room} has a long name list that will wrap in the workbook — check the printed tab`);
   }
+  if (pdfPath && pdfPages !== pages.length) warn.push(`PDF has ${pdfPages} pages for ${pages.length} dates — a log spilled onto a second page; shorten the names or check the PDF`);
   if (warn.length) { lines.push(""); lines.push("Review:"); for (const w of warn) lines.push(`  ! ${w}`); }
   const summary = lines.join("\n") + "\n";
-  fs.writeFileSync(path.join(outDir, "daily-logs-summary.txt"), summary);
+  fs.writeFileSync(summaryPath, summary);
   process.stdout.write(summary);
   if (chrome) console.log(`(PDF rendered with ${chrome})`);
+  if (pdfProblem) process.exitCode = 3;
 }
 
 main().catch((e) => { console.error(`\nERROR: ${e.message}`); process.exit(1); });

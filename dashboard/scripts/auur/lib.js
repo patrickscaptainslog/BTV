@@ -51,7 +51,7 @@ function longDate(iso) {
   const [y, m, d] = iso.split("-").map(Number);
   return `${MONTHS[m - 1]} ${d}, ${y}`;
 }
-/** Calendar date right now in the given IANA time zone, as YYYY-MM-DD. */
+/** Calendar date of `now` in the given IANA time zone, as YYYY-MM-DD. */
 function todayIn(timeZone, now = new Date()) {
   return new Intl.DateTimeFormat("en-CA", { timeZone, year: "numeric", month: "2-digit", day: "2-digit" }).format(now);
 }
@@ -74,23 +74,31 @@ function roomFromUnit(unit, overrides = {}) {
 }
 
 // --- occupancy rule ---------------------------------------------------------
+const isPast = (label) => /past|moved.?out|prior/.test(label);
+const isFuture = (label) => /future/.test(label);
+
 /**
- * Normalise one occupancy record (a tenant_directory / rent_roll row) into
- * { start, end } ISO dates. Returns { skip: reason } when it cannot be placed.
+ * Normalise one occupancy record (a tenant_directory row) into { start, end }
+ * ISO dates. Returns { skip: reason } when it cannot be placed safely.
  *
- * Rule: start = move_in (fallback lease_from); end = move_out. A record with no
- * end date is open-ended (still there) UNLESS it is a past tenant, in which case
- * lease_to is used, and if that is missing too the record is skipped with a warning
- * rather than shown as occupying a room forever.
+ * Rule: start = move_in (fallback lease_from, except for future tenants, who
+ * must have a real move_in); end = move_out. A record with no end date is
+ * open-ended (still there) UNLESS it is a past tenant: then lease_to is used,
+ * and only if it is on or before the pull date (`cutoff`) — a past tenant has
+ * by definition already left, so a lease_to after the pull date is not their
+ * end date. Anything that cannot be placed is skipped with a reason rather
+ * than shown as occupying a room.
  */
-function resolveSpan(o) {
-  const start = toIso(o.move_in) || toIso(o.lease_from);
-  if (!start) return { skip: "no move_in/lease_from date" };
-  let end = toIso(o.move_out);
+function resolveSpan(o, cutoff = null) {
   const label = String(o.status_label || o.status || "").toLowerCase();
-  if (!end && /past|moved.?out|prior/.test(label)) {
+  const moveIn = toIso(o.move_in);
+  const start = moveIn || (isFuture(label) ? null : toIso(o.lease_from));
+  if (!start) return { skip: isFuture(label) ? "future tenant with no move_in date" : "no move_in/lease_from date" };
+  let end = toIso(o.move_out);
+  if (!end && isPast(label)) {
     end = toIso(o.lease_to);
     if (!end) return { skip: "past tenant with no move_out/lease_to date" };
+    if (cutoff && end > cutoff) return { skip: `past tenant with no move_out and lease_to (${end}) after the pull date` };
   }
   return { start, end: end || null };
 }
@@ -105,21 +113,32 @@ function spanCovers(span, iso) {
  * Returns { date, rows:[{room, occupied, tenants}], occupied, vacantRooms, warnings }.
  */
 function dailyLog(iso, snapshot, cfg) {
+  const cutoff = snapshot.pulled_on || null;
+  const overrides = cfg.unitRoomOverrides || {};
   const byRoom = new Map(cfg.rooms.map((r) => [r, []]));
   const warnings = [];
-  const seenSkips = new Set();
+  const seen = new Set();
+  const warn = (w) => { if (!seen.has(w)) { seen.add(w); warnings.push(w); } };
+  const roomsOfName = new Map();
   for (const o of snapshot.occupancies || []) {
-    const span = resolveSpan(o);
-    if (span.skip) {
-      const k = `${o.unit}|${o.tenant}|${span.skip}`;
-      if (!seenSkips.has(k)) { seenSkips.add(k); warnings.push(`skipped ${cleanName(o.tenant) || "(no name)"} in unit "${o.unit}": ${span.skip}`); }
-      continue;
-    }
+    const span = resolveSpan(o, cutoff);
+    if (span.skip) { warn(`skipped ${cleanName(o.tenant) || "(no name)"} in unit "${o.unit}": ${span.skip}`); continue; }
     if (!spanCovers(span, iso)) continue;
-    const room = o.room != null && o.room !== "" ? String(o.room) : roomFromUnit(o.unit, cfg.unitRoomOverrides);
-    if (!byRoom.has(room)) { warnings.push(`unit "${o.unit}" maps to room "${room}", which is not in the room list`); continue; }
+    // Config overrides win over the room stored at pull time, so a fix in
+    // auur-2026.json takes effect on rebuild without re-pulling.
+    const unit = String(o.unit == null ? "" : o.unit).trim();
+    const room = Object.prototype.hasOwnProperty.call(overrides, unit) ? String(overrides[unit])
+      : (o.room != null && o.room !== "" ? String(o.room) : roomFromUnit(unit));
+    if (!byRoom.has(room)) { warn(`unit "${o.unit}" maps to room "${room}", which is not in the room list`); continue; }
     const name = cleanName(o.tenant);
-    if (name && !byRoom.get(room).includes(name)) byRoom.get(room).push(name);
+    if (!name) continue;
+    if (!byRoom.get(room).includes(name)) byRoom.get(room).push(name);
+    const k = name.toLowerCase();
+    if (!roomsOfName.has(k)) roomsOfName.set(k, new Set());
+    roomsOfName.get(k).add(room);
+  }
+  for (const [k, rooms] of roomsOfName) {
+    if (rooms.size > 1) warn(`${iso}: "${k}" is listed in rooms ${[...rooms].join(" and ")} on the same day (a transfer on that date?) — confirm which room to count`);
   }
   const rows = cfg.rooms.map((room) => {
     const tenants = byRoom.get(room);

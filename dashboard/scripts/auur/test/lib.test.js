@@ -101,3 +101,27 @@ test("duplicate names in a room are collapsed and whitespace cleaned", () => {
   const log = L.dailyLog("2026-01-02", snap, cfg);
   assert.deepEqual(roomRow(log, "9").tenants, ["Lee Steady"]);
 });
+
+test("cutoff-aware rules: past tenant whose lease_to is after the pull date is skipped", () => {
+  assert.ok(L.resolveSpan({ move_in: "2025-01-01", move_out: null, lease_to: "2027-01-01", status_label: "past" }, "2026-09-16").skip);
+  assert.deepEqual(L.resolveSpan({ move_in: "2025-01-01", move_out: null, lease_to: "2026-01-01", status_label: "past" }, "2026-09-16"), { start: "2025-01-01", end: "2026-01-01" });
+  assert.ok(L.resolveSpan({ move_in: null, lease_from: "2025-01-01", status_label: "future" }).skip, "future tenants need a real move_in");
+});
+
+test("config overrides beat the room stored in the snapshot", () => {
+  const snap = { pulled_on: "2026-09-16", occupancies: [{ unit: "Penthouse", room: "22", tenant: "Pat Override", move_in: "2025-01-01", move_out: null }] };
+  const before = L.dailyLog("2026-01-02", snap, cfg);
+  assert.equal(before.occupied, 0);
+  const after = L.dailyLog("2026-01-02", snap, { ...cfg, unitRoomOverrides: { Penthouse: "21" } });
+  assert.deepEqual(roomRow(after, "21").tenants, ["Pat Override"]);
+});
+
+test("same name in two rooms on one day is flagged", () => {
+  const snap = { pulled_on: "2026-09-16", occupancies: [
+    { unit: "1", tenant: "Mover Person", move_in: "2025-01-01", move_out: "2026-01-02" },
+    { unit: "2", tenant: "Mover Person", move_in: "2026-01-02", move_out: null },
+  ] };
+  const log = L.dailyLog("2026-01-02", snap, cfg);
+  assert.equal(log.occupied, 2);
+  assert.ok(log.warnings.some((w) => w.includes("rooms 1 and 2")));
+});
