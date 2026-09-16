@@ -18,7 +18,8 @@
  * and never written to the snapshot.
  *
  * Test hooks (not for normal use): AUUR_API_BASE overrides the API origin;
- * AUUR_PACE_MS / AUUR_RETRY_MS shorten the rate-limit spacing.
+ * AUUR_PACE_MS / AUUR_RETRY_MS shorten the rate-limit spacing; AUUR_ENV_FILE
+ * points at a different .env file.
  */
 const fs = require("fs");
 const path = require("path");
@@ -41,7 +42,7 @@ function parseArgs(argv) {
 // Minimal .env.local loader (same idea as scripts/check-appfolio.ts) — values
 // already present in the environment win.
 function loadEnvLocal() {
-  const envPath = path.join(L.HERE, "..", "..", ".env.local");
+  const envPath = process.env.AUUR_ENV_FILE || path.join(L.HERE, "..", "..", ".env.local");
   if (!fs.existsSync(envPath)) return null;
   for (const line of fs.readFileSync(envPath, "utf8").split(/\r?\n/)) {
     const m = line.match(/^\s*(?:export\s+)?([A-Z_][A-Z0-9_]*)\s*=\s*(.*)$/);
@@ -197,6 +198,11 @@ async function main() {
       const prev = occ.get(k);
       if (prev) { if (prev.status_label !== label && !prev.also_in.includes(label)) prev.also_in.push(label); }
       else occ.set(k, o);
+    }
+  }
+  for (const [code, label] of Object.entries(cfg.tenantStatusCodes)) {
+    if (label === "past" && (directory[code] || []).length === 0) {
+      warnings.push(`tenant_statuses=["${code}"] (past tenants) returned no rows — if anyone has moved out of this property, earlier dates will wrongly show their room as Vacant. Check the code in ${path.basename(cfg.configPath)} (tenantStatusCodes) before trusting past dates.`);
     }
   }
   if (occ.size === 0) {

@@ -113,7 +113,7 @@ test("pull-occupancy.js exits 2 when nothing matches the property", async () => 
 });
 
 test("pull-occupancy.js refuses to run without credentials", async () => {
-  const r = await run([SCRIPT, "--out", "/nonexistent/x.json"], { PATH: process.env.PATH, HOME: "/nonexistent" });
+  const r = await run([SCRIPT, "--out", "/nonexistent/x.json"], { PATH: process.env.PATH, HOME: "/nonexistent", AUUR_ENV_FILE: "/nonexistent/.env.local" });
   assert.equal(r.code, 1);
   assert.ok(r.stderr.includes("APPFOLIO_CLIENT_ID"));
 });
