@@ -22,6 +22,7 @@
 const fs = require("fs");
 const path = require("path");
 const { execFileSync } = require("child_process");
+const { pathToFileURL } = require("url");
 const ExcelJS = require("exceljs");
 const L = require("./lib");
 
@@ -156,10 +157,17 @@ function findChrome() {
   candidates.push(
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "/Applications/Chromium.app/Contents/MacOS/Chromium",
-    "google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "chrome",
   );
+  if (process.platform === "win32") {
+    for (const root of [process.env.PROGRAMFILES, process.env["PROGRAMFILES(X86)"], process.env.LOCALAPPDATA].filter(Boolean)) {
+      candidates.push(path.join(root, "Google", "Chrome", "Application", "chrome.exe"));
+      candidates.push(path.join(root, "Chromium", "Application", "chrome.exe"));
+      candidates.push(path.join(root, "Microsoft", "Edge", "Application", "msedge.exe"));
+    }
+  }
+  candidates.push("google-chrome", "google-chrome-stable", "chromium", "chromium-browser", "chrome");
   for (const c of candidates) {
-    if (c.includes("/")) { if (fs.existsSync(c)) return c; continue; }
+    if (path.basename(c) !== c) { if (fs.existsSync(c)) return c; continue; }
     try { execFileSync(process.platform === "win32" ? "where" : "which", [c], { stdio: "pipe" }); return c; } catch { /* next */ }
   }
   return null;
@@ -170,7 +178,7 @@ function renderPdf(htmlPath, pdfPath) {
   if (!chrome) throw new Error("no Chrome/Chromium found — set CHROME=/path/to/chrome, or run with --no-pdf and print the HTML yourself");
   execFileSync(chrome, [
     "--headless", "--no-sandbox", "--disable-gpu", "--no-pdf-header-footer",
-    `--print-to-pdf=${pdfPath}`, `file://${htmlPath}`,
+    `--print-to-pdf=${pdfPath}`, pathToFileURL(htmlPath).href,
   ], { stdio: "pipe", timeout: 180000 });
   return chrome;
 }

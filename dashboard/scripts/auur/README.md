@@ -29,7 +29,8 @@ Outputs land in `scripts/auur/out/` (gitignored — it contains tenant names):
 Needs Node 18+, AppFolio credentials in `dashboard/.env.local`
 (`APPFOLIO_DATABASE`, `APPFOLIO_CLIENT_ID`, `APPFOLIO_CLIENT_SECRET` — see
 `.env.example`), and a Chrome/Chromium for the PDF (`CHROME=/path/to/chrome` to
-override; Google Chrome in `/Applications` is found automatically on a Mac).
+override; Google Chrome in `/Applications` on a Mac, or under Program Files on
+Windows, is found automatically).
 
 **Dates after the pull date are left blank on purpose** — the city wants the
 exact status on the day, never a projection (that was the instruction from
