@@ -82,6 +82,30 @@ tracked but excluded from boss-facing PDF reports (explicit request).
 - `/api/inspect` is the probe harness — extend it to answer "what columns does
   report X return", have the user open it, and read the paste.
 
+## Troubleshooting
+
+**`AppFolio API 401: HTTP Basic: Access denied`** — the credentials were
+rejected. Note the distinction: if the env vars were *missing*, the error would
+instead read `Missing APPFOLIO_CLIENT_ID or APPFOLIO_CLIENT_SECRET`. A 401 means
+the request reached AppFolio and the key is wrong.
+
+Almost always this means **the Reports API credentials were regenerated**.
+AppFolio's Developer Space shows only one active pair per user; clicking
+"Generate New Credentials" revokes the previous pair immediately, with no grace
+period, breaking any deployment still holding the old secret. Check the
+**Created** timestamp on that screen — if it is newer than the last successful
+dashboard load, that is the cause. (Happened 2026-09-16.)
+
+Fix: copy the current pair from AppFolio → Developer Space → Reports API into
+the Vercel env vars, then **redeploy** — Vercel env changes do not reach an
+existing deployment until it is rebuilt.
+
+Open **`/api/diag`** (password-gated) to tell the cases apart. It reports the
+shape of each `APPFOLIO_*` variable (set, length, stray whitespace/newlines,
+wrapping quotes) without ever returning secret values, and probes AppFolio both
+as-stored and trimmed — so a pasted trailing newline is distinguishable from a
+genuinely revoked key.
+
 ## Key files
 
 - `dashboard/lib/appfolio.ts` — fetch layer: auth, pagination, rate-limit
