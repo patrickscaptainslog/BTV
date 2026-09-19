@@ -45,7 +45,14 @@ export async function GET() {
   const td0 = await postReport("tenant_directory", { tenant_statuses: ["0"] });
   const td0Columns = td0.rows.length > 0 ? Object.keys(td0.rows[0]) : [];
 
+  await new Promise(r => setTimeout(r, 2500));
+
+  // unit_vacancy — confirms which column carries the vacancy duration
+  const uv = await postReport("unit_vacancy", {});
+  const uvColumns = uv.rows.length > 0 ? Object.keys(uv.rows[0]) : [];
+
   return NextResponse.json({
+    unit_vacancy: { total: uv.rows.length, columns: uvColumns, sample: uv.rows.slice(0, 3) },
     vacant_rented_rows_full: vacantRented,
     tenant_directory_status2: { total: td2.rows.length, rows: td2.rows },
     aged_receivables_status2: { total: ar.rows.length, rows: ar.rows },

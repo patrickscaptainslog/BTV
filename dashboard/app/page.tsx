@@ -304,6 +304,96 @@ export default async function DashboardPage() {
               </details>
             </section>
 
+            {/* Vacant Rooms — unleased and needing a tenant */}
+            {occ && (
+              <section id="vacant" className="bg-white rounded-xl border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-1">
+                  <h2 className="text-base font-semibold text-slate-800">Vacant Rooms</h2>
+                  <span className="text-xs font-medium bg-slate-100 text-slate-500 rounded-full px-2 py-0.5">
+                    {occ.vacant_units.length}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-400 mb-3">
+                  Rooms with no signed lease — these need a tenant. Rooms that are empty but already
+                  re-leased appear under Move-Ins.
+                </p>
+
+                {occ.vacant_units.length === 0 ? (
+                  <p className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2">
+                    No vacant rooms — every room is under a signed lease.
+                  </p>
+                ) : (
+                  <>
+                    {/* Mobile: stacked cards */}
+                    <ul className="sm:hidden divide-y divide-slate-100">
+                      {occ.vacant_units.map((v, i) => (
+                        <li key={i} className="py-3 flex items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <p className="font-medium text-slate-800">{v.property_name} {v.unit_number}</p>
+                            {(v.beds != null || v.baths != null) && (
+                              <p className="text-xs text-slate-400 mt-0.5">
+                                {v.beds != null ? `${v.beds}bd` : ""}{v.baths != null ? ` ${v.baths}ba` : ""}
+                              </p>
+                            )}
+                            {v.estimated_lost_rent != null && (
+                              <p className="text-xs text-slate-400 mt-0.5">
+                                ~${v.estimated_lost_rent.toLocaleString()} lost rent
+                              </p>
+                            )}
+                          </div>
+                          <span className="shrink-0 text-right">
+                            {v.days_vacant != null ? (
+                              <span className={`text-sm font-semibold ${v.days_vacant > 30 ? "text-red-600" : "text-amber-600"}`}>
+                                {v.days_vacant}d vacant
+                              </span>
+                            ) : (
+                              <span className="text-xs text-slate-300 italic">date unknown</span>
+                            )}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                    {/* Desktop: table */}
+                    <div className="hidden sm:block overflow-x-auto">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">
+                            <th className="text-left pb-2 pr-4">Room</th>
+                            <th className="text-right pb-2 pr-4">Days Vacant</th>
+                            <th className="text-right pb-2">Est. Lost Rent</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-50">
+                          {occ.vacant_units.map((v, i) => (
+                            <tr key={i} className="hover:bg-slate-50">
+                              <td className="py-2 pr-4">
+                                <p className="font-medium text-slate-800">{v.property_name} {v.unit_number}</p>
+                                {(v.beds != null || v.baths != null) && (
+                                  <p className="text-xs text-slate-400">
+                                    {v.beds != null ? `${v.beds}bd` : ""}{v.baths != null ? ` ${v.baths}ba` : ""}
+                                  </p>
+                                )}
+                              </td>
+                              <td className="py-2 pr-4 text-right">
+                                {v.days_vacant != null ? (
+                                  <span className={`font-medium ${v.days_vacant > 30 ? "text-red-600" : "text-amber-600"}`}>
+                                    {v.days_vacant}d
+                                  </span>
+                                ) : <span className="text-slate-300 italic text-xs">unknown</span>}
+                              </td>
+                              <td className="py-2 text-right text-slate-600">
+                                {v.estimated_lost_rent != null ? `$${v.estimated_lost_rent.toLocaleString()}` : "—"}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
+              </section>
+            )}
+
             {/* Lease Renewals — expiring/expired leases with outreach tracking */}
             <section id="renewals" className="bg-white rounded-xl border border-slate-200 p-5">
               <div className="flex items-center gap-2 mb-1">
@@ -316,50 +406,6 @@ export default async function DashboardPage() {
               <RenewalTracker renewals={data.renewals} initialStatuses={leaseStatuses} kvAvailable={kvOn} />
             </section>
 
-            {/* Vacant Units */}
-            {occ && occ.vacant_units.length > 0 && (
-              <section className="bg-white rounded-xl border border-slate-200 p-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <h2 className="text-base font-semibold text-slate-800">Vacant Units</h2>
-                  <span className="text-xs font-medium bg-slate-100 text-slate-500 rounded-full px-2 py-0.5">
-                    {occ.vacant_units.length}
-                  </span>
-                </div>
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="text-xs text-slate-400 uppercase tracking-wide border-b border-slate-100">
-                      <th className="text-left pb-2 pr-4">Unit</th>
-                      <th className="text-right pb-2 pr-4">Days Vacant</th>
-                      <th className="text-right pb-2">Est. Lost Rent</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-50">
-                    {occ.vacant_units.map((v, i) => (
-                      <tr key={i} className="hover:bg-slate-50">
-                        <td className="py-2 pr-4">
-                          <p className="font-medium text-slate-800">{v.property_name} {v.unit_number}</p>
-                          {(v.beds != null || v.baths != null) && (
-                            <p className="text-xs text-slate-400">
-                              {v.beds != null ? `${v.beds}bd` : ""}{v.baths != null ? ` ${v.baths}ba` : ""}
-                            </p>
-                          )}
-                        </td>
-                        <td className="py-2 pr-4 text-right">
-                          {v.days_vacant != null ? (
-                            <span className={`font-medium ${v.days_vacant > 30 ? "text-red-600" : "text-amber-600"}`}>
-                              {v.days_vacant}d
-                            </span>
-                          ) : "—"}
-                        </td>
-                        <td className="py-2 text-right text-slate-600">
-                          {v.estimated_lost_rent != null ? `$${v.estimated_lost_rent.toLocaleString()}` : "—"}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </section>
-            )}
 
             {/* Lease Expirations chart */}
             <section className="bg-white rounded-xl border border-slate-200 p-5">

@@ -314,6 +314,37 @@ export function occupancySummary(
   rentRoll: Record<string, unknown>[],
   vacancyRows: Record<string, unknown>[]
 ): OccupancySummary {
+  // Index the unit_vacancy report so vacancy duration can come from AppFolio's
+  // own figure. rent_roll only carries the previous tenant's move_out, which is
+  // frequently absent once a unit has been vacant for a while.
+  const vacancyByUnitId = new Map<string, Record<string, unknown>>();
+  const vacancyByUnitKey = new Map<string, Record<string, unknown>>();
+  for (const v of vacancyRows) {
+    const uid = str(v, "unit_id");
+    if (uid) vacancyByUnitId.set(uid, v);
+    const key = unitKey(v);
+    if (key !== "|") vacancyByUnitKey.set(key, v);
+  }
+
+  // Days a unit has been empty: prefer an explicit count from the vacancy
+  // report, else derive it from whichever "vacant since" date is present.
+  // Column names vary by account, so try the documented variants in order.
+  const daysVacantFrom = (row: Record<string, unknown> | undefined): number | null => {
+    if (!row) return null;
+    for (const k of ["days_vacant", "vacant_days", "days_on_market", "days_vacant_count"]) {
+      const raw = row[k];
+      if (raw != null && raw !== "") {
+        const n = parseInt(String(raw).replace(/[^0-9-]/g, ""), 10);
+        if (!isNaN(n) && n >= 0) return n;
+      }
+    }
+    const since = nullable(
+      row,
+      "vacant_since", "vacancy_date", "vacated_on", "last_move_out", "move_out", "vacancy_start"
+    );
+    return since ? Math.max(0, -daysUntil(since)) : null;
+  };
+
   // Build a VacantUnit record from a unit's rows
   const buildVacant = (rows: Record<string, unknown>[]): VacantUnit => {
     const r =
@@ -322,9 +353,10 @@ export function occupancySummary(
         return statusOf(row).includes("vacant") || t === "" || t.includes("no tenant");
       }) ?? rows[0];
 
-    const vacantSince = nullable(r, "move_out", "vacant_since", "vacancy_start");
-    const marketRent = num(r, "market_rent", "rent");
-    const daysVacant = vacantSince ? Math.max(0, -daysUntil(vacantSince)) : null;
+    const vacancyRow =
+      vacancyByUnitId.get(str(r, "unit_id")) ?? vacancyByUnitKey.get(unitKey(r));
+    const marketRent = num(r, "market_rent", "rent") || num(vacancyRow ?? {}, "market_rent", "rent");
+    const daysVacant = daysVacantFrom(vacancyRow) ?? daysVacantFrom(r);
 
     let beds: number | null = null;
     let baths: number | null = null;

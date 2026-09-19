@@ -138,6 +138,35 @@ describe("occupancySummary", () => {
     expect(by["Oak"].occupancy_pct).toBe(100);
   });
 
+  it("takes days vacant from the unit_vacancy report when rent_roll has no move_out", () => {
+    const rentRoll = [
+      { ...base, unit_id: "77", property_name: "Oak", unit: "5", status: "Vacant-Unrented", tenant: "", market_rent: "3000.00" },
+    ];
+    // AppFolio's own count; rent_roll carries no move_out for this unit.
+    const vacancy = [{ unit_id: "77", property_name: "Oak", unit: "5", days_vacant: "21" }];
+    const result = occupancySummary(rentRoll, vacancy);
+    expect(result.vacant_units[0].days_vacant).toBe(21);
+    expect(result.vacant_units[0].estimated_lost_rent).toBe(2100);
+  });
+
+  it("derives days vacant from a vacancy date when no explicit count exists", () => {
+    const rentRoll = [
+      { ...base, unit_id: "78", property_name: "Oak", unit: "6", status: "Vacant-Unrented", tenant: "", market_rent: "3000.00" },
+    ];
+    const vacancy = [{ unit_id: "78", vacant_since: "2025-01-05" }];
+    const result = occupancySummary(rentRoll, vacancy);
+    expect(result.vacant_units[0].days_vacant).toBe(10); // FAKE_TODAY is 2025-01-15
+  });
+
+  it("reports days vacant as null when neither source has a date", () => {
+    const rentRoll = [
+      { ...base, unit_id: "79", property_name: "Oak", unit: "7", status: "Vacant-Unrented", tenant: "", market_rent: "3000.00" },
+    ];
+    const result = occupancySummary(rentRoll, []);
+    expect(result.vacant_units[0].days_vacant).toBeNull();
+    expect(result.vacant_units[0].estimated_lost_rent).toBeNull();
+  });
+
   it("calculates estimated lost rent for vacant units", () => {
     const rentRoll = [
       {
