@@ -8,6 +8,7 @@ import RefreshButton from "@/components/RefreshButton";
 import ExportButton from "@/components/ExportButton";
 import RenewalTracker from "@/components/RenewalTracker";
 import { getLeaseStatuses, kvAvailable } from "@/lib/leaseStatus";
+import { explainApiError } from "@/lib/apiError";
 
 export const dynamic = "force-dynamic";
 
@@ -82,11 +83,29 @@ export default async function DashboardPage() {
       </header>
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
-        {fetchError && (
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-sm text-red-700">
-            <strong>API Error:</strong> {fetchError}
-          </div>
-        )}
+        {fetchError && (() => {
+          const help = explainApiError(fetchError);
+          return (
+            <div className="bg-red-50 border border-red-200 rounded-xl p-4 sm:p-5">
+              <h2 className="text-base font-semibold text-red-800">{help.title}</h2>
+              <p className="text-sm text-red-700 mt-1.5">{help.detail}</p>
+              <ol className="mt-3 space-y-1.5 text-sm text-red-700">
+                {help.steps.map((s, i) => (
+                  <li key={i} className="flex gap-2">
+                    <span className="shrink-0 font-semibold text-red-400">{i + 1}.</span>
+                    <span>{s}</span>
+                  </li>
+                ))}
+              </ol>
+              <details className="mt-3">
+                <summary className="text-xs text-red-400 cursor-pointer select-none">
+                  Technical details
+                </summary>
+                <p className="mt-1.5 text-xs font-mono text-red-500 break-words">{help.raw}</p>
+              </details>
+            </div>
+          );
+        })()}
 
         {data && (
           <>
