@@ -155,6 +155,9 @@ export function upcomingMoveIns(
         days_until: daysUntil(moveIn),
         monthly_rent: num(ft, "rent"),
         has_replacement: true,
+        // tenant_directory carries the incoming tenant's contact columns.
+        email: contactEmail(ft),
+        phone: contactPhone(ft),
       }];
     });
 
@@ -193,6 +196,8 @@ export function upcomingMoveIns(
         property_name: str(r, "property_name"),
         unit_number: str(r, "unit"),
         tenant_name: ft ? str(ft, "tenant") : "",
+        email: ft ? contactEmail(ft) : null,
+        phone: ft ? contactPhone(ft) : null,
         date: "",
         days_until: 999,
         monthly_rent: num(r, "rent", "market_rent"),
@@ -208,10 +213,12 @@ export function upcomingMoveIns(
 // ---------------------------------------------------------------------------
 export function upcomingMoveOuts(
   rentRoll: Record<string, unknown>[],
+  contacts: Record<string, unknown>[] = [],
   days = 90
 ): MoveEvent[] {
   // Units that have a future tenant lined up (used to flag replacements)
   const futureUnits = new Set(rentRoll.filter(isFutureTenant).map(unitKey));
+  const { byTenant, byUnit } = buildContactMaps(contacts);
 
   // For Notice tenants, AppFolio may leave move_out null and only populate lease_to.
   function moveOutDate(r: Record<string, unknown>): string | null {
@@ -227,11 +234,16 @@ export function upcomingMoveOuts(
     })
     .map((r) => {
       const date = moveOutDate(r) ?? "";
+      const uid = str(r, "unit_id");
+      const name = str(r, "tenant").trim().toLowerCase();
+      const contact = byTenant.get(`${uid}|${name}`) ?? byUnit.get(uid) ?? null;
       return {
-        unit_id: str(r, "unit_id"),
+        unit_id: uid,
         property_name: str(r, "property_name"),
         unit_number: str(r, "unit"),
         tenant_name: str(r, "tenant"),
+        email: contact?.email ?? null,
+        phone: contact?.phone ?? null,
         date,
         days_until: date ? daysUntil(date) : 0,
         monthly_rent: num(r, "rent"),
@@ -475,7 +487,7 @@ export async function buildDashboardData(
 ): Promise<DashboardData> {
   return {
     move_ins: upcomingMoveIns(rentRoll, futureTenants),
-    move_outs: upcomingMoveOuts(rentRoll),
+    move_outs: upcomingMoveOuts(rentRoll, tenantContacts),
     renewals: renewalsToChase(rentRoll, tenantContacts),
     occupancy: occupancySummary(rentRoll, vacancyRows),
     refreshed_at: new Date().toISOString(),

@@ -43,6 +43,39 @@ describe("upcomingMoveIns", () => {
   });
 });
 
+describe("tenant phone numbers", () => {
+  it("carries the incoming tenant's phone onto a move-in", () => {
+    // tenant_directory rows reach upcomingMoveIns with their contact columns intact.
+    const future = [
+      {
+        unit_id: "9", property_name: "McAllister", unit: "8 - 8", tenant: "Cocking, Emily",
+        move_in: "2025-02-01", phone_numbers: "Mobile: (415) 555-0142", emails: "emily@example.com",
+      },
+    ];
+    const result = upcomingMoveIns([], future);
+    expect(result[0].phone).toBe("(415) 555-0142"); // type label stripped
+    expect(result[0].email).toBe("emily@example.com");
+  });
+
+  it("attaches the departing tenant's phone to a move-out", () => {
+    const rows = [
+      { ...base, unit_id: "12", unit: "5 - 5", status: "Current", tenant: "Elly Kristiani", move_out: "2025-02-01" },
+    ];
+    const contacts = [
+      { unit_id: "12", tenant: "Elly Kristiani", phone_numbers: "+1 (628) 289-6547" },
+    ];
+    const result = upcomingMoveOuts(rows, contacts);
+    expect(result[0].phone).toBe("+1 (628) 289-6547");
+  });
+
+  it("leaves phone null when the directory has no match", () => {
+    const rows = [
+      { ...base, unit_id: "13", unit: "6 - 6", status: "Current", tenant: "No Contact", move_out: "2025-02-01" },
+    ];
+    expect(upcomingMoveOuts(rows, [])[0].phone).toBeNull();
+  });
+});
+
 describe("upcomingMoveOuts", () => {
   it("returns current leases with move-out in window and flags replacement", () => {
     const rows = [

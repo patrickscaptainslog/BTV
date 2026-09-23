@@ -177,7 +177,11 @@ export const fetchFutureTenants = () =>
       }
     }
 
+    // Spread the source row so its other columns survive — notably the contact
+    // columns (emails / phone_numbers), which the dashboard shows under the
+    // tenant's name. Only the fields below are normalised.
     return tdRows.map((row) => ({
+      ...row,
       unit_id: String(row["unit_id"] ?? ""),
       property_name: row["property_name"],
       unit: row["unit"],

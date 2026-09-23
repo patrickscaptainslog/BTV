@@ -96,8 +96,8 @@ export default function RenewalTracker({ renewals, initialStatuses, kvAvailable 
                   <p className="text-sm text-slate-600 truncate">{r.tenant_name}</p>
                   {(r.email || r.phone) && (
                     <p className="text-xs mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5 text-slate-500">
-                      {r.email && <span className="truncate max-w-[12rem]">{r.email}</span>}
                       {r.phone && <span>{r.phone}</span>}
+                      {r.email && <span className="truncate max-w-[12rem] text-slate-400">{r.email}</span>}
                     </p>
                   )}
                   <p className="text-xs text-slate-400 mt-0.5">
@@ -163,9 +163,9 @@ export default function RenewalTracker({ renewals, initialStatuses, kvAvailable 
                     {r.tenant_name}
                     {(r.email || r.phone) && (
                       <span className="block text-xs font-normal text-slate-400">
-                        {r.email && <span>{r.email}</span>}
+                        {r.phone && <span className="text-slate-500">{r.phone}</span>}
                         {r.email && r.phone && <span className="text-slate-300"> · </span>}
-                        {r.phone && <span>{r.phone}</span>}
+                        {r.email && <span>{r.email}</span>}
                       </span>
                     )}
                   </td>

@@ -183,6 +183,7 @@ export default async function DashboardPage() {
                             <div className="min-w-0">
                               <p className="font-medium text-slate-800">{m.property_name} {m.unit_number}</p>
                               <p className="text-sm text-slate-600 truncate">{m.tenant_name || <span className="text-slate-300 italic">—</span>}</p>
+                              {m.phone && <p className="text-xs text-slate-500 mt-0.5">{m.phone}</p>}
                               <p className="text-xs text-slate-400 mt-0.5">{m.date ? formatDate(m.date) : <span className="italic">check AppFolio</span>}</p>
                             </div>
                             {m.days_until < 999 && (
@@ -208,7 +209,10 @@ export default async function DashboardPage() {
                             {data.move_ins.map((m, i) => (
                               <tr key={i} className="hover:bg-slate-50">
                                 <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
-                                <td className="py-2 pr-4 text-slate-600">{m.tenant_name || <span className="text-slate-300 italic">—</span>}</td>
+                                <td className="py-2 pr-4 text-slate-600">
+                                  {m.tenant_name || <span className="text-slate-300 italic">—</span>}
+                                  {m.phone && <span className="block text-xs text-slate-400">{m.phone}</span>}
+                                </td>
                                 <td className="py-2 pr-4 text-slate-600">{m.date ? formatDate(m.date) : <span className="text-slate-300 italic">check AppFolio</span>}</td>
                                 <td className="py-2 text-right">
                                   {m.days_until < 999 ? (
@@ -255,6 +259,7 @@ export default async function DashboardPage() {
                               <div className="min-w-0">
                                 <p className="font-medium text-slate-800">{m.property_name} {m.unit_number}</p>
                                 <p className="text-sm text-slate-600 truncate">{m.tenant_name}</p>
+                                {m.phone && <p className="text-xs text-slate-500 mt-0.5">{m.phone}</p>}
                                 <p className="text-xs text-slate-400 mt-0.5">{formatDate(m.date)}</p>
                               </div>
                               <span className={`shrink-0 text-sm font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-500"}`}>
@@ -283,7 +288,10 @@ export default async function DashboardPage() {
                             {data.move_outs.map((m, i) => (
                               <tr key={i} className="hover:bg-slate-50">
                                 <td className="py-2 pr-4 font-medium text-slate-800">{m.property_name} {m.unit_number}</td>
-                                <td className="py-2 pr-4 text-slate-600">{m.tenant_name}</td>
+                                <td className="py-2 pr-4 text-slate-600">
+                                  {m.tenant_name}
+                                  {m.phone && <span className="block text-xs text-slate-400">{m.phone}</span>}
+                                </td>
                                 <td className="py-2 pr-4 text-slate-600">{formatDate(m.date)}</td>
                                 <td className="py-2 pr-4 text-right">
                                   <span className={`font-medium ${m.days_until <= 7 ? "text-amber-600" : "text-slate-600"}`}>

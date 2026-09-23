@@ -28,6 +28,8 @@ export interface MoveEvent {
   days_until: number;
   monthly_rent: number;
   has_replacement: boolean; // move-out only: is there a future lease?
+  email?: string | null;
+  phone?: string | null;
 }
 
 export interface RenewalAlert {
