@@ -47,9 +47,12 @@ Tenant-status codes for `tenant_directory`: `"0"` = current, `"2"` = future.
 
 **Historical / as-of rent rolls** — plain `rent_roll` takes no date parameter:
 it always answers for today, and silently ignores date params rather than
-erroring, so probing it looks like "dates are unsupported". They are supported,
-just on a different report: **`rent_roll_itemized` takes a required
-`as_of_date` (`YYYY-MM-DD`)**. `aged_receivables_detail` likewise takes
+erroring, so probing it looks like "dates are unsupported". Third-party wrappers say
+they are supported on a different report: `rent_roll_itemized` with a required
+`as_of_date` (`YYYY-MM-DD`). **Unverified on this account** — the first live
+attempt (2026-11-02) returned today's data for both 10/02 and 10/15, so
+`/api/rent-roll` now refuses any result where a tenant shown in place moved in
+after the as-of date. `aged_receivables_detail` likewise takes
 `occurred_on_to` ("As of To"), and there is a delinquency-as-of report. So an
 earlier snapshot does not depend on having saved a CSV that day.
 

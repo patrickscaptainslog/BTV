@@ -14,12 +14,24 @@ import { fetchReport } from "@/lib/appfolio";
 // report which one answered.
 export const dynamic = "force-dynamic";
 
+// Plain rent_roll is deliberately absent: it ignores every date parameter and
+// answers for today, so falling back to it labels today's data as the past.
 const CANDIDATES: { report: string; param: string }[] = [
   { report: "rent_roll_itemized", param: "as_of_date" },
+  { report: "rent_roll_itemized", param: "as_of" },
   { report: "rent_roll_itemized", param: "occurred_on_to" },
-  { report: "rent_roll", param: "as_of_date" },
-  { report: "rent_roll", param: "occurred_on_to" },
 ];
+
+// A tenant shown as in place whose move-in is after the as-of date proves the
+// report ignored the date. Returns those rows so the caller can refuse.
+function rowsContradictingDate(rows: Record<string, unknown>[], asOf: string) {
+  return rows.filter((r) => {
+    const status = String(r["status"] ?? "").toLowerCase();
+    const inPlace = status === "current" || status.startsWith("notice");
+    const moveIn = String(r["move_in"] ?? "");
+    return inPlace && /^\d{4}-\d{2}-\d{2}$/.test(moveIn) && moveIn > asOf;
+  });
+}
 
 function cell(value: unknown): string {
   const s = value == null ? "" : String(value);
@@ -85,12 +97,33 @@ export async function GET(req: NextRequest) {
       )
     : rows;
 
+  const contradictions = rowsContradictingDate(rows, asOf);
+  if (contradictions.length > 0 && format !== "debug") {
+    return NextResponse.json(
+      {
+        error: `AppFolio ignored the as-of date: this is not a rent roll for ${asOf}.`,
+        as_of: asOf,
+        used,
+        evidence: contradictions.slice(0, 5).map((r) => ({
+          unit: r["unit"],
+          tenant: r["tenant"],
+          status: r["status"],
+          move_in: r["move_in"],
+        })),
+        hint: "These tenants are shown as in place but moved in after the as-of date. Open with &format=debug to see every attempt.",
+      },
+      { status: 422 }
+    );
+  }
+
   if (format === "debug" || format === "json") {
     return NextResponse.json({
       as_of: asOf,
       used,
       attempts,
       property_filter: property || null,
+      date_respected: contradictions.length === 0,
+      contradicting_rows: contradictions.length,
       total_rows: rows.length,
       returned_rows: filtered.length,
       columns: filtered.length > 0 ? Object.keys(filtered[0]) : [],
