@@ -49,3 +49,16 @@ chrome --headless --no-sandbox --disable-gpu --no-pdf-header-footer \
 - The amber "Next up: N rooms to backfill" card is data-derived (move-outs
   without a signed replacement) and disappears on its own when the list is
   empty.
+
+## Rent roll brief (as-of date)
+
+```sh
+node genrentroll.js rent-roll-Mission-2026-10-15.csv [out-dir] --compare rent-roll-Mission-2026-10-02.csv
+```
+
+Input is the CSV from `/api/rent-roll?as_of=YYYY-MM-DD&property=...` (AppFolio
+`rent_roll_itemized` with `as_of_to`). One page: occupancy/leased/vacant/notice,
+scheduled monthly total, balance owed, then every room with tenant, status,
+lease term, monthly charges and balance. `--compare` adds "Changes since"
+(tenant, status and monthly-charge changes). The as-of date is read from the
+file name, or pass `--as-of`. Render with the same Chrome flags as above.

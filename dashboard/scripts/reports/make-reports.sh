@@ -19,7 +19,7 @@ mkdir -p "$OUT"
 
 find_chrome() {
   if [ -n "${CHROME:-}" ]; then echo "$CHROME"; return; fi
-  for c in /opt/pw-browsers/chromium-*/chrome-linux/chrome; do
+  for c in /opt/pw-browsers/chromium-*/chrome-linux64/chrome /opt/pw-browsers/chromium-*/chrome-linux/chrome; do
     [ -x "$c" ] && { echo "$c"; return; }
   done
   for c in google-chrome chromium chromium-browser; do
