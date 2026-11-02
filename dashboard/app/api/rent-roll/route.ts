@@ -17,10 +17,12 @@ export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 
 const REPORT = "rent_roll_itemized";
+// "as_of_to" confirmed live on 2026-11-02; the rest are fallbacks should
+// AppFolio rename it. Discovery still verifies whichever one answers.
 const PARAM_CANDIDATES = [
+  "as_of_to",
   "as_of_date",
   "as_of",
-  "as_of_to",
   "occurred_on_to",
   "report_date",
   "date",
