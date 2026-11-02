@@ -45,10 +45,21 @@ load well under 7.
 
 Tenant-status codes for `tenant_directory`: `"0"` = current, `"2"` = future.
 
-**What does NOT work**: passing date/as-of parameters to these reports. Probes
-with every documented date-param variant returned identical row sets — there is
-no "rent roll as of date X" through this API. Historical comparison has to be
-done by saving exports over time.
+**Historical / as-of rent rolls** — plain `rent_roll` takes no date parameter:
+it always answers for today, and silently ignores date params rather than
+erroring, so probing it looks like "dates are unsupported". They are supported,
+just on a different report: **`rent_roll_itemized` takes a required
+`as_of_date` (`YYYY-MM-DD`)**. `aged_receivables_detail` likewise takes
+`occurred_on_to` ("As of To"), and there is a delinquency-as-of report. So an
+earlier snapshot does not depend on having saved a CSV that day.
+
+Exact naming is not in AppFolio's public docs (sourced from third-party
+wrappers), so `/api/rent-roll` tries the plausible report/param combinations in
+order and reports which one answered — hit it with `&format=debug` to see.
+
+An earlier version of this file claimed as-of dates were impossible. That was
+wrong: the probe behind it used plain `rent_roll`, the one rent-roll report
+that has no date parameter.
 
 ## Derived metrics (lib/leasing.ts)
 
